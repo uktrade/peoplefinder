@@ -110,16 +110,16 @@ class Person < ActiveRecord::Base
     end
   end
 
+  has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
+  has_many :groups, through: :memberships
+
   validates :given_name, presence: true
-  attr_accessor :skip_must_have_surname
-  validates :surname, presence: true, unless: :skip_must_have_surname
   validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true
   validates :secondary_email, email: true, allow_blank: true
 
-  has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
-  has_many :groups, through: :memberships
-  attr_accessor :skip_must_have_team
-  validate :must_have_team, unless: :skip_must_have_team
+  attr_accessor :skip_extended_validations
+  validates :surname, presence: true, unless: :skip_extended_validations
+  validate :must_have_team, unless: :skip_extended_validations
 
   accepts_nested_attributes_for :memberships, allow_destroy: true
 

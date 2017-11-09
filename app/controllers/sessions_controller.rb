@@ -24,7 +24,7 @@ class SessionsController < ApplicationController
 
   def create_person
     @person = Person.new(person_params)
-    @person.skip_must_have_team = true
+    @person.skip_extended_validations = true
     create_person_and_login @person
   end
 

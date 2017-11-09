@@ -41,8 +41,7 @@ module SessionPersonCreator
 
     def confirm_or_create person
       @person = person
-      @person.skip_must_have_surname = true
-      @person.skip_must_have_team = true
+      @person.skip_extended_validations = true
       if @person.valid?
         if namesakes?
           warning :person_confirm

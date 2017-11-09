@@ -42,7 +42,7 @@ class Version < PaperTrail::Version
 
   def reify
     super.tap do |reified|
-      reified.skip_must_have_team = true if reified.respond_to? :skip_must_have_team=
+      reified.skip_extended_validations = true if reified.respond_to? :skip_extended_validations=
     end
   end
 
