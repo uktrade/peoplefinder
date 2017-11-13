@@ -130,7 +130,7 @@ RSpec.describe Person, type: :model do
     end
   end
 
-  describe '.department_members_in_other_teams' do
+  xdescribe '.department_members_in_other_teams' do
     before do
       person.save!
     end
@@ -169,7 +169,7 @@ RSpec.describe Person, type: :model do
     end
   end
 
-  describe '#department_memberships_with_no_role' do
+  xdescribe '#department_memberships_with_no_role' do
     subject { person.department_memberships_with_no_role }
 
     before do
