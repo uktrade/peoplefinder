@@ -13,6 +13,7 @@ feature 'Audit trail' do
       person = create(:person, surname: 'original surname')
       visit edit_person_path(person)
       fill_in 'Last name', with: 'something else'
+      fill_in_extended_required_fields
       click_button 'Save', match: :first
 
       visit '/audit_trail'
@@ -32,6 +33,7 @@ feature 'Audit trail' do
       fill_in 'First name', with: 'Jon'
       fill_in 'Last name', with: 'Smith'
       fill_in 'Primary work email', with: person_attributes[:email]
+      fill_in_extended_required_fields
       click_button 'Save', match: :first
 
       visit '/audit_trail'
@@ -107,6 +109,7 @@ feature 'Audit trail' do
 
     with_versioning do
       visit edit_person_path(person)
+      fill_in_extended_required_fields
       select_in_team_select 'Digital Justice'
       within last_membership do
         fill_in 'Job title', with: 'Jefe'
@@ -154,4 +157,11 @@ feature 'Audit trail' do
       expect(page).not_to have_button 'undo'
     end
   end
+end
+
+def fill_in_extended_required_fields
+  fill_in 'Phone number', with: '077777'
+  fill_in 'Town, City or Region', with: 'London'
+  fill_in 'Fluent languages', with: 'English'
+  select 'Apprentice', from: 'Grade'
 end
