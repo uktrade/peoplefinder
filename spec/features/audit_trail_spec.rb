@@ -34,6 +34,7 @@ feature 'Audit trail' do
       fill_in 'Last name', with: 'Smith'
       fill_in 'Primary work email', with: person_attributes[:email]
       fill_in_extended_required_fields
+      find('#person_memberships_attributes_0_group_id_1').set(true)
       click_button 'Save', match: :first
 
       visit '/audit_trail'
@@ -164,4 +165,5 @@ def fill_in_extended_required_fields
   fill_in 'Town, City or Region', with: 'London'
   fill_in 'Fluent languages', with: 'English'
   select 'Apprentice', from: 'Grade'
+  fill_in 'Job title', with: 'Chief'
 end
