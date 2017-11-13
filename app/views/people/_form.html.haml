@@ -49,15 +49,19 @@
       = link_to 'Join another team', add_membership_people_path(id: @person.to_param),
         id: 'add_membership', class: 'button-secondary'
 
-  .form-group
-    %h3.heading-medium.with-border-lg
-      = "Working days"
-    %fieldset#working-days
-      %legend.form-label-bold.visually-hidden Working days
-      %ul.inline-list
-        - Person::DAYS_WORKED.each do |day|
-          %li
-            = f.check_box day
+  .form-group{ f.error_html_attributes(:working_days) }
+    #error_person_working_days
+      #working_days
+        %h3.heading-medium.with-border-lg
+          = "Working days"
+          - @person.errors.full_messages_for(:working_days).each do |message|
+            %span.form-label.error-message= message
+        %fieldset#working-days
+          %legend.form-label-bold.visually-hidden Working days
+          %ul.inline-list
+            - Person::DAYS_WORKED.each do |day|
+              %li
+                = f.check_box day
 
   %h3.heading-medium.with-border-lg
     = "Extra information"

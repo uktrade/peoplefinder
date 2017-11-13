@@ -21,6 +21,8 @@ class Membership < ActiveRecord::Base
 
   validates :person, presence: true, on: :update
   validates :group, presence: true, on: [:create, :update]
+  validates :role, presence: true, unless: :skip_extended_validations
+
   validates_with PermanentSecretaryUniqueValidator
 
   delegate :name, to: :person, prefix: true
@@ -34,4 +36,10 @@ class Membership < ActiveRecord::Base
   scope :subscribing, -> { where(subscribed: true) }
 
   before_destroy { |m| UpdateGroupMembersCompletionScoreJob.perform_later(m.group) }
+
+  private
+
+  def skip_extended_validations
+    person.try(:skip_extended_validations) || true
+  end
 end

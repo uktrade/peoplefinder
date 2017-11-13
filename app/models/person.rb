@@ -113,15 +113,19 @@ class Person < ActiveRecord::Base
   has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
   has_many :groups, through: :memberships
 
-  validates :given_name, presence: true
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true
-  validates :secondary_email, email: true, allow_blank: true
+  accepts_nested_attributes_for :memberships, allow_destroy: true
 
   attr_accessor :skip_extended_validations
   validates :surname, presence: true, unless: :skip_extended_validations
+  validates :given_name, presence: true
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true
+  validates :secondary_email, email: true, allow_blank: true
+  validates :primary_phone_number, presence: true, unless: :skip_extended_validations
+  validates :city, presence: true, unless: :skip_extended_validations
   validate :must_have_team, unless: :skip_extended_validations
-
-  accepts_nested_attributes_for :memberships, allow_destroy: true
+  validate :must_have_working_days, unless: :skip_extended_validations
+  validates :language_fluent, presence: true, unless: :skip_extended_validations
+  validates :grade, presence: true, unless: :skip_extended_validations
 
   default_scope { order(surname: :asc, given_name: :asc) }
 
@@ -230,4 +234,16 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def must_have_working_days
+    if working_days.select { |d| d }.empty?
+      errors.add(:working_days, 'are required')
+    end
+  end
+
+  def working_days
+    [
+      works_monday, works_tuesday, works_wednesday, works_thursday,
+      works_friday, works_saturday, works_sunday
+    ]
+  end
 end
