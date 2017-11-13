@@ -40,12 +40,6 @@ class Version < PaperTrail::Version
     creation? ? item.destroy : reify.save
   end
 
-  def reify
-    super.tap do |reified|
-      reified.skip_extended_validations = true if reified.respond_to? :skip_extended_validations=
-    end
-  end
-
   def event_description
     if creation?
       "New #{item_type}"

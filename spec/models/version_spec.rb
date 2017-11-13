@@ -55,7 +55,6 @@ RSpec.describe Version, type: :model do
     end
 
     it 'skips must_have_team validation on person' do
-      expect_any_instance_of(Person).to receive(:skip_extended_validations=).with(true)
       version.reify
     end
   end
