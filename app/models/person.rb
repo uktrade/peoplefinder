@@ -229,8 +229,15 @@ class Person < ActiveRecord::Base
   private
 
   def must_have_team
-    if memberships.reject(&:marked_for_destruction?).empty?
+    selected_memberships = memberships.reject(&:marked_for_destruction?)
+    if selected_memberships.empty?
       errors.add(:membership, 'of a team is required')
+    else
+      selected_memberships.each do |membership|
+        next if membership.role.present?
+        errors.add(:role, 'is required')
+        membership.errors.add(:role, 'is required')
+      end
     end
   end
 
