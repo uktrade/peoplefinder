@@ -21,7 +21,7 @@ class Membership < ActiveRecord::Base
 
   validates :person, presence: true, on: :update
   validates :group, presence: true, on: [:create, :update]
-  validates :role, presence: true, unless: :skip_extended_validations
+  validates :role, presence: true, if: :enforce_extended_validations
 
   validates_with PermanentSecretaryUniqueValidator
 
@@ -39,7 +39,7 @@ class Membership < ActiveRecord::Base
 
   private
 
-  def skip_extended_validations
-    person.try(:skip_extended_validations) || true
+  def enforce_extended_validations
+    person.try(:enforce_extended_validations) || false
   end
 end

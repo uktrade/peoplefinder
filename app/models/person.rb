@@ -115,17 +115,17 @@ class Person < ActiveRecord::Base
 
   accepts_nested_attributes_for :memberships, allow_destroy: true
 
-  attr_accessor :skip_extended_validations
-  validates :surname, presence: true, unless: :skip_extended_validations
+  attr_accessor :enforce_extended_validations
+  validates :surname, presence: true, if: :enforce_extended_validations
   validates :given_name, presence: true
   validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true
   validates :secondary_email, email: true, allow_blank: true
-  validates :primary_phone_number, presence: true, unless: :skip_extended_validations
-  validates :city, presence: true, unless: :skip_extended_validations
-  validate :must_have_team, unless: :skip_extended_validations
-  validate :must_have_working_days, unless: :skip_extended_validations
-  validates :language_fluent, presence: true, unless: :skip_extended_validations
-  validates :grade, presence: true, unless: :skip_extended_validations
+  validates :primary_phone_number, presence: true, if: :enforce_extended_validations
+  validates :city, presence: true, if: :enforce_extended_validations
+  validate :must_have_team, if: :enforce_extended_validations
+  validate :must_have_working_days, if: :enforce_extended_validations
+  validates :language_fluent, presence: true, if: :enforce_extended_validations
+  validates :grade, presence: true, if: :enforce_extended_validations
 
   default_scope { order(surname: :asc, given_name: :asc) }
 

@@ -41,7 +41,6 @@ module SessionPersonCreator
 
     def confirm_or_create person
       @person = person
-      @person.skip_extended_validations = true
       if @person.valid?
         if namesakes?
           warning :person_confirm

@@ -12,7 +12,6 @@ class PersonEmailController < ApplicationController
 
   def update
     @person.assign_attributes(person_email_params)
-    @person.skip_extended_validations = true
     if @person.valid?
       update_and_login @person
     else

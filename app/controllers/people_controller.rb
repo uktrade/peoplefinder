@@ -38,6 +38,7 @@ class PeopleController < ApplicationController
     set_state_cookie_phase_from_button
 
     @person = Person.new(person_params)
+    @person.enforce_extended_validations = true
     authorize @person
 
     if @person.valid?
@@ -87,6 +88,7 @@ class PeopleController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_person
     @person = Person.friendly.includes(:groups).find(params[:id])
+    @person.enforce_extended_validations = true
   end
 
   def person_params
