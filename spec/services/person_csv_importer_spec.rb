@@ -94,7 +94,6 @@ RSpec.describe PersonCsvImporter, type: :service do
             PersonCsvImporter::ErrorRow.new(
               4, "jack@invalid.gov.uk,Jack,",
               [
-                'Surname is required',
                 'Primary work email you have entered can’t be used to access People Finder'
               ]
             )

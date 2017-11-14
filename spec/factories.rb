@@ -10,6 +10,9 @@ FactoryGirl.define do
   sequence(:primary_phone_number) { |n| '07708 %06d' % (900_000 + n) }
   sequence(:pager_number) { |n| '07600 %06d' % (900_000 + n) }
   sequence(:phone_number) { |n| '07700 %06d' % (900_000 + n) }
+  sequence(:language_fluent) { |n| 'English %d' % n }
+  sequence(:role) { |n| 'Role %d' % n }
+  sequence(:grade) { |n| 'Grade %d' % n }
 
   factory :permitted_domain do
     domain 'digital.justice.gov.uk'
@@ -31,9 +34,10 @@ FactoryGirl.define do
   factory :membership do
     person
     group
+    role
 
     factory :membership_default do
-      role nil
+      role 'Chief'
       leader false
       subscribed true
       group_id { create(:department).id }
@@ -44,6 +48,10 @@ FactoryGirl.define do
     given_name
     surname
     email
+    primary_phone_number
+    city
+    language_fluent
+    grade
 
     # validation requires team membership existence
     after :build do |peep, _evaluator|

@@ -10,7 +10,8 @@ RSpec.describe PersonChangesPresenter, type: :presenter do
       :person,
       email: old_email,
       location_in_building: '10.51',
-      description: nil
+      description: nil,
+      primary_phone_number: '077777777'
     )
   end
 
@@ -41,7 +42,9 @@ RSpec.describe PersonChangesPresenter, type: :presenter do
       {
         email: { raw: [old_email, new_email], message: "Changed your email from #{old_email} to #{new_email}" },
         location_in_building: { raw: ['10.51', ''], message: 'Removed the location in building' },
-        primary_phone_number: { raw: [nil, '01234, 567 890'], message: "Added a primary phone number" }
+        primary_phone_number: {
+          raw: ['077777777', '01234, 567 890'],
+          message: "Changed your primary phone number from 077777777 to 01234, 567 890" }
       }
     end
 

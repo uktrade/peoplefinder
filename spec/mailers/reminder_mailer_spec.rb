@@ -98,8 +98,6 @@ RSpec.describe ReminderMailer do
         expect(text).to have_text('Name John Coe')
         expect(text).to have_text("Team #{team_name} - you are a team leader")
         expect(text).to have_text('Role -')
-        expect(text).to have_text('Location -')
-        expect(text).to have_text('Primary phone number -')
         expect(text).to have_text('Current project(s) -')
       end
     end

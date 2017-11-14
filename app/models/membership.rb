@@ -21,6 +21,7 @@ class Membership < ActiveRecord::Base
 
   validates :person, presence: true, on: :update
   validates :group, presence: true, on: [:create, :update]
+
   validates_with PermanentSecretaryUniqueValidator
 
   delegate :name, to: :person, prefix: true

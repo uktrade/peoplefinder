@@ -121,7 +121,6 @@ class PersonCsvImporter
 
   def people_record_errors
     people.zip(records).map do |person, record|
-      person.skip_must_have_team = true
       if person.valid?
         nil
       else

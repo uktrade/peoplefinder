@@ -110,18 +110,22 @@ class Person < ActiveRecord::Base
     end
   end
 
-  validates :given_name, presence: true
-  attr_accessor :skip_must_have_surname
-  validates :surname, presence: true, unless: :skip_must_have_surname
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true
-  validates :secondary_email, email: true, allow_blank: true
-
   has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
   has_many :groups, through: :memberships
-  attr_accessor :skip_must_have_team
-  validate :must_have_team, unless: :skip_must_have_team
 
   accepts_nested_attributes_for :memberships, allow_destroy: true
+
+  attr_accessor :enforce_extended_validations
+  validates :surname, presence: true, if: :enforce_extended_validations
+  validates :given_name, presence: true
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true
+  validates :secondary_email, email: true, allow_blank: true
+  validates :primary_phone_number, presence: true, if: :enforce_extended_validations
+  validates :city, presence: true, if: :enforce_extended_validations
+  validate :must_have_team, if: :enforce_extended_validations
+  validate :must_have_working_days, if: :enforce_extended_validations
+  validates :language_fluent, presence: true, if: :enforce_extended_validations
+  validates :grade, presence: true, if: :enforce_extended_validations
 
   default_scope { order(surname: :asc, given_name: :asc) }
 
@@ -225,9 +229,28 @@ class Person < ActiveRecord::Base
   private
 
   def must_have_team
-    if memberships.reject(&:marked_for_destruction?).empty?
+    selected_memberships = memberships.reject(&:marked_for_destruction?)
+    if selected_memberships.empty?
       errors.add(:membership, 'of a team is required')
+    else
+      selected_memberships.each do |membership|
+        next if membership.role.present?
+        errors.add(:role, 'is required')
+        membership.errors.add(:role, 'is required')
+      end
     end
   end
 
+  def must_have_working_days
+    if working_days.select { |d| d }.empty?
+      errors.add(:working_days, 'are required')
+    end
+  end
+
+  def working_days
+    [
+      works_monday, works_tuesday, works_wednesday, works_thursday,
+      works_friday, works_saturday, works_sunday
+    ]
+  end
 end
