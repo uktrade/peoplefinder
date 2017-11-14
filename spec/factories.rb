@@ -37,7 +37,7 @@ FactoryGirl.define do
     role
 
     factory :membership_default do
-      role nil
+      role 'Chief'
       leader false
       subscribed true
       group_id { create(:department).id }

@@ -288,7 +288,7 @@ RSpec.describe PeopleController, type: :controller do
           person = create(:person, valid_attributes)
           groups = create_list(:group, 2)
           groups.each do |group|
-            create :membership, person: person, group: group
+            create :membership, person: person, group: group, role: 'Jefe'
           end
 
           delete :destroy, id: person.to_param
