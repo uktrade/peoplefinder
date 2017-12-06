@@ -15,6 +15,9 @@ RSpec.describe SessionsController, type: :controller do
         first_name: 'John',
         last_name: 'Doe',
         name: 'John Doe'
+      },
+      credentials: {
+        token: 'john-doe-token'
       }
     )
   end
@@ -27,6 +30,9 @@ RSpec.describe SessionsController, type: :controller do
         first_name: 'John',
         last_name: 'Doe',
         name: 'John Doe'
+      },
+      credentials: {
+        token: 'john-doe2-token'
       }
     )
   end
@@ -39,6 +45,9 @@ RSpec.describe SessionsController, type: :controller do
         first_name: 'Fred',
         last_name: 'Bloggs',
         name: 'Fred Bloggs'
+      },
+      credentials: {
+        token: 'fred-bloggs-token'
       }
     )
   end
@@ -78,6 +87,11 @@ RSpec.describe SessionsController, type: :controller do
         it 'redirects to the person\'s profiles page' do
           post :create
           expect(response).to redirect_to person_path(person, prompt: 'profile')
+        end
+
+        it 'stores the ditsso_internal_token' do
+          post :create
+          expect_ditsso_internal_token('john-doe-token')
         end
       end
 
