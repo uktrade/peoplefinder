@@ -51,6 +51,8 @@ class SessionsController < ApplicationController
   end
 
   def assign_ditsso_internal_token
-    session[:ditsso_internal_token] = auth_hash['credentials']['token']
+    if auth_hash['credentials']
+      session[:ditsso_internal_token] = auth_hash['credentials']['token']
+    end
   end
 end
