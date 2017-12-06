@@ -153,6 +153,11 @@
 		background: rgba(205,22,50,0.3);
 		-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=$brand_color_c, endColorstr=$brand_color_c)";
 		text-align: right;
+		.logout a {
+			float: left;
+			margin-left: 10px;
+			font-weight: 500;
+		}
 		.maginot {
 			a {
 				display: block;
