@@ -1,5 +1,5 @@
 - if logged_in_regular?
-  .logout= link_to "Log out"
+  .logout= link_to "Log out", "#{ENV['HOME_PAGE_URL']}/logout"
   = link_to "Hi, #{current_user.given_name}", person_path(current_user)
   = profile_image_tag current_user, link: true
 - elsif logged_in_readonly? && !@login_screen
