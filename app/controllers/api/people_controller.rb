@@ -1,5 +1,6 @@
 module Api
   class PeopleController < Api::ApplicationController
+    skip_before_action :ensure_user
     before_action :set_person, only: [:show]
 
     def show
