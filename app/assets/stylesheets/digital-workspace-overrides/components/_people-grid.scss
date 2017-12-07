@@ -9,3 +9,13 @@
 		}
 	}
 }
+
+.mod-list-people {
+	.mod-media {
+		&.card {
+			.media-left {
+				width: 100%;
+			}
+		}
+	}
+}
