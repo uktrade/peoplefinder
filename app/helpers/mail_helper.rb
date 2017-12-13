@@ -1,6 +1,6 @@
 module MailHelper
 
-  APP_GUIDANCE_PAGE = 'https://intranet.trade.gov.uk/peoplefinder'.freeze
+  APP_GUIDANCE_PAGE = (ENV['HOME_PAGE_URL'] || 'http://test.local').freeze
 
   def browser_warning
     content_tag(:p, class: 'browser-warning') do
