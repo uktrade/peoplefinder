@@ -39,7 +39,7 @@ RSpec.describe MailHelper, type: :helper do
     end
 
     it 'includes link to intranet' do
-      is_expected.to have_link 'DIT Intranet', href: 'https://intranet.trade.gov.uk/peoplefinder'
+      is_expected.to have_link 'DIT Intranet', href: 'http://test.local'
     end
   end
 
