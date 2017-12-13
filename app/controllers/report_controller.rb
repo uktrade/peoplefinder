@@ -33,7 +33,8 @@ class ReportController < ApplicationController
       { id: '45522325', value: params['problem_report_problem'] },
       { id: '45522345', value: params['problem_report_origin'] },
       { id: '34146805', value: params['problem_report_browser'] },
-      { id: '45522485', value: params['problem_report_email'] }
+      { id: '45522485', value: params['problem_report_email'] },
+      { id: ENV['ZD_SERVICE_ID'], value: ENV['ZD_SERVICE_NAME'] }
     ]
   end
 
