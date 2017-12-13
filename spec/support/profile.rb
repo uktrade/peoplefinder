@@ -128,12 +128,12 @@ module SpecSupport
 
       expect(page).to have_text(
         person_attributes[:primary_phone_country_code] +
-        ' ' + person_attributes[:primary_phone_number]
+        ' ' + person_attributes[:primary_phone_number].gsub(/^0/, '')
       )
 
       expect(page).to have_text(
         person_attributes[:secondary_phone_country_code] +
-        ' ' + person_attributes[:secondary_phone_number]
+        ' ' + person_attributes[:secondary_phone_number].gsub(/^0/, '')
       )
 
       expect(page).to have_text(person_attributes[:location_in_building])

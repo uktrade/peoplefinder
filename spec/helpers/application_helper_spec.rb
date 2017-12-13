@@ -104,6 +104,14 @@ RSpec.describe ApplicationHelper, type: :helper do
     it 'returns only the phone number when no country is provided' do
       expect(phone_number_with_country_code(nil, phone_number)).to eq('1234 56789')
     end
+
+    context 'when the phone number starts with a zero' do
+      let(:phone_number) { '01234 56789' }
+
+      it 'returns a formatted phone number with the zero removed' do
+        expect(phone_number_with_country_code(country, phone_number)).to eq('+44 1234 56789')
+      end
+    end
   end
 
   describe '#call_to_with_country_code' do
