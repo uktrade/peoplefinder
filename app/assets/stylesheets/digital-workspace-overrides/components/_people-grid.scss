@@ -15,6 +15,15 @@
 		&.card {
 			.media-left {
 				width: 100%;
+				@media (min-width: $screen_small) {
+					min-height: 120px;
+				}
+				@media (min-width: $screen_medium) {
+					min-height: 150px;
+				}
+				@media (min-width: $screen_large) {
+					min-height: 210px;
+				}
 			}
 		}
 	}
