@@ -68,7 +68,7 @@ module ApplicationHelper
   end
 
   def phone_number_with_country_code(country, phone_number)
-    if country.present?
+    if country.present? && phone_number.present?
       "+#{country.country_code} #{phone_number.gsub(/^0/, '')}"
     else
       phone_number
