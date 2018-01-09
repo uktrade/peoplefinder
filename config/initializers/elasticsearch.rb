@@ -7,7 +7,6 @@ if Rails.env.production?
       service_name: 'es',
       region: Rails.configuration.aws_elastic_region
 
-    faraday.response :json, :content_type => /\bjson\b/
     faraday.response :raise_error
     faraday.adapter Faraday.default_adapter
   end
