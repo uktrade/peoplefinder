@@ -66,7 +66,10 @@ module Peoplefinder
     config.active_record.raise_in_transactional_callbacks = true
     config.active_record.schema_format = :ruby
 
-    config.elastic_search_url = ENV['DIT_PF_ES_URL']
+    config.aws_elastic_region = ENV['AWS_ELASTICSEARCH_REGION']
+    config.aws_elastic_key = ENV['AWS_ELASTICSEARCH_KEY']
+    config.aws_elastic_secret = ENV['AWS_ELASTICSEARCH_SECRET']
+    config.elastic_search_url = ENV['ES_URL']
 
     config.rack_timeout = (ENV['RACK_TIMEOUT'] || 14)
 
