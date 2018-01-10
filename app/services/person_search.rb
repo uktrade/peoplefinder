@@ -24,7 +24,7 @@ class PersonSearch
   #
   def perform_search
     if query.present?
-      do_searches unless email_found
+     do_searches unless email_found || full_name_found
     end
     results
   end
@@ -32,11 +32,26 @@ class PersonSearch
   private
 
   def email_found
+    return false unless @email_query.include?('@')
     @matches = email_search
     if matches.records.present?
       @results.set = matches.records
       @results.contains_exact_match = true
     end
+    pp "email found? #{@results.present?}"
+    pp "#{matches.records.class}"
+    @results.present?
+  end
+
+  def full_name_found
+    return false if @email_query.split(' ').size != 2
+    @matches = full_name_search
+    if matches.records.present?
+      @results.set = matches.records
+      @results.contains_exact_match = true
+    end
+    pp "full name found? #{@results.present?}"
+    pp "#{matches.records.class}"
     @results.present?
   end
 
@@ -130,9 +145,42 @@ class PersonSearch
     }
   end
 
+  # exact match on first name AND last name
+  def full_name_query
+    {
+        bool: {
+            must: {
+                match: {
+                    name: @email_query
+                }
+            }
+        }
+    }
+    # {
+    #   bool: {
+    #     must: {
+    #       multi_match: {
+    #         query: @email_query,
+    #         fields: ["given_name", "surname"]
+    #       }
+    #     }
+    #   }
+    # }
+  end
+
   def email_search
+   pp "email query: #{@email_query}"
     @search_definition = {}
     @search_definition[:query] = email_query
+    @search_definition[:highlight] = highlighter
+    @search_definition[:size] = 1
+    search @search_definition
+  end
+
+  def full_name_search
+    pp "full name query: #{@email_query}"
+    @search_definition = {}
+    @search_definition[:query] = full_name_query
     @search_definition[:highlight] = highlighter
     @search_definition[:size] = 1
     search @search_definition
@@ -169,7 +217,7 @@ class PersonSearch
     {
       multi_match: {
         fields: fields_to_search,
-        fuzziness: 2, # maximum allowed Levenshtein Edit Distance/ 'AUTO' is recommended by documention
+        fuzziness: 2, # maximum allowed Levenshtein Edit Distance/ 'AUTO' is recommended by documentation
         prefix_length: 3, # number of initial characters which won't be "fuzzified"
         query: @query,
         analyzer: 'standard'
@@ -181,12 +229,12 @@ class PersonSearch
   #
   def fields_to_search
     %w(
+      name^4
       surname^12
       role_and_group^6
       languages^5
       current_project^4
       location^4
-      name^4
       formatted_key_skills^4
       formatted_learning_and_development^4
     )

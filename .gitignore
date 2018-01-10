@@ -9,7 +9,8 @@
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
-/db/*.sqlite3-journal
+v/db/*.sqlite3-journal
+/db/schema.rb
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
@@ -34,3 +35,6 @@
 # load tester file produced by rake task by default
 /spec/fixtures/csv_load_tester.csv
 /spec/support/uploads
+/examples.txt
+
+pf-production.out
