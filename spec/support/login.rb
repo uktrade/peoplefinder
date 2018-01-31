@@ -38,6 +38,10 @@ module SpecSupport
       visit token_path(token)
     end
 
+    def expect_ditsso_internal_token(token = 'AUTH_TOKEN')
+      expect(controller.session[:ditsso_internal_token]).to eq(token)
+    end
+
     # TODO: This method should be removed and replaced with the
     # `omni_auth_log_in_as` method in the future, as this now encapsulates
     # log in behaviour.

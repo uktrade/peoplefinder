@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
   def create
     oauth_login = OauthLogin.new(auth_hash)
     oauth_login.call(self)
+    assign_ditsso_internal_token
   end
 
   def new
@@ -47,5 +48,11 @@ class SessionsController < ApplicationController
 
   def auth_hash
     request.env['omniauth.auth']
+  end
+
+  def assign_ditsso_internal_token
+    if auth_hash['credentials']
+      session[:ditsso_internal_token] = auth_hash['credentials']['token']
+    end
   end
 end
