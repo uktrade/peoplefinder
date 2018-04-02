@@ -9,6 +9,8 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  config.example_status_persistence_file_path = 'examples.txt'
+
   config.profile_examples = 10
 
   config.order = :random

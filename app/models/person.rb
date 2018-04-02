@@ -72,7 +72,7 @@ class Person < ActiveRecord::Base
   friendly_id :slug_source, use: :slugged
 
   def slug_source
-    email.present? ? email.split(/@/).first : name
+    email.present? ? Digest::SHA1.hexdigest(email.split(/@/).first) : name
   end
 
   include Concerns::Searchable

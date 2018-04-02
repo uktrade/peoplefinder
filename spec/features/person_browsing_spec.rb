@@ -12,7 +12,7 @@ feature 'Person browsing' do
   scenario 'visiting the my/profile path' do
     visit '/my/profile'
 
-    expect(page).to have_current_path(person_path('test-user'))
+    expect(page).to have_current_path(person_path(Digest::SHA1.hexdigest('test.user')))
   end
 
   scenario 'Using breadcrumbs on a profile page', skip: "HELP REQUIRED" do
