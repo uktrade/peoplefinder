@@ -97,7 +97,7 @@ feature 'Login flow' do
           expect(confirm_page.form).to be_all_there
           expect(confirm_page).to have_content "Create profile"
           expect(confirm_page.person_confirm_results).to have_confirmation_results count: 2
-          expect(confirm_page.person_confirm_results.name_links).to include '/people/john-doe'
+          expect(confirm_page.person_confirm_results.name_links).to include "/people/#{Digest::SHA1.hexdigest('john.doe')}"
         end
 
         scenario 'confirming I need a new profile signs me in and redirects to edit my profile' do
