@@ -42,7 +42,6 @@ class PersonSearch
   end
 
   def full_name_found
-    byebug
     return false if @email_query.split(' ').size != 2
     @matches = _search_('name')
     if matches.records.present?
