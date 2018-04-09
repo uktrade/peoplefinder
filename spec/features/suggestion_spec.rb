@@ -23,6 +23,7 @@ feature 'Make a suggestion about a profile', js: true do
     omni_auth_log_in_as(me.email)
     javascript_log_in
     visit person_path(subject)
+
     click_link 'Help improve this profile', match: :first
   end
 
