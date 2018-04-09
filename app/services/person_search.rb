@@ -33,7 +33,7 @@ class PersonSearch
 
   def email_found
     return false unless @email_query.include?('@')
-    @matches = _search_('email')
+    @matches = search_email
     if matches.records.present?
       @results.set = matches.records
       @results.contains_exact_match = true
@@ -43,7 +43,7 @@ class PersonSearch
 
   def full_name_found
     return false if @email_query.split(' ').size != 2
-    @matches = _search_('name')
+    @matches = search_full_name
     if matches.records.present?
       @results.set = matches.records
       @results.contains_exact_match = true
@@ -128,24 +128,43 @@ class PersonSearch
     }
   end
 
-  # exact match - email is not analyzed (see mappings) - by=email
-  # OR
-  # exact match on first name AND last name - by=name
-  def _query_(by)
-    Hash.new("{
+  # exact match - email is not analyzed (see mappings)
+  def email_search
+    {
       bool: {
         must: {
           match: {
-            #{by}: #{@email_query}
+            email: @email_query
           }
         }
       }
-    }")
+    }
   end
 
-  def _search_(by)
+  # exact match on first name AND last name
+  def full_name_search
+    {
+      bool: {
+        must: {
+          match: {
+            name: @email_query
+          }
+        }
+      }
+    }
+  end
+
+  def search_email
     @search_definition = {}
-    @search_definition[:query] = _query_(by)
+    @search_definition[:query] = email_search
+    @search_definition[:highlight] = highlighter
+    @search_definition[:size] = 1
+    search @search_definition
+  end
+
+  def search_full_name
+    @search_definition = {}
+    @search_definition[:query] = full_name_search
     @search_definition[:highlight] = highlighter
     @search_definition[:size] = 1
     search @search_definition
