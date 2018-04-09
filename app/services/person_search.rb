@@ -24,7 +24,7 @@ class PersonSearch
   #
   def perform_search
     if query.present?
-      do_searches unless email_found
+      do_searches unless email_found || full_name_found
     end
     results
   end
@@ -32,7 +32,18 @@ class PersonSearch
   private
 
   def email_found
-    @matches = email_search
+    return false unless @email_query.include?('@')
+    @matches = _search_('email')
+    if matches.records.present?
+      @results.set = matches.records
+      @results.contains_exact_match = true
+    end
+    @results.present?
+  end
+
+  def full_name_found
+    return false if @email_query.split(' ').size != 2
+    @matches = _search_('name')
     if matches.records.present?
       @results.set = matches.records
       @results.contains_exact_match = true
@@ -117,22 +128,24 @@ class PersonSearch
     }
   end
 
-  # exact match - email is not analyzed (see mappings)
-  def email_query
-    {
+  # exact match - email is not analyzed (see mappings) - by=email
+  # OR
+  # exact match on first name AND last name - by=name
+  def _query_(by)
+    Hash.new("{
       bool: {
         must: {
           match: {
-            email: @email_query
+            #{by}: #{@email_query}
           }
         }
       }
-    }
+    }")
   end
 
-  def email_search
+  def _search_(by)
     @search_definition = {}
-    @search_definition[:query] = email_query
+    @search_definition[:query] = _query_(by)
     @search_definition[:highlight] = highlighter
     @search_definition[:size] = 1
     search @search_definition
@@ -169,7 +182,7 @@ class PersonSearch
     {
       multi_match: {
         fields: fields_to_search,
-        fuzziness: 2, # maximum allowed Levenshtein Edit Distance/ 'AUTO' is recommended by documention
+        fuzziness: 2, # maximum allowed Levenshtein Edit Distance/ 'AUTO' is recommended by documentation
         prefix_length: 3, # number of initial characters which won't be "fuzzified"
         query: @query,
         analyzer: 'standard'
@@ -181,12 +194,12 @@ class PersonSearch
   #
   def fields_to_search
     %w(
+      name^4
       surname^12
       role_and_group^6
       languages^5
       current_project^4
       location^4
-      name^4
       formatted_key_skills^4
       formatted_learning_and_development^4
     )
