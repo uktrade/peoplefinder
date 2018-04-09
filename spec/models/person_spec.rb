@@ -328,7 +328,7 @@ RSpec.describe Person, type: :model do
     it 'generates from the first part of the email address if present' do
       person = create(:person, email: 'user.example@digital.justice.gov.uk')
       person.reload
-      expect(person.slug).to eql('user-example')
+      expect(person.slug).to eql(Digest::SHA1.hexdigest('user.example'))
     end
   end
 

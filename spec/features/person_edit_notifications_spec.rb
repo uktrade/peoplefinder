@@ -38,7 +38,7 @@ feature 'Person edit notifications' do
       'primary_phone_number' => [nil, ''],
       'primary_phone_country_code' => [nil, "GB"],
       'email' => [nil, 'bob.smith@digital.justice.gov.uk'],
-      'slug' => [nil, 'bob-smith']
+      'slug' => [nil, Digest::SHA1.hexdigest('bob.smith')]
     )
   end
 

@@ -35,6 +35,7 @@ v/db/*.sqlite3-journal
 # load tester file produced by rake task by default
 /spec/fixtures/csv_load_tester.csv
 /spec/support/uploads
-/examples.txt
 
-pf-production.out
+# ignore rspec examples.txt file
+examples.txt
+

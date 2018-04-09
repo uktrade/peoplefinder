@@ -327,7 +327,7 @@ RSpec.describe PeopleController, type: :controller do
       context 'save button pressed' do
         it 'updates and shows the edit person page' do
           post :create, person: valid_attributes.merge(given_name: 'Francis', surname: 'Drake', email: 'francis.drake@digital.justice.gov.uk')
-          person = Person.friendly.find('francis-drake')
+          person = Person.friendly.find(Digest::SHA1.hexdigest('francis.drake'))
           expect(response).to redirect_to person_path(person)
         end
       end
@@ -346,7 +346,7 @@ RSpec.describe PeopleController, type: :controller do
         context 'pressing confirm on duplicate confirmation page' do
           it 'updates and shows the person edit page' do
             post :create, person: valid_attributes.merge(given_name: 'Francis', surname: 'Drake', email: 'francis.drake@digital.justice.gov.uk'), continue_from_duplication: '1'
-            person = Person.friendly.find('francis-drake')
+            person = Person.friendly.find(Digest::SHA1.hexdigest('francis.drake'))
             expect(response).to redirect_to person_path(person)
           end
         end
