@@ -1,3 +1,4 @@
+require_relative 'base'
 require_relative 'sections/error_summary'
 require_relative 'sections/profile_form'
 
