@@ -23,7 +23,7 @@ module Concerns::FormFieldOptions
     BUILDING_OPTS = [
       :whitehall_55,
       :whitehall_3,
-      :victoria_1,
+      :victoria_50,
       :horse_guards,
       :king_charles
     ].freeze
