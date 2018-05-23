@@ -3,7 +3,7 @@
 [![Code
 Climate](https://codeclimate.com/github/uktrade/peoplefinder/badges/gpa.svg)](https://codeclimate.com/github/uktrade/peoplefinder)
 [![Build Status](https://travis-ci.org/uktrade/peoplefinder.png?branch=master)](https://travis-ci.org/uktrade/peoplefinder)
-[![Dependency Status](https://gemnasium.com/badges/github.com/uktrade/peoplefinder.svg)](https://gemnasium.com/github.com/uktrade/peoplefinder)
+[![Known Vulnerabilities](https://snyk.io/test/github/uktrade/peoplefinder/badge.svg)](https://snyk.io/test/github/uktrade/peoplefinder)
 
 ## Installing for development
 
