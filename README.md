@@ -13,7 +13,9 @@ This is not how people finder is actually deployed but provides an environment t
 
 On a Ubuntu 18.04 LTE box:
 
-- install curl, git, postgresql, postgresql-dev-all, nodejs
+Install dependencies:
+- install curl, elasticsearch, git, postgresql, postgresql-dev-all, nodejs
+
 - install rails using rbenv, the following instructions are from https://gorails.com/setup/ubuntu/18.04
 
 ```
@@ -32,12 +34,15 @@ rbenv global 2.3.7
 ruby -v
 ```
 
-- install bundler
+Install bundler
 ```
 gem install bundler
 ```
 
-clone this repository
+Clone the repo
+```git clone git@github.com:uktrade/peoplefinder.git```
+
+Install peoplefinder
 ```
 cd peoplefinder
 bundle install
