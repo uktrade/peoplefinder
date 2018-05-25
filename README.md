@@ -37,13 +37,15 @@ ruby -v
 gem install bundler
 ```
 
-- `clone this repository`
-- `cd peoplefinder`
-- `bundle install`
-- `sudo su postgres createuser ubuntu` (or the name of the user the application will be running as)
-- `createdb peoplefinder_development` (as the user the application will be running as)
-- `bin/rake db:migrate RAILS_ENV=development`
-- `bundle exec rails s -b 0.0.0.0`
+clone this repository
+```
+cd peoplefinder
+bundle install
+sudo su postgres createuser ubuntu` (or the name of the user the application will be running as)
+createdb peoplefinder_development` (as the user the application will be running as)
+rake db:migrate RAILS_ENV=development
+bundle exec rails s -b 0.0.0.0
+```
 
 Point your browser to http://0.0.0.0:3000 and you should see the application's start page.
 
