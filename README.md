@@ -11,16 +11,32 @@ This is not how people finder is actually deployed but provides an environment t
 
 ### Ubuntu install
 
-On a Ubuntu 12.04 LTE box:
+On a Ubuntu 18.04 LTE box:
 
 - install curl, git, postgresql, postgresql-dev-all, nodejs
-- install rails through rvm. One way is:
-  - `gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3`
-  - `\curl -L https://get.rvm.io | bash -s stable --ruby`
-- start a new shell
-- `rvm gemset use global`
-- `gem install bundler`
-- `gem install rails`
+- install rails using rbenv, the following instructions are from https://gorails.com/setup/ubuntu/18.04
+
+```
+cd
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+exec $SHELL
+
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+exec $SHELL
+
+rbenv install 2.3.7
+rbenv global 2.3.7
+ruby -v
+```
+
+- install bundler
+```
+gem install bundler
+```
+
 - `clone this repository`
 - `cd peoplefinder`
 - `bundle install`
@@ -30,6 +46,11 @@ On a Ubuntu 12.04 LTE box:
 - `bundle exec rails s -b 0.0.0.0`
 
 Point your browser to http://0.0.0.0:3000 and you should see the application's start page.
+
+- Troubleshooting
+Ruby can get confused if you have libssl newer than 1.0, if you are having compilation issues
+try ```sudo apt install libssl1.0-dev```.
+
 
 ### Mac OSX install
 
