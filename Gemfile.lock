@@ -786,7 +786,7 @@ DEPENDENCIES
   netaddr
   omniauth-oauth2
   paper_trail (~> 4.0.2)
-  pg (~> 0.18)
+  pg (~> 0.20.0)
   poltergeist
   premailer-rails (~> 1.9)
   pry-byebug
@@ -826,4 +826,4 @@ RUBY VERSION
    ruby 2.3.7p456
 
 BUNDLED WITH
-   1.16.1
+   1.16.2
