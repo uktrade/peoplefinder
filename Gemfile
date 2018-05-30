@@ -35,7 +35,7 @@ gem 'mini_magick'
 gem 'netaddr'
 gem 'omniauth-oauth2'
 gem 'paper_trail', '~> 4.0.2'
-gem 'pg'
+gem 'pg', '~> 0.20.0'
 gem 'premailer-rails', '~> 1.9'
 gem 'pundit', '~> 1.1'
 gem 'recipient_interceptor', '~> 0.1.2'
@@ -76,8 +76,9 @@ group :development do
 end
 
 group :test do
-  gem 'codeclimate-test-reporter', require: nil
+  gem 'simplecov', require: nil
   gem 'database_cleaner'
+  gem 'capybara-rails'
   gem 'site_prism'
   gem 'webmock'
   gem 'whenever-test'
@@ -88,7 +89,7 @@ group :development, :test do
   gem 'byebug'
   gem 'brakeman', require: false
   gem 'capybara'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'launchy'
   gem 'minitest'
   gem 'poltergeist'
