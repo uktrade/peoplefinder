@@ -23,6 +23,7 @@ cd
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
 echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
 exec $SHELL
 
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
@@ -33,6 +34,8 @@ rbenv install 2.3.7
 rbenv global 2.3.7
 ruby -v
 ```
+
+
 
 Install bundler
 ```
@@ -52,12 +55,24 @@ rake db:migrate RAILS_ENV=development
 bundle exec rails s -b 0.0.0.0
 ```
 
+Run the unit tests
+
+```
+RAILS_ENV=test bundle exec rake
+```
+
+
+
 Point your browser to http://0.0.0.0:3000 and you should see the application's start page.
 
 - Troubleshooting
 Ruby can get confused if you have libssl newer than 1.0, if you are having compilation issues
 try ```sudo apt install libssl1.0-dev```.
 
+- Docker notes
+If you are running postgres in Docker then you will need to install ```libpq-dev``` to connect to the database.
+
+The app understands DATABASE_URL for postgres credentials, this is used docker-compose.yml 
 
 ### Mac OSX install
 
@@ -109,6 +124,30 @@ cd peoplefinder
 gem install mailcatcher
 mailcatcher
 ```
+
+## Environments
+
+Peoplefinder can be configured from environment variables or .env files containing KEY=VALUE
+
+
+The following is enough to run the tests with RAILS_ENV=test
+
+```
+SUPPORT_EMAIL=support@example.com
+PROFILE_API_TOKEN=BOB
+```
+
+To run the site the following are also necessary
+```
+DITSSO_CALLBACK_URL
+DITSSO_INTERNAL_CLIENT_ID
+DITSSO_INTERNAL_CLIENT_SECRET
+DITSSO_INTERNAL_PROVIDER
+
+RESOURCE_SERVER_INTROSPECTION_URL
+RESOURCE_SERVER_AUTH_TOKEN
+```
+
 
 ## Configuration
 
@@ -427,6 +466,31 @@ Windows XP for their OS and IE7 for their browser. Consequently considerable sty
 CI by [Travis](https://travis-ci.org/uktrade/peoplefinder).
 
 Software metrics by [Code Climate](https://codeclimate.com/github/uktrade/peoplefinder)
+
+
+
+### Jupyter
+
+Setting up Jupyter can be helpful for debugging.
+
+This uses iruby to provide a kernel for jupyter
+https://github.com/SciRuby/iruby
+
+
+*Caveats:*
+ 
+You must run the notebook from a directory other than the project root.
+
+In the first cell of the notebook you will need to initialise rails:
+ 
+```ruby
+project_root = "/path/to/project"
+FileUtils.cd project_root
+require './config/boot'
+APP_PATH  = File.expand_path('config/application') unless defined?(APP_PATH)
+require APP_PATH
+Rails.application.require_environment!
+```
 
 ## Reminders
 
