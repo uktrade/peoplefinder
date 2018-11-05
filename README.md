@@ -92,8 +92,8 @@ brew install postgresql
 brew install imagemagick
 brew install phantomjs
 
-brew install elasticsearch
-brew services start elasticsearch
+brew install elasticsearch@5.6
+brew services start elasticsearch@5.6
 
 
 git clone git@github.com:uktrade/peoplefinder.git
@@ -251,9 +251,12 @@ See 'Configurable elements' above.
 Heroku provides [Bonsai Elasticsearch](https://devcenter.heroku.com/articles/bonsai)
 as an add-on.
 
-You can install a development version from [Elasticsearch 1.7.3 downloads](https://www.elastic.co/downloads/past-releases/elasticsearch-1-7-3)
+~~You can install a development version from [Elasticsearch 1.7.3 downloads](https://www.elastic.co/downloads/past-releases/elasticsearch-1-7-3)
 or with a package manager.
-e.g. `brew install elasticsearch17`.
+e.g. `brew install elasticsearch17`.~~
+
+**Note**: With the current codebase (5 Nov 2018), People Finder works well with Elasticsearch 5.6.
+The 1.x/2.x branches are not working properly, neither is the 6.x branch.
 
 Elasticsearch requires [jdk version 7 or greater](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html).
 
