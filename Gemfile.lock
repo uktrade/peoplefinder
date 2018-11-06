@@ -9,14 +9,6 @@ GIT
       json (>= 1.7)
       mime-types (>= 1.16)
 
-GIT
-  remote: https://github.com/collectiveidea/delayed_job.git
-  revision: 5f914105c1c38ca73a486d63de8ad62f254b3d72
-  ref: 5f914105c1c38ca73a486d63de8ad62f254b3d72
-  specs:
-    delayed_job (4.1.1)
-      activesupport (>= 3.0, < 5.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -134,6 +126,8 @@ GEM
     daemon (1.2.0)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
+    delayed_job (4.1.5)
+      activesupport (>= 3.0, < 5.3)
     delayed_job_active_record (4.1.1)
       activerecord (>= 3.0, < 5.1)
       delayed_job (>= 3.0, < 5)
@@ -568,7 +562,7 @@ DEPENDENCIES
   country_select
   daemon
   database_cleaner
-  delayed_job!
+  delayed_job (~> 4.1.5)
   delayed_job_active_record (~> 4.1.0)
   dotenv-rails
   elasticsearch-model

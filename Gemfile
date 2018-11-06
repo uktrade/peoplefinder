@@ -9,8 +9,7 @@ gem 'ancestry', '~> 2.1'
 gem 'awesome_print'
 gem 'aws-sdk', '~> 2.5', '>= 2.5.5'
 gem 'country_select'
-gem 'delayed_job', git: 'https://github.com/collectiveidea/delayed_job.git',
-    ref: '5f914105c1c38ca73a486d63de8ad62f254b3d72' # needed for queue_attributes configuration
+gem 'delayed_job', '~> 4.1.5'
 gem 'delayed_job_active_record', '~> 4.1.0'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
