@@ -27,7 +27,6 @@ v/db/*.sqlite3-journal
 # ignore osx .DS_Store
 *.DS_Store
 .idea
-.ruby-version
 
 # ignore byebug history
 /.byebug_history
