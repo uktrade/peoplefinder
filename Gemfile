@@ -100,7 +100,7 @@ group :development, :test do
   gem 'guard-jasmine'
   gem 'jasmine-rails'
   gem 'rubocop'
-  gem 'rubocop-rspec', '~> 1.15.0'
+  gem 'rubocop-rspec'
   gem 'annotate'
 end
 

@@ -1,6 +1,7 @@
 CarrierWave.configure do |config|
   if ENV['S3_KEY'] && ENV['S3_SECRET'] && ENV['S3_BUCKET_NAME']
     config.storage = :fog
+    config.fog_provider = 'fog/aws'
     config.fog_credentials = {
       provider: 'AWS',
       aws_access_key_id: ENV['S3_KEY'],
