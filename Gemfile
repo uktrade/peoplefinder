@@ -9,14 +9,13 @@ gem 'ancestry', '~> 2.1'
 gem 'awesome_print'
 gem 'aws-sdk', '~> 2.5', '>= 2.5.5'
 gem 'country_select'
-gem 'delayed_job', git: 'https://github.com/collectiveidea/delayed_job.git',
-    ref: '5f914105c1c38ca73a486d63de8ad62f254b3d72' # needed for queue_attributes configuration
+gem 'delayed_job', '~> 4.1.5'
 gem 'delayed_job_active_record', '~> 4.1.0'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 gem 'faker', '~> 1.7'
 gem 'fastimage', '~> 2.1'
-gem 'fog', '~> 1.35'
+gem 'fog-aws', '~> 2.0.1'
 gem 'foreman'
 gem 'friendly_id', '~> 5.2.1'
 gem 'govspeak'
@@ -55,9 +54,7 @@ gem 'zendesk_api'
 gem 'faraday_middleware'
 gem 'faraday_middleware-aws-signers-v4'
 
-gem 'carrierwave',
-  git: 'https://github.com/carrierwaveuploader/carrierwave.git',
-  tag: 'cc39842e44edcb6187b2d379a606ec48a6b5e4a8'
+gem 'carrierwave', '~> 1.0.0'
 
 group :assets do
   gem 'coffee-rails'
@@ -89,14 +86,14 @@ group :development, :test do
   gem 'byebug'
   gem 'brakeman', require: false
   gem 'capybara'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails', '~> 4.8.0'
   gem 'launchy'
   gem 'minitest'
   gem 'poltergeist'
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'rspec-rails', '~> 3.5', '>= 3.5.1'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', '~> 4.0.0.rc1'
   gem 'simplecov'
   gem 'simplecov-rcov'
   gem 'timecop'

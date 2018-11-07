@@ -24,7 +24,7 @@ unless ENV['SKIP_SIMPLECOV']
     add_filter '/gem/'
     add_filter '.bundle'
   end
-  SimpleCov.minimum_coverage 95
+  SimpleCov.minimum_coverage 70
 end
 
 Capybara.register_driver :poltergeist_silent do |app|
@@ -65,7 +65,7 @@ RSpec.configure do |config|
   end
 
   config.infer_spec_type_from_file_location!
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include SpecSupport::Login
   config.include SpecSupport::Search
   config.include SpecSupport::Carrierwave

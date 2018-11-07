@@ -70,7 +70,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   # white list of permissable file extensions for upload
-  def extension_white_list
+  def extension_whitelist
     %w( jpg jpeg gif png )
   end
 
