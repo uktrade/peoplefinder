@@ -431,6 +431,7 @@ en:
       blank: "is required"
       invalid_format: "isn’t valid"
       invalid_domain: "you have entered can’t be used to access People Finder"
+      extension_whitelist_error: "You are not allowed to upload %{extension} files, allowed types: %{allowed_types}"
     models:
       token:
         invalid_address: is not formatted correctly

@@ -1,14 +1,3 @@
-GIT
-  remote: https://github.com/carrierwaveuploader/carrierwave.git
-  revision: cc39842e44edcb6187b2d379a606ec48a6b5e4a8
-  tag: cc39842e44edcb6187b2d379a606ec48a6b5e4a8
-  specs:
-    carrierwave (0.10.0)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
-      json (>= 1.7)
-      mime-types (>= 1.16)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -90,6 +79,10 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    carrierwave (1.0.0)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     case_transform (0.2)
       activesupport
     childprocess (0.9.0)
@@ -556,7 +549,7 @@ DEPENDENCIES
   brakeman
   byebug
   capybara
-  carrierwave!
+  carrierwave (~> 1.0.0)
   codeclimate-test-reporter
   coffee-rails
   country_select

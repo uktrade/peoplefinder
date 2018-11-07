@@ -54,9 +54,7 @@ gem 'zendesk_api'
 gem 'faraday_middleware'
 gem 'faraday_middleware-aws-signers-v4'
 
-gem 'carrierwave',
-  git: 'https://github.com/carrierwaveuploader/carrierwave.git',
-  tag: 'cc39842e44edcb6187b2d379a606ec48a6b5e4a8'
+gem 'carrierwave', '~> 1.0.0'
 
 group :assets do
   gem 'coffee-rails'
