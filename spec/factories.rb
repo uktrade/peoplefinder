@@ -1,5 +1,5 @@
 
-FactoryGirl.define do
+FactoryBot.define do
 
   sequence(:email) { |n| 'example.user.%d@digital.justice.gov.uk' % n }
   sequence(:given_name) { |n| "First name #{('a'.ord + (n % 25)).chr}" }

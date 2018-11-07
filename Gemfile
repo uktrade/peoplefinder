@@ -86,7 +86,7 @@ group :development, :test do
   gem 'byebug'
   gem 'brakeman', require: false
   gem 'capybara'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails', '~> 4.8.0'
   gem 'launchy'
   gem 'minitest'
   gem 'poltergeist'
