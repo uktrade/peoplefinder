@@ -1,5 +1,4 @@
-inherit_from:
-  - .rubocop_todo.yml
+inherit_from: .rubocop_todo.yml
 
 AllCops:
   # Exclude anything that isn't really part of our code.
@@ -118,7 +117,7 @@ Style/DoubleNegation:
 
 Metrics/ClassLength:
   CountComments: false
-  Max: 120
+  Max: 220
 
 Metrics/ModuleLength:
   Max: 115
