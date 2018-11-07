@@ -93,7 +93,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-byebug'
   gem 'rspec-rails', '~> 3.5', '>= 3.5.1'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', '~> 4.0.0.rc1'
   gem 'simplecov'
   gem 'simplecov-rcov'
   gem 'timecop'
