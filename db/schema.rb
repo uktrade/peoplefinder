@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171122114825) do
+ActiveRecord::Schema.define(version: 20180524101821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,19 +60,6 @@ ActiveRecord::Schema.define(version: 20171122114825) do
 
   add_index "memberships", ["group_id"], name: "index_memberships_on_group_id", using: :btree
   add_index "memberships", ["person_id"], name: "index_memberships_on_person_id", using: :btree
-
-  create_table "mys", id: false, force: :cascade do |t|
-    t.string "uid",             limit: 50000
-    t.string "date1",           limit: 50000
-    t.string "date2",           limit: 50000
-    t.string "uid2",            limit: 50000
-    t.string "heroku_app",      limit: 50000
-    t.string "source_ip",       limit: 50000
-    t.string "local_something", limit: 50000
-    t.string "log_level",       limit: 50000
-    t.string "heroku_info",     limit: 50000
-    t.string "method",          limit: 50000
-  end
 
   create_table "people", force: :cascade do |t|
     t.text     "given_name"
