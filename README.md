@@ -352,14 +352,6 @@ Also, if you'd like test coverage for Javascript you'll need to have Node and Is
 
 `npm install -g istanbul`
 
-## View templates
-
-The application layout is set by the [moj_internal_template](https://github.com/uktrade/moj_internal_template) that is installed as part of this engine.
-
-You can override this layout in wrapper application, create your own file:
-
-`app/views/layouts/peoplefinder/peoplefinder.html.haml`
-
 ## Translation file
 
 A lot of the text in the views is configurable in the translations file.
