@@ -4,7 +4,7 @@ FROM ruby:2.4.5
 RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs
 
 # Install PhantomJS
-ENV PHANTOM_JS="phantomjs-1.9.8-linux-x86_64"
+ENV PHANTOM_JS="phantomjs-2.1.1-linux-x86_64"
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
