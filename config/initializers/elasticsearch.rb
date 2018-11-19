@@ -10,4 +10,6 @@ if Rails.env.production?
     faraday.response :raise_error
     faraday.adapter Faraday.default_adapter
   end
+elsif Rails.configuration.elastic_search_url
+  Elasticsearch::Model.client = Elasticsearch::Client.new(url: Rails.configuration.elastic_search_url)
 end

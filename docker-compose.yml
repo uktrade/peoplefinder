@@ -1,0 +1,37 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+  web:
+    build: .
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    env_file: .env
+    environment:
+      DATABASE_URL: "postgres://postgres:postgres@db/peoplefinder_development"
+      DB_TEST_URL: "postgres://postgres:postgres@db/peoplefinder_test"
+      ES_URL: "http://elasticsearch:9200"
+    volumes:
+      - .:/peoplefinder
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+      - elasticsearch
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.12
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./tmp/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"

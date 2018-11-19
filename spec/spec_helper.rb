@@ -17,7 +17,7 @@ RSpec.configure do |config|
 
   Kernel.srand config.seed
 
-  WebMock.disable_net_connect!(allow_localhost: true)
+  WebMock.disable_net_connect!(allow: 'elasticsearch:9200', allow_localhost: true)
 
   config.before :each, geckoboard: true do
     stub_request(:get, 'https://api.geckoboard.com/').
