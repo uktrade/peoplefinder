@@ -22,7 +22,8 @@ class HomeController < ApplicationController
   def set_department_or_redirect
     @department = Group.department
     if @department
-      redirect_to ENV['HOME_PAGE_URL'] if ENV['HOME_PAGE_URL']
+      # Redirect to the root department's page
+      redirect_to group_path(@department)
     else
       notice :top_level_group_needed
       redirect_to(new_group_path) && return

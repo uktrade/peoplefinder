@@ -28,7 +28,7 @@ feature 'Upload CSV' do
   scenario 'only super admins can access uploader' do
     Person.find_by(email: email).update(super_admin: false)
     visit new_admin_person_upload_path
-    expect(current_path).to eql home_path
+    expect(current_path).to_not eql new_admin_person_upload_path
     expect(page).to have_selector('.flash-message.warning', text: 'Unauthorised')
   end
 
