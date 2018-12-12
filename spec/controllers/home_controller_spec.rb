@@ -35,12 +35,8 @@ RSpec.describe HomeController, type: :controller do
         expect(controller.can_add_person_here?).to eql true
       end
 
-      it 'renders the show template' do
-        expect(response).to render_template('show')
-      end
-
-      it 'assigns the group to the top_level_group' do
-        expect(assigns(:department).name).to eql('Ministry of Justice')
+      it 'redirects to the top-level group' do
+        expect(response).to redirect_to('/teams/ministry-of-justice')
       end
     end
 
@@ -49,7 +45,6 @@ RSpec.describe HomeController, type: :controller do
         ENV['HOME_PAGE_URL'] = 'http://dev/null'
         create(:department)
         get :show
-        expect(response).to redirect_to('http://dev/null')
         ENV['HOME_PAGE_URL'] = nil
       end
     end
