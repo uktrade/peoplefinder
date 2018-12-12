@@ -11,7 +11,7 @@
   = ENV['HOME_PAGE_URL']
 
 - content_for :logo_link_title do
-  = 'Go to the People Finder homepage'
+  = 'Go to the Digital Workspace homepage'
 
 - content_for :head do
 
@@ -45,7 +45,7 @@
       = link_to "Search", "#{ENV['HOME_PAGE_URL']}/search", class: "mobile-search-button"
   .header-proposition
     .content
-      = link_to "Digital Workspace", home_path, id: "proposition-name"
+      = link_to "Digital Workspace", ENV['HOME_PAGE_URL'], id: "proposition-name"
     = render partial: "widgets/nav"
     .search
       %form{:action => "#{ENV['HOME_PAGE_URL']}/search", :method => "get", :role => "search-workspace"}
