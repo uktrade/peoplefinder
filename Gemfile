@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.4.5'
 
-gem 'rails', '~> 4.2.11'
+gem 'rails', '~> 5.0.7'
 gem 'text'
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'activerecord-session_store'
@@ -30,7 +30,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails', '>= 4.0.4'
 gem 'json'
 gem 'keen'
-gem 'mail', '~> 2.6.6.rc1'
+gem 'mail'
 gem 'mini_magick'
 gem 'netaddr'
 gem 'omniauth-oauth2'
@@ -79,6 +79,7 @@ group :test do
   gem 'site_prism'
   gem 'webmock'
   gem 'whenever-test'
+  gem 'rails-controller-testing'
   gem 'rspec-json_expectations'
 end
 
