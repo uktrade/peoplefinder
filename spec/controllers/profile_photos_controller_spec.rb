@@ -39,7 +39,7 @@ RSpec.describe ProfilePhotosController, type: :controller do
         it 'sets return MIME type to "text" to allow iframe target to work with > IE8' do
           allow(photo).to receive(:valid?).and_return true
           post :create, params: { profile_photo: valid_params }
-          expect(response.header['Content-Type']).to eq 'text/html; charset=utf-8'
+          expect(response.header['Content-Type']).to eq 'text/plain; charset=utf-8'
         end
       end
     end
@@ -70,7 +70,7 @@ RSpec.describe ProfilePhotosController, type: :controller do
 
     it 'renders JSON error as text for compatability with IE' do
       post :create, params: { profile_photo: invalid_params }
-      expect(response.header['Content-Type']).to include 'text/html'
+      expect(response.header['Content-Type']).to include 'text/plain'
     end
   end
 
