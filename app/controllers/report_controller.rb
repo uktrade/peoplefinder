@@ -13,7 +13,7 @@ class ReportController < ApplicationController
       requester: { email: current_user.email, name: current_user.name }
     )
     flash[:notice] = 'Thank you for your submission. Your problem has been reported.'
-    redirect_to_referrer
+    redirect_back(fallback_location: root_path)
   end
 
   def zendesk_client
@@ -36,11 +36,5 @@ class ReportController < ApplicationController
       { id: '45522485', value: params['problem_report_email'] },
       { id: ENV['ZD_SERVICE_ID'], value: ENV['ZD_SERVICE_NAME'] }
     ]
-  end
-
-  def redirect_to_referrer
-    redirect_to :back
-  rescue ActionController::RedirectBackError
-    redirect_to root_path
   end
 end

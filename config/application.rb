@@ -63,7 +63,6 @@ module Peoplefinder
 
     config.active_job.queue_adapter = :delayed_job
 
-    config.active_record.raise_in_transactional_callbacks = true
     config.active_record.schema_format = :ruby
 
     config.aws_elastic_region = ENV['AWS_ELASTICSEARCH_REGION']
