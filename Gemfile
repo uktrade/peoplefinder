@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.4.5'
 
-gem 'rails', '~> 4.2.10'
+gem 'rails', '~> 4.2.11'
 gem 'text'
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'activerecord-session_store'
