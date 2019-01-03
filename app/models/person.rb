@@ -171,7 +171,7 @@ class Person < ActiveRecord::Base
       where(memberships: { group_id: group.id }).
       where(memberships: { leader: false }).
       where('NOT EXISTS (SELECT 1 FROM memberships m2 WHERE m2.person_id = people.id AND m2.group_id != ?)', group.id).
-      uniq
+      distinct
   end
 
   # Does not return ActiveRecord::Relation
