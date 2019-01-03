@@ -9,7 +9,7 @@ describe 'Person Profile API', type: :request do
   let(:profile_image_url_hash_key) { 'profile-image-url' }
 
   before do
-    get "/api/people?email=#{person.email}", session: { authorization: "Token #{ENV['PROFILE_API_TOKEN']}" }
+    get "/api/people?email=#{person.email}", headers: { authorization: "Token #{ENV['PROFILE_API_TOKEN']}" }
   end
 
   context 'in general' do
