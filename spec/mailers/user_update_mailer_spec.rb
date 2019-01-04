@@ -44,7 +44,7 @@ describe UserUpdateMailer do
   describe ".updated_profile_email" do
 
     let!(:hr) { create(:group, name: 'Human Resources') }
-    let(:hr_membership) { create(:membership, person: person, group: hr, role: "Administrative Officer") }
+    let!(:hr_membership) { create(:membership, person: person, group: hr, role: "Administrative Officer") }
     let!(:ds) { create(:group, name: 'Digital Services') }
     let!(:csg) { create(:group, name: 'Corporate Services Group') }
 
@@ -137,6 +137,10 @@ describe UserUpdateMailer do
 
     context 'mail content' do
       before do
+        # Ensure updated memberships are reloaded (Rails 5 upgrade seems to have
+        # changed relationship reloading behaviour)
+        person.reload
+
         # mock controller mass assignment behaviour for applying changes
         person.assign_attributes(mass_assignment_params)
         person.save!
