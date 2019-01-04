@@ -20,11 +20,7 @@ class SearchController < ApplicationController
   end
 
   def query
-    input = params[:query]
-    input.encode(Encoding::UTF_32LE)
-    input
-  rescue Encoding::InvalidByteSequenceError
-    ''
+    params[:query]
   end
 
   def set_search_args
