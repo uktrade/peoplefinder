@@ -171,7 +171,7 @@ RSpec.describe PersonSearch, elastic: true do
       expect(results.contains_exact_match).to eq true
     end
 
-    it 'searches ignoring " in middle of search term' do
+    xit 'searches ignoring " in middle of search term' do
       results = search_for('Alice" Andrews')
       expect(results.set.map(&:name)).to include(@alice.name)
       expect(results.contains_exact_match).to eq true
