@@ -12,6 +12,6 @@ class PeopleInGroupsQuery < BaseQuery
                 string_agg(CASE role WHEN '' THEN NULL ELSE role END, ', ' ORDER BY role) AS role_names"
                 ).
           group(:id).
-          uniq, :people)
+          distinct, :people)
   end
 end

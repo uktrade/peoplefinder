@@ -54,8 +54,12 @@ class PersonCsvImporter
   end
 
   def self.person_fields(hash)
-    hash.merge(email: EmailExtractor.new.extract(hash[:email])).
-      except(:role)
+    hash.merge(
+      email: EmailExtractor.new.extract(hash[:email]),
+      # Rails seems to have a bug when a String is passed into an array field - so make sure
+      # the imported String is contained in an Array
+      building: [hash[:building]]
+    ).except(:role)
   end
 
   private

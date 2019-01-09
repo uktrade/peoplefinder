@@ -98,7 +98,7 @@ FactoryBot.define do
 
     # i.e. person in a group with ancestry of 1+
     trait :team_member do
-      after(:create) do |p|
+      after(:build) do |p|
         create(:membership, person: p)
       end
     end
@@ -126,7 +126,7 @@ FactoryBot.define do
 
     # i.e. unassigned person - person in group with ancestry of 0 (i.e. DIT)
     trait :department_member do
-      after(:create) do |p|
+      after(:build) do |p|
         department = create(:department)
         create(:membership, person: p, group: department)
       end

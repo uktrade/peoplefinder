@@ -11,7 +11,7 @@
 #  updated_at :datetime         not null
 #
 
-class Report < ActiveRecord::Base
+class Report < ApplicationRecord
 
   def to_csv_file
     file = File.open(tmp_file_path, 'w')

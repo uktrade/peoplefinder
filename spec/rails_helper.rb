@@ -38,6 +38,10 @@ ENV['PROFILE_API_TOKEN'] = 'DEFINED'
 Capybara.javascript_driver = :poltergeist_silent # uncomment this to disable console.log (including warn)
 Capybara.default_max_wait_time = 3
 
+# The feature tests check hidden elements using Capybara, which used to work but doesn't anymore, so we
+# need to enable this setting.
+Capybara.ignore_hidden_elements = false
+
 Dir[File.expand_path('../../{lib,app/*}', __FILE__)].sort.each do |path|
   $LOAD_PATH.unshift(path) unless $LOAD_PATH.include?(path)
 end

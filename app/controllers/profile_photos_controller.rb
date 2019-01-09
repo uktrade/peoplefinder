@@ -7,9 +7,9 @@ class ProfilePhotosController < ApplicationController
 
     # NOTE: IE requires JSON as text
     if photo.valid?
-      render text: photo.to_json
+      render plain: photo.to_json
     else
-      render text: { error: photo.errors.full_messages.join(', ') }.to_json, status: :unprocessable_entity
+      render plain: { error: photo.errors.full_messages.join(', ') }.to_json, status: :unprocessable_entity
     end
   end
 

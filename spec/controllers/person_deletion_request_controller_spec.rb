@@ -11,14 +11,14 @@ RSpec.describe PersonDeletionRequestController, type: :controller do
 
   describe 'GET new' do
     it 'assigns the requested person as @person' do
-      get :new, person_id: person.to_param
+      get :new, params: { person_id: person.to_param }
       expect(assigns(:person)).to eq(person)
     end
   end
 
   describe 'POST create' do
     it 'redirects to the profile page' do
-      post :create, person_id: person.to_param
+      post :create, params: { person_id: person.to_param }
       expect(response).to redirect_to(person_path(person))
     end
 
@@ -34,7 +34,7 @@ RSpec.describe PersonDeletionRequestController, type: :controller do
 
       expect(mock_mailer).to receive(:deliver_now)
 
-      post :create, person_id: person.to_param, note: 'This is a note'
+      post :create, params: { person_id: person.to_param, note: 'This is a note' }
     end
   end
 

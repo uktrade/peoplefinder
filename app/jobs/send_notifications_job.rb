@@ -1,4 +1,4 @@
-class SendNotificationsJob < ActiveJob::Base
+class SendNotificationsJob < ApplicationJob
 
   queue_as :send_notifications
 

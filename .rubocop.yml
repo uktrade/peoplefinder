@@ -21,7 +21,7 @@ AllCops:
     - 'spec/mailers/previews/*'
     - 'lib/generators/**/*'
   TargetRubyVersion: 2.3
-  TargetRailsVersion: 4.2
+  TargetRailsVersion: 5.0
 
 Rails:
   Enabled: true

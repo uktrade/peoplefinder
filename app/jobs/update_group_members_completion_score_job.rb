@@ -1,4 +1,4 @@
-class UpdateGroupMembersCompletionScoreJob < ActiveJob::Base
+class UpdateGroupMembersCompletionScoreJob < ApplicationJob
 
   # Typically this occurs if a record is deleted after the job is enqueued
   # but before it is executed (i.e. #perform called).
@@ -31,7 +31,7 @@ class UpdateGroupMembersCompletionScoreJob < ActiveJob::Base
   def error_handler exception
     Rails.logger.warn "#{self.class} encountered #{exception.class}: #{exception.message}"
     if exception.is_a? ActiveJob::DeserializationError
-      return exception.original_exception == ActiveRecord::RecordNotFound
+      return exception.cause.is_a? ActiveRecord::RecordNotFound
     else
       return false
     end
