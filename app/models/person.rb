@@ -53,7 +53,7 @@
 #  secondary_phone_country_code      :text
 #
 
-class Person < ActiveRecord::Base
+class Person < ApplicationRecord
   attr_accessor :working_days
 
   include Concerns::Acquisition
