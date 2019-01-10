@@ -19,6 +19,7 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
     ln -sf /usr/local/share/$PHANTOM_JS/bin/phantomjs /root/.phantomjs/2.1.1/x86_64-linux/bin/phantomjs && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+RUN npm install --global bower
 
 # Get People Finder running
 RUN mkdir /peoplefinder
