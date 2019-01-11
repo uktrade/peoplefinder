@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.4.5'
+ruby '2.5.3'
 
 gem 'rails', '~> 5.0.7'
 gem 'text'
@@ -96,7 +96,6 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.5', '>= 3.5.1'
   gem 'shoulda-matchers', '~> 4.0.0.rc1'
   gem 'simplecov'
-  gem 'simplecov-rcov'
   gem 'timecop'
   gem 'guard-jasmine'
   gem 'jasmine-rails'

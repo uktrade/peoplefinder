@@ -18,8 +18,6 @@ require 'awesome_print'
 
 unless ENV['SKIP_SIMPLECOV']
   require 'simplecov'
-  require 'simplecov-rcov'
-  SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
   SimpleCov.start 'rails' do
     add_filter '/gem/'
     add_filter '.bundle'
@@ -28,7 +26,8 @@ unless ENV['SKIP_SIMPLECOV']
 end
 
 Capybara.register_driver :poltergeist_silent do |app|
-  Capybara::Poltergeist::Driver.new(app, phantomjs_logger: File::NULL)
+  # Redirect phantomjs log output to a dummy StringIO to ignore it
+  Capybara::Poltergeist::Driver.new(app, phantomjs_logger: StringIO.new)
 end
 
 # define a the PROFILE_API_TOKEN to ensure the API specs can be authenticated
