@@ -54,7 +54,7 @@ gem 'zendesk_api'
 gem 'faraday_middleware'
 gem 'faraday_middleware-aws-signers-v4'
 
-gem 'carrierwave', '~> 1.0.0'
+gem 'carrierwave', '~> 1.1.0'
 
 group :assets do
   gem 'coffee-rails'
@@ -75,7 +75,8 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: nil
-  gem 'database_cleaner'
+  # TODO: Required because ability to specify allowed remote DB URLs hasn't been released yet
+  gem 'database_cleaner', github: 'DatabaseCleaner/database_cleaner', ref: '4c2408ffdbbd990e78d6590f4ef6ba5e58aca673'
   gem 'site_prism'
   gem 'webmock'
   gem 'whenever-test'

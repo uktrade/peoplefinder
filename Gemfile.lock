@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/DatabaseCleaner/database_cleaner.git
+  revision: 4c2408ffdbbd990e78d6590f4ef6ba5e58aca673
+  ref: 4c2408ffdbbd990e78d6590f4ef6ba5e58aca673
+  specs:
+    database_cleaner (1.7.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -83,7 +90,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (>= 2.0, < 4.0)
-    carrierwave (1.0.0)
+    carrierwave (1.1.0)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
@@ -121,7 +128,6 @@ GEM
       addressable
     currencies (0.4.2)
     daemon (1.2.0)
-    database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     delayed_job (4.1.5)
       activesupport (>= 3.0, < 5.3)
@@ -554,12 +560,12 @@ DEPENDENCIES
   brakeman
   byebug
   capybara
-  carrierwave (~> 1.0.0)
+  carrierwave (~> 1.1.0)
   codeclimate-test-reporter
   coffee-rails
   country_select
   daemon
-  database_cleaner
+  database_cleaner!
   delayed_job (~> 4.1.5)
   delayed_job_active_record (~> 4.1.0)
   dotenv-rails
