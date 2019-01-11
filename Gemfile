@@ -75,8 +75,7 @@ end
 
 group :test do
   gem 'codeclimate-test-reporter', require: nil
-  # TODO: Required because ability to specify allowed remote DB URLs hasn't been released yet
-  gem 'database_cleaner', github: 'DatabaseCleaner/database_cleaner', ref: '4c2408ffdbbd990e78d6590f4ef6ba5e58aca673'
+  gem 'database_cleaner'
   gem 'site_prism'
   gem 'webmock'
   gem 'whenever-test'
