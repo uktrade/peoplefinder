@@ -92,7 +92,7 @@ module Concerns::Completion
     end
 
     def where_people_in id = nil
-      ActiveRecord::Base.sanitize_sql(['WHERE id IN (%s)', [id].flatten.join(',')]) if id.present?
+      "WHERE id IN (#{[id].flatten.join(',')})" if id.present?
     end
 
     def completion_score_sum
