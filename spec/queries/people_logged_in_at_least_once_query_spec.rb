@@ -8,7 +8,7 @@ describe PeopleLoggedInAtLeastOnceQuery do
     end
 
     it 'returns an arel relation' do
-      expect(described_class.new.call).to be_an_instance_of(Person::ActiveRecord_Relation)
+      expect(described_class.new.call).to be_a(ActiveRecord::Relation)
     end
 
     it 'returns only those people who have logged in' do
