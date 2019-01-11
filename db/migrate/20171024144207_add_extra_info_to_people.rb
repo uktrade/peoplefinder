@@ -1,4 +1,4 @@
-class AddExtraInfoToPeople < ActiveRecord::Migration
+class AddExtraInfoToPeople < ActiveRecord::Migration[4.2]
   def change
     add_column :people, :key_skills, :string, array: true, default: []
     add_column :people, :language_fluent, :text

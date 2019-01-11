@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.5.3'
 
-gem 'rails', '~> 5.0.7'
+gem 'rails', '~> 5.1.6'
 gem 'text'
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'activerecord-session_store'
@@ -54,7 +54,7 @@ gem 'zendesk_api'
 gem 'faraday_middleware'
 gem 'faraday_middleware-aws-signers-v4'
 
-gem 'carrierwave', '~> 1.0.0'
+gem 'carrierwave', '~> 1.1.0'
 
 group :assets do
   gem 'coffee-rails'
@@ -87,13 +87,13 @@ group :development, :test do
   gem 'byebug'
   gem 'brakeman', require: false
   gem 'capybara'
-  gem 'factory_bot_rails', '~> 4.8.0'
+  gem 'factory_bot_rails'
   gem 'launchy'
   gem 'minitest'
   gem 'poltergeist'
   gem 'pry-rails'
   gem 'pry-byebug'
-  gem 'rspec-rails', '~> 3.5', '>= 3.5.1'
+  gem 'rspec-rails'
   gem 'shoulda-matchers', '~> 4.0.0.rc1'
   gem 'simplecov'
   gem 'timecop'

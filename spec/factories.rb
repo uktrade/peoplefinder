@@ -12,7 +12,7 @@ FactoryBot.define do
   sequence(:phone_number) { |n| '07700 %06d' % (900_000 + n) }
 
   factory :permitted_domain do
-    domain 'digital.justice.gov.uk'
+    domain { 'digital.justice.gov.uk' }
   end
 
   factory :department, class: 'Group' do
@@ -33,9 +33,9 @@ FactoryBot.define do
     group
 
     factory :membership_default do
-      role nil
-      leader false
-      subscribed true
+      role { nil }
+      leader { false }
+      subscribed { true }
       group_id { create(:department).id }
     end
   end
@@ -105,11 +105,11 @@ FactoryBot.define do
 
     trait :member_of do
       transient do
-        team nil
-        leader false
-        subscribed true
-        role nil
-        sole_membership false
+        team { nil }
+        leader { false }
+        subscribed { true }
+        role { nil }
+        sole_membership { false }
       end
       after(:build) do |peep, evaluator|
         if peep.memberships.map(&:group).include? evaluator.team
@@ -133,18 +133,18 @@ FactoryBot.define do
     end
 
     factory :person_with_multiple_logins do
-      login_count 10
+      login_count { 10 }
       last_login_at { 1.day.ago }
     end
 
     factory :super_admin do
-      super_admin true
+      super_admin { true }
     end
 
   end
 
   factory :information_request do
-    message "This is the information request message body"
+    message { 'This is the information request message body' }
   end
 
   factory :token do
@@ -152,32 +152,42 @@ FactoryBot.define do
   end
 
   factory :profile_photo do
-    image Rack::Test::UploadedFile.new(
-      File.join(Rails.root, 'spec', 'fixtures', 'profile_photo_valid.png')
-    )
+    image do
+      Rack::Test::UploadedFile.new(
+        File.join(Rails.root, 'spec', 'fixtures', 'profile_photo_valid.png')
+      )
+    end
 
     trait :invalid_extension do
-      image Rack::Test::UploadedFile.new(
-        File.join(Rails.root, 'spec', 'fixtures', 'placeholder.bmp')
-      )
+      image do
+        Rack::Test::UploadedFile.new(
+          File.join(Rails.root, 'spec', 'fixtures', 'placeholder.bmp')
+        )
+      end
     end
 
     trait :non_image do
-      image Rack::Test::UploadedFile.new(
-        File.join(Rails.root, 'spec', 'fixtures', 'invalid_rows.csv')
-      )
+      image do
+        Rack::Test::UploadedFile.new(
+          File.join(Rails.root, 'spec', 'fixtures', 'invalid_rows.csv')
+        )
+      end
     end
 
     trait :too_small_dimensions do
-      image Rack::Test::UploadedFile.new(
-        File.join(Rails.root, 'spec', 'fixtures', 'profile_photo_too_small_dimensions.png')
-      )
+      image do
+        Rack::Test::UploadedFile.new(
+          File.join(Rails.root, 'spec', 'fixtures', 'profile_photo_too_small_dimensions.png')
+        )
+      end
     end
 
     trait :large_dimensions do
-      image Rack::Test::UploadedFile.new(
-        File.join(Rails.root, 'spec', 'fixtures', 'profile_photo_large.png')
-      )
+      image do
+        Rack::Test::UploadedFile.new(
+          File.join(Rails.root, 'spec', 'fixtures', 'profile_photo_large.png')
+        )
+      end
     end
   end
 
@@ -185,21 +195,23 @@ FactoryBot.define do
   end
 
   factory :report do
-    content <<~CSV
-      id,full_name,login_count
-      1,John Smith,5
-    CSV
-    name 'factory_test_report'
-    extension 'csv'
-    mime_type 'text/csv'
+    content do
+      <<~CSV
+        id,full_name,login_count
+        1,John Smith,5
+      CSV
+    end
+    name { 'factory_test_report' }
+    extension { 'csv' }
+    mime_type { 'text/csv' }
   end
 
   factory :queued_notification do
-    session_id "MyString"
-    person_id 1
-    current_user_id 1
-    changes_json '{}'
-    edit_finalised false
-    sent false
+    session_id { 'MyString' }
+    person_id { 1 }
+    current_user_id { 1 }
+    changes_json { '{}' }
+    edit_finalised { false }
+    sent { false }
   end
 end

@@ -1,4 +1,4 @@
-class AddOtherFieldsToProfile < ActiveRecord::Migration
+class AddOtherFieldsToProfile < ActiveRecord::Migration[4.2]
   def change
     add_column :people, :other_key_skills, :string
     add_column :people, :other_learning_and_development, :string

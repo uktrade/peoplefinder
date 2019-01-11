@@ -10,7 +10,7 @@ describe ReminderMailOlderThanQuery do
     end
 
     it 'returns an arel relation' do
-      expect(described_class.new(3.days.ago).call).to be_an_instance_of(Person::ActiveRecord_Relation)
+      expect(described_class.new(3.days.ago).call).to be_a(ActiveRecord::Relation)
     end
 
     it 'returns expected records' do
