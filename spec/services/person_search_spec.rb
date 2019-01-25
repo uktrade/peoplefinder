@@ -25,6 +25,8 @@ RSpec.describe PersonSearch, elastic: true do
     @scotti = create(:person, given_name: 'John', surname: "Scotti")
     digital_services = create(:group, name: 'Digital Services')
     @bob.memberships.create(group: digital_services, role: 'Digital Director')
+    @john_duplicato1 = create(:person, given_name: 'John', surname: 'Duplicato', email: 'john.duplicato@digital.justice.gov.uk')
+    @john_duplicato2 = create(:person, given_name: 'John', surname: 'Duplicato', email: 'john.duplicato2@digital.justice.gov.uk')
 
     @john_smith = create(:person, given_name: 'John', surname: 'Smith')
     @jonathan_smith = create(:person, given_name: 'Jonathan', surname: 'Smith')
@@ -82,6 +84,12 @@ RSpec.describe PersonSearch, elastic: true do
       results = search_for('Bob Browning')
       expect(results.set.map(&:name)).to_not include(@alice.name)
       expect(results.set.map(&:name)).to include(@bob.name)
+      expect(results.contains_exact_match).to eq true
+    end
+
+    it 'copes with two people having the same name' do
+      results = search_for('John Duplicato')
+      expect(results.set.map(&:email).first(2)).to match_array [@john_duplicato1.email, @john_duplicato2.email]
       expect(results.contains_exact_match).to eq true
     end
 
@@ -228,8 +236,8 @@ RSpec.describe PersonSearch, elastic: true do
         end
 
         it 'test has expected records and ES index documents' do
-          expect(Person.count).to eql 28
-          expect(Person.search('*').results.total).to eql 28
+          expect(Person.count).to eql 30
+          expect(Person.search('*').results.total).to eql 30
         end
       end
 
