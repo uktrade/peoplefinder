@@ -2,7 +2,7 @@ require 'faraday_middleware/aws_signers_v4'
 
 # TODO: Clean up once GOV.UK PaaS migration is complete
 vcap_services = JSON.parse(ENV['VCAP_SERVICES']) if ENV['VCAP_SERVICES']
-vcap_elasticsearch = vcap_services && vcap_services['elasticsearch']
+vcap_elasticsearch = vcap_services && vcap_services['elasticsearch']&.first
 
 if Rails.env.production? && vcap_elasticsearch
   Elasticsearch::Model.client = Elasticsearch::Client.new(url: vcap_elasticsearch['credentials']['uri'])
