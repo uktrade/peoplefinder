@@ -1,3 +1,4 @@
 ---
 applications:
-- buildpack: https://github.com/cloudfoundry/ruby-buildpack.git#v1.7.29
+- buildpack: https://github.com/cloudfoundry/ruby-buildpack.git#v1.7.31
+  stack: cflinuxfs3
