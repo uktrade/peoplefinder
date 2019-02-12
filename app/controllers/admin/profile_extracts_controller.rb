@@ -1,5 +1,7 @@
 module Admin
   class ProfileExtractsController < ApplicationController
+    include ApplicationHelper
+
     require 'csv'
     before_action :authorize_user
 
@@ -26,8 +28,12 @@ module Admin
 
     def profile_headers
       %w(
-        Firstname Surname Email InternalAuthKey AddressLondonOffice
-        AddressOtherUKRegional AddressOtherOverseas City Country JobTitle
+        Firstname Surname Email InternalAuthKey
+        AddressLondonOffice AddressOtherUKRegional AddressOtherOverseas
+        City Country JobTitle
+        LastLogin ProfileCompletionScore
+        Team
+        PrimaryPhoneNumber
       )
     end
 
@@ -35,7 +41,13 @@ module Admin
       [
         person.given_name, person.surname, person.email, person.internal_auth_key,
         person.formatted_buildings, person.other_uk, person.other_overseas,
-        person.city, person.country_name, person.memberships.first.try(:role)
+        person.city, person.country_name, person.memberships.first.try(:role),
+        person.last_login_at, person.completion_score,
+        person.memberships.first.try(:group).try(:name),
+        phone_number_with_country_code(
+          person.primary_phone_country,
+          person.primary_phone_number
+        )
       ]
     end
 
