@@ -25,6 +25,14 @@ module ApplicationHelper
     doc.to_sanitized_html.html_safe
   end
 
+  def govspeak_without_hyperlinks(source)
+    # HACK: In the team description list, we render markdown into an <a> tag,
+    #   so we don't want any more <a> tags because it would be pointless and
+    #   be invalid HTML (but we want to preserve the remaining markup).
+    #   Govspeak doesn't let us do that easily.
+    govspeak(source).gsub(%r{<a[^>]*>(.*?)</a>}, '\1').html_safe
+  end
+
   FLASH_NOTICE_KEYS = %w(error notice warning).freeze
 
   def flash_messages
