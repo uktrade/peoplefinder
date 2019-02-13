@@ -50,6 +50,18 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
+  context '#govspeak_without_hyperlinks' do
+    it 'renders Markdown with <a> tags replaced by their content' do
+      source = "# Header\n\nPara para\n\n[link to](nowhere)"
+      fragment = Capybara::Node::Simple.new(govspeak_without_hyperlinks(source))
+
+      expect(fragment).to have_selector('h3', text: 'Header')
+      expect(fragment).to_not have_selector('a')
+      expect(fragment.text).to have_text('link to')
+      expect(fragment).to_not have_text('nowhere')
+    end
+  end
+
   describe '#bold_tag' do
     subject { bold_tag('bold text', options) }
 
