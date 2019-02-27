@@ -1,7 +1,12 @@
-- if logged_in_regular?
-  = link_to "Hi, #{current_user.given_name}", person_path(current_user)
-  = profile_image_tag current_user, link: true
-- elsif logged_in_readonly? && !@login_screen
-  = link_to('To update People Finder, Sign in now', new_sessions_path )
-- if feature_enabled?('token_auth')
-  = link_to "Sign out", sessions_path, :method => :delete
+.user-account
+  - if logged_in_regular?
+    %a{:href => person_path(current_user)}
+      = "Hi, #{current_user.given_name}"
+      %span.update-account
+        - if current_user.completion_score < 100
+          = "Set up your profile (#{current_user.completion_score}% complete)"
+        - else
+          Edit your profile
+    = profile_image_tag current_user, link: true
+  - if feature_enabled?('token_auth')
+    = link_to "Sign out", sessions_path, :method => :delete
