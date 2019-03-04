@@ -37,8 +37,8 @@ module Concerns::Searchable
       }
     } do
       mapping do
-        indexes :name, fielddata: true, type: 'string'
-        indexes :email, index: :not_analyzed
+        indexes :name, fielddata: true, type: 'text'
+        indexes :email, type: 'keyword'
       end
     end
   end
