@@ -8,6 +8,10 @@ services:
   - postgresql
   - elasticsearch
 
+before_install:
+  # Override the default Travis Elasticsearch with the specific version we need
+  - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.6.1.deb && sudo dpkg -i --force-confnew elasticsearch-6.6.1.deb && sudo service elasticsearch restart
+
 before_script:
   - psql -c 'create database peoplefinder_test;' -U postgres
   - bundle exec rake db:migrate
