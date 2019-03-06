@@ -51,8 +51,6 @@ gem 'whenever', require: false
 gem 'will_paginate', '~> 3.0', '>=3.0.3'
 gem 'will_paginate-bootstrap', '~> 1.0', '>= 1.0.1'
 gem 'zendesk_api'
-gem 'faraday_middleware'
-gem 'faraday_middleware-aws-signers-v4'
 
 gem 'carrierwave', '~> 1.1.0'
 
