@@ -163,11 +163,6 @@ GEM
       i18n (>= 0.7)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
-    faraday_middleware (0.12.2)
-      faraday (>= 0.7.4, < 1.0)
-    faraday_middleware-aws-signers-v4 (0.1.9)
-      aws-sdk-resources (>= 2, < 3)
-      faraday (~> 0.9)
     fastimage (2.1.0)
     ffi (1.9.25)
     fog-aws (2.0.1)
@@ -569,8 +564,6 @@ DEPENDENCIES
   elasticsearch-rails
   factory_bot_rails
   faker (~> 1.7)
-  faraday_middleware
-  faraday_middleware-aws-signers-v4
   fastimage (~> 2.1)
   fog-aws (~> 2.0.1)
   foreman
