@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe PersonImportJob, type: :job do
-
-  before(:each) do
-    allow(PermittedDomain).to receive(:pluck).with(:domain).and_return(['valid.gov.uk'])
-  end
-
   let!(:group) do
     group = create(:group)
     ActiveJob::Base.queue_adapter.enqueued_jobs = []

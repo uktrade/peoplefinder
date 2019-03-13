@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'Group maintenance' do
-  include PermittedDomainHelper
   include ActiveJobHelper
 
   let(:login_page) { Pages::Login.new }
@@ -17,12 +16,7 @@ feature 'Group maintenance' do
     omni_auth_log_in_as_super_admin
   end
 
-  before(:each, user: :readonly) do
-    mock_readonly_user
-  end
-
   def visit_edit_view group
-    javascript_log_in
     visit group_path(group)
     click_link 'Edit'
   end
@@ -35,7 +29,6 @@ feature 'Group maintenance' do
     scenario 'Creating a top-level department' do
       Group.destroy_all
       name = 'Ministry of Justice'
-      javascript_log_in
       visit new_group_path
       expect(page).to have_title("Create a team - #{app_title}")
 
@@ -52,7 +45,6 @@ feature 'Group maintenance' do
     end
 
     scenario 'Creating a team inside the department' do
-      javascript_log_in
       visit group_path(dept)
       click_link 'Add new sub-team'
 
@@ -69,7 +61,6 @@ feature 'Group maintenance' do
 
     scenario 'Creating a subteam inside a team from that team\'s page' do
       team = create(:group, parent: dept, name: 'Corporate Services')
-      javascript_log_in
       visit group_path(team)
       click_link 'Add new sub-team'
 
@@ -87,7 +78,6 @@ feature 'Group maintenance' do
     scenario 'Creating a team and choosing the parent from the org browser' do
       create(:group, name: 'Corporate Services')
 
-      javascript_log_in
       visit new_group_path
 
       fill_in 'Team name', with: 'Digital Services'
@@ -102,7 +92,6 @@ feature 'Group maintenance' do
 
     scenario 'Deleting a team' do
       group = create(:group)
-      javascript_log_in
       visit edit_group_path(group)
       expect(page).to have_text('cannot be undone')
       click_link('Delete this team')
@@ -114,7 +103,6 @@ feature 'Group maintenance' do
     scenario 'Prevent deletion of a team that has memberships' do
       membership = create(:membership)
       group = membership.group
-      javascript_log_in
       visit edit_group_path(group)
       expect(page).not_to have_link('Delete this team')
       expect(page).to have_text('deletion is only possible if there are no people')
@@ -229,7 +217,6 @@ feature 'Group maintenance' do
     scenario 'Showing the acronym' do
       group = create(:group, name: 'HM Courts and Tribunal Service', acronym: 'HMCTS')
 
-      javascript_log_in
       visit group_path(group)
 
       within('.mod-heading h1') do
@@ -265,7 +252,6 @@ feature 'Group maintenance' do
     end
 
     scenario 'UI elements on the new/edit pages' do
-      javascript_log_in
       visit new_group_path
 
       fill_in 'Team name', with: 'Digital'
@@ -276,13 +262,11 @@ feature 'Group maintenance' do
 
     scenario 'Cancelling an edit' do
       group = create(:group)
-      javascript_log_in
       visit edit_group_path(group)
       expect(page).to have_link('Cancel', href: group_path(group))
     end
 
     scenario 'Cancelling a new form' do
-      javascript_log_in
       visit new_group_path
       expect(page).to have_link('Cancel', href: 'javascript:history.back()')
     end
@@ -309,22 +293,6 @@ feature 'Group maintenance' do
       group = create(:group, name: 'Digital Services', parent: dept)
       visit edit_group_path(group)
       expect(home_page.flash_message).to have_content('Unauthorised')
-    end
-  end
-
-  context 'for a readonly user', user: :readonly do
-    scenario 'Is not allowed to create a new team' do
-      visit group_path(dept)
-      expect(page).not_to have_link('Add new sub-team')
-
-      visit new_group_group_path(dept)
-      expect(login_page).to be_displayed
-    end
-
-    scenario 'Is not allowed to edit a team' do
-      group = create(:group, name: 'Digital Services', parent: dept)
-      visit edit_group_path(group)
-      expect(login_page).to be_displayed
     end
   end
 end

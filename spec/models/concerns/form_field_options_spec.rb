@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Concerns::FormFieldOptions do
-  include PermittedDomainHelper
-
   describe '.works_weekends?' do
     let(:weekday_person) { create(:person) }
     let(:weekend_person) { create(:person,  works_saturday: true) }

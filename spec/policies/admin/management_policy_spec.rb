@@ -21,12 +21,4 @@ RSpec.describe Admin::ManagementPolicy, type: :policy do
       it { is_expected.not_to permit_action(action) }
     end
   end
-
-  context 'for the readonly user' do
-    let(:user) { build_stubbed(:readonly_user) }
-
-    ACTIONS.each do |action|
-      it { is_expected.not_to permit_action(action) }
-    end
-  end
 end

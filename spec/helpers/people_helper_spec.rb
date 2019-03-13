@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe PeopleHelper, type: :helper do
-  include PermittedDomainHelper
-
   describe 'day_name' do
     it "returns a name for each day" do
       expect(day_name(:works_wednesday)).to eql("Wednesday")

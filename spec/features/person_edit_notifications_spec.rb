@@ -2,7 +2,6 @@ require 'rails_helper'
 
 feature 'Person edit notifications' do
   include ActiveJobHelper
-  include PermittedDomainHelper
 
   let(:person) { create(:person, email: 'test.user@digital.justice.gov.uk') }
 
@@ -70,15 +69,6 @@ feature 'Person edit notifications' do
     expect do
       click_button 'Save', match: :first
     end.not_to change { ActionMailer::Base.deliveries.count }
-  end
-
-  scenario 'Verifying the link to bob that is render in the emails', user: :regular do
-    bob = create(:person, email: 'bob@digital.justice.gov.uk', surname: 'bob')
-    visit token_url(Token.for_person(bob), desired_path: person_path(bob))
-
-    within('h1') do
-      expect(page).to have_text('bob')
-    end
   end
 
   def check_email_to_and_from(from: 'test.user@digital.justice.gov.uk')

@@ -42,8 +42,6 @@
           .mod-wrap-text.formatted-text
             = govspeak(@department.with_placeholder_default(:description))
 
-          - if @department.children.present? && feature_enabled?('organogram')
-            = link_to "View printable organogram", organogram_group_path(@department)
           - unless @department.leaf_node?
             - if @all_people_count > 0 && @department.parent.present?
               = link_to "View #{ @all_people_count > 1 ? 'all' : '' } people", people_group_path(@department), class: 'view-all-people'

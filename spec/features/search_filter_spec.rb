@@ -5,7 +5,6 @@ feature 'Search results page' do
 
   def create_test_data
     clean_up_indexes_and_tables
-    create(:permitted_domain)
     create(:group, name: 'HMP Browne')
     create(:group, name: 'SMT Browne')
     create(:person, given_name: 'Jim', surname: 'Browne')
@@ -16,7 +15,7 @@ feature 'Search results page' do
 
   before do
     create_test_data
-    mock_readonly_user
+    omni_auth_log_in_as 'test.user@digital.justice.gov.uk'
     visit '/'
   end
 

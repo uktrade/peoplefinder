@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 feature 'Management flow' do
-  include PermittedDomainHelper
-
   let(:email) { 'test.user@digital.justice.gov.uk' }
   let(:base_page) { Pages::Base.new }
   let(:management_page) { Pages::Management.new }

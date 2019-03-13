@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe PeopleController, type: :controller do
-  include PermittedDomainHelper
-
   before do |example|
     mock_logged_in_user unless example.metadata[:user] == :super_admin
   end

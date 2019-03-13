@@ -18,8 +18,6 @@
 require 'rails_helper'
 
 RSpec.describe QueuedNotification, type: :model do
-  include PermittedDomainHelper
-
   describe 'change_hash' do
     let(:my_hash) do
       { 'json_class'=>'ProfileChangesPresenter', 'data' => { 'raw' => { 'given_name' => %w(John joanna), 'surname' => %w(Doe Fawn) } } }

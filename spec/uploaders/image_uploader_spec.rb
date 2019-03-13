@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe ImageUploader, type: :uploader do
   include CarrierWave::Test::Matchers
-  include PermittedDomainHelper
 
   before do
     described_class.enable_processing = true

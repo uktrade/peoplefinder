@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Concerns::Acquisition do
-  include PermittedDomainHelper
-
   context '.acquired_percentage' do
     it 'returns 0 when no profiles' do
       expect(Person.acquired_percentage).to eq(0)

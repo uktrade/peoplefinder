@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe GeckoboardPublisher::ProfilesPercentageReport, geckoboard: true do
-  include PermittedDomainHelper
-
   it_behaves_like 'geckoboard publishable report'
 
   describe '#fields' do

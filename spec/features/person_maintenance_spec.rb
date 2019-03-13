@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'Person maintenance' do
-  include PermittedDomainHelper
   include ActiveJobHelper
 
   let(:department) { create(:department) }
@@ -21,14 +20,9 @@ feature 'Person maintenance' do
     omni_auth_log_in_as super_admin.email
   end
 
-  before(:each, user: :readonly) do
-    mock_readonly_user
-  end
-
   let(:edit_profile_page) { Pages::EditProfile.new }
   let(:new_profile_page) { Pages::NewProfile.new }
   let(:profile_page) { Pages::Profile.new }
-  let(:login_page) { Pages::Login.new }
   let(:email_confirm_page) { Pages::PersonEmailConfirm.new }
 
   let(:completion_prompt_text) do
@@ -36,19 +30,10 @@ feature 'Person maintenance' do
   end
 
   context 'Creating a person' do
-
-    context 'for a read only user', user: :readonly do
-      scenario 'is not allowed without login' do
-        new_profile_page.load
-        expect(login_page).to be_displayed
-      end
-    end
-
     context 'for a regular user', user: :regular do
       scenario 'Creating a person with a complete profile', js: true do
         create(:group, name: 'Digital')
 
-        javascript_log_in
         visit new_person_path
         expect(page).to have_title("New profile - #{app_title}")
         expect(page).not_to have_text(completion_prompt_text)
@@ -84,16 +69,7 @@ feature 'Person maintenance' do
         expect(new_profile_page.error_summary).to have_email_error
       end
 
-      scenario 'Creating a person with e-mail from an unsupported domain raises an error' do
-        new_profile_page.load
-        new_profile_page.form.email.set 'name.surname@example.com'
-        new_profile_page.form.save.click
-
-        expect(new_profile_page.error_summary).to have_email_error
-      end
-
       scenario 'Creating a person with no team membership raises a membership required error and builds empty membership', js: true do
-        javascript_log_in
         visit new_person_path
         expect(new_profile_page).to be_displayed
         fill_in 'First name', with: person_attributes[:given_name]
@@ -110,7 +86,6 @@ feature 'Person maintenance' do
       end
 
       scenario 'Creating a person with a team membership but no team chosen raises a team required error', js: true do
-        javascript_log_in
         visit new_person_path
         expect(new_profile_page).to be_displayed
         fill_in 'First name', with: person_attributes[:given_name]
@@ -127,7 +102,6 @@ feature 'Person maintenance' do
         create(:group, name: 'Digital')
         create(:person, given_name: person_attributes[:given_name], surname: person_attributes[:surname])
 
-        javascript_log_in
         visit new_person_path
         fill_in_complete_profile_details
 
@@ -165,17 +139,8 @@ feature 'Person maintenance' do
   end
 
   context 'Editing a person' do
-    context 'for a read only user', user: :readonly do
-      scenario 'is not allowed without login' do
-        visit person_path(create(:person, person_attributes))
-        click_edit_profile
-        expect(login_page).to be_displayed
-      end
-    end
-
     context 'for a regular user', user: :regular do
       scenario 'Editing a person', js: true do
-        javascript_log_in
         visit person_path(create(:person, person_attributes))
         click_edit_profile
 
@@ -226,7 +191,6 @@ feature 'Person maintenance' do
       end
 
       scenario 'Validates required fields on team memberships', js: true do
-        javascript_log_in
         visit person_path(another_person)
         click_edit_profile
         click_link 'Join another team'
@@ -237,7 +201,6 @@ feature 'Person maintenance' do
       end
 
       scenario 'Validates existence of at least one team membership', js: true do
-        javascript_log_in
         visit person_path(another_person)
         expect(another_person.memberships.count).to eql 1
         click_edit_profile
@@ -254,7 +217,6 @@ feature 'Person maintenance' do
         role = 'Boss'
         create(:person, :member_of, team: department, role: role, leader: true)
 
-        javascript_log_in
         visit person_path(person)
         click_edit_profile
         expect(edit_profile_page).to have_selector('.membership.panel', count: 1)
@@ -272,14 +234,6 @@ feature 'Person maintenance' do
         edit_profile_page.load(slug: person.slug)
         edit_profile_page.form.email.set existing_person.email
         edit_profile_page.form.save.click
-        expect(edit_profile_page.error_summary).to have_email_error
-      end
-
-      scenario 'Editing a person to have an unpermitted e-mail raises an error' do
-        edit_profile_page.load(slug: person.slug)
-        edit_profile_page.form.email.set 'whatevers@big.blackhole.com'
-        edit_profile_page.form.save.click
-
         expect(edit_profile_page.error_summary).to have_email_error
       end
 
@@ -380,22 +334,6 @@ feature 'Person maintenance' do
   end
 
   context 'Viewing another person\'s profile' do
-
-    context 'for the readonly user', user: :readonly do
-      scenario 'when it is complete' do
-        complete_profile!(another_person)
-        visit person_path(another_person)
-        expect(page).not_to have_text('Profile completeness')
-      end
-
-      scenario 'when it is not complete' do
-        visit person_path(another_person)
-        expect(page).to have_text('Profile completeness')
-        click_link 'complete this profile', match: :first
-        expect(login_page).to be_displayed
-      end
-    end
-
     context 'for a regular user', user: :regular do
       scenario 'when it is complete' do
         complete_profile!(another_person)

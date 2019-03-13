@@ -5,7 +5,6 @@ RSpec.describe PersonSearch, elastic: true do
 
   before(:all) do
     clean_up_indexes_and_tables
-    PermittedDomain.find_or_create_by(domain: 'digital.justice.gov.uk')
     @alice = create(:person, given_name: 'Alice', surname: 'Andrews', current_project: 'digital project')
     @bob = create(:person, given_name: 'Bob', surname: 'Browning',
              location_in_building: '10th floor', building: '102 Petty France',

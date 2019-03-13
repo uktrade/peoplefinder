@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe PersonCreator, type: :service do
-  include PermittedDomainHelper
   let(:person) do
     double(
       'Person',

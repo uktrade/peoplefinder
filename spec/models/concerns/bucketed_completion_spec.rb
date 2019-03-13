@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'BucketedCompletion' do # rubocop:disable RSpec/DescribeClass
-  include PermittedDomainHelper
-
   xcontext '.bucketed_completion' do
     def create_bucketed_people
       create(:person)

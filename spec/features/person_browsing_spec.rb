@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 feature 'Person browsing' do
-  include PermittedDomainHelper
-
   let(:department) { create(:department) }
   before do
     department

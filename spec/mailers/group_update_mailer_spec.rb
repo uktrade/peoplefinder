@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe GroupUpdateMailer do
-  include PermittedDomainHelper
-
   let(:recipient) { create(:person, email: 'test.user@digital.justice.gov.uk') }
   let(:instigator) { create(:person) }
   let(:group) { create(:person) }

@@ -1,6 +1,6 @@
 class GroupsController < ApplicationController
   before_action :set_group, only: [
-    :show, :edit, :update, :destroy, :all_people, :people_outside_subteams, :organogram
+    :show, :edit, :update, :destroy, :all_people, :people_outside_subteams
   ]
   before_action :set_org_structure, only: [:new, :edit, :create, :update]
   before_action :load_versions, only: [:show]
@@ -30,10 +30,6 @@ class GroupsController < ApplicationController
   # GET /teams/slug_or_id/people
   def all_people
     @people_in_subtree = @group.all_people.paginate(page: params[:page], per_page: 500)
-  end
-
-  # GET /teams/slug_or_id/organogram
-  def organogram
   end
 
   # GET /groups/new

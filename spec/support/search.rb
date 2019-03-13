@@ -5,7 +5,6 @@ module SpecSupport
       Membership.delete_all
       Person.delete_all
       Group.delete_all
-      PermittedDomain.delete_all
 
       # => paper trail is behaving inappropriately and versions are still created
       # => PaperTrail.enabled? should be 'false' unless implicitly set.

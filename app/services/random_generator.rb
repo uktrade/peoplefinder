@@ -19,21 +19,15 @@ class RandomGenerator
     @people_per_group = people_per_group
     @domain = domain
 
-    permit_domain(@domain)
     generate_level(@group, 0)
   end
 
   def generate_members(no_of_people = 3, domain = Faker::Internet.domain_name)
     @domain = domain
-    permit_domain(@domain)
     no_of_people.times { create_person @group }
   end
 
   private
-
-  def permit_domain(domain)
-    PermittedDomain.find_or_create_by!(domain: domain)
-  end
 
   def generate_level(group, level)
     if level == @groups_levels

@@ -1,12 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe PersonEmailController, type: :controller do
-  include PermittedDomainHelper
-
   let(:valid_attributes) { attributes_for(:person) }
   let(:invalid_attributes) { { surname: '' } }
   let(:new_email) { 'my-new-email@digital.justice.gov.uk' }
-  let(:token) { create(:token, user_email: new_email, spent: true) }
   let(:oauth_hash) do
     OmniAuth::AuthHash.new(
       provider: 'ditsso_internal',
@@ -60,25 +57,6 @@ RSpec.describe PersonEmailController, type: :controller do
 
       it 'raises routing error for handling by server as Not Found' do
         expect { request }.to raise_error ActionController::RoutingError, 'Not Found'
-      end
-    end
-
-    context 'with token authentication' do
-      context 'with a valid token' do
-        before do
-          get :edit, params: { person_id: person.to_param, token_value: token.value }
-        end
-
-        include_examples 'renders edit template'
-      end
-
-      context 'with an expired token' do
-        let(:token) { create(:token, user_email: new_email, spent: true, created_at: (Token::DEFAULT_EXTRA_EXPIRY_PERIOD+1).ago) }
-        let(:request) { get :edit, params: { person_id: person.to_param, token_value: token.value } }
-
-        it 'raises routing error for handling by server as Not Found' do
-          expect { request }.to raise_error ActionController::RoutingError, 'Not Found'
-        end
       end
     end
 
@@ -151,27 +129,10 @@ RSpec.describe PersonEmailController, type: :controller do
       end
     end
 
-    context 'with a valid token' do
-      subject { put :update, params: { person_id: person.to_param, person: new_attributes, token_value: token.value } }
-
-      include_examples 'updates the person'
-    end
-
-    context 'with an expired token' do
-      let(:token) { create(:token, user_email: new_email, spent: true, created_at: (Token::DEFAULT_EXTRA_EXPIRY_PERIOD+1).ago) }
-      let(:request) { put :update, params: { person_id: person.to_param, person: new_attributes, token_value: token.value } }
-
-      it 'raises routing error for handling by server as Not Found' do
-        expect { request }.to raise_error ActionController::RoutingError, 'Not Found'
-      end
-    end
-
     context 'with oauth authentication' do
       subject { put :update, params: { person_id: person.to_param, person: new_attributes, oauth_hash: oauth_hash } }
 
       include_examples 'updates the person'
     end
-
   end
-
 end

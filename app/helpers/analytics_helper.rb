@@ -8,12 +8,6 @@ module AnalyticsHelper
     }
   end
 
-  def token_request_analytics_attributes
-    {
-      'virtual-pageview': '/sessions/token-request'
-    }
-  end
-
   def edit_profile_analytics_attributes(person_id = nil)
     {
       'virtual-pageview': '/people/edit-click',

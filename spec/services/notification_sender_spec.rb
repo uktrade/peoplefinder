@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe NotificationSender do
-  include PermittedDomainHelper
-
   describe '#send!' do
 
     let(:person) { create :person, id: 22 }
