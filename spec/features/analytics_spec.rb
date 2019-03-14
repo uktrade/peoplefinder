@@ -1,18 +1,8 @@
 require 'rails_helper'
 
 feature 'Google Analytics tracking' do
-  include PermittedDomainHelper
-
   let(:person) { create :person }
   let(:group) { create :group }
-
-  context 'Token request button' do
-    it 'has virtual-pageview data to pass GA' do
-      visit new_sessions_path(person)
-      node = find_button('Request link')
-      expect(node['data-virtual-pageview']).to eql '/sessions/token-request'
-    end
-  end
 
   context 'Edit profile links' do
     before do

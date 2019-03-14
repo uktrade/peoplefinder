@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe MembershipChangesPresenter, type: :presenter do
-  include PermittedDomainHelper
-
   let(:person) { create(:person) }
   let(:moj) { create(:department) }
   let(:ds) { create(:group, name: 'Digital Services') }

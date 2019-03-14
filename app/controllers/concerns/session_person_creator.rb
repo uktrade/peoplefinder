@@ -4,21 +4,11 @@ module SessionPersonCreator
   included do
     def person_from_oauth(auth_hash)
       email = EmailAddress.new(auth_hash['info']['email'])
-      return unless email.permitted_domain?
       find_or_create_person(email) do |new_person|
         new_person.email = email
         new_person.internal_auth_key = email
         new_person.given_name = auth_hash['info']['first_name'].try(:titleize)
         new_person.surname = auth_hash['info']['last_name'].try(:titleize)
-      end
-    end
-
-    def person_from_token(token)
-      email = EmailAddress.new(token.user_email)
-      find_or_create_person(email) do |new_person|
-        new_person.email = email
-        new_person.given_name = email.inferred_first_name
-        new_person.surname = email.inferred_last_name
       end
     end
 

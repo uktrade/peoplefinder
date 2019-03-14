@@ -42,24 +42,10 @@ module Peoplefinder
 
     config.department_abbrev = 'DIT'
 
-    # hides link to View printable organogram
-    config.disable_organogram = true
-
-    # disable token authentication (hides fields from login page)
-    config.disable_token_auth = true
-
-    # disable permitted domain checks (allows user from any domain)
-    config.disable_permitted_domain_checks = true
-
     # disabling the adding/editing/deletion of another person's profile
     config.disable_open_profiles = false
 
-    # disabling the ability to make suggestions to people's profiles
-    config.disable_suggestions = true
-
     config.admin_ip_ranges = ENV.fetch('ADMIN_IP_RANGES', '127.0.0.1')
-
-    config.readonly_ip_whitelist = ENV.fetch('READONLY_IP_WHITELIST', '127.0.0.1')
 
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
 
@@ -80,8 +66,6 @@ module Peoplefinder
 
     config.rack_timeout = (ENV['RACK_TIMEOUT'] || 14)
 
-    config.max_tokens_per_hour = ENV['MAX_TOKENS_PER_HOUR']
-
     config.action_mailer.default_url_options = {
       host: ENV['ACTION_MAILER_DEFAULT_URL'],
       protocol: 'https'
@@ -93,10 +77,6 @@ module Peoplefinder
 
     # Note: ENV is set to 'dev','staging','production' on dev,staging, production respectively
     config.send_reminder_emails = (ENV['ENV'] == 'production')
-
-    # The following values are required by the phase banner
-    config.phase = 'live'
-    config.feedback_url = 'https://docs.google.com/a/digital.justice.gov.uk/forms/d/1dJ9xQ66QFvk8K7raf60W4ZXfK4yTQ1U3EeO4OLLlq88/viewform'
 
     # make the geckoboard publisher available generally
     # NOTE: may need to eager load paths instead if lib code is commonly called

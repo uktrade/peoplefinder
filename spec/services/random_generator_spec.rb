@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe RandomGenerator do
-  include PermittedDomainHelper
-
   let(:group) { create(:group) }
   subject { described_class.new(group) }
 
@@ -31,10 +29,6 @@ RSpec.describe RandomGenerator do
     let(:domain) { 'digital.justice.gov.uk' }
     before do
       subject.generate(groups_levels, groups_per_level, people_per_group, domain)
-    end
-
-    it 'adds permitted domain' do
-      expect(PermittedDomain.pluck(:domain)).to include domain
     end
 
     it 'generates all levels of groups' do

@@ -6,16 +6,10 @@ class EmailAddress
 
   def initialize(string)
     @raw_address = string
-    @valid_login_domains = default_valid_login_domains
     @mail_address = Mail::Address.new(string)
     @parsed_ok = true
   rescue Mail::Field::ParseError
     @parsed_ok = false
-  end
-
-  def permitted_domain?
-    return true if Rails.configuration.disable_permitted_domain_checks
-    valid_login_domains.any? { |pattern| pattern === domain }
   end
 
   def valid_format?
@@ -23,7 +17,7 @@ class EmailAddress
   end
 
   def valid_address?
-    valid_format? && permitted_domain?
+    valid_format?
   end
 
   def inferred_last_name
@@ -40,8 +34,6 @@ class EmailAddress
 
   private
 
-  attr_reader :valid_login_domains
-
   def canonical_address?
     address == @raw_address
   end
@@ -56,10 +48,6 @@ class EmailAddress
       [a-z]+       # top-level domain (no digits or hyphens)
       \z           # end of string
     /xi)
-  end
-
-  def default_valid_login_domains
-    PermittedDomain.pluck(:domain)
   end
 
   def capitalise(word)

@@ -15,7 +15,6 @@ Rails.application.routes.draw do
     resources :groups, only: [:new]
     get :people, on: :member, action: 'all_people'
     get :"people-outside-subteams", on: :member, action: 'people_outside_subteams'
-    get :organogram, on: :member, action: 'organogram'
   end
 
   resources :people do
@@ -25,7 +24,6 @@ Rails.application.routes.draw do
 
     resource :image, controller: 'person_image', only: [:edit, :update]
     resource :email, controller: 'person_email', only: [:edit, :update]
-    resources :suggestions, only: [:new, :create]
     resource :deletion_request, controller: 'person_deletion_request',
                                 path: 'deletion-request',
                                 only: [:new, :create]
@@ -33,12 +31,6 @@ Rails.application.routes.draw do
 
   resource :sessions, only: [:new, :create, :destroy] do
     get :unsupported_browser, on: :new
-  end
-
-  resources :tokens, only: [:create, :destroy, :show] do
-    member do
-      get 'unsupported_browser'
-    end
   end
 
   match '/sessions/people', to: 'sessions#create_person', via: :post
@@ -57,8 +49,6 @@ Rails.application.routes.draw do
     resources :profiles, only: [:index]
     resources :team_descriptions, only: [:index]
   end
-
-  resources :problem_reports, only: [:create]
 
   namespace :admin do
     root to: 'management#show', as: :home

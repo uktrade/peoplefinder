@@ -1,11 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'search/person', type: :view do
-  include PermittedDomainHelper
-
   before(:all) do
     clean_up_indexes_and_tables
-    PermittedDomain.find_or_create_by(domain: 'digital.justice.gov.uk')
     create_list(:group, 4).each do |team|
       create(:person, :member_of, team: team, sole_membership: true)
     end

@@ -12,16 +12,6 @@ class SessionsController < ApplicationController
     oauth_login.call(self)
   end
 
-  def new
-    @unauthorised_login = session.delete(:unauthorised_login)
-    redirect_to unsupported_browser_new_sessions_path if unsupported_browser?
-  end
-
-  def destroy
-    Login.new(session, @current_user).logout
-    redirect_to '/'
-  end
-
   def create_person
     @person = Person.new(person_params)
     @person.skip_must_have_team = true

@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe PersonDeletionRequestMailer do
-  include PermittedDomainHelper
-
   let(:reporter) { create(:person, email: 'test.user@digital.justice.gov.uk') }
   let(:person) { create(:person) }
   let(:reported) { Time.now.to_i }

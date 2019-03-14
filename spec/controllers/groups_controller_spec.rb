@@ -19,8 +19,6 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe GroupsController, type: :controller do
-  include PermittedDomainHelper
-
   before do
     mock_logged_in_user(super_admin: true)
     Group.destroy_all

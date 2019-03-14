@@ -1,22 +1,6 @@
 require 'rails_helper'
 
-shared_examples "observe token_auth feature flag" do
-  it 'includes the token url with person show path as desired path' do
-    expect(mail.body).to have_text(token_url(Token.last, desired_path: person_path(person)))
-  end
-
-  context 'token_auth feature disabled' do
-    it "includes the person show url without an auth token" do
-      without_feature('token_auth') do
-        expect(mail.body).to have_text(person_url(person))
-      end
-    end
-  end
-end
-
 describe UserUpdateMailer do
-  include PermittedDomainHelper
-
   shared_examples "common #{described_class} mail elements" do
     it 'includes the email of the person who instigated the change' do
       %w(plain html).each do |part_type|

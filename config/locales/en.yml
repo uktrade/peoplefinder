@@ -70,39 +70,6 @@ en:
             %{sign_in_url}
           </h4>
         </p>
-  tokens:
-    show:
-      token_auth_disabled: "Sorry, that login link is invalid. Please login using your Google account."
-    unsupported_browser:
-      unsupported_browser_warning_html: |
-        <h1 id='error-summary-heading' class='heading-medium error-summary-heading'>
-          You are nearly there...
-        </h1>
-        <p>
-          You have clicked the link in the
-          <span style="font-weight: bold">
-            Access request to DIT People Finder
-          </span>
-          email and this has opened %{browser_name}.
-        </p>
-        <p>
-          However, to sign-in to People Finder you must use Firefox.
-        </p>
-        <p>
-          Please copy the link below and paste into Firefox.
-        </p>
-        <p>
-          <h4 class='heading-small'>
-            %{token_url}
-          </h4>
-        </p>
-    create:
-      title: Link sent — check your email
-      body_intro: We’re just emailing you a link to access People Finder. This can take up to 5 minutes.
-      body_ttl_warning: "When it arrives, click on the link (which is active for %{ttl}). This will log you in to People Finder and enable you to make any changes."
-      body_informative_html: Please check your inbox for this email from <a href="mailto:people-finder-support@digital.justice.gov.uk">people-finder-support@digital.justice.gov.uk</a>.
-      body_dont_panic: If you can’t find it, check your junk folder and add our address to your safe list.
-      token_auth_disabled: "Sorry, the alternate login method is not availabe. Please login using your Google account."
   controllers:
     admin:
       person_uploads:
@@ -125,16 +92,7 @@ en:
       unauthorised: *unauthorised
     home:
       top_level_group_needed: "To use the People Finder, first create a top-level group (without a parent)"
-    information_requests:
-      default_message: "Hello %{recipient}\n\nI’ve just seen your profile on People Finder and think it’s missing some details.\n\nWhy not help me, colleagues and other co-workers view the latest information on you by completing your profile.\n\nThanks,\n%{sender}"
-      message_sent: "Your message has been sent to %{person}"
     sessions:
-      person_confirm: *finish_profile_request
-      complete_profile: *finish_profile_request
-    tokens:
-      expired_token: |
-        The authentication token has expired.
-        Request a new link to log in.
       person_confirm: *finish_profile_request
       complete_profile: *finish_profile_request
     people:
@@ -176,8 +134,6 @@ en:
         <br/>
     problem_reports:
       report_sent: Your report has been sent. Thank you for reporting a problem.
-    reported_profiles:
-      message_sent: "Your message has been sent"
   memberships:
     team_selector_label:
       group: Team
@@ -378,32 +334,16 @@ en:
   person_deletion_request:
     instruction: If %{name} has left the department, please provide details in the form below. Our support team will confirm the details and remove the profile.
     your_details_hint: Your profile details will be included with the request.
-  suggestions:
-    thank_you_intro: Thank you for helping improve this profile.
-    thank_you_detail:
-      one: |
-        We’ve sent an email to the relevant person to make the changes you’ve
-        suggested.
-      other: |
-        We’ve sent emails to the relevant people to make the changes you’ve
-        suggested.
   problem_report_mailer:
     problem_report:
       subject: "Problem reported by People Finder user"
   reminder_mailer:
-    information_request:
-      subject: "Request to update your People Finder profile"
     never_logged_in:
       subject: 'Are your People Finder details up to date?'
     person_profile_update:
       subject: 'Are your People Finder details up to date?'
     team_description_missing:
       subject: 'Improve your team’s profile on People Finder'
-  suggestion_mailer:
-    person_email:
-      subject: "Your People Finder profile"
-    team_admin_email:
-      subject: "People Finder profile improvements"
   user_update_mailer:
     new_profile_email:
       subject: "You’re on DIT People Finder, check your profile today"
@@ -418,12 +358,7 @@ en:
   group_update_mailer:
     inform_subscriber:
       subject: "People Finder team updated"
-  token_mailer:
-    new_token_email:
-      subject: 'Access request to DIT People Finder'
   errors: &errors
-    information_request:
-      message_required: "You must enter a message to be sent to the person"
     person:
       general_message: "You need to add more information to complete your profile - see below."
     group:
@@ -434,10 +369,6 @@ en:
       invalid_domain: "you have entered can’t be used to access People Finder"
       extension_whitelist_error: "You are not allowed to upload %{extension} files, allowed types: %{allowed_types}"
     models:
-      token:
-        invalid_address: is not formatted correctly
-        invalid_domain: can’t be used to access People Finder
-        token_throttle_limit: "has reached the limit of %{limit} tokens requested within an hour"
       group:
         attributes:
           base:
@@ -453,13 +384,10 @@ en:
       permanent_secretary_unique_validator:
         leader:
           unique: "%{role} (leader of %{name}) already exists. Select \"No\" or change the current %{role}'s profile first"
-          # unique: "Leader, select \"No\" as there is already a Permanent Secretary (leader of Ministry of Justice). Alternatively, change the current Permanent Secretary's profile first"
   activerecord:
     errors:
       <<: *errors
     attributes:
-      token:
-        user_email: "Email address"
       person:
         given_name: "First name"
         email: Primary work email
@@ -515,7 +443,6 @@ en:
       hint_team_email_address: "Enter an email for people to get in touch with the team"
       hint_person_upload_group: |
         You can only upload people’s details to an existing team.
-      information_request_label: "Enter your message"
       location_in_building_hint: "For example, 10.30"
       building_hint: "For example, 102 Petty France"
       city_hint: "For example, London"
@@ -591,24 +518,6 @@ en:
         name: Team name
         acronym: Team initials (optional)
         description: Team description (optional)
-      suggestion:
-        missing_fields: Fill missing fields
-        missing_fields_info: Missing fields
-        incorrect_fields: Update incorrect fields
-        incorrect_first_name: First name
-        incorrect_last_name: Last name
-        incorrect_roles: Roles
-        incorrect_location_of_work: Location of work
-        incorrect_working_days: Working days
-        incorrect_phone_number: Phone number
-        incorrect_pager_number: Pager number
-        incorrect_image: Profile image
-        duplicate_profile: Remove duplicate profile
-        inappropriate_content: Remove inappropriate content
-        inappropriate_content_info: Inappropriate content
-        person_left: Remove the profile as the person has left MOJ
-        person_left_info: Additional information
-
     submit:
       person:
         create: "Save"
@@ -616,9 +525,6 @@ en:
       group:
         create: "Save"
         update: "Save"
-      information_request:
-        create: "Submit"
-        create: "Submit"
       person_upload:
         create: "Upload"
       problem_report:
@@ -645,10 +551,6 @@ en:
         name: Write out the name of your team in full. Do not use initials
         acronym: If your team is also known by its initials (eg HMCTS) add them below
         description: What is the role and purpose of the team?
-      suggestion:
-        missing_fields_info: Your message will be emailed to the person. You can make changes to the wording
-        person_left_info: Where they went, why, other (optional). Your message will be sent to team leaders
-
   will_paginate:
     models:
       person:

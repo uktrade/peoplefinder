@@ -2,7 +2,6 @@ require 'rails_helper'
 
 feature 'Sending deletion requests' do
   include ActiveJobHelper
-  include PermittedDomainHelper
 
   let(:requester) { create(:person, email: 'test.user@digital.justice.gov.uk') }
   let(:person) { create(:person, email: 'gone.user@digital.justice.gov.uk') }

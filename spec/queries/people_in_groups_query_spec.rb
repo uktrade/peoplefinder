@@ -15,7 +15,6 @@ describe PeopleInGroupsQuery do
 
     context 'finding' do
       before(:all) do
-        PermittedDomain.create(domain: 'digital.justice.gov.uk') unless PermittedDomain.exists?(domain: 'digital.justice.gov.uk')
         @moj = create :department
         @ds = create  :group, name: 'Digital Services', parent: @moj
         @ds_dev = create :group, name: 'Digital Development', parent: @ds
@@ -33,7 +32,6 @@ describe PeopleInGroupsQuery do
       end
 
       after(:all) do
-        PermittedDomain.destroy_all
         Group.destroy_all
         Membership.destroy_all
         Person.destroy_all

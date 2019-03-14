@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   private
 
   def user_for_paper_trail
-    logged_in_regular? ? current_user.id : nil
+    current_user.id if logged_in?
   end
 
   def info_for_paper_trail
@@ -36,13 +36,8 @@ class ApplicationController < ActionController::Base
   end
   helper_method :can_edit_profiles?
 
-  def can_make_suggestions?
-    Rails.configuration.disable_suggestions == false
-  end
-  helper_method :can_make_suggestions?
-
   def load_user
-    Login.current_user(session) || ReadonlyUser.from_request(request)
+    Login.current_user(session)
   end
 
   def current_user
@@ -57,16 +52,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :logged_in?
 
-  def logged_in_regular?
-    logged_in? && current_user.is_a?(Person)
-  end
-  helper_method :logged_in_regular?
-
-  def logged_in_readonly?
-    logged_in? && current_user.is_a?(ReadonlyUser)
-  end
-  helper_method :logged_in_readonly?
-
   def super_admin?
     logged_in? && current_user.super_admin?
   end
@@ -75,11 +60,7 @@ class ApplicationController < ActionController::Base
   def ensure_user
     return true if logged_in?
     session[:desired_path] = request.fullpath
-    if Rails.configuration.disable_token_auth
-      redirect_to '/auth/ditsso_internal'
-    else
-      redirect_to new_sessions_path
-    end
+    redirect_to '/auth/ditsso_internal'
   end
 
   def desired_path person
@@ -106,13 +87,7 @@ class ApplicationController < ActionController::Base
   end
 
   def user_not_authorized
-    if logged_in_readonly?
-      session[:desired_path] = request.fullpath
-      session[:unauthorised_login] = true
-      redirect_to new_sessions_path
-    elsif logged_in_regular?
-      warning :unauthorised
-      redirect_to home_path
-    end
+    warning :unauthorised
+    redirect_to home_path
   end
 end

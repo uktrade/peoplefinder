@@ -15,7 +15,6 @@ describe NamesakesQuery do
     end
 
     it 'returns expected records' do
-      %w( person.com person2.com person3.com person4.com ).each { |domain| create :permitted_domain, domain: domain }
       person.save!
       person2 = create(:person, given_name: 'Stephen', surname: 'Richards', email: 'stephen.richards@person2.com')
       person3 = create(:person, given_name: 'Stephen', surname: 'Richards', email: 'stephen.richards@person3.com')

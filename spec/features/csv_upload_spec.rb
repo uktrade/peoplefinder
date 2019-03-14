@@ -2,7 +2,6 @@ require 'rails_helper'
 
 feature 'Upload CSV' do
   include ActiveJobHelper
-  include PermittedDomainHelper
 
   let!(:group) { create(:group) }
   let(:email) { 'test.user@digital.justice.gov.uk' }

@@ -1,7 +1,6 @@
 shared_examples_for "session_person_creatable" do
 
   it { is_expected.to respond_to :person_from_oauth }
-  it { is_expected.to respond_to :person_from_token }
 
   let(:valid_auth_hash) do
     {
@@ -12,12 +11,6 @@ shared_examples_for "session_person_creatable" do
         'name' => 'John Doe'
       }
     }
-  end
-
-  let(:rogue_auth_hash) do
-    valid_auth_hash.deep_merge(
-      'info' => { 'email' => 'rogue.user@example.com' }
-    )
   end
 
   shared_examples 'existing person returned' do
@@ -55,15 +48,10 @@ shared_examples_for "session_person_creatable" do
       it_behaves_like 'existing person returned'
 
       it 'extracts email from auth hash' do
-        email_address = double('EmailAddress', permitted_domain?: true)
+        email_address = double('EmailAddress')
         expect(EmailAddress).to receive(:new).with(valid_auth_hash['info']['email']).and_return email_address
         subject
       end
-    end
-
-    context 'for invalid email' do
-      let(:auth_hash) { rogue_auth_hash }
-      it { is_expected.to be_nil }
     end
 
     context 'for a new person' do
@@ -75,22 +63,4 @@ shared_examples_for "session_person_creatable" do
       end
     end
   end
-
-  describe '.person_from_token' do
-    let(:token) { create(:token, user_email: 'aled.jones@digital.justice.gov.uk') }
-    subject { described_class.new.person_from_token(token) }
-
-    context 'for a new person' do
-      it_behaves_like 'new person created' do
-        let(:expected_email) { token.user_email }
-        let(:expected_name) { 'Aled Jones' }
-      end
-    end
-
-    context 'for an existing person' do
-      let!(:person) { create(:person_with_multiple_logins, given_name: 'aled', surname: 'jones', email: 'aled.jones@digital.justice.gov.uk') }
-      it_behaves_like 'existing person returned'
-    end
-  end
-
 end

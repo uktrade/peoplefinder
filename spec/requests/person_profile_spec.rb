@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe 'Person Profile API', type: :request do
-  include PermittedDomainHelper
-
   let(:parsed_json) { JSON.parse(response.body).with_indifferent_access }
   let(:attr_hash) { parsed_json['data']['attributes'] }
   let(:links_hash) { parsed_json['data']['links'] }

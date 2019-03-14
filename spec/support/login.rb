@@ -1,9 +1,5 @@
 module SpecSupport
   module Login
-    def mock_readonly_user
-      allow(ReadonlyUser).to receive(:from_request).and_return ReadonlyUser.new
-    end
-
     def mock_logged_in_user super_admin: false
       controller.session[::Login::SESSION_KEY] =
         create(:person, email: 'test.user@digital.justice.gov.uk', super_admin: super_admin).id
@@ -31,19 +27,6 @@ module SpecSupport
 
     def omni_auth_log_in_as_super_admin
       omni_auth_log_in_as create(:super_admin).email
-    end
-
-    def token_log_in_as(email)
-      token = create(:token, user_email: email)
-      visit token_path(token)
-    end
-
-    # TODO: This method should be removed and replaced with the
-    # `omni_auth_log_in_as` method in the future, as this now encapsulates
-    # log in behaviour.
-    #
-    def javascript_log_in
-      visit '/'
     end
   end
 end

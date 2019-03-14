@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 feature 'Group browsing' do
-  include PermittedDomainHelper
-
   let!(:department) { create(:department) }
   let!(:team) do
     team = create(:group, name: 'A Team', parent: department)
@@ -63,7 +61,6 @@ feature 'Group browsing' do
     expect(page).not_to have_text("Teams within #{current_group.name}")
     expect(page).not_to have_link("View all 0 people in #{current_group.name}")
     expect(page).not_to have_link("View 0 people not assigned to a sub-team")
-    expect(page).not_to have_link("View printable organogram")
   end
 
   context 'A team with people and subteams with people' do
@@ -79,7 +76,6 @@ feature 'Group browsing' do
       visit group_path(department)
       expect(page).not_to have_link("View all 7 people in #{department.name}")
       expect(page).to have_link("View 1 person not assigned to a sub-team")
-      expect(page).to have_link("View printable organogram")
     end
 
     scenario 'viewing text on page' do
@@ -120,19 +116,6 @@ feature 'Group browsing' do
       names.each do |name|
         expect(page).to have_link(name.join(' '))
       end
-    end
-
-    scenario 'following the view printable organogram link' do
-      visit group_path(team)
-      click_link("View printable organogram")
-
-      expect(page).to have_title("#{team.name} Organogram - #{app_title}")
-      within('.breadcrumbs') do
-        expect(page).to have_link(team.name)
-        expect(page).to have_text('Organogram')
-      end
-
-      expect(page).to have_text("#{team.name}’s organogram")
     end
   end
 

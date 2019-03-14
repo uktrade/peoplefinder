@@ -57,7 +57,6 @@ GEM
       rake (>= 10.4, < 12.0)
     arel (8.0.0)
     ast (2.4.0)
-    awesome_print (1.7.0)
     aws-sdk (2.9.16)
       aws-sdk-resources (= 2.9.16)
     aws-sdk-core (2.9.16)
@@ -317,7 +316,6 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     nenv (0.3.0)
-    netaddr (1.5.0)
     nio4r (2.3.1)
     nokogiri (1.10.1)
       mini_portile2 (~> 2.4.0)
@@ -411,8 +409,6 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
-    recipient_interceptor (0.1.2)
-      mail
     request_store (1.4.1)
       rack (>= 1.4)
     rinku (2.0.5)
@@ -545,7 +541,6 @@ DEPENDENCIES
   activerecord-session_store
   ancestry (~> 3.0.5)
   annotate
-  awesome_print
   aws-sdk (~> 2.5, >= 2.5.5)
   binding_of_caller
   brakeman
@@ -588,7 +583,6 @@ DEPENDENCIES
   meta_request
   mini_magick
   minitest
-  netaddr
   omniauth-oauth2
   paper_trail (~> 8.1.2)
   pg
@@ -601,7 +595,6 @@ DEPENDENCIES
   rails-controller-testing
   rails_12factor
   rb-fsevent
-  recipient_interceptor (~> 0.1.2)
   rspec-json_expectations
   rspec-rails
   rubocop

@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Completion' do # rubocop:disable RSpec/DescribeClass
-  include PermittedDomainHelper
-
   let(:completed_attributes) do
     {
       given_name: 'Bobby',

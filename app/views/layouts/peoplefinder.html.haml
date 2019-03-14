@@ -38,7 +38,7 @@
 
 - content_for :proposition_header do
   %ul.mobile-header
-    - if logged_in_regular?
+    - if logged_in?
       %li
         = link_to "Account", "#{person_path(current_user)}", class: "mobile-account-button"
     %li

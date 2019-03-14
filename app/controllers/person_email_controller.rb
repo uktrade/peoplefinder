@@ -37,10 +37,6 @@ class PersonEmailController < ApplicationController
 
   private
 
-  def token_value
-    params[:token_value] || params.dig(:person, :token_value)
-  end
-
   def oauth_hash
     params[:oauth_hash] || params.dig(:person, :oauth_hash)
   end
@@ -50,7 +46,6 @@ class PersonEmailController < ApplicationController
   end
 
   def set_auth
-    @token = Token.find_securely(token_value)
     @oauth_hash = oauth_hash
   end
 
@@ -59,7 +54,7 @@ class PersonEmailController < ApplicationController
   end
 
   def authenticated?
-    @token&.within_validity_period? || @oauth_hash.present?
+    @oauth_hash.present?
   end
 
   def set_new_emails
@@ -68,9 +63,7 @@ class PersonEmailController < ApplicationController
   end
 
   def new_email
-    if @token.present?
-      @token&.user_email
-    elsif @oauth_hash.present?
+    if @oauth_hash.present?
       @oauth_hash&.dig(:info, :email)
     end
   end

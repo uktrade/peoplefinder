@@ -12,9 +12,7 @@
 # whenever Jupiter is in aphelion, when the wolf lies with the lamb, etc.
 #
 # This means anything it runs should be idempotent (i.e. running `rake db:seed`
-# multiple times should have the same end result as running it once). See
-# `permitted_domains.rb` for an example of this.
+# multiple times should have the same end result as running it once).
 
 $:.unshift(Rails.root.join('db', 'seeds'))
 
-require 'permitted_domains'

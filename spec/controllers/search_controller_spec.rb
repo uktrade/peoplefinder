@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe SearchController, type: :controller do
-  include PermittedDomainHelper
-
   let(:group) { create(:group) }
   let(:person) { create(:person) }
   let(:person_search) { double(PersonSearch, perform_search: people_results) }

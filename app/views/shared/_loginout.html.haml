@@ -1,5 +1,5 @@
 .user-account
-  - if logged_in_regular?
+  - if logged_in?
     %a{:href => person_path(current_user)}
       = "Hi, #{current_user.given_name}"
       %span.update-account
@@ -8,5 +8,3 @@
         - else
           View your profile
     = profile_image_tag current_user, link: true
-  - if feature_enabled?('token_auth')
-    = link_to "Sign out", sessions_path, :method => :delete

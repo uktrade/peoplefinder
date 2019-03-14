@@ -4,7 +4,6 @@ describe DistinctMembershipQuery do
 
   before(:all) do
     clean_up_indexes_and_tables
-    PermittedDomain.find_or_create_by(domain: 'digital.justice.gov.uk')
     pf = create :group, name: 'Peoplefinder Team'
     cccd = create :group, name: 'CCCD'
     jk = create :person, given_name: 'Jeremy', surname: 'Katz'

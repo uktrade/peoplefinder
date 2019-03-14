@@ -4,7 +4,6 @@ feature 'Searching feature', elastic: true do
   extend FeatureFlagSpecHelper
 
   def create_test_data
-    PermittedDomain.find_or_create_by(domain: 'digital.justice.gov.uk')
     group = create(:group, name: 'HMP Wilsden')
     create(
       :person,

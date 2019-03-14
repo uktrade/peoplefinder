@@ -11,10 +11,6 @@ FactoryBot.define do
   sequence(:pager_number) { |n| '07600 %06d' % (900_000 + n) }
   sequence(:phone_number) { |n| '07700 %06d' % (900_000 + n) }
 
-  factory :permitted_domain do
-    domain { 'digital.justice.gov.uk' }
-  end
-
   factory :department, class: 'Group' do
     initialize_with do
       Group.where(ancestry_depth: 0).first_or_create(name: 'Ministry of Justice')
@@ -63,10 +59,6 @@ FactoryBot.define do
     end
 
     trait :with_random_dets do
-      after :build do
-        PermittedDomain.create(domain: 'example.com') unless PermittedDomain.exists?(domain: 'example.com')
-      end
-
       given_name { Faker::Name.unique.first_name }
       surname { Faker::Name.unique.last_name }
       email { "#{given_name}.#{surname}@example.com" }
@@ -78,7 +70,6 @@ FactoryBot.define do
 
     trait :for_demo_csv do
       after :build do |peep, _evaluator|
-        PermittedDomain.create(domain: 'example.com') unless PermittedDomain.exists?(domain: 'example.com')
         peep.memberships.first.role = Faker::Job.title
       end
 
@@ -143,14 +134,6 @@ FactoryBot.define do
 
   end
 
-  factory :information_request do
-    message { 'This is the information request message body' }
-  end
-
-  factory :token do
-    user_email { generate(:email) }
-  end
-
   factory :profile_photo do
     image do
       Rack::Test::UploadedFile.new(
@@ -189,9 +172,6 @@ FactoryBot.define do
         )
       end
     end
-  end
-
-  factory :readonly_user do
   end
 
   factory :report do

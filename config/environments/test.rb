@@ -17,12 +17,6 @@ Rails.application.configure do
   config.action_mailer.asset_host = 'http://www.example.com'
   config.active_job.queue_adapter = :test
 
-  # mock the fact we are NOT on an IP whitelist for test runs
-  config.readonly_ip_whitelist = nil
-
   # enable these features just for tests
-  config.disable_token_auth = false
-  config.disable_organogram = false
-  config.disable_permitted_domain_checks = false
   config.disable_open_profiles = false
 end

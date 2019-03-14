@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ProfilePhotosController, type: :controller do
-  include PermittedDomainHelper
-
   before do
     mock_logged_in_user
   end

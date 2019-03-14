@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe PersonCsvImporter, type: :service do
-
-  before do
-    allow(PermittedDomain).to receive(:pluck).with(:domain).and_return(['valid.gov.uk'])
-  end
-
   let(:group) { create(:group) }
   let(:creation_options) { { groups: [group] } }
 
@@ -94,8 +89,7 @@ RSpec.describe PersonCsvImporter, type: :service do
             PersonCsvImporter::ErrorRow.new(
               4, "jack@invalid.gov.uk,Jack,",
               [
-                'Surname is required',
-                'Primary work email you have entered can’t be used to access People Finder'
+                'Surname is required'
               ]
             )
           ])

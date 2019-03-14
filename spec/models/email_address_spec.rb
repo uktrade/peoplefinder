@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe EmailAddress do
-  let(:permitted_login_domains) { ['something.gov.uk'] }
-
-  before do
-    allow(PermittedDomain).to receive(:pluck).with(:domain).and_return permitted_login_domains
-  end
-
   subject { described_class.new(email) }
 
   describe '.to_s' do
@@ -14,52 +8,6 @@ RSpec.describe EmailAddress do
     let(:email_address) { described_class.new(email_string) }
     it 'returns string passed to initializer' do
       expect(email_address.to_s).to eq email_string
-    end
-  end
-
-  describe '.permitted_domain' do
-    context 'when disable_permitted_domain_checks = true' do
-      it "allows any domain" do
-        Rails.configuration.disable_permitted_domain_checks = true
-        expect(described_class.new('me@example.com')).to be_permitted_domain
-        Rails.configuration.disable_permitted_domain_checks = false
-      end
-    end
-
-    context 'with strings to match login domains' do
-      let(:permitted_login_domains) { ['dept.gov.uk'] }
-
-      it "does not match a similar domain" do
-        expect(described_class.new('me@dept-gov-uk.com')).not_to be_permitted_domain
-      end
-
-      it "does not match a subdomain" do
-        expect(described_class.new('me@sub.dept.gov.uk')).not_to be_permitted_domain
-      end
-
-      it "only matches the whole domain" do
-        expect(described_class.new('me@dept.gov.uk')).to be_permitted_domain
-      end
-
-      it "does not match against the local part of the address" do
-        expect(described_class.new('dept.gov.uk@dept.com')).not_to be_permitted_domain
-      end
-    end
-
-    context 'with regexp to match login domains' do
-      let(:permitted_login_domains) { [/depta?\.gov\.uk/] }
-
-      it "does not match a similar domain" do
-        expect(described_class.new('me@dept-gov.uk.com')).not_to be_permitted_domain
-      end
-
-      it "matches a subdomain" do
-        expect(described_class.new('me@dept.gov.uk')).to be_permitted_domain
-      end
-
-      it "does not match against the local part of the address" do
-        expect(described_class.new('depta.gov.uk@dept-gov-uk.com')).not_to be_permitted_domain
-      end
     end
   end
 
@@ -85,10 +33,6 @@ RSpec.describe EmailAddress do
     end
 
     it 'is badly formatted' do
-      expect(described_class.new('me-at-example.co.uk')).not_to be_valid_address
-    end
-
-    it 'is from a non-permitted domain' do
       expect(described_class.new('me-at-example.co.uk')).not_to be_valid_address
     end
 

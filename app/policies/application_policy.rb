@@ -15,8 +15,4 @@ class ApplicationPolicy
   def regular_user?
     @user.is_a?(Person)
   end
-
-  def readonly_user?
-    @user.is_a?(ReadonlyUser)
-  end
 end

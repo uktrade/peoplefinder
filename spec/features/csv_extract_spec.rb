@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 feature 'Super admin views CSV extracts' do
-  include PermittedDomainHelper
   let(:email) { 'test.user@digital.justice.gov.uk' }
 
   before do

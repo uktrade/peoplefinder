@@ -18,11 +18,4 @@ RSpec.describe Admin::PersonUploadPolicy, type: :policy do
     it { is_expected.not_to permit_action(:new) }
     it { is_expected.not_to permit_action(:create) }
   end
-
-  context 'for the readonly user' do
-    let(:user) { build_stubbed(:readonly_user) }
-
-    it { is_expected.not_to permit_action(:new) }
-    it { is_expected.not_to permit_action(:create) }
-  end
 end

@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
-  include PermittedDomainHelper
-
   it_behaves_like 'session_person_creatable'
 
   let!(:person) { create(:person, given_name: 'John', surname: 'Doe', email: 'john.doe@digital.justice.gov.uk') }
@@ -41,27 +39,6 @@ RSpec.describe SessionsController, type: :controller do
         name: 'Fred Bloggs'
       }
     )
-  end
-
-  describe 'GET new' do
-    context 'with supported browser' do
-      before do
-        allow_any_instance_of(described_class).to receive(:supported_browser?).and_return true
-        get :new
-      end
-      it 'renders new' do
-        expect(response).to render_template :new
-      end
-    end
-    context 'with unsupported browser' do
-      before do
-        allow_any_instance_of(described_class).to receive(:supported_browser?).and_return false
-        get :new
-      end
-      it 'redirects to warning page' do
-        expect(response).to redirect_to unsupported_browser_new_sessions_path
-      end
-    end
   end
 
   describe 'POST create' do
@@ -113,33 +90,6 @@ RSpec.describe SessionsController, type: :controller do
         it 'renders confirmation page' do
           post :create
           expect(response).to render_template(:person_confirm)
-        end
-
-        it 'does not create the new person' do
-          expect { post :create }.to_not change Person, :count
-        end
-      end
-
-      context 'using invalid omniauth hash' do
-        let(:invalid_omniauth_hash) do
-          OmniAuth::AuthHash.new(
-            provider: 'ditsso_internal',
-            info: {
-              email: 'rogue.user@example.com',
-              first_name: 'John',
-              last_name: 'Doe',
-              name: 'John Doe'
-            }
-          )
-        end
-
-        before do
-          request.env["omniauth.auth"] = invalid_omniauth_hash
-        end
-
-        it 'renders failed page' do
-          post :create
-          expect(response).to render_template :failed
         end
 
         it 'does not create the new person' do
