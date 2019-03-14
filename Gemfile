@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 ruby '2.5.3'
 
-gem 'rails', '~> 5.1.6'
+gem 'rails', '~> 5.1.6', '>= 5.1.6.2'
 gem 'text'
-gem 'active_model_serializers', '~> 0.10.2'
-gem 'activerecord-session_store'
+gem 'active_model_serializers', '~> 0.10.7'
+gem 'activerecord-session_store', '>= 1.1.1'
 gem 'ancestry', '~> 3.0.5'
 gem 'aws-sdk', '~> 2.5', '>= 2.5.5'
 gem 'country_select'
@@ -17,16 +17,16 @@ gem 'fastimage', '~> 2.1'
 gem 'fog-aws', '~> 2.0.1'
 gem 'foreman'
 gem 'friendly_id', '~> 5.2.5'
-gem 'govspeak'
-gem 'govuk_template',         '~> 0.19.2'
+gem 'govspeak', '>= 5.9.0'
+gem 'govuk_template', '~> 0.19.2'
 gem 'govuk_frontend_toolkit', '>= 5.2.0'
-gem 'govuk_elements_rails',   '>= 1.1.2'
-gem 'govuk_elements_form_builder', '>= 0.0.3', '~> 0.0'
+gem 'govuk_elements_rails', '>= 2.2.1'
+gem 'govuk_elements_form_builder', '~> 0.0', '>= 0.0.3'
 gem 'geckoboard-ruby', '~> 0.4.0'
-gem 'haml-rails'
+gem 'haml-rails', '>= 1.0.0'
 gem 'httparty'
 gem 'jbuilder', '~> 2.0'
-gem 'jquery-rails', '>= 4.0.4'
+gem 'jquery-rails', '>= 4.3.3'
 gem 'json'
 gem 'keen'
 gem 'mail'
@@ -34,7 +34,7 @@ gem 'mini_magick'
 gem 'omniauth-oauth2'
 gem 'paper_trail', '~> 8.1.2'
 gem 'pg'
-gem 'premailer-rails', '~> 1.9'
+gem 'premailer-rails', '~> 1.9', '>= 1.9.6'
 gem 'pundit', '~> 1.1'
 gem 'sass-rails', '~> 5.0.6'
 gem 'sentry-raven'
@@ -52,7 +52,7 @@ gem 'zendesk_api'
 gem 'carrierwave', '~> 1.1.0'
 
 group :assets do
-  gem 'coffee-rails'
+  gem 'coffee-rails', '>= 4.2.2'
 end
 
 group :production do
@@ -63,7 +63,7 @@ end
 group :development do
   gem 'spring-commands-rspec'
   gem 'rb-fsevent', require: RUBY_PLATFORM[/darwin/i].to_s.size > 0
-  gem 'meta_request'
+  gem 'meta_request', '>= 0.6.0'
   gem 'binding_of_caller'
   gem 'daemon'
 end
@@ -74,7 +74,7 @@ group :test do
   gem 'site_prism'
   gem 'webmock'
   gem 'whenever-test'
-  gem 'rails-controller-testing'
+  gem 'rails-controller-testing', '>= 1.0.4'
   gem 'rspec-json_expectations'
 end
 
@@ -82,23 +82,23 @@ group :development, :test do
   gem 'byebug'
   gem 'brakeman', require: false
   gem 'capybara'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '>= 4.11.1'
   gem 'launchy'
   gem 'minitest'
   gem 'poltergeist'
   gem 'pry-rails'
   gem 'pry-byebug'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '>= 3.8.1'
   gem 'shoulda-matchers', '~> 4.0.0.rc1'
   gem 'simplecov'
   gem 'timecop'
   gem 'guard-jasmine'
-  gem 'jasmine-rails'
+  gem 'jasmine-rails', '>= 0.12.2'
   gem 'rubocop'
   gem 'rubocop-rspec'
   gem 'annotate'
 end
 
 group :development, :test, :assets do
-  gem 'dotenv-rails'
+  gem 'dotenv-rails', '>= 2.4.0'
 end
