@@ -3,8 +3,11 @@ module SessionPersonCreator
 
   included do
     def person_from_oauth(auth_hash)
+      ditsso_user_id = auth_hash['uid']
       email = EmailAddress.new(auth_hash['info']['email'])
-      find_or_create_person(email) do |new_person|
+
+      find_or_create_person(email, ditsso_user_id) do |new_person|
+        new_person.ditsso_user_id = ditsso_user_id
         new_person.email = email
         new_person.internal_auth_key = email
         new_person.given_name = auth_hash['info']['first_name'].try(:titleize)
@@ -24,14 +27,22 @@ module SessionPersonCreator
 
     private
 
-    def find_or_create_person(email, &_on_create)
-      person = Person.where(internal_auth_key: email.to_s).first
-      person ||= Person.where(email: email.to_s).first_or_initialize
+    def find_or_create_person(email, ditsso_user_id, &_on_create)
+      Rails.logger.info "find_or_create_person - email: <#{email}>, ditsso_user_id: <#{ditsso_user_id}>"
+
+      person = (ditsso_user_id && Person.find_by(ditsso_user_id: ditsso_user_id))
+      person ||= Person.find_by(internal_auth_key: email.to_s)
+      person ||= Person.find_or_initialize_by(email: email.to_s)
 
       if person.new_record?
         yield(person)
       elsif person.internal_auth_key != email.to_s
         person.update_column(:internal_auth_key, email.to_s) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      # TODO: Can be removed once every person has a ditsso_user_id
+      unless person.new_record?
+        person.update_column(:ditsso_user_id, ditsso_user_id) # rubocop:disable Rails/SkipsModelValidations
       end
 
       person
