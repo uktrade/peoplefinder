@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SessionsController, type: :controller do
   it_behaves_like 'session_person_creatable'
 
-  let!(:person) { create(:person, given_name: 'John', surname: 'Doe', email: 'john.doe@digital.justice.gov.uk') }
+  let!(:person) { create(:person, given_name: 'John', surname: 'Doe', email: 'john.doe@digital.justice.gov.uk', ditsso_user_id: 'deadbeef') }
 
   let(:john_doe_omniauth_hash) do
     OmniAuth::AuthHash.new(
@@ -13,7 +13,21 @@ RSpec.describe SessionsController, type: :controller do
         first_name: 'John',
         last_name: 'Doe',
         name: 'John Doe'
-      }
+      },
+      uid: 'deadbeef'
+    )
+  end
+
+  let(:same_uid_as_john_doe_omniauth_hash) do
+    OmniAuth::AuthHash.new(
+      provider: 'ditsso_internal',
+      info: {
+        email: 'john.doe@totally-different.com',
+        first_name: 'Johnathan',
+        last_name: 'Doe-Jones',
+        name: 'Johnathan Doe-Jones'
+      },
+      uid: 'deadbeef'
     )
   end
 
@@ -25,7 +39,8 @@ RSpec.describe SessionsController, type: :controller do
         first_name: 'John',
         last_name: 'Doe',
         name: 'John Doe'
-      }
+      },
+      uid: 'c0ffee'
     )
   end
 
@@ -37,7 +52,8 @@ RSpec.describe SessionsController, type: :controller do
         first_name: 'Fred',
         last_name: 'Bloggs',
         name: 'Fred Bloggs'
-      }
+      },
+      uid: 'dec0de'
     )
   end
 
@@ -46,6 +62,21 @@ RSpec.describe SessionsController, type: :controller do
       context 'when person already exists' do
         before do
           request.env["omniauth.auth"] = john_doe_omniauth_hash
+        end
+
+        it 'does not create a user' do
+          expect { post :create }.to_not change Person, :count
+        end
+
+        it 'redirects to the person\'s profiles page' do
+          post :create
+          expect(response).to redirect_to person_path(person, prompt: 'profile')
+        end
+      end
+
+      context 'when person already exists with same UID but different email' do
+        before do
+          request.env["omniauth.auth"] = same_uid_as_john_doe_omniauth_hash
         end
 
         it 'does not create a user' do
@@ -73,12 +104,13 @@ RSpec.describe SessionsController, type: :controller do
           expect(person.email).to eql fred_bloggs_omniauth_hash['info']['email']
           expect(person.given_name).to eql fred_bloggs_omniauth_hash['info']['first_name']
           expect(person.surname).to eql fred_bloggs_omniauth_hash['info']['last_name']
+          expect(person.ditsso_user_id).to eql fred_bloggs_omniauth_hash['uid']
         end
 
         it 'redirects to the person\'s profile edit page, ignoring desired path' do
           request.session[:desired_path] = new_group_path
           post :create
-          expect(response).to redirect_to edit_person_path(Person.find_by(email: 'fred.bloggs@digital.justice.gov.uk'), page_title: "Create profile")
+          expect(response).to redirect_to edit_person_path(Person.find_by(ditsso_user_id: 'dec0de'), page_title: "Create profile")
         end
       end
 

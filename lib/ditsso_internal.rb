@@ -11,14 +11,15 @@ module OmniAuth
         token_url: "#{SSO_PROVIDER}/o/token/"
 
       uid do
-        raw_info['id']
+        raw_info['user_id']
       end
 
       info do
         {
           first_name: raw_info['first_name'],
           last_name: raw_info['last_name'],
-          email: raw_info['email'].downcase
+          email: raw_info['email'].downcase,
+          user_id: raw_info['user_id']
         }
       end
 

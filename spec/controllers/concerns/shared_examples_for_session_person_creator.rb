@@ -9,7 +9,8 @@ shared_examples_for "session_person_creatable" do
         'first_name' => 'John',
         'last_name' => 'Doe',
         'name' => 'John Doe'
-      }
+      },
+      'uid' => 'beef'
     }
   end
 
@@ -32,6 +33,10 @@ shared_examples_for "session_person_creatable" do
       it 'has correct name' do
         expect(subject.name).to eql(expected_name)
       end
+
+      it 'has correct SSO UUID' do
+        expect(subject.ditsso_user_id).to eql(expected_user_id)
+      end
     end
   end
 
@@ -52,6 +57,10 @@ shared_examples_for "session_person_creatable" do
         expect(EmailAddress).to receive(:new).with(valid_auth_hash['info']['email']).and_return email_address
         subject
       end
+
+      it 'updates the SSO UUID' do
+        expect(subject.ditsso_user_id).to eql('beef')
+      end
     end
 
     context 'for a new person' do
@@ -60,6 +69,7 @@ shared_examples_for "session_person_creatable" do
       it_behaves_like 'new person created' do
         let(:expected_email) { 'example.user@digital.justice.gov.uk' }
         let(:expected_name) { 'John Doe' }
+        let(:expected_user_id) { 'beef' }
       end
     end
   end
