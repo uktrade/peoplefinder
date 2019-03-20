@@ -28,15 +28,16 @@ module SessionPersonCreator
     private
 
     def find_or_create_person(email, ditsso_user_id, &_on_create)
-      Rails.logger.info "find_or_create_person - email: <#{email}>, ditsso_user_id: <#{ditsso_user_id}>"
-
-      person = (ditsso_user_id && Person.find_by(ditsso_user_id: ditsso_user_id))
-      person ||= Person.find_by(internal_auth_key: email.to_s)
+      person = find_person_by_ditsso_user_id(ditsso_user_id)
+      person ||= find_person_by_internal_auth_key(email)
       person ||= Person.find_or_initialize_by(email: email.to_s)
 
       if person.new_record?
         yield(person)
+        Rails.logger.info "[SessionPersonCreator] Created new person by UUID: <#{ditsso_user_id}>, email: <#{email}>"
       elsif person.internal_auth_key != email.to_s
+        Rails.logger.info "[SessionPersonCreator] Found person by email: <#{email}> with "\
+          "mismatching internal_auth_key: <#{person.internal_auth_key}>"
         person.update_column(:internal_auth_key, email.to_s) # rubocop:disable Rails/SkipsModelValidations
       end
 
@@ -44,6 +45,22 @@ module SessionPersonCreator
       unless person.new_record?
         person.update_column(:ditsso_user_id, ditsso_user_id) # rubocop:disable Rails/SkipsModelValidations
       end
+
+      person
+    end
+
+    def find_person_by_ditsso_user_id(ditsso_user_id)
+      return unless ditsso_user_id
+
+      person = Person.find_by(ditsso_user_id: ditsso_user_id)
+      Rails.logger.info "[SessionPersonCreator] Found person by ditsso_user_id: <#{ditsso_user_id}>" if person
+
+      person
+    end
+
+    def find_person_by_internal_auth_key(email)
+      person = Person.find_by(internal_auth_key: email.to_s)
+      Rails.logger.info "[SessionPersonCreator] Found person by internal_auth_key: <#{email}>" if person
 
       person
     end
