@@ -13,7 +13,7 @@ namespace :peoplefinder do
             puts "[ ] Updating <#{person.internal_auth_key}> with UUID <#{ditsso_user_id}>"
             person.update_column(:ditsso_user_id, ditsso_user_id) if commit_changes
           else
-            puts "[!] Did not find UUID for <#{person.internal_auth_key}> (ID: #{person.id})"
+            puts "[!] Did not find UUID for <#{person.internal_auth_key}> (ID: #{person.id}, email: #{person.email})"
           end
         end
       end
