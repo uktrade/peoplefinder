@@ -6,10 +6,12 @@ class AuthUserLoader
     end
   end
 
-  attr_reader :auth_email
+  attr_reader :auth_email, :ditsso_user_id
 
   def initialize(email)
-    @auth_email = from_api(email)
+    api_result = from_api(email)
+    @auth_email = api_result['email']
+    @ditsso_user_id = api_result['user_id']
   end
 
   private
@@ -27,7 +29,7 @@ class AuthUserLoader
       }
     )
 
-    return nil unless response.success?
-    JSON.parse(response.body)['email']
+    return {} unless response.success?
+    JSON.parse(response.body)
   end
 end

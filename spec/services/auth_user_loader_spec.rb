@@ -16,4 +16,20 @@ describe AuthUserLoader, auth_user_loader: true do
       it { expect(subject).to eq('auth_user@example.com') }
     end
   end
+
+  context '#ditsso_user_id' do
+    subject { described_class.new(email).ditsso_user_id }
+
+    context 'when an auth user is not found' do
+      let(:email) { 'nobody@example.com' }
+
+      it { expect(subject).to be_nil }
+    end
+
+    context 'when an auth user is found' do
+      let(:email) { 'somebody@example.com' }
+
+      it { expect(subject).to eq('deadbeef') }
+    end
+  end
 end

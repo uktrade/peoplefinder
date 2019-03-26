@@ -32,7 +32,9 @@ RSpec.configure do |config|
 
     stub_request(:get, 'http://test.local/api/v1/user/introspect?email=somebody@example.com').
       with(headers: { 'Authorization'=>'Bearer abc' }).
-      to_return(status: 200, body: { email: 'auth_user@example.com' }.to_json, headers: {})
+      to_return(status: 200, body: {
+        email: 'auth_user@example.com', user_id: 'deadbeef'
+      }.to_json, headers: {})
   end
 
   config.before :each, csv_report: true do

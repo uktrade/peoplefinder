@@ -1,5 +1,24 @@
 namespace :peoplefinder do
   namespace :accounts do
+    desc 'Update accounts with Staff SSO user IDs'
+    task :set_ditsso_uuids, [:commit_changes] => :environment do |_task, args|
+      commit_changes = (args[:commit_changes] == 'commit_changes')
+      puts '--- Dry run (changes will not be committed)' unless commit_changes
+
+      Person.where(ditsso_user_id: nil).find_in_batches do |group|
+        group.each do |person|
+          sleep 0.25
+          ditsso_user_id = AuthUserLoader.new(person.internal_auth_key).ditsso_user_id
+          if ditsso_user_id
+            puts "[ ] Updating <#{person.internal_auth_key}> with UUID <#{ditsso_user_id}>"
+            person.update_column(:ditsso_user_id, ditsso_user_id) if commit_changes
+          else
+            puts "[!] Did not find UUID for <#{person.internal_auth_key}> (ID: #{person.id})"
+          end
+        end
+      end
+    end
+
     desc 'Reconcile the internal_auth_key with the ABC record'
     task :reconcile, [:path] => :environment do  |_, args|
       ARGV.each { |a| task a.to_sym do ; end }
