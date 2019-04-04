@@ -127,6 +127,7 @@ RSpec.describe QueuedNotification, type: :model do
               'given_name' => [nil, 'Stephen'],
               'surname' => [nil, 'Jones'],
               'email' => [nil, 'sr@digital.justice.gov.uk'],
+              'ditsso_user_id' => [nil, 'deadbeef'],
               'internal_auth_key'=>[nil, 'sr@digital.justice.gov.uk'],
               'slug' => [nil, 'stephen-richards'],
               "membership_#{@moj.id}" => {
@@ -145,6 +146,7 @@ RSpec.describe QueuedNotification, type: :model do
               'given_name'=>[nil, 'John'],
               'surname'=>[nil, 'Jones'],
               'email'=>[nil, 'john.jones@digital.justice.gov.uk'],
+              'ditsso_user_id' => [nil, 'deadbeef'],
               'internal_auth_key'=>[nil, 'sr@digital.justice.gov.uk'],
               'slug'=>[nil, 'stephen-richards'],
               'works_friday'=>[true, false],
