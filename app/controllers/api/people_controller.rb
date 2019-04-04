@@ -13,7 +13,7 @@ module Api
     private
 
     def set_person
-      @person = Person.find_by(ditsso_user_id: params[:ditsso_user_id])
+      @person = Person.find_by(ditsso_user_id: params[:ditsso_user_id]) if params[:ditsso_user_id].present?
       @person ||= Person.find_by(internal_auth_key: params[:email])
       return if @person
 
