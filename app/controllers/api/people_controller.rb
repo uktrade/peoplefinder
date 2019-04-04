@@ -13,7 +13,8 @@ module Api
     private
 
     def set_person
-      @person = Person.find_by(internal_auth_key: params[:email])
+      @person = Person.find_by(ditsso_user_id: params[:ditsso_user_id])
+      @person ||= Person.find_by(internal_auth_key: params[:email])
       return if @person
 
       auth_user_email = AuthUserLoader.find_auth_email(params[:email])

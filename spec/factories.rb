@@ -40,6 +40,7 @@ FactoryBot.define do
     given_name
     surname
     email
+    ditsso_user_id { 'deadbeef' }
 
     # validation requires team membership existence
     after :build do |peep, _evaluator|
