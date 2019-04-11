@@ -1,7 +1,5 @@
 namespace :peoplefinder do
   namespace :data do
-    require Rails.root.join('app','services','person_csv_importer')
-
     DOMAIN = 'fake-moj.justice.gov.uk'.freeze
 
     class DemoGroupMemberships
@@ -84,33 +82,6 @@ namespace :peoplefinder do
         end
       end
       puts 'Generated data for steve\'s search scenario'
-    end
-
-    desc 'create a valid csv for load testing, [count: number of records=500], [email_prefix: prefix for email addresses generated=nil], [file: path to file=spec/fixtures/]'
-    task :demo_csv, [:count, :email_prefix, :file] => :environment do |_task, args|
-      require 'csv'
-
-      file = args[:file] || Rails.root.join('spec','fixtures','csv_load_tester.csv').to_path
-      count = (args[:count] || '500').to_i
-      CSV.open(file,'w') do |csv|
-        csv << csv_header
-        count.times do |i|
-          csv << csv_record(args[:email_prefix])
-        end
-      end
-    end
-
-    def csv_header
-      PersonCsvImporter::REQUIRED_COLUMNS + PersonCsvImporter::OPTIONAL_COLUMNS
-    end
-
-    def csv_record(email_prefix = nil)
-      person = FactoryBot.build(:person, :for_demo_csv)
-      person.email.prepend(email_prefix) if email_prefix.present?
-      csv_header.each_with_object([]) do |attribute, memo|
-        memo << person.__send__(attribute) if person.attributes.include? attribute.to_s
-        memo << person.memberships.first.__send__(attribute) if person.memberships.first.attributes.include? attribute.to_s
-      end
     end
 
     namespace :migration do
