@@ -2,20 +2,22 @@ module SpecSupport
   module Login
     def mock_logged_in_user super_admin: false
       controller.session[::Login::SESSION_KEY] =
-        create(:person, email: 'test.user@digital.justice.gov.uk', super_admin: super_admin).id
+        create(:person, ditsso_user_id: '007', super_admin: super_admin).id
     end
 
     def current_user
-      Person.where(email: 'test.user@digital.justice.gov.uk').first
+      Person.find_by(ditsso_user_id: '007')
     end
 
-    def omni_auth_log_in_as(email)
+    def omni_auth_log_in_as(ditsso_user_id)
       OmniAuth.config.test_mode = true
 
       OmniAuth.config.mock_auth[:ditsso_internal] = OmniAuth::AuthHash.new(
         provider: 'ditsso_internal',
+        uid: ditsso_user_id,
         info: {
-          email: email,
+          email: 'john.doe@trade.gov.uk',
+          user_id: ditsso_user_id,
           first_name: 'John',
           last_name: 'Doe',
           name: 'John Doe'
@@ -26,7 +28,7 @@ module SpecSupport
     end
 
     def omni_auth_log_in_as_super_admin
-      omni_auth_log_in_as create(:super_admin).email
+      omni_auth_log_in_as create(:super_admin).ditsso_user_id
     end
   end
 end

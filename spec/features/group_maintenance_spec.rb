@@ -9,7 +9,7 @@ feature 'Group maintenance' do
   let(:dept) { create(:department) }
 
   before(:each, user: :regular) do
-    omni_auth_log_in_as 'test.user@digital.justice.gov.uk'
+    omni_auth_log_in_as '007'
   end
 
   before(:each, user: :super_admin) do

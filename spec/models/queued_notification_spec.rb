@@ -51,7 +51,7 @@ RSpec.describe QueuedNotification, type: :model do
 
     context 'called by person creator' do
 
-      let(:person) { create :person, given_name: 'Stephen', surname: 'Jones', slug: 'stephen-richards', email: 'sr@digital.justice.gov.uk' }
+      let(:person) { create :person, given_name: 'Stephen', surname: 'Jones', slug: 'stephen-richards', email: 'sr@digital.justice.gov.uk', ditsso_user_id: 'deadbeef' }
       let(:creator) { double(PersonCreator, person: person, current_user: current_user, session_id: session_id) }
 
       before(:each) do
@@ -104,7 +104,7 @@ RSpec.describe QueuedNotification, type: :model do
 
       context 'with group changes' do
         context 'not final edit' do
-          let(:person)  { build :person, given_name: 'Stephen', surname: 'Jones', slug: 'stephen-richards', email: 'sr@digital.justice.gov.uk' }
+          let(:person)  { build :person, given_name: 'Stephen', surname: 'Jones', slug: 'stephen-richards', email: 'sr@digital.justice.gov.uk', ditsso_user_id: 'deadbeef' }
 
           it 'creates a queued notification with group changes' do
             person.groups << @devs
@@ -167,7 +167,7 @@ RSpec.describe QueuedNotification, type: :model do
     end
 
     context 'called by person updater' do
-      let(:person) { create :person, given_name: 'Stephen', surname: 'Jones', slug: 'stephen-richards', email: 'sr@digital.justice.gov.uk' }
+      let(:person) { create :person, given_name: 'Stephen', surname: 'Jones', slug: 'stephen-richards', email: 'sr@digital.justice.gov.uk', ditsso_user_id: 'deadbeef' }
       let(:updater) { double(PersonUpdater, person: person, current_user: current_user, session_id: session_id) }
 
       context 'with group changes' do

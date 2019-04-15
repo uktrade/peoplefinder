@@ -1,6 +1,4 @@
-
 FactoryBot.define do
-
   sequence(:email) { |n| 'example.user.%d@digital.justice.gov.uk' % n }
   sequence(:given_name) { |n| "First name #{('a'.ord + (n % 25)).chr}" }
   sequence(:surname) { |n| "Surname #{('a'.ord + (n % 25)).chr}" }
@@ -10,6 +8,7 @@ FactoryBot.define do
   sequence(:primary_phone_number) { |n| '07708 %06d' % (900_000 + n) }
   sequence(:pager_number) { |n| '07600 %06d' % (900_000 + n) }
   sequence(:phone_number) { |n| '07700 %06d' % (900_000 + n) }
+  sequence(:ditsso_user_id) { |n| '00000000-0000-0000-0000-00000000%04d' % n }
 
   factory :department, class: 'Group' do
     initialize_with do
@@ -40,7 +39,7 @@ FactoryBot.define do
     given_name
     surname
     email
-    ditsso_user_id { 'deadbeef' }
+    ditsso_user_id
 
     # validation requires team membership existence
     after :build do |peep, _evaluator|

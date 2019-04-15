@@ -31,19 +31,6 @@ RSpec.describe SessionsController, type: :controller do
     )
   end
 
-  let(:john_doe2_omniauth_hash) do
-    OmniAuth::AuthHash.new(
-      provider: 'ditsso_internal',
-      info: {
-        email: 'john.doe2@digital.justice.gov.uk',
-        first_name: 'John',
-        last_name: 'Doe',
-        name: 'John Doe'
-      },
-      uid: 'c0ffee'
-    )
-  end
-
   let(:fred_bloggs_omniauth_hash) do
     OmniAuth::AuthHash.new(
       provider: 'ditsso_internal',
@@ -111,21 +98,6 @@ RSpec.describe SessionsController, type: :controller do
           request.session[:desired_path] = new_group_path
           post :create
           expect(response).to redirect_to edit_person_path(Person.find_by(ditsso_user_id: 'dec0de'), page_title: "Create profile")
-        end
-      end
-
-      context 'when new person has namesakes' do
-        before do
-          request.env["omniauth.auth"] = john_doe2_omniauth_hash
-        end
-
-        it 'renders confirmation page' do
-          post :create
-          expect(response).to render_template(:person_confirm)
-        end
-
-        it 'does not create the new person' do
-          expect { post :create }.to_not change Person, :count
         end
       end
     end

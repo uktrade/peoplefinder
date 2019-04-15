@@ -4,7 +4,7 @@ class PeopleController < ApplicationController
   include StateCookieHelper
 
   before_action :set_person, only: [:show, :edit, :update, :destroy]
-  before_action :set_org_structure, only: [:new, :edit, :create, :update, :add_membership]
+  before_action :set_org_structure, only: [:edit, :update, :add_membership]
   before_action :load_versions, only: [:show]
 
   # GET /people
@@ -18,34 +18,11 @@ class PeopleController < ApplicationController
     delete_state_cookie
   end
 
-  # GET /people/new
-  def new
-    @person = Person.new
-    build_membership @person
-    authorize @person
-  end
-
   # GET /people/1/edit
   def edit
     authorize @person
     @activity = params[:activity]
     build_membership @person
-  end
-
-  # POST /people
-  def create
-    set_state_cookie_action_create
-    set_state_cookie_phase_from_button
-
-    @person = Person.new(person_params)
-    authorize @person
-
-    if @person.valid?
-      confirm_or_create
-    else
-      build_membership @person
-      render :new
-    end
   end
 
   # PATCH/PUT /people/1
@@ -56,7 +33,13 @@ class PeopleController < ApplicationController
     authorize @person
 
     if @person.valid?
-      confirm_or_update
+      PersonUpdater.new(person: @person,
+                        current_user: current_user,
+                        state_cookie: StateManagerCookie.new(cookies),
+                        session_id: session.id).update!
+      type = @person == current_user ? :mine : :other
+      notice(:profile_updated, type, person: @person) if state_cookie_saving_profile?
+      redirect_to redirection_destination
     else
       render :edit
     end
@@ -115,46 +98,6 @@ class PeopleController < ApplicationController
 
   def build_membership person
     person.memberships.build unless person.memberships.present?
-  end
-
-  def namesakes?
-    return false if params['continue_from_duplication'].present?
-    @people = Person.namesakes(@person)
-    @people.present?
-  end
-
-  def namesakes_check_required_and_found?
-    namesakes? if @person.changes.keys.any? { |key| %w(email surname given_name).include? key }
-  end
-
-  def confirm_or_create
-    if namesakes?
-      render(:confirm)
-    else
-      creator = PersonCreator.new(person: @person,
-                                  current_user: current_user,
-                                  state_cookie: StateManagerCookie.new(cookies),
-                                  session_id: session.id)
-      creator.create!
-      notice(:profile_created, person: @person) if state_cookie_saving_profile?
-      redirect_to redirection_destination
-    end
-  end
-
-  def confirm_or_update
-    if namesakes_check_required_and_found?
-      render(:confirm)
-    else
-
-      updater = PersonUpdater.new(person: @person,
-                                  current_user: current_user,
-                                  state_cookie: StateManagerCookie.new(cookies),
-                                  session_id: session.id)
-      updater.update!
-      type = @person == current_user ? :mine : :other
-      notice(:profile_updated, type, person: @person) if state_cookie_saving_profile?
-      redirect_to redirection_destination
-    end
   end
 
   def redirection_destination

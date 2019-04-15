@@ -243,21 +243,6 @@ RSpec.describe Person, type: :model do
     end
   end
 
-  describe '.namesakes' do
-    subject { described_class.namesakes(person).count }
-
-    let(:person) { create(:person, given_name: 'John', surname: 'Doe', email: 'john.doe@digital.justice.gov.uk') }
-    before do
-      create(:person, given_name: 'john', surname: 'doe', email: 'fred.bloggs@digital.justice.gov.uk')
-      create(:person, given_name: 'Johnny', surname: 'Doe-Smyth', email: 'john.doe2@digital.justice.gov.uk')
-      create(:person, given_name: 'Johnny', surname: 'Doe-Smyth', email: 'johnny.doe-smyth@digital.justice.gov.uk')
-    end
-
-    it 'returns people matching given and surname of specified person OR email prefix' do
-      is_expected.to eql 2
-    end
-  end
-
   describe '.all_in_subtree' do
     let!(:team) { create(:group) }
     let!(:subteam) { create(:group, parent: team) }

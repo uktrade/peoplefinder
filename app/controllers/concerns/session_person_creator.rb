@@ -70,12 +70,7 @@ module SessionPersonCreator
       @person.skip_must_have_surname = true
       @person.skip_must_have_team = true
       if @person.valid?
-        if namesakes?
-          warning :person_confirm
-          render 'sessions/person_confirm'
-        else
-          create_person_and_login @person
-        end
+        create_person_and_login @person
       else
         render :failed
       end
@@ -90,12 +85,5 @@ module SessionPersonCreator
       session[:desired_path] = edit_person_path(@person, page_title: 'Create profile')
       login_person(@person)
     end
-
-    def namesakes?
-      return false if params['commit'] == 'Continue, it is not one of these'
-      @people = Person.namesakes(@person)
-      @people.present?
-    end
   end
-
 end

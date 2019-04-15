@@ -7,7 +7,7 @@ feature 'Sending deletion requests' do
   let(:person) { create(:person, email: 'gone.user@digital.justice.gov.uk') }
 
   before do
-    omni_auth_log_in_as(requester.email)
+    omni_auth_log_in_as(requester.ditsso_user_id)
   end
 
   scenario 'Requesting a person to be deleted' do
