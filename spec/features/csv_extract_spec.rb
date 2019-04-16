@@ -1,11 +1,9 @@
 require 'rails_helper'
 
 feature 'Super admin views CSV extracts' do
-  let(:email) { 'test.user@digital.justice.gov.uk' }
-
   before do
-    create(:super_admin, email: email)
-    omni_auth_log_in_as(email)
+    admin = create(:super_admin)
+    omni_auth_log_in_as(admin.ditsso_user_id)
     click_link 'Manage'
   end
 

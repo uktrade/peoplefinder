@@ -8,37 +8,11 @@ feature 'Person edit notifications' do
   let(:super_admin) { create(:super_admin) }
 
   before(:each, user: :regular) do
-    omni_auth_log_in_as(person.email)
+    omni_auth_log_in_as(person.ditsso_user_id)
   end
 
   before(:each, user: :super_admin) do
-    omni_auth_log_in_as(super_admin.email)
-  end
-
-  scenario 'Creating a person with different email', user: :regular do
-    visit new_person_path
-
-    fill_in 'First name', with: 'Bob'
-    fill_in 'Last name', with: 'Smith'
-    fill_in 'Primary work email', with: 'bob.smith@digital.justice.gov.uk'
-    expect do
-      click_button 'Save', match: :first
-    end.to change { QueuedNotification.count }.by(1)
-
-    notification = QueuedNotification.last
-    expect(notification.current_user_id).to eq person.id
-    expect(notification.edit_finalised).to be true
-    expect(notification.changes_hash['data']['raw']).to include(
-      'given_name' => [nil, 'Bob'],
-      'surname' => [nil, 'Smith'],
-      'location_in_building' => [nil, ''],
-      'building' => [[], ['']],
-      'city' => [nil, ''],
-      'primary_phone_number' => [nil, ''],
-      'primary_phone_country_code' => [nil, "GB"],
-      'email' => [nil, 'bob.smith@digital.justice.gov.uk'],
-      'slug' => [nil, Digest::SHA1.hexdigest('bob.smith')]
-    )
+    omni_auth_log_in_as(super_admin.ditsso_user_id)
   end
 
   scenario 'Deleting a person with different email', user: :super_admin do

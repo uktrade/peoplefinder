@@ -4,13 +4,13 @@ feature 'Person browsing' do
   let(:department) { create(:department) }
   before do
     department
-    omni_auth_log_in_as 'test.user@digital.justice.gov.uk'
+    omni_auth_log_in_as '007'
   end
 
   scenario 'visiting the my/profile path' do
     visit '/my/profile'
 
-    expect(page).to have_current_path(person_path(Digest::SHA1.hexdigest('test.user')))
+    expect(page).to have_current_path(person_path(Digest::SHA1.hexdigest('john.doe')))
   end
 
   scenario 'Using breadcrumbs on a profile page', skip: "HELP REQUIRED" do

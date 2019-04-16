@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature "Person maintenance" do
   before do
-    omni_auth_log_in_as 'test.user@digital.justice.gov.uk'
+    omni_auth_log_in_as '007'
   end
 
   before(:each, user: :super_admin) do
@@ -10,51 +10,6 @@ feature "Person maintenance" do
   end
 
   let(:edit_profile_page) { Pages::EditProfile.new }
-
-  scenario 'Creating a person and making them the leader of a group', js: true do
-    group = create(:group, name: 'Digital Justice')
-
-    visit new_person_path
-    fill_in 'First name', with: 'Helen'
-    fill_in 'Last name', with: 'Taylor'
-    fill_in 'Primary work email', with: person_attributes[:email]
-    fill_in 'Job title', with: 'Head Honcho'
-
-    select_in_team_select 'Digital Justice'
-
-    expect(page).to have_selector('.team-led', text: 'Digital Justice team')
-    check_leader
-
-    click_button 'Save', match: :first
-
-    membership = Person.last.memberships.last
-    expect(membership.role).to eql('Head Honcho')
-    expect(membership.group).to eql(group)
-    expect(membership.leader?).to be true
-    expect(membership).to be_subscribed
-
-    visit group_path(group)
-    within('.cb-leaders') do
-      expect(page).to have_selector('h4', text: 'Taylor')
-      expect(page).to have_text('Head Honcho')
-    end
-  end
-
-  scenario 'Confirming an identical person with membership details', js: true do
-    create(:group, name: 'Digital Justice')
-    create(:person, given_name: person_attributes[:given_name], surname: person_attributes[:surname])
-
-    visit new_person_path
-    fill_in_complete_profile_details
-    fill_in_membership_details('Digital Justice')
-
-    click_button 'Save', match: :first
-
-    expect(page).to have_text('1 result found')
-    click_button 'Continue'
-    duplicate = Person.find_by(email: person_attributes[:email])
-    expect(duplicate.memberships.last).to have_attributes membership_attributes
-  end
 
   scenario 'Editing a job title', js: true do
     person = create_person_in_digital_justice
@@ -218,24 +173,6 @@ feature "Person maintenance" do
 
     membership = Person.last.memberships.last
     expect(membership).not_to be_subscribed
-  end
-
-  scenario 'Clicking Join another team', js: true do
-    create(:group)
-
-    visit new_person_path
-
-    click_link('Join another team')
-    expect(page).to have_selector('#memberships .membership', count: 2)
-  end
-
-  scenario 'Clicking Leave team', js: true do
-    create(:group)
-
-    visit new_person_path
-
-    click_link('Leave team', match: :first)
-    expect(page).to have_selector('#memberships .membership', count: 0)
   end
 
   scenario 'Leaving a team', js: true do

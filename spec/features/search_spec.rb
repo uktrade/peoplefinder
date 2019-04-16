@@ -38,7 +38,7 @@ feature 'Searching feature', elastic: true do
   end
 
   before do
-    omni_auth_log_in_as 'test.user@digital.justice.gov.uk'
+    omni_auth_log_in_as '007'
     visit home_path
   end
 

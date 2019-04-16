@@ -155,8 +155,6 @@ class Person < ApplicationRecord
   scope :updated_at_older_than, -> (within) { where('updated_at < ?', within) }
   scope :created_at_older_than, -> (within) { where('created_at < ?', within) }
 
-  scope :namesakes, -> (person) { NamesakesQuery.new(person).call }
-
   def email_prefix
     email.split('@').first.gsub(/[\W]|[\d]/, '')
   end

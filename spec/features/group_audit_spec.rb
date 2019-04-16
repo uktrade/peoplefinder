@@ -22,7 +22,7 @@ feature 'View group audit' do
 
   context 'as an admin user' do
     before do
-      omni_auth_log_in_as(super_admin.email)
+      omni_auth_log_in_as(super_admin.ditsso_user_id)
     end
 
     scenario 'view audit' do
@@ -46,7 +46,7 @@ feature 'View group audit' do
 
   context 'as a regular user' do
     before do
-      omni_auth_log_in_as(person.email)
+      omni_auth_log_in_as(person.ditsso_user_id)
     end
 
     scenario 'hide audit' do

@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     get :"people-outside-subteams", on: :member, action: 'people_outside_subteams'
   end
 
-  resources :people do
+  resources :people, except: [:new, :create] do
     collection do
       get :add_membership
     end

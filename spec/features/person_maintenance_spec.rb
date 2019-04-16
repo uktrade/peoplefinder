@@ -13,129 +13,18 @@ feature 'Person maintenance' do
   end
 
   before(:each, user: :regular) do
-    omni_auth_log_in_as person.email
+    omni_auth_log_in_as person.ditsso_user_id
   end
 
   before(:each, user: :super_admin) do
-    omni_auth_log_in_as super_admin.email
+    omni_auth_log_in_as_super_admin
   end
 
   let(:edit_profile_page) { Pages::EditProfile.new }
-  let(:new_profile_page) { Pages::NewProfile.new }
   let(:profile_page) { Pages::Profile.new }
-  let(:email_confirm_page) { Pages::PersonEmailConfirm.new }
 
   let(:completion_prompt_text) do
     'Fill in the highlighted fields to achieve 100% profile completion'
-  end
-
-  context 'Creating a person' do
-    context 'for a regular user', user: :regular do
-      scenario 'Creating a person with a complete profile', js: true do
-        create(:group, name: 'Digital')
-
-        visit new_person_path
-        expect(page).to have_title("New profile - #{app_title}")
-        expect(page).not_to have_text(completion_prompt_text)
-        fill_in_complete_profile_details
-
-        click_button 'Save', match: :first
-        check_creation_of_profile_details
-      end
-
-      scenario 'Creating an invalid person' do
-        new_profile_page.load
-        new_profile_page.form.save.click
-
-        expect(new_profile_page).to have_error_summary
-        expect(new_profile_page.error_summary).to have_given_name_error
-        expect(new_profile_page.error_summary).to have_surname_error
-        expect(new_profile_page.error_summary).to have_email_error
-      end
-
-      scenario 'Creating a person with existing e-mail raises an error' do
-        existing_person = create(:person)
-        new_profile_page.load
-        new_profile_page.form.email.set existing_person.email
-        new_profile_page.form.save.click
-        expect(new_profile_page.error_summary).to have_email_error
-      end
-
-      scenario 'Creating a person with invalid e-mail raises an error' do
-        new_profile_page.load
-        new_profile_page.form.email.set 'invalid email@digital.justice.gov.uk'
-        new_profile_page.form.save.click
-
-        expect(new_profile_page.error_summary).to have_email_error
-      end
-
-      scenario 'Creating a person with no team membership raises a membership required error and builds empty membership', js: true do
-        visit new_person_path
-        expect(new_profile_page).to be_displayed
-        fill_in 'First name', with: person_attributes[:given_name]
-        fill_in 'Last name', with: person_attributes[:surname]
-        fill_in 'Primary work email', with: person_attributes[:email]
-        within last_membership do
-          click_link 'Leave team'
-        end
-        expect(new_profile_page.form).to have_membership_panels count: 0
-        click_button 'Save', match: :first
-        expect(new_profile_page.form).to have_membership_panels count: 1
-        expect(new_profile_page).to have_error_summary
-        expect(new_profile_page.error_summary).to have_team_membership_required_error
-      end
-
-      scenario 'Creating a person with a team membership but no team chosen raises a team required error', js: true do
-        visit new_person_path
-        expect(new_profile_page).to be_displayed
-        fill_in 'First name', with: person_attributes[:given_name]
-        fill_in 'Last name', with: person_attributes[:surname]
-        fill_in 'Primary work email', with: person_attributes[:email]
-        fill_in 'Job title', match: :first, with: 'dude'
-
-        click_button 'Save', match: :first
-        expect(new_profile_page).to have_error_summary
-        expect(new_profile_page.error_summary).to have_team_required_error
-      end
-
-      scenario 'Creating a person with an identical name', js: true do
-        create(:group, name: 'Digital')
-        create(:person, given_name: person_attributes[:given_name], surname: person_attributes[:surname])
-
-        visit new_person_path
-        fill_in_complete_profile_details
-
-        click_button 'Save', match: :first
-
-        expect(page).to have_selector('.error-summary', text: 'The profile you are creating matches one or more existing profiles')
-        expect(page).to have_text('1 result found')
-        expect(page).to_not have_link('Select')
-        expect(page).to_not have_selector('.cb-confirmation-select')
-        click_button 'Continue, it is not one of these'
-
-        expect(profile_page).to be_displayed
-        expect(profile_page.flash_message).to have_selector('.notice', text: /Created .* profile/)
-        expect(Person.where(surname: person_attributes[:surname]).count).to eql(2)
-      end
-
-      scenario 'Cancelling creation of a person with an identical name' do
-        create(:person, given_name: person_attributes[:given_name], surname: person_attributes[:surname])
-        visit new_person_path
-
-        fill_in 'First name', with: person_attributes[:given_name]
-        fill_in 'Last name', with: person_attributes[:surname]
-        fill_in 'Primary work email', with: person_attributes[:email]
-        click_button 'Save', match: :first
-
-        click_link 'Return to home page'
-        expect(Person.where(surname: person_attributes[:surname]).count).to eql(1)
-      end
-
-      scenario 'Cancelling a new form' do
-        visit new_person_path
-        expect(page).to have_link('Cancel', href: 'javascript:history.back()')
-      end
-    end
   end
 
   context 'Editing a person' do
@@ -257,20 +146,6 @@ feature 'Person maintenance' do
         expect(version.whodunnit).to eq(person)
       end
 
-      scenario 'Editing a person and giving them a name that already exists' do
-        create(:person, given_name: person_attributes[:given_name], surname: person_attributes[:surname])
-        person = create(:person, given_name: 'Bobbie', surname: 'Browne')
-        visit edit_person_path(person)
-
-        fill_in 'First name', with: person_attributes[:given_name]
-        fill_in 'Last name', with: person_attributes[:surname]
-        click_button 'Save', match: :first
-
-        expect(page).to have_title("Duplicate names found - #{app_title}")
-        click_button 'Continue'
-        expect(Person.where(surname: person_attributes[:surname]).count).to eql(2)
-      end
-
       scenario 'Editing an invalid person' do
         person = create(:person, person_attributes)
 
@@ -347,15 +222,4 @@ feature 'Person maintenance' do
       end
     end
   end
-
-  scenario 'UI elements on the new/edit pages', user: :regular do
-    visit new_person_path
-
-    fill_in 'First name', with: person_attributes[:given_name]
-    fill_in 'Last name', with: person_attributes[:surname]
-    fill_in 'Primary work email', with: person_attributes[:email]
-    click_button 'Save', match: :first
-    expect(page).to have_selector('.mod-search-form')
-  end
-
 end

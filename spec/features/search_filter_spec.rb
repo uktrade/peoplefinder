@@ -15,7 +15,7 @@ feature 'Search results page' do
 
   before do
     create_test_data
-    omni_auth_log_in_as 'test.user@digital.justice.gov.uk'
+    omni_auth_log_in_as '007'
     visit '/'
   end
 

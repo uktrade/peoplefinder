@@ -39,18 +39,6 @@ RSpec.describe PeopleController, type: :controller do
     end
   end
 
-  describe 'GET new' do
-    it 'assigns a new person as @person' do
-      get :new
-      expect(assigns(:person)).to be_a_new(Person)
-    end
-
-    it 'builds a membership object' do
-      get :new
-      expect(assigns(:person).memberships.length).to eql(1)
-    end
-  end
-
   describe 'GET edit' do
     let(:person) { create(:person, valid_attributes) }
 
@@ -75,73 +63,6 @@ RSpec.describe PeopleController, type: :controller do
     end
   end
 
-  describe 'POST create' do
-    describe 'with valid params' do
-      it 'creates a new Person' do
-        expect do
-          post :create, params: { person: valid_attributes }
-        end.to change(Person, :count).by(1)
-      end
-
-      it 'assigns a newly created person as @person' do
-        post :create, params: { person: valid_attributes }
-        expect(assigns(:person)).to be_a(Person)
-        expect(assigns(:person)).to be_persisted
-      end
-
-      it 'redirects to the created person' do
-        attributes = valid_attributes
-        email = attributes[:email]
-        post :create, params: { person: attributes }
-        expect(response).to redirect_to(Person.find_by_email(email))
-      end
-    end
-
-    describe 'with invalid params' do
-      render_views
-
-      before do
-        post :create, params: { person: invalid_attributes }
-      end
-
-      it 'assigns a newly created but unsaved person as @person' do
-        expect(assigns(:person)).to be_a_new(Person)
-      end
-
-      it 're-renders the new template' do
-        expect(response).to render_template('new')
-      end
-
-      it 'shows an error message' do
-        expect(response.body).to match(/Last name is required/)
-      end
-    end
-
-    describe 'with duplicate name' do
-      it 'renders the confirm template' do
-        create(:person, given_name: 'Bo', surname: 'Diddley')
-        duplicate_person_params = valid_attributes.merge(given_name: 'Bo', surname: 'Diddley', email: 'bo.diddley@digital.justice.gov.uk')
-        post :create, params: { person: duplicate_person_params }
-        expect(response).to render_template('confirm')
-      end
-    end
-
-    describe 'when trying to create a super admin' do
-      subject { assigns(:person) }
-      before do
-        post :create, params: { person: attributes_for(:super_admin).merge(default_membership_attributes) }
-      end
-
-      it 'creates the person' do
-        is_expected.to be_persisted
-      end
-
-      it 'creates person, but not as super admin' do
-        is_expected.not_to be_super_admin
-      end
-    end
-  end
-
   describe 'PUT update myself' do
     let(:person) { current_user }
 
@@ -154,9 +75,10 @@ RSpec.describe PeopleController, type: :controller do
         attributes_for(:person).merge(works_tuesday: false)
       end
 
-      it 'updates the person' do
+      it 'updates the person apart from SSO ID' do
         person.reload
         new_attributes.each do |key, value|
+          next if key == :ditsso_user_id
           expect(person.__send__(key)).to eql value
         end
       end
@@ -197,10 +119,10 @@ RSpec.describe PeopleController, type: :controller do
         put :update, params: { id: person.to_param, person: new_attributes, commit: 'Save' }
       end
 
-      it 'updates the requested person apart from e-mail' do
+      it 'updates the requested person apart from SSO ID' do
         person.reload
         new_attributes.each do |attr, value|
-          if attr != :email
+          if attr != :ditsso_user_id
             expect(person.send(attr)).to eql(value)
           end
         end
@@ -235,24 +157,6 @@ RSpec.describe PeopleController, type: :controller do
 
       it 're-renders the edit template' do
         expect(response).to render_template('edit')
-      end
-    end
-
-    describe 'with duplicate name' do
-      let(:person) { create(:person, given_name: 'Bobbie', surname: 'Browne') }
-
-      before do
-        create(:person, given_name: 'Bo', surname: 'Diddley')
-      end
-
-      it 'when fundamental info amended it renders the confirm template' do
-        put :update, params: { id: person.to_param, person: { given_name: 'Bo', surname: 'Diddley' } }
-        expect(response).to render_template :confirm
-      end
-
-      it 'when fundamental info NOT altered it redirects to profile page' do
-        put :update, params: { id: person.to_param, person: { current_project: 'whatevers' } }
-        expect(response).to redirect_to person_path(person)
       end
     end
 
@@ -319,37 +223,4 @@ RSpec.describe PeopleController, type: :controller do
       end
     end
   end
-
-  context 'action routing' do
-    context 'create' do
-      context 'save button pressed' do
-        it 'updates and shows the edit person page' do
-          post :create, params: { person: valid_attributes.merge(given_name: 'Francis', surname: 'Drake', email: 'francis.drake@digital.justice.gov.uk') }
-          person = Person.friendly.find(Digest::SHA1.hexdigest('francis.drake'))
-          expect(response).to redirect_to person_path(person)
-        end
-      end
-      context 'with duplicates in database' do
-        before do
-          create :person, given_name: 'Francis', surname: 'Drake', email: 'fd@digital.justice.gov.uk'
-        end
-
-        context 'save button presssed with duplicate person in database' do
-          it 'displays duplicate confirmation page' do
-            post :create, params: { person: valid_attributes.merge(given_name: 'Francis', surname: 'Drake', email: 'francis.drake@digital.justice.gov.uk') }
-            expect(response).to render_template(:confirm)
-          end
-        end
-
-        context 'pressing confirm on duplicate confirmation page' do
-          it 'updates and shows the person edit page' do
-            post :create, params: { person: valid_attributes.merge(given_name: 'Francis', surname: 'Drake', email: 'francis.drake@digital.justice.gov.uk'), continue_from_duplication: '1' }
-            person = Person.friendly.find(Digest::SHA1.hexdigest('francis.drake'))
-            expect(response).to redirect_to person_path(person)
-          end
-        end
-      end
-    end
-  end
-
 end

@@ -15,7 +15,7 @@ feature 'Flash messages' do
     let(:super_admin) { create(:super_admin) }
 
     before do
-      omni_auth_log_in_as super_admin.email
+      omni_auth_log_in_as_super_admin
       person.memberships.destroy_all
     end
 

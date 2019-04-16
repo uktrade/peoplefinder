@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 feature 'Audit trail' do
-  let(:person) { create(:super_admin, email: 'test.user@digital.justice.gov.uk') }
   before do
-    omni_auth_log_in_as person.email
+    omni_auth_log_in_as_super_admin
   end
 
   scenario 'Auditing an edit of a person' do
@@ -21,26 +20,6 @@ feature 'Audit trail' do
 
       person.reload
       expect(person.surname).to eq('original surname')
-    end
-  end
-
-  scenario 'Auditing the creation of a person' do
-    with_versioning do
-      visit new_person_path
-      fill_in 'First name', with: 'Jon'
-      fill_in 'Last name', with: 'Smith'
-      fill_in 'Primary work email', with: person_attributes[:email]
-      click_button 'Save', match: :first
-
-      visit '/audit_trail'
-
-      expect(page).to have_text('New Person')
-      expect(page).to have_text('Given name set to: Jon')
-      expect(page).to have_text('Surname set to: Smith')
-
-      expect do
-        click_button 'undo', match: :first
-      end.to change(Person, :count).by(-1)
     end
   end
 
