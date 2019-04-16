@@ -33,7 +33,6 @@ Rails.application.routes.draw do
     get :unsupported_browser, on: :new
   end
 
-  match '/sessions/people', to: 'sessions#create_person', via: :post
   match '/auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
   match '/audit_trail', to: 'versions#index', via: [:get]
   match '/audit_trail/undo/:id', to: 'versions#undo', via: [:post]
