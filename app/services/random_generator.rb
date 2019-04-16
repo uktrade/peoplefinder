@@ -60,6 +60,7 @@ class RandomGenerator
     surname = Faker::Name.last_name
 
     {
+      ditsso_user_id: SecureRandom.uuid,
       given_name: given_name,
       surname: surname,
       email: "#{given_name}.#{surname}@#{@domain}",

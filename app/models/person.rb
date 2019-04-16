@@ -133,6 +133,7 @@ class Person < ApplicationRecord
     end
   end
 
+  validates :ditsso_user_id, presence: true
   validates :given_name, presence: true
   attr_accessor :skip_must_have_surname
   validates :surname, presence: true, unless: :skip_must_have_surname
