@@ -1,7 +1,4 @@
 class HomeController < ApplicationController
-
-  include UserAgentHelper
-
   before_action :set_department_or_redirect, only: [:show]
 
   def show

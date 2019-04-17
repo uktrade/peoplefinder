@@ -1,6 +1,4 @@
 class SessionsController < ApplicationController
-  include UserAgentHelper
-
   skip_before_action :verify_authenticity_token
   skip_before_action :ensure_user
   before_action :set_login_screen_flag
