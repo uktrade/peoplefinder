@@ -29,7 +29,7 @@ module Admin
     def profile_headers
       %w(
         SSOUserId
-        Firstname Surname Email InternalAuthKey
+        Firstname Surname Email
         AddressLondonOffice AddressOtherUKRegional AddressOtherOverseas
         City Country JobTitle
         LastLogin ProfileCompletionScore
@@ -41,7 +41,7 @@ module Admin
     def person_row(person)
       [
         person.ditsso_user_id,
-        person.given_name, person.surname, person.email, person.internal_auth_key,
+        person.given_name, person.surname, person.email,
         person.formatted_buildings, person.other_uk, person.other_overseas,
         person.city, person.country_name, person.memberships.first.try(:role),
         person.last_login_at, person.completion_score,
