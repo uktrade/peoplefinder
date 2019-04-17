@@ -172,5 +172,27 @@
             %dd
               = @person.formatted_additional_responsibilities
 
+        - if super_admin?
+          %hr
+          %dl.inline-labels#sso_user_id
+            %dt Staff SSO User ID
+            %dd= @person.ditsso_user_id
+
+          %dl.inline-labels#sso_user_id
+            %dt People Finder Database ID
+            %dd= @person.id
+
+          %dl.inline-labels#is_super_admin
+            %dt User is super admin?
+            %dd= @person.super_admin? ? 'Yes' : 'No'
+
+          %dl.inline-labels#last_login_at
+            %dt Last signed in to People Finder
+            %dd= @person.last_login_at
+
+          %dl.inline-labels#created_at
+            %dt Profile created at
+            %dd= @person.created_at
+
 - unless @versions.nil?
   = render 'shared/audit', versions: @versions

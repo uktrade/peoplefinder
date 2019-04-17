@@ -143,3 +143,20 @@
   .form-group
     .cancel
       = link_to 'Cancel and go back', @person.new_record? ? :back : @person
+
+
+- if super_admin?
+  = form_for @person, builder: PersonFormBuilder, html: { class: person_form_class(@person, @activity) } do |f|
+    .form-group
+      %h3.heading-medium.with-border-lg Administrative options
+
+      %fieldset#admin-options
+        %p
+          %span.form-hint
+            Administrators ("super admins") on People Finder can manage teams, delete profiles, and
+            view detailed audit trails, reports, and debugging information.
+            %strong.bold-term Only assign this permission to members of the Digital Workspace team.
+
+        = f.check_box :super_admin
+
+      = f.submit 'Update permissions', class: 'button-danger', data: { confirm: "Are you sure you want to update #{@person.name}'s permissions?" }

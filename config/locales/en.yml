@@ -507,6 +507,7 @@ en:
         other_uk: Other - UK regional
         other_overseas: Other - Overseas
         other_additional_responsibilities: Other additional roles and responsibilities
+        super_admin: Allow this person to administrate People Finder
       membership:
         role: "Job title"
         group: Team
