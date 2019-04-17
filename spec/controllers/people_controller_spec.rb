@@ -99,7 +99,6 @@ RSpec.describe PeopleController, type: :controller do
         expect(person).not_to be_super_admin
       end
     end
-
   end
 
   describe 'PUT update a third party' do
@@ -161,17 +160,34 @@ RSpec.describe PeopleController, type: :controller do
     end
 
     describe 'when trying to grant super admin privileges' do
-      let(:attributes_with_super_admin) do
-        attributes_for(:super_admin)
+      context 'if the current user is not a super admin themselves' do
+        let(:attributes_with_super_admin) do
+          attributes_for(:super_admin)
+        end
+
+        before do
+          put :update, params: { id: person.to_param, person: attributes_with_super_admin }
+        end
+
+        it 'does not grant super admin privileges' do
+          person.reload
+          expect(person).not_to be_super_admin
+        end
       end
 
-      before do
-        put :update, params: { id: person.to_param, person: attributes_with_super_admin }
-      end
+      context 'if the current user IS a super user', user: :super_admin do
+        let(:attributes_with_super_admin) do
+          attributes_for(:super_admin)
+        end
 
-      it 'does not grant super admin privileges' do
-        person.reload
-        expect(person).not_to be_super_admin
+        before do
+          put :update, params: { id: person.to_param, person: attributes_with_super_admin }
+        end
+
+        it 'grants super admin privileges' do
+          person.reload
+          expect(person).to be_super_admin
+        end
       end
     end
   end

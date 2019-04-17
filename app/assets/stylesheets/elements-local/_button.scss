@@ -8,6 +8,10 @@
   }
 }
 
+.button-danger {
+  @include button($red);
+}
+
 .button-link {
   height: inherit;
   width: inherit;

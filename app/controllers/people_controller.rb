@@ -89,7 +89,14 @@ class PeopleController < ApplicationController
       building: [], key_skills: [], learning_and_development: [], networks: [],
       key_responsibilities: [], additional_responsibilities: [], professions: [],
       memberships_attributes: [:id, :role, :group_id, :leader, :subscribed, :_destroy]
-    ]
+    ] + super_admin_person_params
+  end
+
+  def super_admin_person_params
+    # Parameters that can only be updated by super admins, not regular users
+    return [] unless super_admin?
+
+    [:super_admin]
   end
 
   def set_org_structure
