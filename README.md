@@ -35,6 +35,18 @@ docker-compose run web bundle exec rake db:create peoplefinder:db:reload
 docker-compose run web bundle exec rake
 ```
 
-People Finder will now be accessible on http://localhost:3000. The `DEVELOPER_AUTH_STRATEGY` env
-variable means the application will mount a dummy OAuth component that allows you to manually
-specify a name and email, as if provided by [staff-sso](https://github.com/uktrade/staff-sso).
+People Finder will now be accessible on http://localhost:3000.
+
+### Authentication
+
+In production, users authenticate using DIT's [Staff SSO](https://github.com/uktrade/staff-sso)
+in order to access People Finder. This is significantly different from the built-in registration
+and token process in the [MoJ People Finder](https://github.com/ministryofjustice/peoplefinder),
+and all the related code has since been removed.
+
+Every user in staff SSO has a unique (UUID v4) User ID (`ditsso_user_id` in the `Person` model)
+that should be used to match a user to their profile on People Finder.
+
+When running People Finder locally, the `DEVELOPER_AUTH_STRATEGY` environment variable makes
+the application mount a dummy OAuth component that allows you to manually specify an SSO User
+ID, as well as a name and email as if it were passed through from Staff SSO.
