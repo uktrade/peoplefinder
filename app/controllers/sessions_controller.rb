@@ -10,8 +10,6 @@ class SessionsController < ApplicationController
       create_and_login_person(@person)
     elsif @person
       login_person(@person)
-    else
-      render :failed
     end
   end
 
@@ -48,11 +46,6 @@ class SessionsController < ApplicationController
   def create_and_login_person(person)
     person.skip_must_have_surname = true
     person.skip_must_have_team = true
-
-    unless person.valid?
-      render :failed
-      return
-    end
 
     PersonCreator.new(
       person: person,
