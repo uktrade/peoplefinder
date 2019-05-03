@@ -1,188 +1,92 @@
 inherit_from: .rubocop_todo.yml
 
+require:
+  - rubocop-performance
+  - rubocop-rspec
+
 AllCops:
   # Exclude anything that isn't really part of our code.
-  # rails_helper is excluded because it's full of solecisms, but it's mostly
-  # generated code and copy-and-pasted snipets from READMEs.
   Exclude:
+    - 'Gemfile'
     - 'vendor/**/*'
     - 'db/**/*'
     - 'bin/**/*'
     - '**/*.gemspec'
     - '**/Rakefile'
     - '**/Vagrantfile'
-    - 'config/initializers/simple_form.rb'
-    - 'config/unicorn.rb'
-    - 'spec/rails_helper.rb'
-    - 'spec/lib/**/*'
-    - 'lib/tasks/**/*'
-    - 'spec/dummy/db/**/*'
-    - 'smoke_test'
-    - 'spec/mailers/previews/*'
-    - 'lib/generators/**/*'
-  TargetRubyVersion: 2.3
-  TargetRailsVersion: 5.0
+  TargetRubyVersion: 2.5
+  TargetRailsVersion: 5.1
 
 Rails:
   Enabled: true
 
-# Just indent parameters by two spaces. It's less volatile if methods change,
-# and there's less busy work lining things up.
-Layout/AlignParameters:
-  EnforcedStyle: with_fixed_indentation
-
-Style/CollectionMethods:
-  PreferredMethods:
-    inject: 'inject'
-    reduce: 'inject'
-
-# Chain methods with trailing dots.
-Layout/DotPosition:
-  EnforcedStyle: trailing
-
-# Percent-formatting and hash interpolation both have their place. Don't
-# enforce any particular one.
-Style/FormatString:
+# Don't require top-level class documentation
+Style/Documentation:
   Enabled: false
 
-# It's not really clearer to replace every if with a return if.
-Style/GuardClause:
+# Used throughout app to make deeply nested classes less crazily indented
+Style/ClassAndModuleChildren:
   Enabled: false
 
+# Causing too many false positives in methods that memoize multiple things
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+# Don't apply block length limits where long blocks are unavoidable
+Metrics/BlockLength:
+  Exclude:
+    - 'config/**/*'
+    - 'lib/tasks/**/*'
+    - 'spec/**/*'
+
+# Slightly more lenient line length
+# TODO: Specs should adhere to line length too, but too many offending lines to be worth fixing now
 Metrics/LineLength:
   Max: 120
   Exclude:
     - 'spec/**/*'
 
-# Don't worry about long methods in specs.
+# Slightly more lenient module length
+Metrics/ModuleLength:
+  Max: 120
+
+# Slightly more lenient method length (and ignore in specs - long setup methods)
 Metrics/MethodLength:
   Max: 15
   Exclude:
     - 'spec/**/*'
 
-# Enforce single quotes everywhere except in specs (because there's a lot of
-# human text with apostrophes in spec names, and using double quotes for all
-# of those is more consistent. There shouldn't be much human-readable text in
-# the application code: that is better moved to the locale files.
-Style/StringLiterals:
-  EnforcedStyle: single_quotes
-  Exclude:
-    - 'spec/**/*'
+#########
 
-# Prefer sensible naming to comments everywhere.
-Style/Documentation:
-  Description: Document classes and non-namespace modules.
-  Enabled: false
-
-# Would enforce do_y if x over if x / do y / end. As with GuardClause above,
-# this enforces code organisation that doesn't necesarily make things clearer.
-Style/IfUnlessModifier:
-  Enabled: false
-
-Style/CaseEquality:
-  Enabled: false
-
-# Allow safe assignment in conditions.
-Lint/AssignmentInCondition:
-  AllowSafeAssignment: false
-
-Style/ClassAndModuleChildren:
-  Enabled: false
-
-require: rubocop-rspec
-
-Style/RegexpLiteral:
-  Enabled: false
-
-Layout/EmptyLinesAroundBlockBody:
-  Enabled: false
-
-Layout/EmptyLinesAroundClassBody:
-  Enabled: false
-
-Layout/EmptyLinesAroundModuleBody:
-  Enabled: false
-
-Style/MethodDefParentheses:
-  Enabled: false
-
-Layout/AlignHash:
-  Enabled: false
-
-Style/BlockDelimiters:
-  Enabled: false
-
-Style/DoubleNegation:
-  Enabled: false
-
-Metrics/ClassLength:
-  CountComments: false
-  Max: 220
-
-Metrics/ModuleLength:
-  Max: 115
-
-RSpec/DescribeClass:
-  Exclude:
-    - 'spec/views/**/*'
-    - 'spec/config/schedule_spec.rb'
-
-Metrics/AbcSize:
-  Exclude:
-    - 'spec/support/profile.rb'
-
-Rails/TimeZone:
-  Exclude:
-    - 'spec/**/*'
-
-Rails/Date:
-  Exclude:
-    - 'spec/**/*'
-
-Lint/Debugger:
-  Exclude:
-    - 'spec/**/*'
-
-Style/SingleLineBlockParams:
-  Enabled: false
-
-Style/ClassVars:
-  Exclude:
-    - 'spec/**/*'
-
-Layout/IndentArray:
-  Exclude:
-    - 'spec/**/*'
-
-Layout/SpaceAroundOperators:
-  Enabled: false
-
-Performance/TimesMap:
-  Exclude:
-    - 'spec/**/*'
-
-Style/ZeroLengthPredicate:
-  Exclude:
-    - 'Gemfile'
-
-RSpec/NotToNot:
-  Enabled: false
+# TODO: These are the most common antipatterns scattered throughout the People Finder specs.
+#       It's not worth fixing them any time soon.
 
 RSpec/AnyInstance:
-  Enabled: false
+  Enabled: False
+
+RSpec/ContextWording:
+  Enabled: False
+
+RSpec/DescribeClass:
+  Enabled: False
+
+RSpec/ExampleLength:
+  Enabled: False
 
 RSpec/InstanceVariable:
-  Enabled: false
+  Enabled: False
 
-Rails/ScopeArgs:
-  Enabled: false
+RSpec/MessageSpies:
+  Enabled: False
 
-RSpec/ScatteredSetup:
-  Exclude:
-    - 'spec/controllers/people_controller_spec.rb'
-    - 'spec/features/group_maintenance_spec.rb'
-    - 'spec/features/management_spec.rb'
-    - 'spec/features/person_edit_notifications_spec.rb'
-    - 'spec/features/person_maintenance_spec.rb'
-    - 'spec/features/person_membership_spec.rb'
-    - 'spec/features/suggestion_spec.rb'
+RSpec/MultipleExpectations:
+  Enabled: False
+
+RSpec/NamedSubject:
+  Enabled: False
+
+RSpec/NestedGroups:
+  Enabled: False
+
+RSpec/VerifiedDoubles:
+  Enabled: False

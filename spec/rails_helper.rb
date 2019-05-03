@@ -1,11 +1,13 @@
-require "codeclimate-test-reporter"
+# frozen_string_literal: true
+
+require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['SUPPORT_EMAIL'] = 'support@example.com'
 ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 require 'pry-byebug'
 require 'timecop'
@@ -40,13 +42,13 @@ Capybara.default_max_wait_time = 3
 # need to enable this setting.
 Capybara.ignore_hidden_elements = false
 
-Dir[File.expand_path('../../{lib,app/*}', __FILE__)].sort.each do |path|
+Dir[File.expand_path('../{lib,app/*}', __dir__)].sort.each do |path|
   $LOAD_PATH.unshift(path) unless $LOAD_PATH.include?(path)
 end
 
-Dir[File.expand_path('../support/**/*.rb', __FILE__)].sort.each { |f| require f }
+Dir[File.expand_path('support/**/*.rb', __dir__)].sort.each { |f| require f }
 
-Dir[File.expand_path('../controllers/concerns/shared_examples*.rb', __FILE__)].sort.each { |f| require f }
+Dir[File.expand_path('controllers/concerns/shared_examples*.rb', __dir__)].sort.each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
 
@@ -60,12 +62,12 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.before(:each) do |example|
+  config.before do |example|
     DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after do
     DatabaseCleaner.clean
   end
 

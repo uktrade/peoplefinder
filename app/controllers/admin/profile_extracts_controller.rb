@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class ProfileExtractsController < ApplicationController
     include ApplicationHelper
@@ -27,7 +29,7 @@ module Admin
     end
 
     def profile_headers
-      %w(
+      %w[
         SSOUserId
         Firstname Surname Email
         AddressLondonOffice AddressOtherUKRegional AddressOtherOverseas
@@ -35,10 +37,10 @@ module Admin
         LastLogin ProfileCompletionScore
         Team
         PrimaryPhoneNumber
-      )
+      ]
     end
 
-    def person_row(person)
+    def person_row(person) # rubocop:disable Metrics/AbcSize
       [
         person.ditsso_user_id,
         person.given_name, person.surname, person.email,

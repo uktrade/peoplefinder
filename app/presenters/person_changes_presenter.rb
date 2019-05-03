@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class PersonChangesPresenter < ChangesPresenter
+  WORK_DAYS_FIELD = 'work_days'
 
-  WORK_DAYS_FIELD = 'work_days'.freeze
-
-  def format raw_changes
+  def format(raw_changes)
     raw_changes.inject({}) do |memo, (field, raw_change)|
       next memo unless changed? raw_change
+
       if work_days? field
         add_or_create_work_days(memo, field, raw_change)
       elsif profile_photo? field
@@ -19,11 +21,11 @@ class PersonChangesPresenter < ChangesPresenter
 
   private
 
-  def work_days? field
+  def work_days?(field)
     field.to_s =~ /^works_.*$/
   end
 
-  def add_or_create_work_days memo, field, raw_change
+  def add_or_create_work_days(memo, field, raw_change)
     if memo.key? WORK_DAYS_FIELD
       memo[WORK_DAYS_FIELD][:raw][field] = raw_change
       memo
@@ -32,7 +34,7 @@ class PersonChangesPresenter < ChangesPresenter
     end
   end
 
-  def work_days_template field, raw_change
+  def work_days_template(field, raw_change)
     template(WORK_DAYS_FIELD) do |h|
       h[WORK_DAYS_FIELD][:raw] ||= {}
       h[WORK_DAYS_FIELD][:raw][field] = raw_change
@@ -40,18 +42,18 @@ class PersonChangesPresenter < ChangesPresenter
     end
   end
 
-  def profile_photo? field
+  def profile_photo?(field)
     field.to_sym == :profile_photo_id
   end
 
-  def profile_photo_change field, raw_change
+  def profile_photo_change(field, raw_change)
     template(field) do |h|
       h[field][:raw] = raw_change
       h[field][:message] = profile_photo_sentence(field, raw_change)&.humanize
     end
   end
 
-  def profile_photo_sentence field, raw_change
+  def profile_photo_sentence(field, raw_change)
     change = Change.new(raw_change)
     if change.addition?
       "added a #{field}"
@@ -62,18 +64,18 @@ class PersonChangesPresenter < ChangesPresenter
     end
   end
 
-  def extra_info? field
+  def extra_info?(field)
     field.to_sym == :description
   end
 
-  def extra_info_change field, raw_change
+  def extra_info_change(field, raw_change)
     template(field) do |h|
       h[field][:raw] = raw_change
       h[field][:message] = extra_info_sentence(field, raw_change)&.humanize
     end
   end
 
-  def extra_info_sentence _field, raw_change
+  def extra_info_sentence(_field, raw_change)
     change = Change.new(raw_change)
     term = 'extra information'
     if change.addition?
@@ -84,5 +86,4 @@ class PersonChangesPresenter < ChangesPresenter
       "changed your #{term}"
     end
   end
-
 end

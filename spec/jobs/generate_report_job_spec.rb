@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe GenerateReportJob, type: :job do
+  subject(:job) { described_class.new }
 
   let(:csv_report) { CsvPublisher::UserBehaviorReport }
   let(:serialized_csv_report) do
@@ -9,12 +12,12 @@ RSpec.describe GenerateReportJob, type: :job do
     }.to_json
   end
 
-  subject(:perform_later) { described_class.perform_later(serialized_csv_report) }
-  subject(:perform_now) { described_class.perform_now(serialized_csv_report) }
-  subject(:job) { described_class.new }
+  let(:perform_later) { described_class.perform_later(serialized_csv_report) }
+
+  let(:perform_now) { described_class.perform_now(serialized_csv_report) }
 
   context 'when enqueued' do
-    it "enqueues with appropriate config settings" do
+    it 'enqueues with appropriate config settings' do
       expect(job.queue_name).to eq 'generate_report'
       expect(job.max_run_time).to eq 10.minutes
       expect(job.max_attempts).to eq 3
@@ -40,5 +43,4 @@ RSpec.describe GenerateReportJob, type: :job do
       perform_now
     end
   end
-
 end

@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module SpecSupport
   module OrgBrowser
-
     def last_membership
       all('#memberships .membership').last
     end

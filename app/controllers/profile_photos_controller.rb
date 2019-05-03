@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProfilePhotosController < ApplicationController
   include StateCookieHelper
 
@@ -18,5 +20,4 @@ class ProfilePhotosController < ApplicationController
   def profile_photo_params
     params.require(:profile_photo).permit(:image)
   end
-
 end

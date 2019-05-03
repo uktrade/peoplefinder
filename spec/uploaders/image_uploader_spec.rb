@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ImageUploader, type: :uploader do
@@ -13,6 +15,7 @@ RSpec.describe ImageUploader, type: :uploader do
 
   context 'with a profile photo object' do
     subject { profile_photo.image }
+
     let(:profile_photo) { create(:profile_photo) }
 
     context '#dimensions' do
@@ -51,18 +54,19 @@ RSpec.describe ImageUploader, type: :uploader do
 
     it 'has a consistent path' do
       # If you change this, you must also consider what to do with legacy image uploads.
-      expect(subject.store_dir).
-        to eq("#{Rails.root}/spec/support/uploads/peoplefinder/profile_photo/image/#{profile_photo.id}")
+      expect(subject.store_dir)
+        .to eq("#{Rails.root}/spec/support/uploads/peoplefinder/profile_photo/image/#{profile_photo.id}")
     end
   end
 
   context 'with a person object' do
-    let(:person) { create(:person, image: sample_image) }
     subject { person.legacy_image }
 
+    let(:person) { create(:person, image: sample_image) }
+
     it 'has a consistent path' do
-      expect(subject.store_dir).
-        to eq("#{Rails.root}/spec/support/uploads/peoplefinder/person/image/#{person.id}")
+      expect(subject.store_dir)
+        .to eq("#{Rails.root}/spec/support/uploads/peoplefinder/person/image/#{person.id}")
     end
   end
 end

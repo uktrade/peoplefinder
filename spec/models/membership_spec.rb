@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: memberships
@@ -15,12 +17,12 @@
 require 'rails_helper'
 
 RSpec.describe Membership, type: :model do
+  subject { described_class.new }
+
   let(:moj) { create :department, name: 'Ministry of Justice' }
 
-  it { should validate_presence_of(:person).on(:update) }
-  it { should validate_presence_of(:group).on(:update) }
-
-  subject { described_class.new }
+  it { is_expected.to validate_presence_of(:person).on(:update) }
+  it { is_expected.to validate_presence_of(:group).on(:update) }
 
   it 'is not a leader by default' do
     expect(subject).not_to be_leader
@@ -90,6 +92,5 @@ RSpec.describe Membership, type: :model do
         expect(membership).to be_valid
       end
     end
-
   end
 end

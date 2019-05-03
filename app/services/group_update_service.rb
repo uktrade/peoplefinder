@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GroupUpdateService
   def initialize(group:, person_responsible:)
     @group = group
@@ -12,9 +14,9 @@ class GroupUpdateService
 
   def inform_subscribers
     @group.subscribers.each do |subscriber|
-      GroupUpdateMailer.
-        inform_subscriber(subscriber, @group, @person_responsible).
-        deliver_later
+      GroupUpdateMailer
+        .inform_subscriber(subscriber, @group, @person_responsible)
+        .deliver_later
     end
   end
 end

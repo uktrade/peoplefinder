@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UserUpdateMailer < ActionMailer::Base
   include FeatureHelper
   extend Forwardable
@@ -32,7 +34,7 @@ class UserUpdateMailer < ActionMailer::Base
     person_url(person)
   end
 
-  def present changes
+  def present(changes)
     @changes = ProfileChangesPresenter.deserialize(changes)
   end
 end

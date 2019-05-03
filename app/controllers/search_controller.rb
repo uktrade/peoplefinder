@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SearchController < ApplicationController
   include SearchHelper
 
@@ -27,5 +29,4 @@ class SearchController < ApplicationController
     @query = query
     @search_filters = (params[:search_filters] || [])
   end
-
 end

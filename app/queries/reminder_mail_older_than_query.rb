@@ -1,5 +1,6 @@
-class ReminderMailOlderThanQuery < BaseQuery
+# frozen_string_literal: true
 
+class ReminderMailOlderThanQuery < BaseQuery
   def initialize(within, relation = Person.all)
     @relation = relation
     @within = within

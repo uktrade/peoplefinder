@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Concerns::Sanitizable do
-
   class SanitizableTestModel
     include ActiveModel::Model
     include ActiveModel::Validations::Callbacks

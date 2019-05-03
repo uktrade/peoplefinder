@@ -1,10 +1,10 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :be_json do
   match do |actual|
-    begin
-      JSON.parse(actual)
-    rescue JSON::ParserError
-      false
-    end
+    JSON.parse(actual)
+  rescue JSON::ParserError
+    false
   end
 
   failure_message do |actual|
@@ -16,6 +16,6 @@ RSpec::Matchers.define :be_json do
   end
 
   description do
-    "be JSON parsable String"
+    'be JSON parsable String'
   end
 end

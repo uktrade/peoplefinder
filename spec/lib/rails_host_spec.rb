@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe RailsHost do
-
   context 'staging' do
     before do
       @initial_env = ENV['ENV']
@@ -27,7 +28,6 @@ describe RailsHost do
     it 'returns false for dev?' do
       expect(Rails.host.dev?).to be false
     end
-
   end
 
   context 'dev' do
@@ -55,7 +55,5 @@ describe RailsHost do
     it 'returns false for dev?' do
       expect(Rails.host.dev?).to be true
     end
-
   end
-
 end

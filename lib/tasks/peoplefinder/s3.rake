@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 namespace :peoplefinder do
   namespace :s3 do
-
     desc 'apply private canned-acl to all images'
-    task :privatise_images => :environment do
+    task privatise_images: :environment do
       bucket = S3::Bucket.new
       puts "<<<<<<<<<< Accessing #{bucket.name} >>>>>>>>>>>>>>>>>>"
       bucket.profile_images.each do |image|
@@ -13,7 +14,7 @@ namespace :peoplefinder do
     end
 
     desc 'apply public-read canned-acl to all images'
-    task :publicise_images => :environment do
+    task publicise_images: :environment do
       bucket = S3::Bucket.new
       puts "<<<<<<<<<< Accessing #{bucket.name} >>>>>>>>>>>>>>>>>>"
       bucket.profile_images.each do |image|
@@ -22,6 +23,5 @@ namespace :peoplefinder do
         puts "FAILURE: #{image.key} is private" if image.private?
       end
     end
-
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Concerns::Placeholder
   extend ActiveSupport::Concern
 
@@ -7,6 +9,6 @@ module Concerns::Placeholder
 
   def with_placeholder_default(field)
     value = send(field)
-    value.blank? ? placeholder(field) : value
+    value.presence || placeholder(field)
   end
 end

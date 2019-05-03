@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   include Pundit
   include FeatureHelper
@@ -59,11 +61,12 @@ class ApplicationController < ActionController::Base
 
   def ensure_user
     return true if logged_in?
+
     session[:desired_path] = request.fullpath
     redirect_to '/auth/ditsso_internal'
   end
 
-  def desired_path person
+  def desired_path(person)
     session.delete(:desired_path) || person_path(person, prompt: :profile)
   end
 

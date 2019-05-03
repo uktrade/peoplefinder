@@ -1,6 +1,7 @@
-class GroupSearch
+# frozen_string_literal: true
 
-  def initialize query, results
+class GroupSearch
+  def initialize(query, results)
     @query = query
     @exact_match_found = false
     @results = results
@@ -8,6 +9,7 @@ class GroupSearch
 
   def perform_search
     return @results if @query.blank?
+
     fetch_results
   end
 
@@ -28,18 +30,18 @@ class GroupSearch
   def partial_matches
     words = words(@query)
     return if words.empty?
+
     results = words.inject(Group) do |search, word|
       search.where('name ILIKE ?', "%#{word}%")
     end
     hierarchy_ordered results
   end
 
-  def words query
+  def words(query)
     query.gsub(/\W/, ' ').split.select(&:present?)
   end
 
-  def hierarchy_ordered results
+  def hierarchy_ordered(results)
     results.sort_by(&:ancestry_depth)
   end
-
 end

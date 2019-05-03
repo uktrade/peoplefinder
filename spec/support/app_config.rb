@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SpecSupport
   module AppConfig
     def app_title

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Concerns::Searchable
   extend ActiveSupport::Concern
 
@@ -10,7 +12,7 @@ module Concerns::Searchable
     # Don't know if we still need this, as we have removed community feature.
     after_commit -> { __elasticsearch__.index_document }, on: :update
 
-    index_name [Rails.env, model_name.collection.gsub(/\//, '-')].join('_')
+    index_name [Rails.env, model_name.collection.gsub(%r{/}, '-')].join('_')
 
     def self.delete_indexes
       __elasticsearch__.delete_index! index: index_name
@@ -30,9 +32,10 @@ module Concerns::Searchable
       analyzer: {
         name_synonyms_analyzer: {
           tokenizer: 'whitespace',
-          filter: %w(
+          filter: %w[
             lowercase
-            name_synonyms_expand)
+            name_synonyms_expand
+          ]
         }
       }
     } do

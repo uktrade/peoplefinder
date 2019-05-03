@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PersonDeletionRequestController, type: :controller do
@@ -21,10 +23,10 @@ RSpec.describe PersonDeletionRequestController, type: :controller do
     end
 
     it 'invokes the mailer to send an email now' do
-      mock_mailer = double("PersonDeletionRequestMailer")
+      mock_mailer = double('PersonDeletionRequestMailer')
 
-      expect(PersonDeletionRequestMailer).to receive(:deletion_request).
-        with(
+      expect(PersonDeletionRequestMailer).to receive(:deletion_request)
+        .with(
           reporter: current_user,
           person: person,
           note: 'This is a note'
@@ -35,5 +37,4 @@ RSpec.describe PersonDeletionRequestController, type: :controller do
       post :create, params: { person_id: person.to_param, note: 'This is a note' }
     end
   end
-
 end

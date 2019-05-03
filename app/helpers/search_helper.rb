@@ -1,5 +1,6 @@
-module SearchHelper
+# frozen_string_literal: true
 
+module SearchHelper
   FILTERS = {
     people: 'people',
     teams: 'teams'
@@ -62,17 +63,16 @@ module SearchHelper
     end&.squish
   end
 
-  def count_as_string count
+  def count_as_string(count)
     count.positive? ? "(#{count})" : ''
   end
 
-  def filtered_on? filter_name
+  def filtered_on?(filter_name)
     @search_filters&.include?(filter_name)
   end
 
-  def safe_join_filter array, sep: ' ', preposition: 'from'
+  def safe_join_filter(array, sep: ' ', preposition: 'from')
     array.unshift preposition
     safe_join(array, sep)
   end
-
 end

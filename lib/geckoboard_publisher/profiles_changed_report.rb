@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module GeckoboardPublisher
   class ProfilesChangedReport < Report
-
     def fields
       [
         Geckoboard::DateField.new(:date, name: 'Date'),
@@ -16,7 +17,7 @@ module GeckoboardPublisher
 
     private
 
-    def parse pgresult
+    def parse(pgresult)
       @sets = []
       pgresult.each do |row|
         find_or_create_set(row)
@@ -26,15 +27,14 @@ module GeckoboardPublisher
       pgresult.clear
     end
 
-    def template date, options = {}
+    def template(date, options = {})
       { date: date.to_date.iso8601,
         create: options[:create] || 0,
         update: options[:update] || 0,
-        destroy: options[:destroy] || 0
-      }
+        destroy: options[:destroy] || 0 }
     end
 
-    def find_or_create_set row
+    def find_or_create_set(row)
       @sets.each do |set|
         return set[row['event'].to_sym] = row['count'].to_i if set[:date] == row['event_date'].to_date.iso8601
       end

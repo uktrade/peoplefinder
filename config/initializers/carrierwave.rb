@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 CarrierWave.configure do |config|
   if ENV['S3_KEY'] && ENV['S3_SECRET'] && ENV['S3_BUCKET_NAME']
     config.fog_provider = 'fog-aws'
@@ -39,6 +41,7 @@ end
 if Rails.env.test?
   CarrierWave::Uploader::Base.descendants.each do |klass|
     next if klass.anonymous?
+
     klass.class_eval do
       def base_upload_dir
         "#{Rails.root}/spec/support/"

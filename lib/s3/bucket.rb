@@ -1,22 +1,22 @@
+# frozen_string_literal: true
+
 require 'aws-sdk'
 
 module S3
-
   # wrapper for Aws::S3::Bucket
   # adds convenience methods for extracting
   # profile images from current environments S3
   # bucket.
   #
   class Bucket
-
     # needs to be a key-part that exists in both legacy and current profile image keys/file-paths
-    PROFILE_IMAGE_KEY_MATCHER = '/image/'.freeze
+    PROFILE_IMAGE_KEY_MATCHER = '/image/'
 
-    def initialize name = nil, options = {}
+    def initialize(name = nil, options = {})
       @bucket = aws_s3_bucket name, options
     end
 
-    def profile_image key
+    def profile_image(key)
       profile_image_object(@bucket.object(key)) if key.include? PROFILE_IMAGE_KEY_MATCHER
     end
 
@@ -42,7 +42,7 @@ module S3
 
     private
 
-    def profile_image_object object
+    def profile_image_object(object)
       ProfileImage.new object
     end
 
@@ -57,7 +57,7 @@ module S3
       )
     end
 
-    def aws_s3_bucket name, options
+    def aws_s3_bucket(name, options)
       aws_s3_bucket_name = name || ENV['S3_BUCKET_NAME']
       Aws::S3::Bucket.new(aws_s3_bucket_name, options.merge(client: aws_s3_client))
     end

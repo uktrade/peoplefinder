@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: versions
@@ -38,7 +40,6 @@ RSpec.describe Version, type: :model do
   end
 
   describe '#reify' do
-
     before do
       with_versioning do
         person = create(:person, surname: 'Necro')

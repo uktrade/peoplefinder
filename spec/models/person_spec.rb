@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: people
@@ -57,20 +59,22 @@ require 'rails_helper'
 
 RSpec.describe Person, type: :model do
   let(:person) { build(:person) }
-  it { should validate_presence_of(:given_name).on(:update) }
-  it { should validate_presence_of(:surname) }
-  it { should validate_presence_of(:ditsso_user_id) }
-  it { should validate_uniqueness_of(:ditsso_user_id) }
-  it { should validate_presence_of(:email) }
-  it { should validate_uniqueness_of(:email).case_insensitive }
-  it { should have_many(:groups) }
 
-  it { should respond_to(:pager_number) }
-  it { should respond_to(:skip_group_completion_score_updates) }
+  it { is_expected.to validate_presence_of(:given_name).on(:update) }
+  it { is_expected.to validate_presence_of(:surname) }
+  it { is_expected.to validate_presence_of(:ditsso_user_id) }
+  it { is_expected.to validate_uniqueness_of(:ditsso_user_id) }
+  it { is_expected.to validate_presence_of(:email) }
+  it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+  it { is_expected.to have_many(:groups) }
+
+  it { is_expected.to respond_to(:pager_number) }
+  it { is_expected.to respond_to(:skip_group_completion_score_updates) }
 
   context 'test factory' do
     describe '#create(:person)' do
       let(:person) { create(:person) }
+
       it 'creates a valid person' do
         expect(person).to be_valid
       end
@@ -82,7 +86,6 @@ RSpec.describe Person, type: :model do
   end
 
   describe '#email' do
-
     it 'does not raise an invalid format error if blank' do
       person = build :person, email: ''
       expect(person.save).to be false
@@ -92,7 +95,7 @@ RSpec.describe Person, type: :model do
     it 'does raise an invalid format error if present but invalid' do
       person = build :person, email: 'sdsdsdsds'
       expect(person.save).to be false
-      expect(person.errors[:email]).to eq(["isn’t valid"])
+      expect(person.errors[:email]).to eq(['isn’t valid'])
     end
 
     it 'is converted to lower case' do
@@ -142,7 +145,7 @@ RSpec.describe Person, type: :model do
     end
 
     it 'does not return people in one or more teams' do
-      expect(described_class.non_team_members).to_not include(person)
+      expect(described_class.non_team_members).not_to include(person)
     end
 
     it 'returns people in no team' do
@@ -163,30 +166,30 @@ RSpec.describe Person, type: :model do
 
     it 'does not return people in no team' do
       person.memberships.destroy_all
-      expect(described_class.department_members_in_other_teams).to_not include(person)
+      expect(described_class.department_members_in_other_teams).not_to include(person)
     end
 
     it 'does not return people only in one team' do
-      expect(described_class.department_members_in_other_teams).to_not include(person)
+      expect(described_class.department_members_in_other_teams).not_to include(person)
     end
 
     it 'does not return people in department who are also in another team if they are the department leader' do
       person.memberships.find_by(group_id: Group.department).update(leader: true)
       person.memberships.create(group: create(:group, name: 'Technology'))
-      expect(described_class.department_members_in_other_teams).to_not include(person)
+      expect(described_class.department_members_in_other_teams).not_to include(person)
     end
 
     it 'does not return people in department who are also in another team if they have a role in the department' do
       person.memberships.find_by(group_id: Group.department.id).update(role: 'SIRO for peoplefinder')
       person.memberships.create(group: create(:group, name: 'Technology'))
-      expect(described_class.department_members_in_other_teams).to_not include(person)
+      expect(described_class.department_members_in_other_teams).not_to include(person)
     end
 
     it 'does not return people in multiple non-department teams' do
       person.memberships.destroy_all
       person.memberships.create(group: create(:group, name: 'Technology'))
       person.memberships.create(group: create(:group, name: 'Digital'))
-      expect(described_class.department_members_in_other_teams).to_not include(person)
+      expect(described_class.department_members_in_other_teams).not_to include(person)
     end
   end
 
@@ -199,7 +202,7 @@ RSpec.describe Person, type: :model do
     end
 
     it 'returns AssociationRelation of memberships' do
-      is_expected.to be_kind_of ActiveRecord::AssociationRelation
+      expect(subject).to be_kind_of ActiveRecord::AssociationRelation
       expect(subject.first).to be_kind_of Membership
     end
 
@@ -208,13 +211,13 @@ RSpec.describe Person, type: :model do
     end
 
     it 'returns department memberships with no role' do
-      expect(subject.count).to eql 1
+      expect(subject.count).to be 1
       expect(subject.map(&:role)).to eq [nil]
     end
 
     it 'treats whitespace only roles as null' do
       person.memberships.find_by(group_id: Group.department.id).update(role: ' ')
-      expect(subject.count).to eql 1
+      expect(subject.count).to be 1
       expect(subject.map(&:role)).to eq [' ']
     end
   end
@@ -238,6 +241,7 @@ RSpec.describe Person, type: :model do
 
     context 'with surname containing digit' do
       let(:person) { build(:person, given_name: 'John', surname: 'Smith2') }
+
       it 'removes digit' do
         person.valid?
         expect(person.name).to eql('John Smith')
@@ -263,7 +267,6 @@ RSpec.describe Person, type: :model do
     it 'returns relation that includes aggregate role_names column' do
       expect { described_class.all_in_subtree(team).pluck(:role_names) }.not_to raise_error
     end
-
   end
 
   describe '.all_in_groups' do
@@ -319,8 +322,8 @@ RSpec.describe Person, type: :model do
 
   context 'search' do
     it 'deletes indexes' do
-      expect(described_class.__elasticsearch__).to receive(:delete_index!).
-        with(index: 'test_people')
+      expect(described_class.__elasticsearch__).to receive(:delete_index!)
+        .with(index: 'test_people')
       described_class.delete_indexes
     end
   end
@@ -345,6 +348,7 @@ RSpec.describe Person, type: :model do
 
     let(:person) { build(:person) }
     let!(:digital_services) { create(:group, name: 'Digital Services') }
+
     before do
       person.save!
       person.memberships.create(group: digital_services, role: 'Service Assessments Lead')
@@ -390,10 +394,11 @@ RSpec.describe Person, type: :model do
   end
 
   describe '#all_changes' do
+    subject { person.all_changes }
+
     let(:ds) { create(:group, name: 'Digital Services') }
     let(:csg) { create(:group, name: 'Corporate Services Group') }
     let(:membership) { person.memberships.frst }
-    subject { person.all_changes }
 
     before do
       person.assign_attributes(mass_assignment_params)
@@ -401,7 +406,6 @@ RSpec.describe Person, type: :model do
     end
 
     context 'adding a membership' do
-
       let(:mass_assignment_params) do
         {
           email: 'changed.user@digital.justice.gov.uk',
@@ -425,7 +429,7 @@ RSpec.describe Person, type: :model do
           "membership_#{ds.id}".to_sym =>
             {
               group_id: [nil, ds.id],
-              role: [nil, "Service Assessments Lead"],
+              role: [nil, 'Service Assessments Lead'],
               leader: [false, true],
               subscribed: [true, false]
             }
@@ -433,7 +437,7 @@ RSpec.describe Person, type: :model do
       end
 
       it 'stores addition of a membership' do
-        is_expected.to include valid_membership_changes
+        expect(subject).to include valid_membership_changes
       end
     end
   end
@@ -521,7 +525,7 @@ RSpec.describe Person, type: :model do
     it 'is false when email invalid' do
       person.email = 'bad'
       expect(person.valid?).to be false
-      expect(person.errors.messages[:email]).to eq ["isn’t valid"]
+      expect(person.errors.messages[:email]).to eq ['isn’t valid']
     end
 
     it 'is true when email valid' do
@@ -575,7 +579,7 @@ RSpec.describe Person, type: :model do
     end
 
     it 'can be set to a datetime' do
-      datetime = Time.now
+      datetime = Time.now.in_time_zone
       person.last_reminder_email_at = datetime
       expect(person.last_reminder_email_at).to eq(datetime)
     end
@@ -587,17 +591,17 @@ RSpec.describe Person, type: :model do
     end
 
     it 'is true when last_reminder_email_at is today' do
-      person.last_reminder_email_at = Time.now
+      person.last_reminder_email_at = Time.now.in_time_zone
       expect(person.reminder_email_sent?(within: 30.days)).to be true
     end
 
     it 'is true when last_reminder_email_at is 30 days ago' do
-      person.last_reminder_email_at = Time.now - 30.days
+      person.last_reminder_email_at = Time.now.in_time_zone - 30.days
       expect(person.reminder_email_sent?(within: 30.days)).to be true
     end
 
     it 'is false when last_reminder_email_at is 31 days ago' do
-      person.last_reminder_email_at = Time.now - 31.days
+      person.last_reminder_email_at = Time.now.in_time_zone - 31.days
       expect(person.reminder_email_sent?(within: 30.days)).to be false
     end
   end
@@ -628,5 +632,4 @@ RSpec.describe Person, type: :model do
       expect(person.primary_phone_country).to be_nil
     end
   end
-
 end

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rspec/expectations'
 
 module DelayedJobHelper
-
   RSpec::Matchers.define :delay_method do |expected|
     def supports_block_expectations?
       true
@@ -47,5 +48,4 @@ module DelayedJobHelper
       "expected #{proc} not to have enqueued #{@expected_count} delayed job(s) but enqueued #{@actual_count}"
     end
   end
-
 end

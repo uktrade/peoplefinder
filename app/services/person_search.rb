@@ -1,11 +1,12 @@
-class PersonSearch
+# frozen_string_literal: true
 
+class PersonSearch
   attr_reader :query, :results, :matches
 
   PRE_TAGS = ['<span class="es-highlight">'].freeze
   POST_TAGS = ['</span>'].freeze
 
-  def initialize query, results
+  def initialize(query, results)
     @query = clean_query query
     @query_regexp = /#{@query.downcase}/i
     @email_query = query.strip.downcase
@@ -33,6 +34,7 @@ class PersonSearch
 
   def email_found
     return false unless @email_query.include?('@')
+
     @matches = search_email
     if matches.records.present?
       @results.set = matches.records
@@ -55,23 +57,23 @@ class PersonSearch
                      end
   end
 
-  def any_partial_name_matches? results
+  def any_partial_name_matches?(results)
     results.any? { |m| m.name[@query_regexp] }
   end
 
-  def any_partial_match_for? person, field
+  def any_partial_match_for?(person, field)
     person.send(field) && person.send(field)[@query_regexp]
   end
 
-  def any_partial_match? person
-    [
-      :description,
-      :role_and_group,
-      :location,
-      :current_project,
-      :languages,
-      :formatted_key_skills,
-      :formatted_learning_and_development
+  def any_partial_match?(person)
+    %i[
+      description
+      role_and_group
+      location
+      current_project
+      languages
+      formatted_key_skills
+      formatted_learning_and_development
     ].any? do |field|
       any_partial_match_for?(person, field)
     end
@@ -97,15 +99,15 @@ class PersonSearch
     search @search_definition
   end
 
-  def clean_query query
-    query.
-      gsub(/[^[[:alnum:]]’\']/, ' ').
-      tr(',', ' ').
-      squeeze(' ').
-      strip
+  def clean_query(query)
+    query
+      .gsub(/[^[[:alnum:]]’\']/, ' ')
+      .tr(',', ' ')
+      .squeeze(' ')
+      .strip
   end
 
-  def search query
+  def search(query)
     Person.search_results(query)
   end
 
@@ -181,7 +183,7 @@ class PersonSearch
   # promote fuzzy surname matches above role/group, above full name
   #
   def fields_to_search
-    %w(
+    %w[
       name^4
       surname^12
       role_and_group^6
@@ -190,7 +192,7 @@ class PersonSearch
       location^4
       formatted_key_skills^4
       formatted_learning_and_development^4
-    )
+    ]
   end
 
   def combined_query
@@ -230,5 +232,4 @@ class PersonSearch
   def single_word_query?
     !@query[/\s/]
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class ApplicationController < ActionController::Base
     include ActionController::HttpAuthentication::Token::ControllerMethods

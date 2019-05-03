@@ -1,15 +1,16 @@
-module BreadcrumbHelper
+# frozen_string_literal: true
 
+module BreadcrumbHelper
   def breadcrumbs(items, show_links: true)
     starts_with_home = items.first == Home.instance
     starts_with_root_team = items.first == Group.department
     render partial: 'shared/breadcrumbs',
-      locals: {
-        items: items,
-        show_links: show_links,
-        starts_with_home: starts_with_home,
-        starts_with_root_team: starts_with_root_team
-      }
+           locals: {
+             items: items,
+             show_links: show_links,
+             starts_with_home: starts_with_home,
+             starts_with_root_team: starts_with_root_team
+           }
   end
 
   def crumb_to(crumb, options = {})
@@ -31,8 +32,8 @@ module BreadcrumbHelper
     end
   end
 
-  def crumb_options options
-    crumb_keys = [:index, :starts_with_home, :starts_with_root_team, :show_links, :class, :style]
+  def crumb_options(options)
+    crumb_keys = %i[index starts_with_home starts_with_root_team show_links class style]
     options.assert_valid_keys(*crumb_keys)
     options[:class] = "breadcrumb-#{options[:index]}"
     options.slice(*crumb_keys)
@@ -50,7 +51,7 @@ module BreadcrumbHelper
     link_to_unless_current link_text, obj, html_options
   end
 
-  def adjust_breadcrumb_index index, starts_with_home, starts_with_root_team
+  def adjust_breadcrumb_index(index, starts_with_home, starts_with_root_team)
     if starts_with_home
       index - 1
     elsif starts_with_root_team

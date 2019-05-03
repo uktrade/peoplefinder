@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 # FIXME: Refactor this controller - it's too long
 class PeopleController < ApplicationController
-
   include StateCookieHelper
 
-  before_action :set_person, only: [:show, :edit, :update, :destroy]
-  before_action :set_org_structure, only: [:edit, :update, :add_membership]
+  before_action :set_person, only: %i[show edit update destroy]
+  before_action :set_org_structure, only: %i[edit update add_membership]
   before_action :load_versions, only: [:show]
 
   # GET /people
@@ -88,7 +89,7 @@ class PeopleController < ApplicationController
       :other_key_skills, :other_learning_and_development, :other_additional_responsibilities,
       building: [], key_skills: [], learning_and_development: [], networks: [],
       key_responsibilities: [], additional_responsibilities: [], professions: [],
-      memberships_attributes: [:id, :role, :group_id, :leader, :subscribed, :_destroy]
+      memberships_attributes: %i[id role group_id leader subscribed _destroy]
     ] + super_admin_person_params
   end
 
@@ -103,8 +104,8 @@ class PeopleController < ApplicationController
     @org_structure = Group.hierarchy_hash
   end
 
-  def build_membership person
-    person.memberships.build unless person.memberships.present?
+  def build_membership(person)
+    person.memberships.build if person.memberships.blank?
   end
 
   def redirection_destination
@@ -120,8 +121,6 @@ class PeopleController < ApplicationController
   def load_versions
     versions = @person.versions
     @last_updated_at = versions.last ? versions.last.created_at : nil
-    if super_admin?
-      @versions = AuditVersionPresenter.wrap(versions)
-    end
+    @versions = AuditVersionPresenter.wrap(versions) if super_admin?
   end
 end

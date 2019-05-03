@@ -1,5 +1,6 @@
-module PreviewHelper
+# frozen_string_literal: true
 
+module PreviewHelper
   private
 
   def team
@@ -14,7 +15,7 @@ module PreviewHelper
       primary_phone_number: '0555 555 555',
       location_in_building: 'room 101',
       description: 'old info'
-    ) do | person |
+    ) do |person|
       person.memberships << Membership.new(group_id: Group.department.id)
     end
   end
@@ -33,23 +34,23 @@ module PreviewHelper
       given_name: 'Insti',
       surname: 'Gator',
       email: 'insti.gator@fake-moj.justice.gov.uk'
-    ) do | person |
+    ) do |person|
       person.memberships << Membership.new(group_id: Group.department.id)
     end
   end
 
   def clean_recipient
-    ['fred.bloggs@fake-moj.justice.gov.uk','fred.reese-bloggs@fake-moj.justice.gov.uk'].each do |email|
+    ['fred.bloggs@fake-moj.justice.gov.uk', 'fred.reese-bloggs@fake-moj.justice.gov.uk'].each do |email|
       recipient = Person.find_by(email: email)
-      recipient.destroy if recipient
+      recipient&.destroy
     end
     @recipient = nil
   end
 
-  def mass_person_attrs person
-    membership = person.reload.memberships.create(group_id: Group.department.id, role: "Executive Officer", leader: false, subscribed: true)
+  def mass_person_attrs(person)
+    membership = person.reload.memberships.create(group_id: Group.department.id, role: 'Executive Officer', leader: false, subscribed: true)
     {
-      given_name: "Frederick",
+      given_name: 'Frederick',
       surname: 'Reese-Bloggs',
       primary_phone_number: '0123 456 789',
       secondary_phone_number: '07708 139 313',
@@ -83,5 +84,4 @@ module PreviewHelper
       }
     }
   end
-
 end

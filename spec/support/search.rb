@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SpecSupport
   module Search
     def clean_up_indexes_and_tables

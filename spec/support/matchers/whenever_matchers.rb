@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :be_defined do
   match do |actual|
     command = actual.split('(')[0].split('.')

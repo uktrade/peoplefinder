@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ReminderMailOlderThanQuery do
-
   describe '#call' do
     it 'generates the expected sql' do
       Timecop.freeze(Time.utc(2017, 1, 19, 12, 26, 1)) do

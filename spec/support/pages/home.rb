@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'sections/search_form'
 require_relative 'sections/about_usage'
 require_relative 'sections/department_overview'

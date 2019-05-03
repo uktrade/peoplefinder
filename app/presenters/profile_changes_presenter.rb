@@ -1,6 +1,7 @@
-class ProfileChangesPresenter < ChangesPresenter
+# frozen_string_literal: true
 
-  def format raw_changes
+class ProfileChangesPresenter < ChangesPresenter
+  def format(raw_changes)
     split_presenters raw_changes
   end
 
@@ -22,21 +23,20 @@ class ProfileChangesPresenter < ChangesPresenter
 
   private
 
-  MEMBERSHIP_KEY_PATTERN = /membership_.*/
+  MEMBERSHIP_KEY_PATTERN = /membership_.*/.freeze
 
-  def split_presenters raw_changes
+  def split_presenters(raw_changes)
     [
       PersonChangesPresenter.new(raw_person_changes(raw_changes)),
       MembershipChangesPresenter.new(raw_membership_changes(raw_changes))
     ]
   end
 
-  def raw_membership_changes raw_changes
+  def raw_membership_changes(raw_changes)
     raw_changes.select { |k, _v| MEMBERSHIP_KEY_PATTERN.match(k) }
   end
 
-  def raw_person_changes raw_changes
-    raw_changes.select { |k, _v| !MEMBERSHIP_KEY_PATTERN.match(k) }
+  def raw_person_changes(raw_changes)
+    raw_changes.reject { |k, _v| MEMBERSHIP_KEY_PATTERN.match(k) }
   end
-
 end

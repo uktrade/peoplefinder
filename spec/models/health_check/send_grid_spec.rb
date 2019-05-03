@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe HealthCheck::SendGrid do
   subject { described_class.new }
+
   let(:smtp) { double Net::SMTP }
 
   context '#available?' do
@@ -21,7 +24,7 @@ describe HealthCheck::SendGrid do
   end
 
   context '#accessible?' do
-    before(:each) do
+    before do
       allow(Net::SMTP).to receive(:start).and_yield(smtp)
     end
 
@@ -32,8 +35,8 @@ describe HealthCheck::SendGrid do
     end
 
     it 'returns false if the component is not accessible with our credentials' do
-      expect(smtp).to receive(:authenticate).
-        and_raise(Net::SMTPAuthenticationError)
+      expect(smtp).to receive(:authenticate)
+        .and_raise(Net::SMTPAuthenticationError)
 
       expect(subject).not_to be_accessible
     end
@@ -42,8 +45,8 @@ describe HealthCheck::SendGrid do
   context '#errors' do
     it 'returns the exception messages if there is an error accessing the component' do
       allow(Net::SMTP).to receive(:start).and_yield(smtp)
-      allow(smtp).to receive(:authenticate).
-        and_raise(Net::SMTPAuthenticationError)
+      allow(smtp).to receive(:authenticate)
+        .and_raise(Net::SMTPAuthenticationError)
       subject.accessible?
 
       expect(subject.errors).to eq(
@@ -55,8 +58,8 @@ describe HealthCheck::SendGrid do
       allow(Net::SMTP).to receive(:start).and_raise(StandardError)
       subject.accessible?
 
-      expect(subject.errors.first).
-        to match(/Error: StandardError\nDetails/)
+      expect(subject.errors.first)
+        .to match(/Error: StandardError\nDetails/)
     end
   end
 end

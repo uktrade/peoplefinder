@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Concerns::Sanitizable
   extend ActiveSupport::Concern
 
@@ -10,30 +12,33 @@ module Concerns::Sanitizable
 
   def sanitize!
     fields_to_sanitize.each do |field, options|
-      value = send(field)
+      value = public_send(field)
       next unless value
-      sanitize_value! value, options
+
+      sanitized_value = sanitize_value(value, options)
+      assign_attributes(field => sanitized_value)
     end
   end
 
   private
 
-  def sanitize_value! value, options
-    value.strip! if strip?(value, options)
-    value.downcase! if downcase?(value, options)
-    value.gsub!(/\d/, '') if remove_digits?(value, options)
+  def sanitize_value(value, options)
+    value = value.strip if strip?(value, options)
+    value = value.downcase if downcase?(value, options)
+    value = value.gsub(/\d/, '') if remove_digits?(value, options)
+    value
   end
 
-  def strip? value, options
-    value.respond_to?(:strip!) && options[:strip]
+  def strip?(value, options)
+    value.respond_to?(:strip) && options[:strip]
   end
 
-  def downcase? value, options
-    value.respond_to?(:downcase!) && options[:downcase]
+  def downcase?(value, options)
+    value.respond_to?(:downcase) && options[:downcase]
   end
 
-  def remove_digits? value, options
-    value.respond_to?(:gsub!) && options[:remove_digits]
+  def remove_digits?(value, options)
+    value.respond_to?(:gsub) && options[:remove_digits]
   end
 
   module ClassMethods

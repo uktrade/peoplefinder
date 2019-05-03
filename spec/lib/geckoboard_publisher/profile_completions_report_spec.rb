@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe GeckoboardPublisher::ProfileCompletionsReport, geckoboard: true do
@@ -24,19 +26,19 @@ RSpec.describe GeckoboardPublisher::ProfileCompletionsReport, geckoboard: true d
     let(:expected_items) do
       [
         {
-          team: "Corporate Services Group",
+          team: 'Corporate Services Group',
           total: 1,
           with_photos: 0.0,
           with_additional_info: 1.0
         },
         {
-          team: "Digital Services",
+          team: 'Digital Services',
           total: 1,
           with_photos: 1.0,
           with_additional_info: 0.0
         },
         {
-          team: "NOMS",
+          team: 'NOMS',
           total: 2,
           with_photos: 0.5,
           with_additional_info: 0.5
@@ -50,24 +52,22 @@ RSpec.describe GeckoboardPublisher::ProfileCompletionsReport, geckoboard: true d
       noms = create :group, name: 'National Offender Managment Service', acronym: 'NOMS'
       person = create :person, :member_of, team: csg, description: 'description added'
       person = create :person, :with_photo, :member_of, team: ds, current_project: " \n\t" # test whitespace exclusion
-      person = create :person, :with_photo, :member_of, team: noms, current_project: "mmmmm, donuts!"
+      person = create :person, :with_photo, :member_of, team: noms, current_project: 'mmmmm, donuts!'
       person = create :person, :member_of, team: noms
     end
 
     include_examples 'returns valid items structure'
 
     it 'uses acronyms if available' do
-      is_expected.to include_hash_matching team: 'NOMS'
-      is_expected.not_to include_hash_matching team: " \n\t"
+      expect(subject).to include_hash_matching team: 'NOMS'
+      expect(subject).not_to include_hash_matching team: " \n\t"
     end
 
     it 'returns expected dataset items' do
-      expect(subject.size).to eql 3
+      expect(subject.size).to be 3
       expected_items.each do |item|
-        is_expected.to include item
+        expect(subject).to include item
       end
     end
-
   end
-
 end

@@ -1,5 +1,6 @@
-class PeopleUpdatedOlderThanQuery < BaseQuery
+# frozen_string_literal: true
 
+class PeopleUpdatedOlderThanQuery < BaseQuery
   def initialize(within, relation = Person.all)
     @relation = relation
     @within = within

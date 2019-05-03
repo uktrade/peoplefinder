@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 RSpec.describe Metrics::TeamDescriptionsController, type: :controller do
   let(:parsed_body) { JSON.parse(response.body) }

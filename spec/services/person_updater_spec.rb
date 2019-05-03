@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PersonUpdater, type: :service do
+  subject { described_class.new(person: person, current_user: current_user, state_cookie: smc) }
+
   let(:person) do
     double(
       'Person',
@@ -14,10 +18,7 @@ RSpec.describe PersonUpdater, type: :service do
   let(:null_object) { double('null_object').as_null_object }
   let(:current_user) { double('Current User', email: 'user@example.com') }
 
-  subject { described_class.new(person: person, current_user: current_user, state_cookie: smc) }
-
   context 'Saving profile on update' do
-
     let(:smc) { double StateManagerCookie, save_profile?: true, create?: false }
 
     before do
@@ -52,19 +53,19 @@ RSpec.describe PersonUpdater, type: :service do
       end
 
       it 'sends no update email if not required' do
-        allow(person).
-          to receive(:notify_of_change?).
-          with(current_user).
-          and_return(false)
+        allow(person)
+          .to receive(:notify_of_change?)
+          .with(current_user)
+          .and_return(false)
         expect(QueuedNotification).not_to receive(:queue!)
         subject.update!
       end
 
       it 'sends creates a queued notification if required' do
-        allow(person).
-          to receive(:notify_of_change?).
-          with(current_user).
-          and_return(true)
+        allow(person)
+          .to receive(:notify_of_change?)
+          .with(current_user)
+          .and_return(true)
 
         expect(QueuedNotification).to receive(:queue!)
         subject.update!
@@ -80,7 +81,5 @@ RSpec.describe PersonUpdater, type: :service do
       expect(QueuedNotification).to receive(:queue!)
       subject.update!
     end
-
   end
-
 end

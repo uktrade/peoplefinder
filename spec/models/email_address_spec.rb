@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe EmailAddress do
@@ -6,6 +8,7 @@ RSpec.describe EmailAddress do
   describe '.to_s' do
     let(:email_string) { 'valid@something.gov.uk' }
     let(:email_address) { described_class.new(email_string) }
+
     it 'returns string passed to initializer' do
       expect(email_address.to_s).to eq email_string
     end
@@ -14,11 +17,13 @@ RSpec.describe EmailAddress do
   describe '.valid_format' do
     context 'is badly formatted' do
       let(:email) { 'me-at-example.co.uk' }
+
       it { is_expected.not_to be_valid_format }
     end
 
     context 'is correctly formatted' do
       let(:email) { 'me@example.co.uk' }
+
       it { is_expected.to be_valid_format }
     end
   end
@@ -41,15 +46,15 @@ RSpec.describe EmailAddress do
     end
 
     it 'is valid' do
-      expect(described_class.new("me@something.gov.uk")).to be_valid_address
+      expect(described_class.new('me@something.gov.uk')).to be_valid_address
     end
 
-    it "contains an apostrophe" do
+    it 'contains an apostrophe' do
       expect(described_class.new("michael.o'postrophe@something.gov.uk")).to be_valid_address
     end
 
-    it "contains capital letters in the mailbox part" do
-      expect(described_class.new("Important.Person@something.gov.uk")).to be_valid_address
+    it 'contains capital letters in the mailbox part' do
+      expect(described_class.new('Important.Person@something.gov.uk')).to be_valid_address
     end
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'csv'
 
 module CsvPublisher
@@ -6,7 +8,7 @@ module CsvPublisher
 
     attr_reader :file, :query, :dataset
 
-    FILE_EXTENSION = 'csv'.freeze
+    FILE_EXTENSION = 'csv'
 
     def initialize
       @file = self.class.default_file_path
@@ -20,7 +22,6 @@ module CsvPublisher
     def_single_delegator :new, :publish!, :publish!
 
     class << self
-
       def report_name
         name.demodulize.underscore
       end
@@ -54,15 +55,15 @@ module CsvPublisher
       dataset.first.keys
     end
 
-    def csv_record record_hash
+    def csv_record(record_hash)
       csv_record = []
-      record_hash.values.each_with_object([]) do |value|
+      record_hash.values.each do |value|
         csv_record += [value]
       end
       csv_record
     end
 
-    def save! file
+    def save!(file)
       content = File.read(file)
       Report.where(name: self.class.report_name).delete_all
       Report.create!(name: self.class.report_name, content: content, extension: FILE_EXTENSION, mime_type: 'text/csv')

@@ -1,6 +1,7 @@
-class PersonFormBuilder < GovukElementsFormBuilder::FormBuilder
+# frozen_string_literal: true
 
-  LABEL_SCOPE = [:helpers, :label, :person].freeze
+class PersonFormBuilder < GovukElementsFormBuilder::FormBuilder
+  LABEL_SCOPE = %i[helpers label person].freeze
 
   def check_box(method, options = {}, checked_value = '1', unchecked_value = '0')
     @template.content_tag :div, class: 'form-group' do
@@ -19,13 +20,13 @@ class PersonFormBuilder < GovukElementsFormBuilder::FormBuilder
     super
   end
 
-  def error_html_attributes attribute
+  def error_html_attributes(attribute)
     GovukElementsErrorsHelper.error_html_attributes self, attribute
   end
 
   # patch GovukElementsFormBuilder::FormBuilder#localized
   # as it does not work for hints on nested attributes.
-  def localized scope, attribute, default
+  def localized(scope, attribute, default)
     self.class.localized scope, attribute, default, object.class.name.downcase
   end
 
@@ -36,8 +37,7 @@ class PersonFormBuilder < GovukElementsFormBuilder::FormBuilder
       object.needed_for_completion?(field)
   end
 
-  def label_t attribute
+  def label_t(attribute)
     I18n.t(attribute, scope: LABEL_SCOPE)
   end
-
 end

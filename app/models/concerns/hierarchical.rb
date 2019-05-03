@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Concerns::Hierarchical
   extend ActiveSupport::Concern
 
@@ -15,8 +17,9 @@ module Concerns::Hierarchical
     # e.g. The following would only ever create one child of the parent:
     # Group.find_or_create_by!(name: 'Content', parent: digital_services )
     # Group.find_or_create_by!(name: 'Content', parent: technology )
-    def self.find_or_create_by! attributes, &block
+    def self.find_or_create_by!(attributes, &block)
       return super unless attributes.include?(:parent) || attributes.include?(:parent_id)
+
       parent_id = sanitize_and_get_parent_id(attributes)
 
       if find_by(attributes) && (find_by(attributes).parent_id == parent_id || find_by(attributes).parent == parent)
@@ -26,11 +29,10 @@ module Concerns::Hierarchical
       end
     end
 
-    def self.sanitize_and_get_parent_id attributes
+    def self.sanitize_and_get_parent_id(attributes)
       parent = attributes.delete(:parent) if attributes.include?(:parent)
       parent_id = attributes.delete(:parent_id) if attributes.include?(:parent_id)
       parent_id.nil? ? parent.id : parent_id
     end
-
   end
 end

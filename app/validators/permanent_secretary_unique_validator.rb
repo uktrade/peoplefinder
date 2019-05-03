@@ -1,16 +1,15 @@
-class PermanentSecretaryUniqueValidator < ActiveModel::Validator
+# frozen_string_literal: true
 
+class PermanentSecretaryUniqueValidator < ActiveModel::Validator
   def validate(record)
     @record = record
-    if perm_sec? && perm_sec_exists?
-      record.errors[:leader] << perm_sec_unique_message
-    end
+    record.errors[:leader] << perm_sec_unique_message if perm_sec? && perm_sec_exists?
   end
 
   private
 
   def scope_t
-    [:errors, :validators, :permanent_secretary_unique_validator, :leader]
+    %i[errors validators permanent_secretary_unique_validator leader]
   end
 
   def perm_sec_unique_message

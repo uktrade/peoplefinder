@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PeopleController, type: :controller do
@@ -52,13 +54,13 @@ RSpec.describe PeopleController, type: :controller do
         person.memberships.destroy_all
         expect(person.memberships.count).to eq 0
         get :edit, params: { id: person.to_param }
-        expect(assigns(:person).memberships.length).to eql(1)
+        expect(assigns(:person).memberships.length).to be(1)
       end
 
       it 'does not build a membership when there is one already' do
         expect(person.memberships.count).to eq 1
         get :edit, params: { id: person.to_param }
-        expect(assigns(:person).memberships.length).to eql(1)
+        expect(assigns(:person).memberships.length).to be(1)
       end
     end
   end
@@ -79,6 +81,7 @@ RSpec.describe PeopleController, type: :controller do
         person.reload
         new_attributes.each do |key, value|
           next if key == :ditsso_user_id
+
           expect(person.__send__(key)).to eql value
         end
       end
@@ -121,9 +124,7 @@ RSpec.describe PeopleController, type: :controller do
       it 'updates the requested person apart from SSO ID' do
         person.reload
         new_attributes.each do |attr, value|
-          if attr != :ditsso_user_id
-            expect(person.send(attr)).to eql(value)
-          end
+          expect(person.send(attr)).to eql(value) if attr != :ditsso_user_id
         end
       end
 

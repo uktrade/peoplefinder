@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe FileSizeValidator, type: :validator do
@@ -15,23 +17,25 @@ RSpec.describe FileSizeValidator, type: :validator do
 
   context 'image with byte size over the maximum' do
     let(:file_size) { 6.01.megabytes }
+
     it { is_expected.to be_invalid }
 
     it 'assigns a default error message' do
       expect { subject.valid? }.to change(subject.errors, :count).by 1
       subject.valid?
-      expect(subject.errors.full_messages).to include "Image file size, 6.01 MB, is too large"
+      expect(subject.errors.full_messages).to include 'Image file size, 6.01 MB, is too large'
     end
   end
 
   context 'image with byte size equal to the maximum' do
     let(:file_size) { 6.megabytes }
+
     it { is_expected.to be_valid }
   end
 
   context 'image with byte size under the maximum' do
     let(:file_size) { 5.99.megabytes }
+
     it { is_expected.to be_valid }
   end
-
 end

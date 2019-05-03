@@ -1,5 +1,6 @@
-class HealthCheckController < ActionController::Base
+# frozen_string_literal: true
 
+class HealthCheckController < ActionController::Base
   protect_from_forgery with: :exception
 
   def index

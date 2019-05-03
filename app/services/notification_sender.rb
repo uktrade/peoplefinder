@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 # This class is instantiated regularly by the whenever gem
 # to examine the QueuedNotifications table for outstanding
 # notifications, and batch them together and mail to users.
 #
 
 class NotificationSender
-
   def initialize
     @grouped_items = QueuedNotification.unsent_groups
   end
@@ -17,7 +18,7 @@ class NotificationSender
 
   def process_group(gi)
     notifications = QueuedNotification.start_processing_grouped_item(gi)
-    unless notifications.nil? || notifications.empty?
+    if notifications.present?
       @person = notifications.first.person
       @logged_in_user = notifications.first.current_user
       if new_profile_notification?(notifications)
@@ -41,8 +42,7 @@ class NotificationSender
     aggregator = ProfileChangeAggregator.new(notifications)
     changes_presenter = ProfileChangesPresenter.new(aggregator.aggregate_raw_changes)
     UserUpdateMailer.updated_profile_email(@person,
-      changes_presenter.serialize,
-      @logged_in_user.try(:email)).deliver_later
+                                           changes_presenter.serialize,
+                                           @logged_in_user.try(:email)).deliver_later
   end
-
 end

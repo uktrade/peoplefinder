@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module SpecSupport
   module GeckoboardHelper
     RSpec.configure do |config|
-      config.before(:each) do
+      config.before do
         mock_response = {
           id: '12345',
           fields: [],

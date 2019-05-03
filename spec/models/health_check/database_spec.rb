@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe HealthCheck::Database do
@@ -20,8 +22,8 @@ describe HealthCheck::Database do
     end
 
     it 'returns false if the database is not accessible with our credentials' do
-      allow(subject).to receive(:execute_simple_select_on_database).
-        and_raise(PG::ConnectionBad.new('Database has gone away'))
+      allow(subject).to receive(:execute_simple_select_on_database)
+        .and_raise(PG::ConnectionBad.new('Database has gone away'))
       result = subject.accessible?
       expect(result).to be false
     end

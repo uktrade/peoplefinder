@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ProfilePhotosController, type: :controller do
@@ -62,7 +64,7 @@ RSpec.describe ProfilePhotosController, type: :controller do
 
     it 'renders an error JSON response for use by view' do
       post :create, params: { profile_photo: invalid_params }
-      expected = { error: "not a real error, nor is this" }.to_json
+      expected = { error: 'not a real error, nor is this' }.to_json
       expect(response.body).to eql expected
     end
 
@@ -71,5 +73,4 @@ RSpec.describe ProfilePhotosController, type: :controller do
       expect(response.header['Content-Type']).to include 'text/plain'
     end
   end
-
 end

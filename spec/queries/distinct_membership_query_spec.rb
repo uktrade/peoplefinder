@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe DistinctMembershipQuery do
-
   before(:all) do
     clean_up_indexes_and_tables
     pf = create :group, name: 'Peoplefinder Team'

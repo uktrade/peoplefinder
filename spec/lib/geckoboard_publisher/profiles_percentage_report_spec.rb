@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe GeckoboardPublisher::ProfilesPercentageReport, geckoboard: true do
@@ -52,9 +54,8 @@ RSpec.describe GeckoboardPublisher::ProfilesPercentageReport, geckoboard: true d
 
     it 'returns expected dataset items' do
       expected_items.each do |item|
-        is_expected.to include item
+        expect(subject).to include item
       end
     end
   end
-
 end

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe AuditVersionPresenter, type: :presenter do
   let(:whodunnit)  { 'Tom Smith' }
   let(:event)      { 'update' }
-  let(:created_at) { DateTime.now }
+  let(:created_at) { DateTime.now.in_time_zone }
 
   let(:previous_email) { 'f.smith@smithmeister.com' }
   let(:new_email)      { 'f.smith@digital.justice.gov.uk' }
@@ -24,11 +26,10 @@ RSpec.describe AuditVersionPresenter, type: :presenter do
 
   let(:version) do
     double('version',
-      created_at: created_at,
-      whodunnit: whodunnit,
-      event: event,
-      object_changes: object_changes
-          )
+           created_at: created_at,
+           whodunnit: whodunnit,
+           event: event,
+           object_changes: object_changes)
   end
   let(:presenter)  { described_class.new(version) }
   let(:changes)    { presenter.changes }
@@ -59,7 +60,7 @@ RSpec.describe AuditVersionPresenter, type: :presenter do
     end
   end
 
-  describe ".wrap" do
+  describe '.wrap' do
     let(:object)           { Object.new }
     let(:presenter)        { double('presenter') }
     let(:object_array)     { [object, object, object] }

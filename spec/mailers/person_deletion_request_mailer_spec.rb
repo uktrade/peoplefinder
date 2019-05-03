@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PersonDeletionRequestMailer do
@@ -15,8 +17,8 @@ RSpec.describe PersonDeletionRequestMailer do
 
   describe '.deletion_request' do
     let(:mail) do
-      described_class.deletion_request(details_hash).
-        deliver_now
+      described_class.deletion_request(details_hash)
+                     .deliver_now
     end
 
     it 'is sent to support mailbox' do

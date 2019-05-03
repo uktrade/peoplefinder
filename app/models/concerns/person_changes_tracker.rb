@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 module Concerns::PersonChangesTracker
   extend ActiveSupport::Concern
 
   included do
-
     after_initialize :initialize_changes_store
 
     before_save do
@@ -17,11 +18,11 @@ module Concerns::PersonChangesTracker
     end
 
     def person_changes
-      @person_changes.deep_symbolize_keys unless @person_changes.nil?
+      @person_changes&.deep_symbolize_keys
     end
 
     def membership_changes
-      @membership_changes.deep_symbolize_keys unless @membership_changes.nil?
+      @membership_changes&.deep_symbolize_keys
     end
 
     def all_changes
@@ -35,11 +36,10 @@ module Concerns::PersonChangesTracker
       @membership_changes = {} if @membership_changes.nil?
     end
 
-    def membership_key membership
+    def membership_key(membership)
       "membership_#{membership.group_id ||
       membership.changes[:group_id]&.second ||
       membership.changes[:group_id]&.first}"
     end
-
   end
 end

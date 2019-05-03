@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SpecSupport
   module Carrierwave
     RSpec.configure do |config|
@@ -7,7 +9,7 @@ module SpecSupport
       end
     end
 
-    def test_image file_name, extension = 'png'
+    def test_image(file_name, extension = 'png')
       Rack::Test::UploadedFile.new(
         File.join(Rails.root, 'spec', 'fixtures', "#{file_name}.#{extension}")
       )
@@ -32,6 +34,5 @@ module SpecSupport
     def non_white_list_image
       test_image :placeholder, :bmp
     end
-
   end
 end

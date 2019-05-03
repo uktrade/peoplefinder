@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: profile_photos
@@ -21,7 +23,7 @@ RSpec.describe ProfilePhoto, type: :model do
 
   it 'has one person' do
     person_association = described_class.reflect_on_association(:person).macro
-    expect(person_association).to eql :has_one
+    expect(person_association).to be :has_one
   end
 
   it 'stores upload dimensions' do
@@ -56,24 +58,24 @@ RSpec.describe ProfilePhoto, type: :model do
       context 'extension is whitelisted' do
         it do
           subject.image = non_white_list_image
-          is_expected.to be_invalid
+          expect(subject).to be_invalid
         end
 
         it do
           subject.image = valid_image
-          is_expected.to be_valid
+          expect(subject).to be_valid
         end
       end
 
       context 'size must be less than or equal to 6M' do
         it do
           allow(subject.image).to receive(:size).and_return 6.001.megabytes
-          is_expected.to be_invalid
+          expect(subject).to be_invalid
         end
 
         it do
           allow(subject.image).to receive(:size).and_return 6.megabytes
-          is_expected.to be_valid
+          expect(subject).to be_valid
         end
       end
     end
@@ -82,24 +84,24 @@ RSpec.describe ProfilePhoto, type: :model do
       context 'must be greater than 648x648 pixels' do
         it do
           allow(subject).to receive(:upload_dimensions).and_return(width: 649, height: 647)
-          is_expected.to be_invalid
+          expect(subject).to be_invalid
         end
 
         it do
           allow(subject).to receive(:upload_dimensions).and_return(width: 648, height: 648)
-          is_expected.to be_valid
+          expect(subject).to be_valid
         end
       end
 
       context 'must be less than or equal to 8192x8192 pixels' do
         it do
           allow(subject).to receive(:upload_dimensions).and_return(width: 8193, height: 8192)
-          is_expected.to be_invalid
+          expect(subject).to be_invalid
         end
 
         it do
           allow(subject).to receive(:upload_dimensions).and_return(width: 8192, height: 8192)
-          is_expected.to be_valid
+          expect(subject).to be_valid
         end
       end
     end
@@ -153,7 +155,5 @@ RSpec.describe ProfilePhoto, type: :model do
         end
       end
     end
-
   end
-
 end

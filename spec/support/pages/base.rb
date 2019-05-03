@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Pages
   class Base < SitePrism::Page
     element :flash_message, '#flash-messages'

@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ProfileChangesPresenter, type: :presenter do
+  subject { described_class.new(person.all_changes) }
+
   let(:old_email) { 'test.user@digital.justice.gov.uk' }
   let(:new_email) { 'changed.user@digital.justice.gov.uk' }
   let!(:ds) { create(:group, name: 'Digital Services') }
@@ -15,9 +19,9 @@ RSpec.describe ProfileChangesPresenter, type: :presenter do
   end
 
   let(:mass_assignment_params) do
-    membership = person.reload.memberships.create(group_id: csg.id, role: "Executive Office", leader: false, subscribed: true)
+    membership = person.reload.memberships.create(group_id: csg.id, role: 'Executive Office', leader: false, subscribed: true)
     {
-      given_name: "Frederick",
+      given_name: 'Frederick',
       surname: 'Reese-Bloggs',
       primary_phone_number: '0123 456 789',
       secondary_phone_number: '07708 139 313',
@@ -54,14 +58,13 @@ RSpec.describe ProfileChangesPresenter, type: :presenter do
     person.save!
   end
 
-  subject { described_class.new(person.all_changes) }
-
   it_behaves_like 'a changes_presenter'
 
   describe '#raw' do
     subject { described_class.new(person.all_changes).raw }
+
     it 'returns orginal changes' do
-      is_expected.to be_a Hash
+      expect(subject).to be_a Hash
       expect(subject[:email].first).to eql old_email
     end
   end
@@ -77,7 +80,7 @@ RSpec.describe ProfileChangesPresenter, type: :presenter do
 
   describe '#serialize' do
     subject { described_class.new(person.all_changes).serialize }
+
     include_examples 'serializability'
   end
-
 end

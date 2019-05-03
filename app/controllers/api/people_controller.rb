@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class PeopleController < Api::ApplicationController
     before_action :set_person, only: [:show]

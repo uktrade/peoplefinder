@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: profile_photos
@@ -24,5 +26,4 @@ class ProfilePhoto < ApplicationRecord
     self.crop_h = h
     image.recreate_versions!(*versions)
   end
-
 end

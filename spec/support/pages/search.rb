@@ -1,4 +1,6 @@
-Dir[File.expand_path('../sections/search*.rb', __FILE__)].each { |f| require f }
+# frozen_string_literal: true
+
+Dir[File.expand_path('sections/search*.rb', __dir__)].each { |f| require f }
 
 module Pages
   class Search < Base

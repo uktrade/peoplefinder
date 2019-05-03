@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reports
@@ -12,7 +14,6 @@
 #
 
 class Report < ApplicationRecord
-
   def to_csv_file
     file = File.open(tmp_file_path, 'w')
     file.puts content
@@ -38,5 +39,4 @@ class Report < ApplicationRecord
     FileUtils.mkdir_p tmp_dir
     @tmp_file_path ||= tmp_dir.join(tmp_file_name)
   end
-
 end

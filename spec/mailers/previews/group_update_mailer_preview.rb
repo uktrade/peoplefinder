@@ -1,5 +1,6 @@
-class GroupUpdateMailerPreview < ActionMailer::Preview
+# frozen_string_literal: true
 
+class GroupUpdateMailerPreview < ActionMailer::Preview
   include PreviewHelper
 
   def inform_subscriber_email

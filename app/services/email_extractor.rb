@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require 'mail'
 
 class EmailExtractor
   def extract(source)
     return nil unless source
-    candidates = [:full, :angled, :parenthesized].flat_map do |method|
+
+    candidates = %i[full angled parenthesized].flat_map do |method|
       send(method, source)
     end.map(&:strip)
     candidates.find { |c| valid?(c) } || source
@@ -25,6 +28,7 @@ class EmailExtractor
 
   def valid?(addr)
     return false unless addr
+
     mail_address = Mail::Address.new(addr)
     mail_address.domain && addr == mail_address.address
   rescue Mail::Field::ParseError

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if Rails.env.production?
   vcap_elasticsearch = JSON.parse(ENV['VCAP_SERVICES'])['elasticsearch'].first
   Elasticsearch::Model.client = Elasticsearch::Client.new(url: vcap_elasticsearch['credentials']['uri'])

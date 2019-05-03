@@ -1,7 +1,14 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe BreadcrumbHelper, type: :helper do
   context '#breadcrumbs' do
+    let(:hrbp) { create(:group, parent: hr, name: 'Human Resources Business Partners', acronym: 'HRBP') }
+    let(:hr) { create(:group, parent: csg, name: 'Human Resources', acronym: 'HR') }
+    let(:csg) { create(:group, parent: moj, name: 'Corporate Services Group', acronym: 'CSG') }
+    let(:moj) { create(:department, acronym: 'MOJ') }
+
     it 'builds linked breadcrumbs' do
       justice = create(:department)
       digital_service = create(:group, parent: justice, name: 'Digital Services')
@@ -10,11 +17,6 @@ RSpec.describe BreadcrumbHelper, type: :helper do
       expect(fragment).to have_selector('a[href="/teams/ministry-of-justice"]', text: 'Ministry of Justice')
       expect(fragment).to have_selector('a[href="/teams/digital-services"]', text: 'Digital Services')
     end
-
-    let(:moj) { create(:department, acronym: 'MOJ') }
-    let(:csg) { create(:group, parent: moj, name: 'Corporate Services Group', acronym: 'CSG') }
-    let(:hr) { create(:group, parent: csg, name: 'Human Resources', acronym: 'HR') }
-    let(:hrbp) { create(:group, parent: hr, name: 'Human Resources Business Partners', acronym: 'HRBP') }
 
     it 'builds linked breadcrumbs only showing acronyms for first two levels' do
       generated = breadcrumbs([moj, csg, hr, hrbp])
@@ -48,26 +50,26 @@ RSpec.describe BreadcrumbHelper, type: :helper do
       let(:obj) { double('obj', name: 'Full Name', short_name: 'FN') }
 
       it 'links to the object' do
-        expect(self).to receive(:link_to_unless_current).
-          with(anything, obj, anything)
+        expect(self).to receive(:link_to_unless_current)
+          .with(anything, obj, anything)
         link_to_breadcrumb_name_unless_current(obj, 1)
       end
 
       it 'uses short name for the link text if index is < 2' do
-        expect(self).to receive(:link_to_unless_current).
-          with('FN', anything, anything)
+        expect(self).to receive(:link_to_unless_current)
+          .with('FN', anything, anything)
         link_to_breadcrumb_name_unless_current(obj, 1)
       end
 
       it 'uses full name for the link text if index is >= 2' do
-        expect(self).to receive(:link_to_unless_current).
-          with('Full Name', anything, anything)
+        expect(self).to receive(:link_to_unless_current)
+          .with('Full Name', anything, anything)
         link_to_breadcrumb_name_unless_current(obj, 2)
       end
 
       it 'uses full name for the link title' do
-        expect(self).to receive(:link_to_unless_current).
-          with(anything, anything, title: 'Full Name')
+        expect(self).to receive(:link_to_unless_current)
+          .with(anything, anything, title: 'Full Name')
         link_to_breadcrumb_name_unless_current(obj, 1)
       end
     end
@@ -76,20 +78,20 @@ RSpec.describe BreadcrumbHelper, type: :helper do
       let(:obj) { double('object', name: 'Full Name', short_name: '') }
 
       it 'links to the object' do
-        expect(self).to receive(:link_to_unless_current).
-          with(anything, obj, anything)
+        expect(self).to receive(:link_to_unless_current)
+          .with(anything, obj, anything)
         link_to_breadcrumb_name_unless_current(obj, 1)
       end
 
       it 'uses full name for the link text' do
-        expect(self).to receive(:link_to_unless_current).
-          with('Full Name', anything, anything)
+        expect(self).to receive(:link_to_unless_current)
+          .with('Full Name', anything, anything)
         link_to_breadcrumb_name_unless_current(obj, 1)
       end
 
       it 'has no link title' do
-        expect(self).to receive(:link_to_unless_current).
-          with(anything, anything, {})
+        expect(self).to receive(:link_to_unless_current)
+          .with(anything, anything, {})
         link_to_breadcrumb_name_unless_current(obj, 1)
       end
     end
@@ -98,20 +100,20 @@ RSpec.describe BreadcrumbHelper, type: :helper do
       let(:obj) { double('object', name: 'Full Name') }
 
       it 'links to the object' do
-        expect(self).to receive(:link_to_unless_current).
-          with(anything, obj, anything)
+        expect(self).to receive(:link_to_unless_current)
+          .with(anything, obj, anything)
         link_to_breadcrumb_name_unless_current(obj, 1)
       end
 
       it 'uses full name for the link text' do
-        expect(self).to receive(:link_to_unless_current).
-          with('Full Name', anything, anything)
+        expect(self).to receive(:link_to_unless_current)
+          .with('Full Name', anything, anything)
         link_to_breadcrumb_name_unless_current(obj, 1)
       end
 
       it 'has no link title' do
-        expect(self).to receive(:link_to_unless_current).
-          with(anything, anything, {})
+        expect(self).to receive(:link_to_unless_current)
+          .with(anything, anything, {})
         link_to_breadcrumb_name_unless_current(obj, 1)
       end
     end

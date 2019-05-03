@@ -1,6 +1,7 @@
-class RailsHost
+# frozen_string_literal: true
 
-  VALID_ENVS = %w( dev staging production ).freeze
+class RailsHost
+  VALID_ENVS = %w[dev staging production].freeze
 
   def self.env
     ENV['ENV']
@@ -14,5 +15,4 @@ class RailsHost
       super
     end
   end
-
 end

@@ -1,5 +1,6 @@
-class PersonDeletionRequestController < ApplicationController
+# frozen_string_literal: true
 
+class PersonDeletionRequestController < ApplicationController
   before_action :set_person
 
   def new; end
@@ -20,5 +21,4 @@ class PersonDeletionRequestController < ApplicationController
   def set_person
     @person = Person.friendly.find(params[:person_id])
   end
-
 end

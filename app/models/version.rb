@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: versions
@@ -37,6 +39,7 @@ class Version < PaperTrail::Version
 
   def undo
     return if membership?
+
     creation? ? item.destroy : reify.save
   end
 

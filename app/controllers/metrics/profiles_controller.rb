@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Metrics
   class ProfilesController < ApplicationController
     skip_before_action :ensure_user

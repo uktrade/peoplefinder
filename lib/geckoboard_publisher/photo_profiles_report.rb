@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module GeckoboardPublisher
   class PhotoProfilesReport < Report
-
     def fields
       [
         Geckoboard::NumberField.new(:count, name: 'Count'),
@@ -14,13 +15,12 @@ module GeckoboardPublisher
 
     private
 
-    def parse results
+    def parse(results)
       items = []
       results.each do |photo_added_at, count|
         items << { photo_added_at: photo_added_at.to_date.iso8601, count: count }
       end
       items
     end
-
   end
 end

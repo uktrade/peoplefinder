@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class HealthCheckService
   def initialize
     @components = []

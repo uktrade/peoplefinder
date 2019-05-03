@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'View group audit' do
+describe 'View group audit' do
   let(:super_admin_email) { 'test.user@digital.justice.gov.uk' }
   let!(:super_admin) { create(:super_admin, email: super_admin_email) }
 
@@ -25,7 +27,7 @@ feature 'View group audit' do
       omni_auth_log_in_as(super_admin.ditsso_user_id)
     end
 
-    scenario 'view audit' do
+    it 'view audit' do
       group_page.load(slug: group.slug)
 
       expect(group_page).to have_audit
@@ -35,7 +37,7 @@ feature 'View group audit' do
       end
     end
 
-    scenario 'link to author of a change' do
+    it 'link to author of a change' do
       group_page.load(slug: group.slug)
 
       group_page.audit.versions.tap do |v|
@@ -49,7 +51,7 @@ feature 'View group audit' do
       omni_auth_log_in_as(person.ditsso_user_id)
     end
 
-    scenario 'hide audit' do
+    it 'hide audit' do
       group_page.load(slug: group.slug)
       expect(group_page).not_to have_audit
     end

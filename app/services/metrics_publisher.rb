@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MetricsPublisher
   def initialize(recipient = Keen)
     @recipient = recipient
@@ -21,5 +23,4 @@ class MetricsPublisher
     report = { 'mean' => Person.overall_completion }
     report.merge! Person.bucketed_completion
   end
-
 end

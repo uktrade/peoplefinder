@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rspec/expectations'
 
 RSpec::Matchers.define :have_file_content do |expected|
-  def content file
+  def content(file)
     File.open(file).read
   end
 

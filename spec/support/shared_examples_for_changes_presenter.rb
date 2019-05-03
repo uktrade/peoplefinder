@@ -1,4 +1,6 @@
-shared_examples_for "a changes_presenter" do
+# frozen_string_literal: true
+
+shared_examples_for 'a changes_presenter' do
   it { is_expected.to be_a(described_class) }
   it { is_expected.to respond_to :changes }
   it { is_expected.to respond_to :raw }
@@ -19,7 +21,7 @@ shared_examples_for 'serializability' do
 
   describe '.deserialize' do
     it 'is deserializable' do
-      expect { described_class.deserialize(subject) }.to_not raise_error
+      expect { described_class.deserialize(subject) }.not_to raise_error
     end
 
     it "deserializes to instance of #{described_class}" do

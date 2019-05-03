@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HealthCheck
   class SendGrid < Component
     ERRS_TO_CATCH =
@@ -46,7 +48,7 @@ module HealthCheck
     rescue *ERRS_TO_CATCH => e
       log_error desc, e
       false
-    rescue => e
+    rescue StandardError => e
       log_unknown_error e
       false
     end

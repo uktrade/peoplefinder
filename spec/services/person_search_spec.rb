@@ -1,27 +1,28 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require_relative 'shared_examples_for_search'
 
 RSpec.describe PersonSearch, elastic: true do
-
   before(:all) do
     clean_up_indexes_and_tables
     @alice = create(:person, given_name: 'Alice', surname: 'Andrews', current_project: 'digital project')
     @bob = create(:person, given_name: 'Bob', surname: 'Browning',
-             location_in_building: '10th floor', building: '102 Petty France',
-             city: 'London', description: 'weekends only',
-             current_project: 'Current project',
-             language_fluent: 'Spanish, Italian',
-             language_intermediate: 'Hindi',
-             key_skills: ['interviewing'],
-             other_learning_and_development: ['foolishness'])
+                           location_in_building: '10th floor', building: '102 Petty France',
+                           city: 'London', description: 'weekends only',
+                           current_project: 'Current project',
+                           language_fluent: 'Spanish, Italian',
+                           language_intermediate: 'Hindi',
+                           key_skills: ['interviewing'],
+                           other_learning_and_development: ['foolishness'])
     @andrew = create(:person, given_name: 'Andrew', surname: 'Alice')
     @abraham_kiehn = create(:person, given_name: 'Abraham', surname: 'Kiehn')
     @abe = create(:person, given_name: 'Abe', surname: 'Predovic')
     @oleary = create(:person, given_name: 'Denis', surname: "O'Leary")
-    @oleary2 = create(:person, given_name: 'Denis', surname: "O’Leary")
-    @collier = create(:person, given_name: 'John', surname: "Collier")
-    @miller = create(:person, given_name: 'John', surname: "Miller")
-    @scotti = create(:person, given_name: 'John', surname: "Scotti")
+    @oleary2 = create(:person, given_name: 'Denis', surname: 'O’Leary')
+    @collier = create(:person, given_name: 'John', surname: 'Collier')
+    @miller = create(:person, given_name: 'John', surname: 'Miller')
+    @scotti = create(:person, given_name: 'John', surname: 'Scotti')
     digital_services = create(:group, name: 'Digital Services')
     @bob.memberships.create(group: digital_services, role: 'Digital Director')
     @john_duplicato1 = create(:person, given_name: 'John', surname: 'Duplicato', email: 'john.duplicato@digital.justice.gov.uk')
@@ -58,7 +59,6 @@ RSpec.describe PersonSearch, elastic: true do
   end
 
   context 'with some people' do
-
     it_behaves_like 'a search'
 
     it 'searches by email' do
@@ -81,7 +81,7 @@ RSpec.describe PersonSearch, elastic: true do
 
     it 'searches by full name' do
       results = search_for('Bob Browning')
-      expect(results.set.map(&:name)).to_not include(@alice.name)
+      expect(results.set.map(&:name)).not_to include(@alice.name)
       expect(results.set.map(&:name)).to include(@bob.name)
       expect(results.contains_exact_match).to eq true
     end
@@ -148,13 +148,13 @@ RSpec.describe PersonSearch, elastic: true do
 
     xit 'searches by location' do
       results = search_for('petty france')
-      expect(results.set.map(&:name)).to_not include(@alice.name)
+      expect(results.set.map(&:name)).not_to include(@alice.name)
       expect(results.set.map(&:name)).to include(@bob.name)
     end
 
     xit 'searches by description, location' do
       results = search_for('weekends only petty france office')
-      expect(results.set.map(&:name)).to_not include(@alice.name)
+      expect(results.set.map(&:name)).not_to include(@alice.name)
       expect(results.set.map(&:name)).to include(@bob.name)
     end
 
@@ -189,7 +189,7 @@ RSpec.describe PersonSearch, elastic: true do
       expect(results.set.first.name).to include(@oleary.name)
       expect(results.contains_exact_match).to eq true
 
-      results = search_for("O’Leary")
+      results = search_for('O’Leary')
       expect(results.set.first.name).to include(@oleary2.name)
       expect(results.contains_exact_match).to eq true
     end
@@ -235,14 +235,14 @@ RSpec.describe PersonSearch, elastic: true do
         end
 
         it 'test has expected records and ES index documents' do
-          expect(Person.count).to eql 30
-          expect(Person.search('*').results.total).to eql 30
+          expect(Person.count).to be 30
+          expect(Person.search('*').results.total).to be 30
         end
       end
 
       context 'search for given name only' do
         let(:query) { 'Steve' }
-        let(:expected_steves) { %w(Steve Steven Stephen) }
+        let(:expected_steves) { %w[Steve Steven Stephen] }
 
         xit 'returns people in order of given names distance from exact name' do
           actual_steves = results.set.map(&:name).map(&:split).map(&:first).uniq
@@ -253,7 +253,7 @@ RSpec.describe PersonSearch, elastic: true do
 
       context 'search for surname only' do
         let(:query) { 'Richards' }
-        let(:expected_richards) { %w(John Steven Stephen Steve) }
+        let(:expected_richards) { %w[John Steven Stephen Steve] }
 
         # given name order is unhandled by code
         it 'returns people with only the surname richards in their' do
@@ -274,5 +274,4 @@ RSpec.describe PersonSearch, elastic: true do
     yield searcher if block_given?
     results
   end
-
 end

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'OmniAuth Authentication' do
+describe 'OmniAuth Authentication' do
   let(:group) { create(:group) }
 
   let(:login_page) { Pages::Login.new }
@@ -12,7 +14,7 @@ feature 'OmniAuth Authentication' do
     OmniAuth.config.test_mode = true
   end
 
-  scenario 'Logging in and out' do
+  it 'Logging in and out' do
     OmniAuth.config.mock_auth[:ditsso_internal] = valid_user
 
     visit '/'
@@ -21,20 +23,20 @@ feature 'OmniAuth Authentication' do
     expect(Person.last.ditsso_user_id).to eq(valid_user[:uid].to_s)
   end
 
-  scenario 'Logging in when the user has no last_name' do
+  it 'Logging in when the user has no last_name' do
     OmniAuth.config.mock_auth[:ditsso_internal] = valid_user_no_last_name
 
     visit '/'
     expect(page).to have_text('Hi, John')
   end
 
-  scenario 'Non existent users are redirected to their new profiles edit page after logging in' do
+  it 'Non existent users are redirected to their new profiles edit page after logging in' do
     OmniAuth.config.mock_auth[:ditsso_internal] = valid_user
     visit group_path(group)
     expect(edit_profile_page).to be_displayed
   end
 
-  scenario 'Existing users are redirected to their desired path after logging in' do
+  it 'Existing users are redirected to their desired path after logging in' do
     create(:person, ditsso_user_id: 'beef')
     OmniAuth.config.mock_auth[:ditsso_internal] = valid_user
     visit group_path(group)

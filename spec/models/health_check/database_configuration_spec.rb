@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'health_check/database_configuration'
 
@@ -16,8 +18,8 @@ describe HealthCheck::DatabaseConfiguration do
       end
 
       it 'lists all fields in alphabetical order' do
-        expect(subject.to_s).
-          to eq('adapter=postgresql database=foo_test host=db.example.com port=1337')
+        expect(subject.to_s)
+          .to eq('adapter=postgresql database=foo_test host=db.example.com port=1337')
       end
     end
 

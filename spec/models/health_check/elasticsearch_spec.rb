@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe HealthCheck::Elasticsearch do
@@ -29,7 +31,6 @@ describe HealthCheck::Elasticsearch do
       allow(subject).to receive(:cluster_status?).and_return(false)
       expect(subject).not_to be_accessible
     end
-
   end
 
   context '#errors' do
@@ -37,8 +38,8 @@ describe HealthCheck::Elasticsearch do
       allow(Elasticsearch::Model.client).to receive(:ping).and_return(false)
       subject.available?
 
-      expect(subject.errors.first).
-        to match(/Elasticsearch Error: Could not connect to port \d+ on \S+ via \w+/)
+      expect(subject.errors.first)
+        .to match(/Elasticsearch Error: Could not connect to port \d+ on \S+ via \w+/)
     end
 
     it 'returns an error an backtrace for errors not specific to a component' do

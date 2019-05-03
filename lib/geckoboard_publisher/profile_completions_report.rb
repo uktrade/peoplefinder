@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module GeckoboardPublisher
   class ProfileCompletionsReport < Report
-
     def fields
       [
         Geckoboard::StringField.new(:team, name: 'Team name'),
@@ -16,13 +17,12 @@ module GeckoboardPublisher
 
     private
 
-    def parse items
+    def parse(items)
       items.each do |item|
         total = item[:total].to_f
-        item[:with_photos] = (item[:with_photos]/total).round(2)
-        item[:with_additional_info] = (item[:with_additional_info]/total).round(2)
+        item[:with_photos] = (item[:with_photos] / total).round(2)
+        item[:with_additional_info] = (item[:with_additional_info] / total).round(2)
       end
     end
-
   end
 end

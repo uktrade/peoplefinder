@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe UserUpdateMailer do
   shared_examples "common #{described_class} mail elements" do
     it 'includes the email of the person who instigated the change' do
-      %w(plain html).each do |part_type|
+      %w[plain html].each do |part_type|
         expect(get_message_part(mail, part_type)).to have_text(instigator.email)
       end
     end
@@ -12,23 +14,26 @@ describe UserUpdateMailer do
   let(:instigator) { create(:person, email: 'instigator.user@digital.justice.gov.uk') }
   let(:person) { create(:person, email: 'test.user@digital.justice.gov.uk', profile_photo_id: 1, description: 'old info') }
 
-  describe ".new_profile_email" do
+  describe '.new_profile_email' do
     subject(:mail) { described_class.new_profile_email(person, instigator.email).deliver_now }
 
     include_examples 'common mailer template elements'
     include_examples "common #{described_class} mail elements"
 
     it 'includes the person show url' do
-      %w(plain html).each do |part_type|
+      %w[plain html].each do |part_type|
         expect(get_message_part(mail, part_type)).to have_text(person_url(person))
       end
     end
   end
 
-  describe ".updated_profile_email" do
+  describe '.updated_profile_email' do
+    subject(:mail) do
+      described_class.updated_profile_email(person, serialized_changes, instigator.email).deliver_now
+    end
 
     let!(:hr) { create(:group, name: 'Human Resources') }
-    let!(:hr_membership) { create(:membership, person: person, group: hr, role: "Administrative Officer") }
+    let!(:hr_membership) { create(:membership, person: person, group: hr, role: 'Administrative Officer') }
     let!(:ds) { create(:group, name: 'Digital Services') }
     let!(:csg) { create(:group, name: 'Corporate Services Group') }
 
@@ -84,23 +89,19 @@ describe UserUpdateMailer do
       }
     end
 
-    subject(:mail) do
-      described_class.updated_profile_email(person, serialized_changes, instigator.email).deliver_now
-    end
-
     include_examples 'common mailer template elements'
     include_examples "common #{described_class} mail elements"
 
     it 'deserializes changes to create presenter objects' do
       profile_changes_presenter = double(ProfileChangesPresenter).as_null_object
-      expect(ProfileChangesPresenter).to receive(:deserialize).
-        with(serialized_changes).
-        and_return(profile_changes_presenter)
+      expect(ProfileChangesPresenter).to receive(:deserialize)
+        .with(serialized_changes)
+        .and_return(profile_changes_presenter)
       mail
     end
 
     it 'includes the person show url' do
-      %w(plain html).each do |part_type|
+      %w[plain html].each do |part_type|
         expect(get_message_part(mail, part_type)).to have_text(person_url(person))
       end
     end
@@ -131,14 +132,14 @@ describe UserUpdateMailer do
       end
 
       it 'includes team membership additions' do
-        %w(plain html).each do |part_type|
+        %w[plain html].each do |part_type|
           expect(get_message_part(mail, part_type)).to have_content(/Added you to the Digital Services team as Lead Developer\. You are a leader of the team/m)
           expect(get_message_part(mail, part_type)).to have_content(/Added you to the Corporate Services Group team as Product Manager/m)
         end
       end
 
       it 'includes team membership removals' do
-        %w(plain html).each do |part_type|
+        %w[plain html].each do |part_type|
           expect(get_message_part(mail, part_type)).to have_content(/Removed you from the Ministry of Justice team/m)
         end
       end
@@ -146,64 +147,62 @@ describe UserUpdateMailer do
       it 'includes team membership modifications' do
         person.assign_attributes(team_reassignment)
         person.save!
-        %w(plain html).each do |part_type|
+        %w[plain html].each do |part_type|
           expect(get_message_part(mail, part_type)).to have_content(/Changed your membership of the Human Resources team to the Digital Services team/m)
         end
       end
 
       it 'includes team membership role modifications' do
-        %w(plain html).each do |part_type|
+        %w[plain html].each do |part_type|
           expect(get_message_part(mail, part_type)).to have_content(/Changed your role from Administrative Officer to Chief Executive Officer in the Human Resources team/m)
         end
       end
 
       it 'includes team membership leadership modifications' do
-        %w(plain html).each do |part_type|
+        %w[plain html].each do |part_type|
           expect(get_message_part(mail, part_type)).to have_content(/Made you leader of the Human Resources team/m)
         end
       end
 
       it 'includes team membership subscription modifications' do
-        %w(plain html).each do |part_type|
+        %w[plain html].each do |part_type|
           expect(get_message_part(mail, part_type)).to have_content(/Changed your notification settings so you don't get notifications if changes are made to the Human Resources team./m)
         end
       end
 
       it 'includes list of presented changed person attributes' do
         changes_presenter.each_pair do |_field, change|
-          %w(plain html).each do |part_type|
+          %w[plain html].each do |part_type|
             expect(get_message_part(mail, part_type)).to have_content(/#{change}/m)
           end
         end
       end
 
       it 'includes profile photo changes' do
-        %w(plain html).each do |part_type|
+        %w[plain html].each do |part_type|
           expect(get_message_part(mail, part_type)).to have_content(/Changed your profile photo/m)
-          expect(get_message_part(mail, part_type)).to_not have_content(/Changed your profile photo id from/m)
+          expect(get_message_part(mail, part_type)).not_to have_content(/Changed your profile photo id from/m)
         end
       end
 
       it 'includes extra info changes' do
-        %w(plain html).each do |part_type|
+        %w[plain html].each do |part_type|
           expect(get_message_part(mail, part_type)).to have_content(/Changed your extra information/m)
         end
       end
     end
   end
 
-  describe ".deleted_profile_email" do
+  describe '.deleted_profile_email' do
     subject(:mail) { described_class.deleted_profile_email(person.email, person.name, instigator.email).deliver_now }
 
     include_examples 'common mailer template elements'
     include_examples "common #{described_class} mail elements"
 
     it 'includes the persons name' do
-      %w(plain html).each do |part_type|
+      %w[plain html].each do |part_type|
         expect(get_message_part(mail, part_type)).to have_text(person.name)
       end
     end
-
   end
-
 end

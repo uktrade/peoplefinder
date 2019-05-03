@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Deployment
   def self.info
     Deployment.new.info

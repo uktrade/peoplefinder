@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe GeckoboardPublisher::ProfileDuplicatesReport, geckoboard: true do
@@ -23,12 +25,12 @@ RSpec.describe GeckoboardPublisher::ProfileDuplicatesReport, geckoboard: true do
     let(:expected_items) do
       [
         {
-          full_name: "Sid James",
+          full_name: 'Sid James',
           count: 2,
           emails: 'sid.james@digital.justice.gov.uk, sid.james2@digital.justice.gov.uk'
         },
         {
-          full_name: "Peter Smith",
+          full_name: 'Peter Smith',
           count: 2,
           emails: 'peter.smith@digital.justice.gov.uk, peter.smith2@digital.justice.gov.uk'
         }
@@ -46,14 +48,13 @@ RSpec.describe GeckoboardPublisher::ProfileDuplicatesReport, geckoboard: true do
     include_examples 'returns valid items structure'
 
     it 'returns expected dataset items' do
-      expect(subject.size).to eql 2
+      expect(subject.size).to be 2
       expected_items.each do |item|
-        is_expected.to include item
+        expect(subject).to include item
       end
     end
 
     describe 'truncation of string fields' do
-
       before do
         stub_const("#{described_class.superclass}::MAX_STRING_LENGTH", 10)
       end
@@ -65,9 +66,6 @@ RSpec.describe GeckoboardPublisher::ProfileDuplicatesReport, geckoboard: true do
       it 'truncates email list to geckoboard max string length' do
         expect(subject.first[:emails]).to eq subject.first[:emails][0..9]
       end
-
     end
-
   end
-
 end

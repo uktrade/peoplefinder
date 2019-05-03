@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: groups
@@ -22,15 +24,16 @@ class Group < ApplicationRecord
   MAX_DESCRIPTION = 1500
 
   has_paper_trail class_name: 'Version',
-                  ignore: [:updated_at, :created_at, :slug, :id,
-                           :description_reminder_email_at,
-                           :members_completion_score]
+                  ignore: %i[updated_at created_at slug id
+                             description_reminder_email_at
+                             members_completion_score]
 
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
 
   def slug_candidates
     return [name] unless parent
+
     [name, [parent.name, name], [parent.name, name_and_sequence]]
   end
 
@@ -39,8 +42,8 @@ class Group < ApplicationRecord
   end
 
   has_many :memberships,
-    -> { includes(:person).order('people.surname') },
-    dependent: :destroy
+           -> { includes(:person).order('people.surname') },
+           dependent: :destroy
   has_many :people, through: :memberships
   has_many :leaderships, -> { where(leader: true) }, class_name: 'Membership'
   has_many :leaders, through: :leaderships, source: :person
@@ -85,7 +88,7 @@ class Group < ApplicationRecord
   end
 
   def short_name
-    acronym.present? ? acronym : name
+    acronym.presence || name
   end
 
   def deletable?
@@ -132,7 +135,7 @@ class Group < ApplicationRecord
     memberships.subscribing.joins(:person).map(&:person)
   end
 
-  def description_reminder_email_sent? within_days:
+  def description_reminder_email_sent?(within_days:)
     description_reminder_email_at.present? &&
       description_reminder_email_at.end_of_day >= within_days.day.ago
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe GroupLister, type: :service do
@@ -29,7 +31,7 @@ RSpec.describe GroupLister, type: :service do
   end
 
   context 'a node with a hierarchy' do
-    subject { described_class.new.list.sort_by(&:id).last }
+    subject { described_class.new.list.max_by(&:id) }
 
     it 'has the name of the group' do
       expect(subject.name).to eq(leaf_node.name)
@@ -45,27 +47,27 @@ RSpec.describe GroupLister, type: :service do
     end
 
     it 'returns the name with path of each object' do
-      expect(subject.name_with_path).
-        to eq("A Leaf Node [A Department > A Team > A Subteam]")
+      expect(subject.name_with_path)
+        .to eq('A Leaf Node [A Department > A Team > A Subteam]')
     end
 
     it 'returns the ancestors of each node' do
-      expect(subject.ancestors.map(&:id)).
-        to eq([department.id, team.id, subteam.id])
-      expect(subject.ancestors.first).
-        to be_kind_of(described_class::ListedGroup)
+      expect(subject.ancestors.map(&:id))
+        .to eq([department.id, team.id, subteam.id])
+      expect(subject.ancestors.first)
+        .to be_kind_of(described_class::ListedGroup)
     end
 
     it 'returns the path of each node' do
-      expect(subject.path.map(&:id)).
-        to eq([department.id, team.id, subteam.id, leaf_node.id])
-      expect(subject.path.first).
-        to be_kind_of(described_class::ListedGroup)
+      expect(subject.path.map(&:id))
+        .to eq([department.id, team.id, subteam.id, leaf_node.id])
+      expect(subject.path.first)
+        .to be_kind_of(described_class::ListedGroup)
     end
   end
 
   context 'a top-level node' do
-    subject { described_class.new.list.sort_by(&:id).first }
+    subject { described_class.new.list.min_by(&:id) }
 
     it 'has nil parent id' do
       expect(subject.parent_id).to be_nil

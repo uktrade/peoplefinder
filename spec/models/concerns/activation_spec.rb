@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Concerns::Activation do
@@ -20,7 +22,6 @@ RSpec.describe Concerns::Activation do
   end
 
   context '.activated_percentage' do
-
     it 'uses .completion_score_calculation for scalablility' do
       expect(Person).to receive(:completion_score_calculation).and_return(0.81)
       Person.activated_percentage
@@ -66,6 +67,7 @@ RSpec.describe Concerns::Activation do
 
     context 'when one person created yesterday who has logged in and completion score > 80%' do
       let(:yesterday) { Date.today - 1.day }
+
       before do
         create(:person, completed_attributes.merge(login_count: 1, created_at: yesterday.to_time))
       end

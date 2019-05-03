@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require_relative 'shared_examples_for_search'
 
@@ -54,7 +56,6 @@ RSpec.describe GroupSearch, elastic: true do
         expect { result_set('*') }.not_to raise_error
         expect(result_set('\Team/name?')).to match_array([team, another_team])
       end
-
     end
   end
 
@@ -62,13 +63,12 @@ RSpec.describe GroupSearch, elastic: true do
     SearchResults.new
   end
 
-  def result_set query
+  def result_set(query)
     results = search query
     results.set
   end
 
-  def search query
+  def search(query)
     described_class.new(query, results_struct).perform_search
   end
-
 end

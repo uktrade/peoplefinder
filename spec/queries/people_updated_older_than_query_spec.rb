@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe PeopleUpdatedOlderThanQuery do
-
   describe '#call' do
     it 'generates the expected sql' do
       Timecop.freeze(Time.utc(2016, 11, 22, 4, 3, 6)) do

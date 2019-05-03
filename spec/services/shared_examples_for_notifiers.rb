@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples 'sends reminder email' do |mailer_method|
   context 'when config.send_reminder_emails true' do
     it 'sends email to person' do

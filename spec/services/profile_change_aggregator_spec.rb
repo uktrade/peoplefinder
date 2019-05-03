@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ProfileChangeAggregator do
-
   describe '#aggregate_raw_changes' do
     context 'just one record in the group' do
       it 'produces raw changes identical to the one record in the group' do
@@ -118,9 +119,9 @@ describe ProfileChangeAggregator do
 
     def qn1
       build :queued_notification, changes_json: {
-        'json_class'=>'ProfileChangesPresenter',
-        'data'=> {
-          'raw'=> {
+        'json_class' => 'ProfileChangesPresenter',
+        'data' => {
+          'raw' => {
             'primary_phone_number' => ['999', '020 27835 2232'],
             'description' => ['', 'All animals are equal, but some are more equal than others'],
             'works_tuesday' => [true, false],
@@ -132,9 +133,9 @@ describe ProfileChangeAggregator do
 
     def qn2
       build :queued_notification, changes_json: {
-        'json_class'=>'ProfileChangesPresenter',
-        'data'=> {
-          'raw'=> {
+        'json_class' => 'ProfileChangesPresenter',
+        'data' => {
+          'raw' => {
             'secondary_phone_number' => ['', '0759 049 3001'],
             'slug' => ['sr2', 'stephen-richards']
           }
@@ -144,9 +145,9 @@ describe ProfileChangeAggregator do
 
     def qn3
       build :queued_notification, changes_json: {
-        'json_class'=>'ProfileChangesPresenter',
-        'data'=> {
-          'raw'=> {
+        'json_class' => 'ProfileChangesPresenter',
+        'data' => {
+          'raw' => {
             'primary_phone_number' => ['020 27835 2232', '0734 52516'],
             'description' => ['', 'All animals are equal'],
             'secondary_phone_number' => ['759 049 3001', '0777 15 16 568'],
@@ -161,9 +162,9 @@ describe ProfileChangeAggregator do
 
     def qn4
       build :queued_notification, changes_json: {
-        'json_class'=>'ProfileChangesPresenter',
-        'data'=> {
-          'raw'=> {
+        'json_class' => 'ProfileChangesPresenter',
+        'data' => {
+          'raw' => {
             'primary_phone_number' => ['020 27835 2232', '999'],
             'description' => ['', 'All animals are equal-ish'],
             'works_tuesday' => [false, true],
@@ -175,9 +176,9 @@ describe ProfileChangeAggregator do
 
     def mqn1
       build :queued_notification, changes_json: {
-        'json_class'=>'ProfileChangesPresenter',
-        'data'=> {
-          'raw'=> {
+        'json_class' => 'ProfileChangesPresenter',
+        'data' => {
+          'raw' => {
             'primary_phone_number' => ['020 27835 2232', '07159 048 3001'],
             'membership_6' => {
               'role' => ['This is a new role in a new group', 'This is a editted role in a new group'],
@@ -191,9 +192,9 @@ describe ProfileChangeAggregator do
 
     def mqn2
       build :queued_notification, changes_json: {
-        'json_class'=>'ProfileChangesPresenter',
-        'data'=> {
-          'raw'=> {
+        'json_class' => 'ProfileChangesPresenter',
+        'data' => {
+          'raw' => {
             'membership_2055' => {
               'role' => ['Software Developer', 'Backend Developer'],
               'leader' => [false, true],
@@ -206,9 +207,9 @@ describe ProfileChangeAggregator do
 
     def mqn3
       build :queued_notification, changes_json: {
-        'json_class'=>'ProfileChangesPresenter',
-        'data'=> {
-          'raw'=> {
+        'json_class' => 'ProfileChangesPresenter',
+        'data' => {
+          'raw' => {
             'primary_phone_number' => ['07159 048 3001', '999'],
             'membership_2055' => {
               'role' => ['Backend Developer', 'Senior Software Developer'],
@@ -227,23 +228,22 @@ describe ProfileChangeAggregator do
   end
 
   describe 'private method eliminate_noops' do
-
     let(:aggregator) { described_class.new([]) }
 
     it 'eliminates noops at the top level' do
       changes = {
-        'surname'=>['Bonstart', 'Bonstart-Smythe'],
-        'primary_phone_number'=>['020 7835 2232', '020 7835 2232'],
-        'alternative_phone_number'=>['', ''],
-        'email'=>['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
-        'description'=>['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday'],
-        'works_monday'=>[true, true]
+        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'primary_phone_number' => ['020 7835 2232', '020 7835 2232'],
+        'alternative_phone_number' => ['', ''],
+        'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
+        'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday'],
+        'works_monday' => [true, true]
       }
 
       expected_changes = {
-        'surname'=>['Bonstart', 'Bonstart-Smythe'],
-        'email'=>['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
-        'description'=>['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
+        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
+        'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
       }
       actual_changes = aggregator.__send__(:eliminate_noops, changes)
       expect(actual_changes).to eq expected_changes
@@ -251,18 +251,18 @@ describe ProfileChangeAggregator do
 
     it 'considers empty string and nil to be the same' do
       changes = {
-        'surname'=>['Bonstart', 'Bonstart-Smythe'],
-        'primary_phone_number'=>['020 7835 2232', '020 7835 2232'],
-        'alternative_phone_number'=>[nil, ''],
-        'email'=>['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
-        'description'=>['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday'],
-        'works_monday'=>[true, true]
+        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'primary_phone_number' => ['020 7835 2232', '020 7835 2232'],
+        'alternative_phone_number' => [nil, ''],
+        'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
+        'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday'],
+        'works_monday' => [true, true]
       }
 
       expected_changes = {
-        'surname'=>['Bonstart', 'Bonstart-Smythe'],
-        'email'=>['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
-        'description'=>['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
+        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
+        'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
       }
       actual_changes = aggregator.__send__(:eliminate_noops, changes)
       expect(actual_changes).to eq expected_changes
@@ -270,20 +270,20 @@ describe ProfileChangeAggregator do
 
     it 'eliminates noops in membership hashes' do
       changes = {
-        'surname'=>['Bonstart', 'Bonstart-Smythe'],
-        'primary_phone_number'=>['020 7835 2232', '020 7835 2232'],
-        'alternative_phone_number'=>[nil, ''],
-        'email'=>['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
-        'membership_6'=>{ 'group_id'=>[1, 6], 'role' => %w(dogsbody dogsbody), 'leader'=>[false, true], 'subscribed'=>[false, true] },
-        'description'=>['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday'],
-        'works_monday'=>[true, true]
+        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'primary_phone_number' => ['020 7835 2232', '020 7835 2232'],
+        'alternative_phone_number' => [nil, ''],
+        'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
+        'membership_6' => { 'group_id' => [1, 6], 'role' => %w[dogsbody dogsbody], 'leader' => [false, true], 'subscribed' => [false, true] },
+        'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday'],
+        'works_monday' => [true, true]
       }
 
       expected_changes = {
-        'surname'=>['Bonstart', 'Bonstart-Smythe'],
-        'email'=>['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
-        'membership_6'=>{ 'group_id'=>[1, 6], 'leader'=>[false, true], 'subscribed'=>[false, true] },
-        'description'=>['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
+        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
+        'membership_6' => { 'group_id' => [1, 6], 'leader' => [false, true], 'subscribed' => [false, true] },
+        'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
       }
       actual_changes = aggregator.__send__(:eliminate_noops, changes)
       expect(actual_changes).to eq expected_changes
@@ -291,24 +291,23 @@ describe ProfileChangeAggregator do
 
     it 'considers empty strings and nil to be the same in membership hashes' do
       changes = {
-        'surname'=>['Bonstart', 'Bonstart-Smythe'],
-        'primary_phone_number'=>['020 7835 2232', '020 7835 2232'],
-        'alternative_phone_number'=>[nil, ''],
-        'email'=>['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
-        'membership_6'=>{ 'group_id'=>[1, 6], 'role' => ['', nil], 'leader'=>[false, false], 'subscribed'=>[false, true] },
-        'description'=>['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday'],
-        'works_monday'=>[true, true]
+        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'primary_phone_number' => ['020 7835 2232', '020 7835 2232'],
+        'alternative_phone_number' => [nil, ''],
+        'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
+        'membership_6' => { 'group_id' => [1, 6], 'role' => ['', nil], 'leader' => [false, false], 'subscribed' => [false, true] },
+        'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday'],
+        'works_monday' => [true, true]
       }
 
       expected_changes = {
-        'surname'=>['Bonstart', 'Bonstart-Smythe'],
-        'email'=>['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
-        'membership_6'=>{ 'group_id'=>[1, 6], 'subscribed'=>[false, true] },
-        'description'=>['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
+        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
+        'membership_6' => { 'group_id' => [1, 6], 'subscribed' => [false, true] },
+        'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
       }
       actual_changes = aggregator.__send__(:eliminate_noops, changes)
       expect(actual_changes).to eq expected_changes
     end
-
   end
 end
