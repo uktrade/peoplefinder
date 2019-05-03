@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe GroupPolicy, type: :policy do
-  let(:group) { build_stubbed(:group) }
-
   subject { described_class.new(user, group) }
+
+  let(:group) { build_stubbed(:group) }
 
   context 'for a regular user' do
     let(:user) { build_stubbed(:person) }

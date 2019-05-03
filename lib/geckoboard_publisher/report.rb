@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # wrapper for geckoboard-ruby gem
 # see https://developer.geckoboard.com/api-reference/ruby/
 
@@ -5,7 +7,6 @@ require 'geckoboard'
 
 module GeckoboardPublisher
   class Report
-
     # geckboard datasets can only accept 500 sets per POST or PUT
     # and only 5000 sets maximum
     ITEMS_CHUNK_SIZE = 500
@@ -22,7 +23,7 @@ module GeckoboardPublisher
       test_client
     end
 
-    def publish! force = false
+    def publish!(force = false)
       @force = force
       create_dataset!
       replace_dataset!.tap do |result|
@@ -65,8 +66,7 @@ module GeckoboardPublisher
     # geckoboard-ruby gem's dataset.find_or_create unique_by hash
     # e.g.
     # [:mydatefield]
-    def unique_by
-    end
+    def unique_by; end
 
     def items
       raise "Implement #{__method__} in subclass"
@@ -97,8 +97,8 @@ module GeckoboardPublisher
 
     def test_client
       @client.ping
-    rescue Geckoboard::UnauthorizedError => err
-      Rails.logger.warn "#{err} Geckoboard API key is not authorized for #{self.class}"
+    rescue Geckoboard::UnauthorizedError => e
+      Rails.logger.warn "#{e} Geckoboard API key is not authorized for #{self.class}"
       raise
     end
 
@@ -115,6 +115,7 @@ class Object
   def to_string_boolean
     return 'failed' if [FalseClass, NilClass].include?(self.class)
     return 'succeeded' if self.class == TrueClass
+
     self
   end
 end

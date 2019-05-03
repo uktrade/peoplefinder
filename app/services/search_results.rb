@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'forwardable'
 
 class SearchResults
@@ -18,5 +20,4 @@ class SearchResults
       @set.each(&block)
     end
   end
-
 end

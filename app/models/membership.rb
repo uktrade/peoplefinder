@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: memberships
@@ -14,13 +16,13 @@
 
 class Membership < ApplicationRecord
   has_paper_trail class_name: 'Version',
-                  ignore: [:updated_at, :created_at, :id]
+                  ignore: %i[updated_at created_at id]
 
   belongs_to :person, touch: true
   belongs_to :group, touch: true
 
   validates :person, presence: true, on: :update
-  validates :group, presence: true, on: [:create, :update]
+  validates :group, presence: true, on: %i[create update]
   validates_with PermanentSecretaryUniqueValidator
 
   delegate :name, to: :person, prefix: true

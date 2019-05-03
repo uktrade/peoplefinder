@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SpecSupport
   module FeatureFlags
     def without_feature(feature_name, &_block)

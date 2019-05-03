@@ -1,14 +1,15 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe NotificationSender do
   describe '#send!' do
-
     let(:person) { create :person, id: 22 }
     let(:logged_in_user) { create :person, id: 333 }
     let(:mailer) { double UserUpdateMailer }
 
     it 'calls process group for each group item returned by unsent groups' do
-      expect(QueuedNotification).to receive(:unsent_groups).and_return([:group1, :group2, :group3])
+      expect(QueuedNotification).to receive(:unsent_groups).and_return(%i[group1 group2 group3])
       sender = described_class.new
       expect(sender).to receive(:process_group).with(:group1)
       expect(sender).to receive(:process_group).with(:group2)
@@ -19,9 +20,7 @@ describe NotificationSender do
     context 'processing started by another process after this job started' do
       it 'does not send any mails' do
         Timecop.freeze 1.hour.ago do
-          2.times do
-            create :queued_notification, session_id: 'abc', person_id: 22, current_user_id: 333
-          end
+          create_list :queued_notification, 2, session_id: 'abc', person_id: 22, current_user_id: 333
         end
         sender = described_class.new
         QueuedNotification.update_all(processing_started_at: 1.minute.ago)
@@ -68,8 +67,8 @@ describe NotificationSender do
 
         # given a group which has been processed
         Timecop.freeze 30.minutes.ago do
-          changes = jsonify('name' => %w(Steve Stephen))
-          create_qn(email_template: 'updated_profile_email', processing_started_at: Time.now, sent: true, changes_json: changes)
+          changes = jsonify('name' => %w[Steve Stephen])
+          create_qn(email_template: 'updated_profile_email', processing_started_at: Time.now.in_time_zone, sent: true, changes_json: changes)
         end
 
         # and another unprocessed group for the same session id, current_user and person

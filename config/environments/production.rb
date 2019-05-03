@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   config.force_ssl = true
   config.cache_classes = true
@@ -22,9 +24,9 @@ Rails.application.configure do
     domain: ENV['SMTP_DOMAIN'] || 'trade.digital.gov.uk',
     enable_starttls_auto: true
   }
-  config.filter_parameters += [
-    :given_name, :surname, :email, :primary_phone_number,
-    :secondary_phone_number, :location, :email
+  config.filter_parameters += %i[
+    given_name surname email primary_phone_number
+    secondary_phone_number location email
   ]
   config.logstasher.enabled = true
   config.logstasher.suppress_app_log = true

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe PeopleLoggedInAtLeastOnceQuery do
-
   describe '#call' do
     it 'generates the expected sql' do
       expect(described_class.new.call.to_sql).to match_sql expected_sql

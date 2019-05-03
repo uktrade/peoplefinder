@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PersonPolicy, type: :policy do
-  let(:person) { build_stubbed(:person) }
-
   subject { described_class.new(user, person) }
+
+  let(:person) { build_stubbed(:person) }
 
   context 'for a regular user' do
     let(:user) { build_stubbed(:person) }

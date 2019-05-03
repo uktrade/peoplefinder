@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'forwardable'
 
 class PersonUpdater
@@ -9,9 +11,8 @@ class PersonUpdater
   attr_reader :person, :current_user, :session_id
 
   def initialize(person:, current_user:, state_cookie:, session_id: nil)
-    if person.new_record?
-      raise NewRecordError, 'cannot update a new Person record'
-    end
+    raise NewRecordError, 'cannot update a new Person record' if person.new_record?
+
     @person = person
     @current_user = current_user
     @state_cookie = state_cookie

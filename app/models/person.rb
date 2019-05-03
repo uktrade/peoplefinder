@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: people
@@ -79,17 +81,17 @@ class Person < ApplicationRecord
 
   def as_indexed_json(_options = {})
     as_json(
-      only: [:surname, :current_project, :email],
-      methods: [
-        :name, :role_and_group, :location, :languages,
-        :formatted_key_skills, :formatted_learning_and_development
+      only: %i[surname current_project email],
+      methods: %i[
+        name role_and_group location languages
+        formatted_key_skills formatted_learning_and_development
       ]
     )
   end
 
   has_paper_trail class_name: 'Version',
-                  ignore: [:updated_at, :created_at, :id, :slug, :login_count, :last_login_at,
-                           :last_reminder_email_at]
+                  ignore: %i[updated_at created_at id slug login_count last_login_at
+                             last_reminder_email_at]
 
   # TODO: eerrh! what is this trying to do, it breaks when attempting to create people with legacy image uploads
   def changes_for_paper_trail
@@ -151,26 +153,26 @@ class Person < ApplicationRecord
 
   scope :never_logged_in, PeopleNeverLoggedInQuery.new
   scope :logged_in_at_least_once, PeopleLoggedInAtLeastOnceQuery.new
-  scope :last_reminder_email_older_than, -> (within) { ReminderMailOlderThanQuery.new(within).call }
-  scope :updated_at_older_than, -> (within) { PeopleUpdatedOlderThanQuery.new(within).call }
-  scope :updated_at_older_than, -> (within) { where('updated_at < ?', within) }
-  scope :created_at_older_than, -> (within) { where('created_at < ?', within) }
+  scope :last_reminder_email_older_than, ->(within) { ReminderMailOlderThanQuery.new(within).call }
+  scope :updated_at_older_than, ->(within) { PeopleUpdatedOlderThanQuery.new(within).call }
+  scope :updated_at_older_than, ->(within) { where('updated_at < ?', within) }
+  scope :created_at_older_than, ->(within) { where('created_at < ?', within) }
 
   def email_prefix
     email.split('@').first.gsub(/[\W]|[\d]/, '')
   end
 
-  scope :all_in_groups_scope, -> (groups) { PeopleInGroupsQuery.new(groups).call }
+  scope :all_in_groups_scope, ->(groups) { PeopleInGroupsQuery.new(groups).call }
 
-  scope :all_in_subtree, -> (group) { PeopleInGroupsQuery.new(group.subtree_ids).call }
+  scope :all_in_subtree, ->(group) { PeopleInGroupsQuery.new(group.subtree_ids).call }
 
   def self.outside_subteams(group)
-    unscope(:order).
-      joins(:memberships).
-      where(memberships: { group_id: group.id }).
-      where(memberships: { leader: false }).
-      where('NOT EXISTS (SELECT 1 FROM memberships m2 WHERE m2.person_id = people.id AND m2.group_id != ?)', group.id).
-      distinct
+    unscope(:order)
+      .joins(:memberships)
+      .where(memberships: { group_id: group.id })
+      .where(memberships: { leader: false })
+      .where('NOT EXISTS (SELECT 1 FROM memberships m2 WHERE m2.person_id = people.id AND m2.group_id != ?)', group.id)
+      .distinct
   end
 
   # Does not return ActiveRecord::Relation
@@ -189,16 +191,14 @@ class Person < ApplicationRecord
   end
 
   def self.count_in_groups(group_ids, excluded_group_ids: [], excluded_ids: [])
-    if excluded_group_ids.present?
-      excluded_ids += Person.in_groups(excluded_group_ids).pluck(:id)
-    end
+    excluded_ids += Person.in_groups(excluded_group_ids).pluck(:id) if excluded_group_ids.present?
 
     Person.in_groups(group_ids).where.not(id: excluded_ids).count
   end
 
   def self.in_groups(group_ids)
-    Person.includes(:memberships).
-      where("memberships.group_id": group_ids)
+    Person.includes(:memberships)
+          .where("memberships.group_id": group_ids)
   end
 
   def to_s
@@ -237,7 +237,7 @@ class Person < ApplicationRecord
     person_responsible.try(:email) != email
   end
 
-  def reminder_email_sent? within:
+  def reminder_email_sent?(within:)
     last_reminder_email_at.present? &&
       last_reminder_email_at.end_of_day >= within.ago
   end
@@ -256,9 +256,6 @@ class Person < ApplicationRecord
   private
 
   def must_have_team
-    if memberships.reject(&:marked_for_destruction?).empty?
-      errors.add(:membership, 'of a team is required')
-    end
+    errors.add(:membership, 'of a team is required') if memberships.reject(&:marked_for_destruction?).empty?
   end
-
 end

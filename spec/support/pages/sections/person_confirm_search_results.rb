@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Pages
   module Sections
     class PersonConfirmSearchResultSection < SitePrism::Section
-      element :name_link, ".cb-person-name > a"
-      element :select_button, ".cb-confirmation-select"
+      element :name_link, '.cb-person-name > a'
+      element :select_button, '.cb-confirmation-select'
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   root 'home#show', as: :home
   get 'ping', to: 'ping#index'
@@ -17,23 +19,23 @@ Rails.application.routes.draw do
     get :"people-outside-subteams", on: :member, action: 'people_outside_subteams'
   end
 
-  resources :people, except: [:new, :create] do
+  resources :people, except: %i[new create] do
     collection do
       get :add_membership
     end
 
-    resource :image, controller: 'person_image', only: [:edit, :update]
-    resource :email, controller: 'person_email', only: [:edit, :update]
+    resource :image, controller: 'person_image', only: %i[edit update]
+    resource :email, controller: 'person_email', only: %i[edit update]
     resource :deletion_request, controller: 'person_deletion_request',
                                 path: 'deletion-request',
-                                only: [:new, :create]
+                                only: %i[new create]
   end
 
-  resource :sessions, only: [:new, :create, :destroy] do
+  resource :sessions, only: %i[new create destroy] do
     get :unsupported_browser, on: :new
   end
 
-  match '/auth/:provider/callback', to: 'sessions#create', via: [:get, :post]
+  match '/auth/:provider/callback', to: 'sessions#create', via: %i[get post]
   match '/audit_trail', to: 'versions#index', via: [:get]
   match '/audit_trail/undo/:id', to: 'versions#undo', via: [:post]
   match '/search', to: 'search#index', via: [:get]

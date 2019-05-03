@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 shared_examples 'geckoboard publishable report' do
+  subject { described_class.new }
 
   let(:client) { double Geckoboard::Client }
   let(:datasets_client) { double Geckoboard::DatasetsClient }
   let(:dataset) { double Geckoboard::Dataset }
   let(:logger) { double Rails.logger }
   let(:null_object) { double('null object').as_null_object }
-
-  subject { described_class.new }
 
   it { expect(described_class).to have_constant name: :ITEMS_CHUNK_SIZE, value: 500 }
   it { expect(described_class).to have_constant name: :MAX_STRING_LENGTH, value: 100 }
@@ -17,11 +18,12 @@ shared_examples 'geckoboard publishable report' do
   it { is_expected.to respond_to :force? }
   it { is_expected.to respond_to :published? }
 
-  def mock_expectations exit_without_ping = nil
+  def mock_expectations(exit_without_ping = nil)
     allow(ENV).to receive(:[]).with('ENV').and_return 'staging'
     expect(ENV).to receive(:[]).with('GECKOBOARD_API_KEY').and_return 'fake-API-key'
     expect(Geckoboard).to receive(:client).with('fake-API-key').and_return client
     return client if exit_without_ping
+
     expect(client).to receive(:ping).and_return true
     yield client if block_given?
   end
@@ -61,7 +63,7 @@ shared_examples 'geckoboard publishable report' do
       mock_expectations
       expect(subject).to receive(:create_dataset!)
       expect(subject).to receive(:replace_dataset!).and_return true
-      expect(subject.publish!).to eql true
+      expect(subject.publish!).to be true
     end
 
     context 'handles conflict errors' do
@@ -90,7 +92,7 @@ shared_examples 'geckoboard publishable report' do
         mock_expectations do |client|
           expect(client).to receive(:datasets).and_return dataset
           expect(dataset).to receive(:delete).and_return true
-          expect(subject.unpublish!).to eql true
+          expect(subject.unpublish!).to be true
         end
       end
     end
@@ -100,7 +102,7 @@ shared_examples 'geckoboard publishable report' do
         mock_expectations do |client|
           expect(client).to receive(:datasets).and_return dataset
           expect(dataset).to receive(:delete).and_raise Geckoboard::UnexpectedStatusError
-          expect(subject.unpublish!).to eql false
+          expect(subject.unpublish!).to be false
         end
       end
     end
@@ -109,7 +111,7 @@ end
 
 shared_examples 'returns valid items structure' do
   it 'returns a geckoboard compatible format' do
-    is_expected.to be_an(Array)
+    expect(subject).to be_an(Array)
     expect(subject.first).to be_a(Hash)
     expect { subject.to_json }.not_to raise_error
   end

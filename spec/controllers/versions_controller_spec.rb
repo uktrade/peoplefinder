@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe VersionsController, type: :controller do
@@ -23,7 +25,6 @@ RSpec.describe VersionsController, type: :controller do
         expect(response).to render_template :index
       end
     end
-
   end
 
   describe '.undo' do
@@ -37,8 +38,8 @@ RSpec.describe VersionsController, type: :controller do
         version = PaperTrail::Version.where(item_type: 'Person').last
         put :undo, params: { id: version.id }
 
-        expect { Person.find(person.id) }.
-          to raise_error(ActiveRecord::RecordNotFound)
+        expect { Person.find(person.id) }
+          .to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -49,7 +50,7 @@ RSpec.describe VersionsController, type: :controller do
         version = PaperTrail::Version.where(item_type: 'Person').last
         put :undo, params: { id: version.id }
 
-        expect(Person.find_by_surname('Necro')).to be_present
+        expect(Person.find_by(surname: 'Necro')).to be_present
       end
     end
 
@@ -70,8 +71,8 @@ RSpec.describe VersionsController, type: :controller do
         version = PaperTrail::Version.last
         put :undo, params: { id: version.id }
 
-        expect { Membership.find(membership.id) }.
-          to raise_error(ActiveRecord::RecordNotFound)
+        expect { Membership.find(membership.id) }
+          .to raise_error(ActiveRecord::RecordNotFound)
       end
     end
   end

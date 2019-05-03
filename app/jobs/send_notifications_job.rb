@@ -1,5 +1,6 @@
-class SendNotificationsJob < ApplicationJob
+# frozen_string_literal: true
 
+class SendNotificationsJob < ApplicationJob
   queue_as :send_notifications
 
   def perform
@@ -30,5 +31,4 @@ class SendNotificationsJob < ApplicationJob
     GeckoboardPublisher::ProfilesChangedReport.new.publish!(true)
     GeckoboardPublisher::ProfileCompletionsReport.new.publish!(true)
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: groups
@@ -18,16 +20,16 @@
 require 'rails_helper'
 
 RSpec.describe Group, type: :model do
-  it { should have_many(:leaders) }
-  it { should validate_length_of(:description).is_at_most(1500) }
+  it { is_expected.to have_many(:leaders) }
+  it { is_expected.to validate_length_of(:description).is_at_most(1500) }
 
-  it "gives first orphaned groups as department" do
+  it 'gives first orphaned groups as department' do
     parent = create(:department)
     create(:group, parent: parent)
     expect(described_class.department).to eql(parent)
   end
 
-  it "only allows creation of one group with no parent" do
+  it 'only allows creation of one group with no parent' do
     create(:department)
     group = build(:group, parent: nil)
     expect(group.valid?).to eq false
@@ -48,7 +50,7 @@ RSpec.describe Group, type: :model do
     end
   end
 
-  it "knows about its ancestors" do
+  it 'knows about its ancestors' do
     grandparent = create(:group, parent: nil)
     parent = create(:group, parent: grandparent)
     child = create(:group, parent: parent)
@@ -57,13 +59,13 @@ RSpec.describe Group, type: :model do
     expect(grandchild.path.to_a).to eql([grandparent, parent, child, grandchild])
   end
 
-  it "knows when it has no ancestors" do
+  it 'knows when it has no ancestors' do
     department = create(:group, parent: nil)
 
     expect(department.path.to_a).to eql([department])
   end
 
-  it "does not permit cyclic graphs" do
+  it 'does not permit cyclic graphs' do
     a = create(:group)
     b = create(:group, parent: a)
     c = create(:group, parent: b)
@@ -75,11 +77,11 @@ RSpec.describe Group, type: :model do
   describe '.leaf_node?' do
     let(:group) { create(:group) }
 
-    it "knows when it is a leaf_node (no children)" do
+    it 'knows when it is a leaf_node (no children)' do
       expect(group).to be_leaf_node
     end
 
-    it "knows when it is not a leaf_node (no children)" do
+    it 'knows when it is not a leaf_node (no children)' do
       expect(group).to be_leaf_node
     end
   end
@@ -126,7 +128,6 @@ RSpec.describe Group, type: :model do
     it 'does not enqueue completion score update job' do
       expect { group.destroy! }.not_to have_enqueued_job.on_queue('low_priority')
     end
-
   end
 
   describe 'team with subteam' do
@@ -174,7 +175,6 @@ RSpec.describe Group, type: :model do
       end
 
       context 'and bob is a team leader' do
-
         before do
           bob.memberships.first.update(leader: true)
         end
@@ -204,7 +204,7 @@ RSpec.describe Group, type: :model do
         expect(team.all_people.first).to respond_to :role_names
       end
 
-      it "has all_people_count of 1" do
+      it 'has all_people_count of 1' do
         expect(team.all_people_count).to eq(1)
       end
 
@@ -314,11 +314,11 @@ RSpec.describe Group, type: :model do
     let(:team) { create(:group, parent: department, name: 'CS') }
 
     it 'sets the department slug_candidate' do
-      expect(department.slug_candidates).to eql(%w(MOJ))
+      expect(department.slug_candidates).to eql(%w[MOJ])
     end
 
     it 'sets the team slug_candidate' do
-      expect(team.slug_candidates).to eql(['CS', %w(MOJ CS), %w(MOJ CS-2)])
+      expect(team.slug_candidates).to eql(['CS', %w[MOJ CS], %w[MOJ CS-2]])
     end
   end
 
@@ -332,7 +332,7 @@ RSpec.describe Group, type: :model do
 
       context 'when the team name is changed' do
         it 'gets the updated slug when the name is changed' do
-          team.update_attributes(name: 'Analog Services')
+          team.update(name: 'Analog Services')
           expect(team.reload.slug).to eql('analog-services')
         end
       end
@@ -417,7 +417,5 @@ RSpec.describe Group, type: :model do
       expect(team.average_completion_score).to be_between(52, 56)
       expect(subteam.average_completion_score).to be_between(61, 65)
     end
-
   end
-
 end

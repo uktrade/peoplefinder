@@ -1,19 +1,22 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'Person browsing' do
+describe 'Person browsing' do
   let(:department) { create(:department) }
+
   before do
     department
     omni_auth_log_in_as '007'
   end
 
-  scenario 'visiting the my/profile path' do
+  it 'visiting the my/profile path' do
     visit '/my/profile'
 
     expect(page).to have_current_path(person_path(Digest::SHA1.hexdigest('john.doe')))
   end
 
-  scenario 'Using breadcrumbs on a profile page', skip: "HELP REQUIRED" do
+  it 'Using breadcrumbs on a profile page', skip: 'HELP REQUIRED' do
     group_a = create_group_hierarchy('Ministry of Justice', 'Apple', 'Biwa')
     group_b = create_group_hierarchy('Ministry of Justice', 'Cherry', 'Durian')
     person = create(:person)
@@ -31,28 +34,27 @@ feature 'Person browsing' do
     let(:weekday_person) { create(:person, works_monday: true, works_friday: true) }
     let(:weekend_person) { create(:person, works_saturday: true, works_sunday: true) }
 
-    scenario 'A person who only works weekdays should not see Saturday & Sunday listed' do
+    it 'A person who only works weekdays should not see Saturday & Sunday listed' do
       visit person_path(weekday_person)
       expect(page).to have_xpath("//li[@alt='Monday']")
       expect(page).to have_xpath("//li[@alt='Friday']")
 
-      expect(page).to_not have_xpath("//li[@alt='Sunday']")
-      expect(page).to_not have_xpath("//li[@alt='Saturday']")
+      expect(page).not_to have_xpath("//li[@alt='Sunday']")
+      expect(page).not_to have_xpath("//li[@alt='Saturday']")
     end
 
-    scenario 'A person who works one or more days on a weekend should have their days listed' do
+    it 'A person who works one or more days on a weekend should have their days listed' do
       visit person_path(weekend_person)
 
       expect(page).to have_xpath("//li[@alt='Sunday']")
       expect(page).to have_xpath("//li[@alt='Saturday']")
     end
-
   end
 
   def create_group_hierarchy(*names)
     group = nil
     names.each do |name|
-      group = Group.find_by_name(name) || create(:group, parent: group, name: name)
+      group = Group.find_by(name: name) || create(:group, parent: group, name: name)
     end
     group
   end

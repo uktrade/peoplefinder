@@ -1,5 +1,6 @@
-class GenerateReportJob < ApplicationJob
+# frozen_string_literal: true
 
+class GenerateReportJob < ApplicationJob
   queue_as :generate_report
 
   def perform(report)
@@ -21,8 +22,7 @@ class GenerateReportJob < ApplicationJob
 
   private
 
-  def deserialize json
+  def deserialize(json)
     JSON.parse(json)['json_class'].constantize
   end
-
 end

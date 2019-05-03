@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class VersionPolicy < ApplicationPolicy
   def index?
     admin_user?

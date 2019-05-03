@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'forwardable'
 
 class PersonDestroyer
@@ -9,9 +11,8 @@ class PersonDestroyer
   attr_reader :person
 
   def initialize(person, current_user)
-    if person.new_record?
-      raise NewRecordError, 'cannot destroy a new Person record'
-    end
+    raise NewRecordError, 'cannot destroy a new Person record' if person.new_record?
+
     @person = person
     @current_user = current_user
   end

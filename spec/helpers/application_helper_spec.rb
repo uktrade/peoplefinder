@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
-  let(:stubbed_time) { Time.new(2012, 10, 31, 2, 2, 2, "+01:00") }
+  let(:stubbed_time) { Time.new(2012, 10, 31, 2, 2, 2, '+01:00') }
   let(:originator) { Version.public_user }
 
   describe '#pluralize_with_delimiter' do
@@ -56,9 +58,9 @@ RSpec.describe ApplicationHelper, type: :helper do
       fragment = Capybara::Node::Simple.new(govspeak_without_hyperlinks(source))
 
       expect(fragment).to have_selector('h3', text: 'Header')
-      expect(fragment).to_not have_selector('a')
+      expect(fragment).not_to have_selector('a')
       expect(fragment.text).to have_text('link to')
-      expect(fragment).to_not have_text('nowhere')
+      expect(fragment).not_to have_text('nowhere')
     end
   end
 
@@ -68,16 +70,16 @@ RSpec.describe ApplicationHelper, type: :helper do
     let(:options) { {} }
 
     it 'applies span around the term' do
-      is_expected.to have_selector('span', text: 'bold text')
+      expect(subject).to have_selector('span', text: 'bold text')
     end
 
     it 'applies bold-term class to span around the term' do
-      is_expected.to have_selector('span.bold-term', text: 'bold text')
+      expect(subject).to have_selector('span.bold-term', text: 'bold text')
     end
 
     it 'appends bold-term to other classes passed in' do
       options[:class] = 'my-other-class'
-      is_expected.to include('bold-term', 'my-other-class')
+      expect(subject).to include('bold-term', 'my-other-class')
     end
   end
 
@@ -142,16 +144,16 @@ RSpec.describe ApplicationHelper, type: :helper do
     let(:current_user) { build(:person) }
 
     it 'uses the "mine" translation when the user is the current user' do
-      expect(I18n).to receive(:t).
-        with('foo.bar.mine', hash_including(name: current_user)).
-        and_return('translation')
+      expect(I18n).to receive(:t)
+        .with('foo.bar.mine', hash_including(name: current_user))
+        .and_return('translation')
       expect(role_translate(current_user, 'foo.bar')).to eq('translation')
     end
 
     it 'uses the "other" translation when the user is not the current user' do
-      expect(I18n).to receive(:t).
-        with('foo.bar.other', hash_including(name: current_user)).
-        and_return('translation')
+      expect(I18n).to receive(:t)
+        .with('foo.bar.other', hash_including(name: current_user))
+        .and_return('translation')
       expect(role_translate(build(:person), 'foo.bar')).to eq('translation')
     end
   end

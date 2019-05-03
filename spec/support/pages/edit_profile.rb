@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'sections/error_summary'
 require_relative 'sections/profile_form'
 

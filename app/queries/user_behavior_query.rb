@@ -1,6 +1,7 @@
-class UserBehaviorQuery < BaseQuery
+# frozen_string_literal: true
 
-  DATE_STRING_FORMAT = '%d-%m-%Y'.freeze
+class UserBehaviorQuery < BaseQuery
+  DATE_STRING_FORMAT = '%d-%m-%Y'
 
   attr_reader :relation
 
@@ -9,10 +10,10 @@ class UserBehaviorQuery < BaseQuery
   end
 
   def call
-    @relation.
-      joins(joins_sql).
-      select(selected_columns).
-      order('people.id, full_name')
+    @relation
+      .joins(joins_sql)
+      .select(selected_columns)
+      .order('people.id, full_name')
   end
 
   def data
@@ -25,21 +26,20 @@ class UserBehaviorQuery < BaseQuery
         team_role: rec.team_role,
         login_count: rec.login_count,
         last_login_at: rec.last_login_at&.strftime(DATE_STRING_FORMAT),
-        updates_count: rec.updates_count
-      }
+        updates_count: rec.updates_count }
     end
   end
 
   def team_mapping
     @team_mapping ||= \
-      Group.order(id: :asc).
-      pluck(:id, :name).
-      each_with_object({}) do |(id, name), mapping|
-        mapping.merge!(id => name)
+      Group.order(id: :asc)
+           .pluck(:id, :name)
+           .each_with_object({}) do |(id, name), mapping|
+        mapping[id] = name
       end
   end
 
-  def team_name_map ancestor_ids, delimiter = ' > '
+  def team_name_map(ancestor_ids, delimiter = ' > ')
     names = ancestor_ids&.each_with_object([]) do |id, arr|
       arr.push team_mapping[id.to_i]
     end
@@ -80,5 +80,4 @@ class UserBehaviorQuery < BaseQuery
       #{select_updates_count} AS updates_count
     SQL
   end
-
 end

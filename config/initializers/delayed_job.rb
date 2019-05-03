@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Delayed::Worker.queue_attributes = {
   high_priority: { priority: -10 }, # lower number = higher priority
   mailers: { priority: 0 },

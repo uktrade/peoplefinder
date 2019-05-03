@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Login
-  SESSION_KEY = 'current_user_id'.freeze
+  SESSION_KEY = 'current_user_id'
 
   def initialize(session, person)
     @session = session

@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Concerns::ConcatenatedFields do
-
   class TestModel
     attr_accessor :field_a, :field_b
 

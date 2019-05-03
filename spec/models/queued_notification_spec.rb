@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: queued_notifications
@@ -20,7 +22,7 @@ require 'rails_helper'
 RSpec.describe QueuedNotification, type: :model do
   describe 'change_hash' do
     let(:my_hash) do
-      { 'json_class'=>'ProfileChangesPresenter', 'data' => { 'raw' => { 'given_name' => %w(John joanna), 'surname' => %w(Doe Fawn) } } }
+      { 'json_class' => 'ProfileChangesPresenter', 'data' => { 'raw' => { 'given_name' => %w[John joanna], 'surname' => %w[Doe Fawn] } } }
     end
 
     it 'returns a deserialized version of changes_json' do
@@ -43,18 +45,17 @@ RSpec.describe QueuedNotification, type: :model do
     let(:current_user) { create :person, given_name: 'Liz', surname: 'Truss', slug: 'liz-truss', email: 'liz@digital.justice.gov.uk' }
     let(:session_id) { 'd9e2afcb4972cc2c963d8fe2802796b7' }
 
-    before(:each) do
+    before do
       person.given_name = 'John'
       person.email = 'john.jones@digital.justice.gov.uk'
       person.works_friday = false
     end
 
     context 'called by person creator' do
-
       let(:person) { create :person, given_name: 'Stephen', surname: 'Jones', slug: 'stephen-richards', email: 'sr@digital.justice.gov.uk', ditsso_user_id: 'deadbeef' }
       let(:creator) { double(PersonCreator, person: person, current_user: current_user, session_id: session_id) }
 
-      before(:each) do
+      before do
         allow(creator).to receive(:is_a?).with(PersonCreator).and_return(true)
       end
 
@@ -130,7 +131,7 @@ RSpec.describe QueuedNotification, type: :model do
               'ditsso_user_id' => [nil, 'deadbeef'],
               'slug' => [nil, 'stephen-richards'],
               "membership_#{@moj.id}" => {
-                "group_id" => [nil, @moj.id]
+                'group_id' => [nil, @moj.id]
               }
             }
           }
@@ -139,29 +140,28 @@ RSpec.describe QueuedNotification, type: :model do
 
       def expected_create_changes_with_groups(devs, archs)
         {
-          'json_class'=>'ProfileChangesPresenter',
-          'data'=> {
-            'raw'=> {
-              'given_name'=>[nil, 'John'],
-              'surname'=>[nil, 'Jones'],
-              'email'=>[nil, 'john.jones@digital.justice.gov.uk'],
+          'json_class' => 'ProfileChangesPresenter',
+          'data' => {
+            'raw' => {
+              'given_name' => [nil, 'John'],
+              'surname' => [nil, 'Jones'],
+              'email' => [nil, 'john.jones@digital.justice.gov.uk'],
               'ditsso_user_id' => [nil, 'deadbeef'],
-              'slug'=>[nil, 'stephen-richards'],
-              'works_friday'=>[true, false],
+              'slug' => [nil, 'stephen-richards'],
+              'works_friday' => [true, false],
               "membership_#{@moj.id}" => {
-                "group_id" => [nil, @moj.id]
+                'group_id' => [nil, @moj.id]
               },
-              "membership_#{devs.id}"=>{
-                'group_id'=>[nil, devs.id]
+              "membership_#{devs.id}" => {
+                'group_id' => [nil, devs.id]
               },
-              "membership_#{archs.id}"=>{
-                'group_id'=>[nil, archs.id]
+              "membership_#{archs.id}" => {
+                'group_id' => [nil, archs.id]
               }
             }
           }
         }
       end
-
     end
 
     context 'called by person updater' do
@@ -169,8 +169,7 @@ RSpec.describe QueuedNotification, type: :model do
       let(:updater) { double(PersonUpdater, person: person, current_user: current_user, session_id: session_id) }
 
       context 'with group changes' do
-
-        before(:each) do
+        before do
           person.groups << @devs
           person.groups << @archs
           person.save!
@@ -191,22 +190,21 @@ RSpec.describe QueuedNotification, type: :model do
           end
         end
       end
-
     end
   end
 
   context 'grouped items' do
-
     before(:all) { populate_notifications }
+
     after(:all) { described_class.destroy_all }
 
     # rubocop:disable Metrics/AbcSize
     def populate_notifications
       Timecop.freeze(30.minutes.ago) do
         # old session abc for person 1 current user 100 - sent
-        create_notification('abc', 1, 100, false, Time.now, true)
-        create_notification('abc', 1, 100, false, Time.now, true)
-        create_notification('abc', 1, 100, true, Time.now, true)
+        create_notification('abc', 1, 100, false, Time.now.in_time_zone, true)
+        create_notification('abc', 1, 100, false, Time.now.in_time_zone, true)
+        create_notification('abc', 1, 100, true, Time.now.in_time_zone, true)
 
         # old session def for person 1, current user 200 - not sent, but finalised
         @qn1 = create_notification('def', 1, 200, false, nil, false)
@@ -239,17 +237,16 @@ RSpec.describe QueuedNotification, type: :model do
     # rubocop:disable Metrics/ParameterLists
     def create_notification(session_id, person_id, user_id, finalised, processing_started_at, sent)
       create(:queued_notification,
-        session_id: session_id,
-        person_id: person_id,
-        current_user_id: user_id,
-        processing_started_at: processing_started_at,
-        edit_finalised: finalised,
-        sent: sent)
+             session_id: session_id,
+             person_id: person_id,
+             current_user_id: user_id,
+             processing_started_at: processing_started_at,
+             edit_finalised: finalised,
+             sent: sent)
     end
     # rubocop:enable Metrics/ParameterLists
 
     describe '.unsent_groups' do
-
       it 'does not include any sent groups in the result set' do
         groups = described_class.unsent_groups
         expect(groups.map(&:session_id)).not_to include('abc')
@@ -299,9 +296,9 @@ RSpec.describe QueuedNotification, type: :model do
   context 'private class method' do
     describe '.unfinalised_and_within_grace_period' do
       it 'raises an error if called' do
-        expect {
+        expect do
           described_class.unfinalised_and_within_grace_period?(nil)
-        }.to raise_error NoMethodError, /private method .unfinalised_and_within_grace_period\?. called for/
+        end.to raise_error NoMethodError, /private method .unfinalised_and_within_grace_period\?. called for/
       end
     end
   end

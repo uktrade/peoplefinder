@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 namespace :peoplefinder do
   namespace :data do
-    DOMAIN = 'fake-moj.justice.gov.uk'.freeze
+    DOMAIN = 'fake-moj.justice.gov.uk'
 
     class DemoGroupMemberships
       extend Forwardable
@@ -40,18 +42,17 @@ namespace :peoplefinder do
     #                              > webops
     #
     desc 'create basic demonstration data'
-    task :demo => :environment do
+    task demo: :environment do
       DemoGroupMemberships.new.each do |group, member_count|
         RandomGenerator.new(group).generate_members(member_count, DOMAIN)
       end
       puts 'Generated random basic demonstration data'
-      Rake::Task["peoplefinder:data:search_scenario_1"].invoke
-      Rake::Task["peoplefinder:es:index_people"].invoke
+      Rake::Task['peoplefinder:data:search_scenario_1'].invoke
+      Rake::Task['peoplefinder:es:index_people'].invoke
     end
 
     desc 'generate data for steve\'s search scenario'
-    task :search_scenario_1 => [:environment, :demo] do
-
+    task search_scenario_1: %i[environment demo] do
       names = [
         'Steve Richards',
         'Steven Richards',
@@ -76,7 +77,8 @@ namespace :peoplefinder do
         surname = name.split.second
         email = "#{given_name.downcase}.#{surname.downcase}@#{DOMAIN}"
         Person.find_or_initialize_by(given_name: given_name, surname: surname, email: email).tap do |person|
-          person.memberships << Membership.new(person_id: person.id, group_id: demo_groups.sample.first.id) if person.memberships.empty?
+          membership = Membership.new(person_id: person.id, group_id: demo_groups.sample.first.id)
+          person.memberships << membership if person.memberships.empty?
           person.description = 'PA to Steve Richards' if email == "personal.assistant@#{DOMAIN}"
           person.save!
         end
@@ -85,32 +87,28 @@ namespace :peoplefinder do
     end
 
     namespace :migration do
-
       def department
         @department ||= Group.department
       end
 
       desc 'Adds people not in a team to the Department level team'
-      task :move_unassigned_to_department => :environment do
+      task move_unassigned_to_department: :environment do
         puts "Assign #{Person.non_team_members.count} people not in a team to #{department}"
         Person.non_team_members.each do |person|
-          begin
-            person.memberships.create(group: department)
-            print '.'
-          rescue => err
-            puts "Failed to assign #{person.name} to #{department}: #{err}"
-          end
+          person.memberships.create(group: department)
+          print '.'
+        rescue StandardError => e
+          puts "Failed to assign #{person.name} to #{department}: #{e}"
         end
       end
 
       desc 'Deletes department level team memberships with no role for people with memberships in another team'
-      task :remove_unnecessary_department_memberships => :environment do
+      task remove_unnecessary_department_memberships: :environment do
         puts "Remove #{Person.department_members_in_other_teams.count} unnecessary #{department} memberships"
         Person.department_members_in_other_teams.each do |person|
           person.department_memberships_with_no_role.destroy_all
         end
       end
     end
-
   end
 end

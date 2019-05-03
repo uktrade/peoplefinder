@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PersonChangesPresenter, type: :presenter do
+  subject { described_class.new(person.changes) }
+
   let(:old_email) { 'test.user@digital.justice.gov.uk' }
   let(:new_email) { 'changed.user@digital.justice.gov.uk' }
   let(:person) do
@@ -12,12 +16,11 @@ RSpec.describe PersonChangesPresenter, type: :presenter do
     )
   end
 
-  subject { described_class.new(person.changes) }
-
   it_behaves_like 'a changes_presenter'
 
   describe 'delegation' do
     before { person.email = new_email }
+
     it 'delegates [] to #changes' do
       expect(subject[:email]).to eq subject.changes[:email]
     end
@@ -25,9 +28,11 @@ RSpec.describe PersonChangesPresenter, type: :presenter do
 
   describe '#raw' do
     subject { described_class.new(person.changes).raw }
+
     before { person.email = new_email }
+
     it 'returns orginal changes' do
-      is_expected.to be_a Hash
+      expect(subject).to be_a Hash
       expect(subject[:email].first).to eql old_email
     end
   end
@@ -39,7 +44,7 @@ RSpec.describe PersonChangesPresenter, type: :presenter do
       {
         email: { raw: [old_email, new_email], message: "Changed your email from #{old_email} to #{new_email}" },
         location_in_building: { raw: ['10.51', ''], message: 'Removed the location in building' },
-        primary_phone_number: { raw: [nil, '01234, 567 890'], message: "Added a primary phone number" }
+        primary_phone_number: { raw: [nil, '01234, 567 890'], message: 'Added a primary phone number' }
       }
     end
 
@@ -48,10 +53,8 @@ RSpec.describe PersonChangesPresenter, type: :presenter do
         work_days:
           { raw:
             { works_saturday: [false, true],
-              works_monday: [true, false]
-            },
-          message: 'Changed your working days'
-          }
+              works_monday: [true, false] },
+            message: 'Changed your working days' }
       }
     end
 
@@ -65,22 +68,23 @@ RSpec.describe PersonChangesPresenter, type: :presenter do
     it_behaves_like '#changes on changes_presenter'
 
     it 'returns expected format of data' do
-      is_expected.to eql valid_format
+      expect(subject).to eql valid_format
     end
 
     it 'ignores empty strings as changes' do
-      is_expected.to_not have_key :description
+      expect(subject).not_to have_key :description
     end
 
     it 'returns single message for work days' do
       person.works_saturday = true
       person.works_monday = false
-      is_expected.to include valid_workdays
+      expect(subject).to include valid_workdays
     end
   end
 
   describe '#serialize' do
     subject { described_class.new(person.changes).serialize }
+
     let(:valid_json_hash) do
       {
         data: {
@@ -101,9 +105,8 @@ RSpec.describe PersonChangesPresenter, type: :presenter do
     include_examples 'serializability'
 
     it 'returns JSON of raw changes only' do
-      is_expected.to include_json(valid_json_hash)
-      is_expected.not_to include_json(message: "Changed email from #{old_email} to #{new_email}")
+      expect(subject).to include_json(valid_json_hash)
+      expect(subject).not_to include_json(message: "Changed email from #{old_email} to #{new_email}")
     end
   end
-
 end

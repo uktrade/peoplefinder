@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module SpecSupport
   module ElasticSearchHelper
-
     def total_document_count
       Person.search('*').results.total
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe GeckoboardPublisher::ProfilesChangedReport, geckoboard: true do
@@ -24,25 +26,25 @@ RSpec.describe GeckoboardPublisher::ProfilesChangedReport, geckoboard: true do
     let(:expected_items) do
       [
         {
-          date: "2015-02-28",
+          date: '2015-02-28',
           create: 2,
           update: 0,
           destroy: 0
         },
         {
-          date: "2015-03-01",
+          date: '2015-03-01',
           create: 0,
           update: 2,
           destroy: 0
         },
         {
-          date: "2015-03-02",
+          date: '2015-03-02',
           create: 0,
           update: 1,
           destroy: 1
         },
         {
-          date: "2016-06-30",
+          date: '2016-06-30',
           create: 0,
           update: 0,
           destroy: 1
@@ -65,6 +67,7 @@ RSpec.describe GeckoboardPublisher::ProfilesChangedReport, geckoboard: true do
     end
 
     before { Timecop.freeze Date.parse('01-SEP-2016') }
+
     after { Timecop.return }
 
     it { expect(PaperTrail).to be_enabled }
@@ -76,11 +79,10 @@ RSpec.describe GeckoboardPublisher::ProfilesChangedReport, geckoboard: true do
     end
 
     it 'returns expected dataset items' do
-      expect(subject.size).to eql 4
+      expect(subject.size).to be 4
       expected_items.each do |item|
-        is_expected.to include item
+        expect(subject).to include item
       end
     end
   end
-
 end

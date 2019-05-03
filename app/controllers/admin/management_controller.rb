@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Admin
   class ManagementController < ApplicationController
     before_action :set_search_box_render
@@ -15,12 +17,12 @@ module Admin
 
     private
 
-    def generate report_klass
+    def generate(report_klass)
       report = serialize(report_klass)
       GenerateReportJob.perform_later(report)
     end
 
-    def download name:
+    def download(name:)
       report = Report.find_by(name: name)
       file = report&.to_csv_file
 
@@ -36,7 +38,7 @@ module Admin
       end
     end
 
-    def serialize klass
+    def serialize(klass)
       {
         'json_class' => klass.name
       }.to_json

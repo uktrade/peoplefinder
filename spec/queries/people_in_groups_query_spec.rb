@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe PeopleInGroupsQuery do
-
   let(:group) { create :group }
 
   describe '#call' do

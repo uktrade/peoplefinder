@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'Sending deletion requests' do
+describe 'Sending deletion requests' do
   include ActiveJobHelper
 
   let(:requester) { create(:person, email: 'test.user@digital.justice.gov.uk') }
@@ -10,7 +12,7 @@ feature 'Sending deletion requests' do
     omni_auth_log_in_as(requester.ditsso_user_id)
   end
 
-  scenario 'Requesting a person to be deleted' do
+  it 'Requesting a person to be deleted' do
     visit person_path(person)
 
     click_on "Has #{person.given_name} left the department?"

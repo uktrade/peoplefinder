@@ -1,6 +1,7 @@
-class MembershipChangesPresenter < ChangesPresenter
+# frozen_string_literal: true
 
-  SENTENCE_EXCEPTIONS = %w(group_id role leader subscribed).freeze
+class MembershipChangesPresenter < ChangesPresenter
+  SENTENCE_EXCEPTIONS = %w[group_id role leader subscribed].freeze
 
   class ::Hash
     def to_membership_set
@@ -8,7 +9,7 @@ class MembershipChangesPresenter < ChangesPresenter
     end
   end
 
-  def format raw_change_set
+  def format(raw_change_set)
     h = {}
     raw_change_set&.each do |membership_key, raw_changes|
       self.current_team = membership_key
@@ -42,7 +43,7 @@ class MembershipChangesPresenter < ChangesPresenter
     @current_team = Group.find(membership_key.to_s.sub('membership_', ''))
   end
 
-  def membership_template memo, raw_changes
+  def membership_template(memo, raw_changes)
     set = raw_changes.to_membership_set
     if set.added? || set.removed?
       memo.merge! added_removed_template(set)
@@ -51,7 +52,7 @@ class MembershipChangesPresenter < ChangesPresenter
     end
   end
 
-  def added_removed_template set
+  def added_removed_template(set)
     key = set.added? ? :added : :removed
     template(key) do |h|
       h[key][:raw] = set.raw_changes
@@ -59,7 +60,7 @@ class MembershipChangesPresenter < ChangesPresenter
     end
   end
 
-  def amended_changes memo, raw_changes
+  def amended_changes(memo, raw_changes)
     raw_changes.each do |field, raw_change|
       if bespoke_rule? field
         memo.merge! send("#{field}_change".to_sym, field, raw_change)
@@ -69,18 +70,18 @@ class MembershipChangesPresenter < ChangesPresenter
     end
   end
 
-  def bespoke_rule? field
+  def bespoke_rule?(field)
     SENTENCE_EXCEPTIONS.include? field.to_s
   end
 
-  def leader_change field, raw_change
+  def leader_change(field, raw_change)
     template(field) do |h|
       h[field][:raw] = raw_change
       h[field][:message] = leader_change_sentence(raw_change)
     end
   end
 
-  def leader_change_sentence leader_change
+  def leader_change_sentence(leader_change)
     leader = Change.new(leader_change)
     if leader.addition?
       "Made you leader of the #{current_team} team"
@@ -89,32 +90,32 @@ class MembershipChangesPresenter < ChangesPresenter
     end
   end
 
-  def subscribed_change field, raw_change
+  def subscribed_change(field, raw_change)
     template(field) do |h|
       h[field][:raw] = raw_change
       h[field][:message] = subscribed_change_sentence(raw_change)
     end
   end
 
-  def subscribed_change_sentence subscribed_change
+  def subscribed_change_sentence(subscribed_change)
     subscribed = Change.new(subscribed_change)
     subscribed_text(subscribed.addition?)
   end
 
-  def subscribed_text subscribed
+  def subscribed_text(subscribed)
     'Changed your notification settings so you ' \
       "#{subscribed ? 'do' : 'don\'t'}" \
       " get notifications if changes are made to the #{current_team} team"
   end
 
-  def role_change field, raw_change
+  def role_change(field, raw_change)
     template(field) do |h|
       h[field][:raw] = raw_change
       h[field][:message] = role_change_sentence(raw_change)
     end
   end
 
-  def role_change_sentence raw_change
+  def role_change_sentence(raw_change)
     change = Change.new(raw_change)
     if change.addition?
       "Added the role #{change.new_val} in the #{current_team} team"
@@ -125,14 +126,14 @@ class MembershipChangesPresenter < ChangesPresenter
     end
   end
 
-  def group_id_change field, raw_change
+  def group_id_change(field, raw_change)
     template(field) do |h|
       h[field][:raw] = raw_change
       h[field][:message] = team_change_sentence(raw_change)
     end
   end
 
-  def team_change_sentence raw_change
+  def team_change_sentence(raw_change)
     change = Change.new(raw_change)
     if change.addition?
       "Added you to #{team_name(change.new_val)} team"
@@ -144,7 +145,7 @@ class MembershipChangesPresenter < ChangesPresenter
     end
   end
 
-  def team_name id
+  def team_name(id)
     "the #{Group.find(id).name}"
   rescue ActiveRecord::RecordNotFound
     'a no longer existing'

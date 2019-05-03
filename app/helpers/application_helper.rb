@@ -1,5 +1,6 @@
-module ApplicationHelper
+# frozen_string_literal: true
 
+module ApplicationHelper
   def home_page_link_helper(path)
     if ENV['HOME_PAGE_URL'].present?
       URI.join(ENV['HOME_PAGE_URL'], path)
@@ -8,15 +9,13 @@ module ApplicationHelper
     end
   end
 
-  def pluralize_with_delimiter number, text
+  def pluralize_with_delimiter(number, text)
     "#{number_with_delimiter(number)} #{text.pluralize(number)}"
   end
 
   def last_update
     current_object = @person || @group
-    if current_object && @last_updated_at.present?
-      "#{updated_at(@last_updated_at)}#{updated_by(current_object)}."
-    end
+    "#{updated_at(@last_updated_at)}#{updated_by(current_object)}." if current_object && @last_updated_at.present?
   end
 
   def govspeak(source)
@@ -33,11 +32,12 @@ module ApplicationHelper
     govspeak(source).gsub(%r{<a[^>]*>(.*?)</a>}, '\1').html_safe
   end
 
-  FLASH_NOTICE_KEYS = %w(error notice warning).freeze
+  FLASH_NOTICE_KEYS = %w[error notice warning].freeze
 
   def flash_messages
     messages = flash.keys.map(&:to_s) & FLASH_NOTICE_KEYS
     return if messages.empty?
+
     content_tag(:div, class: 'inner-block') do
       content_tag(:div, id: 'flash-messages') do
         messages.inject(ActiveSupport::SafeBuffer.new) do |html, type|
@@ -71,6 +71,7 @@ module ApplicationHelper
 
   def call_to(telno)
     return nil unless telno
+
     digits = telno.gsub(/[^0-9+#*,]+/, '')
     content_tag(:a, href: "tel:#{digits}") { telno }
   end
@@ -98,7 +99,7 @@ module ApplicationHelper
     I18n.t([key, subkey].join('.'), options.merge(name: user))
   end
 
-  def bold_tag term, options = {}
+  def bold_tag(term, options = {})
     classes = options[:class] || ''
     options[:class] = classes.split.push('bold-term')
     content_tag(:span, options) { |_tag| term }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PersonDeletionRequestMailer < ActionMailer::Base
   layout 'email'
 
@@ -7,6 +9,6 @@ class PersonDeletionRequestMailer < ActionMailer::Base
     @note = note
 
     mail to: Rails.configuration.support_email,
-      reply_to: reporter.email
+         reply_to: reporter.email
   end
 end

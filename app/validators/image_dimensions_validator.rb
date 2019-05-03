@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A custom validator that validates the dimensions of an uploaded image file
 #
 # examples:
@@ -5,7 +7,6 @@
 #
 
 class ImageDimensionsValidator < ActiveModel::EachValidator
-
   attr_reader :record, :attribute, :message
 
   def validate_each(record, attribute, _value)
@@ -77,7 +78,7 @@ class ImageDimensionsValidator < ActiveModel::EachValidator
     message ||
       I18n.t(
         :too_small,
-        scope: [:errors, :validators, :image_dimensions_validator],
+        scope: %i[errors validators image_dimensions_validator],
         actual_dimensions: humanize_dimensions,
         expected_dimensions: humanize_minimum_dimensions
       )
@@ -87,10 +88,9 @@ class ImageDimensionsValidator < ActiveModel::EachValidator
     message ||
       I18n.t(
         :too_big,
-        scope: [:errors, :validators, :image_dimensions_validator],
+        scope: %i[errors validators image_dimensions_validator],
         actual_dimensions: humanize_dimensions,
         expected_dimensions: humanize_maximum_dimensions
       )
   end
-
 end

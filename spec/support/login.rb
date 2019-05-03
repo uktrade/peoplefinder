@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module SpecSupport
   module Login
-    def mock_logged_in_user super_admin: false
+    def mock_logged_in_user(super_admin: false)
       controller.session[::Login::SESSION_KEY] =
         create(:person, ditsso_user_id: '007', super_admin: super_admin).id
     end

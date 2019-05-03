@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module HealthCheck
   class Database < Component
     def accessible?
       begin
         tuple = execute_simple_select_on_database
         result = tuple.to_a == [{ 'result' => 1 }]
-      rescue => e
+      rescue StandardError => e
         log_unknown_error(e)
         result = false
       end
@@ -15,7 +17,7 @@ module HealthCheck
       begin
         result = ActiveRecord::Base.connected?
         log_error unless result == true
-      rescue => e
+      rescue StandardError => e
         log_unknown_error(e)
         result = false
       end

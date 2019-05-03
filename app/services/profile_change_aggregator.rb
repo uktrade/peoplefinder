@@ -1,5 +1,6 @@
-class ProfileChangeAggregator
+# frozen_string_literal: true
 
+class ProfileChangeAggregator
   # takes a grouped queue notification record (produced by QueuedNotification.unsent_groups)
   def initialize(notifications)
     @notifications = notifications
@@ -55,6 +56,7 @@ class ProfileChangeAggregator
         copy_changes[field] = eliminate_noops(changes[field])
       else
         next if no_change?(changeset)
+
         copy_changes[field] = changes[field]
       end
     end

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe UserBehaviorQuery, versioning: true do
-  let(:expected_attributes) { %w( id full_name address login_count last_login_at team_name team_role ancestors updates_count).map(&:to_sym) }
+  let(:expected_attributes) { %w[id full_name address login_count last_login_at team_name team_role ancestors updates_count].map(&:to_sym) }
   let(:moj) { create :department }
   let(:csg) { create(:group, name: 'Corporate Services Group', parent: moj) }
   let(:ds) { create(:group, name: 'Digital Services', parent: csg) }
@@ -16,13 +18,13 @@ describe UserBehaviorQuery, versioning: true do
   end
 
   let!(:person2) do
-    person = create(:person, given_name: 'John', surname: 'Smith', email: 'john.smith@digital.justice.gov.uk', login_count: 2, last_login_at: Time.new(2017, 05, 22, 2, 2, 2, "+00:00"))
+    person = create(:person, given_name: 'John', surname: 'Smith', email: 'john.smith@digital.justice.gov.uk', login_count: 2, last_login_at: Time.new(2017, 0o5, 22, 2, 2, 2, '+00:00'))
     person.memberships.destroy_all
     person
   end
 
   let!(:person3) do
-    person = create :person, given_name: 'Adrian', surname: 'Smith', email: 'adrian.smith@digital.justice.gov.uk', login_count: 3, last_login_at: Time.new(2016, 05, 21, 3, 3, 3, "+00:00")
+    person = create :person, given_name: 'Adrian', surname: 'Smith', email: 'adrian.smith@digital.justice.gov.uk', login_count: 3, last_login_at: Time.new(2016, 0o5, 21, 3, 3, 3, '+00:00')
     person.update! location_in_building: '10.51', country: 'GB', city: 'Vancouver'
     person.update! location_in_building: '10.52', country: 'GB', city: 'Vancouver'
     person.memberships.destroy_all
@@ -61,7 +63,7 @@ describe UserBehaviorQuery, versioning: true do
     end
 
     it 'returns an arel relation' do
-      is_expected.to be_a(ActiveRecord::Relation)
+      expect(subject).to be_a(ActiveRecord::Relation)
     end
 
     it 'returns expected columns' do
@@ -76,7 +78,7 @@ describe UserBehaviorQuery, versioning: true do
 
     it 'returns person record for each persons membership' do
       counts = subject.each_with_object(Hash.new(0)) { |rec, count| count[rec.full_name] += 1 }
-      expect(counts[person1.name]).to eql 3
+      expect(counts[person1.name]).to be 3
     end
   end
 
@@ -126,7 +128,7 @@ describe UserBehaviorQuery, versioning: true do
           team_role: nil,
           ancestors: nil,
           login_count: 2,
-          last_login_at: "22-05-2017",
+          last_login_at: '22-05-2017',
           updates_count: 0
         },
         {
@@ -137,14 +139,14 @@ describe UserBehaviorQuery, versioning: true do
           team_role: nil,
           ancestors: nil,
           login_count: 3,
-          last_login_at: "21-05-2016",
+          last_login_at: '21-05-2016',
           updates_count: 2
         }
       ]
     end
 
     it 'returns an array of hashes' do
-      is_expected.to be_an_instance_of(Array)
+      expect(subject).to be_an_instance_of(Array)
       expect(subject.first).to be_an_instance_of(Hash)
     end
 
@@ -157,6 +159,5 @@ describe UserBehaviorQuery, versioning: true do
     it 'returns expected collections and format' do
       expect(subject).to match_array expected_collections
     end
-
   end
 end

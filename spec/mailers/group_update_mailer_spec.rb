@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe GroupUpdateMailer do
@@ -7,26 +9,26 @@ RSpec.describe GroupUpdateMailer do
 
   describe '.inform_subscriber' do
     let(:mail) do
-      described_class.inform_subscriber(recipient, group, instigator).
-        deliver_now
+      described_class.inform_subscriber(recipient, group, instigator)
+                     .deliver_now
     end
 
     include_examples 'common mailer template elements'
 
     it 'includes the name of the group changed' do
-      %w(plain html).each do |part_type|
+      %w[plain html].each do |part_type|
         expect(get_message_part(mail, part_type)).to have_text(group.name)
       end
     end
 
     it 'includes a link to the group changed' do
-      %w(plain html).each do |part_type|
+      %w[plain html].each do |part_type|
         expect(get_message_part(mail, part_type)).to have_text(group_url(group))
       end
     end
 
     it 'includes the email of the person who changed the group' do
-      %w(plain html).each do |part_type|
+      %w[plain html].each do |part_type|
         expect(get_message_part(mail, part_type)).to have_text(instigator.email)
       end
     end

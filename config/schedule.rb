@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 if ENV['ENV'] == 'production'
 
   set :output, standard: '/var/log/cron.log', error: '/var/log/cron_error.log'

@@ -1,12 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe 'BucketedCompletion' do # rubocop:disable RSpec/DescribeClass
+RSpec.describe Concerns::BucketedCompletion do
   xcontext '.bucketed_completion' do
     def create_bucketed_people
       create(:person)
-      2.times do
-        create(:person, :with_details, city: nil, building: nil)
-      end
+      create_list(:person, 2, :with_details, city: nil, building: nil)
       create(:person, :with_details, :with_photo)
     end
 
@@ -16,10 +16,10 @@ RSpec.describe 'BucketedCompletion' do # rubocop:disable RSpec/DescribeClass
 
     it 'counts the people in each bucket outputs specific format' do
       expect(Person.bucketed_completion).to eq(
-        "[0,19]" => 0,
-        "[20,49]" => 0,
-        "[50,79]" => 2,
-        "[80,100]" => 1
+        '[0,19]' => 0,
+        '[20,49]' => 0,
+        '[50,79]' => 2,
+        '[80,100]' => 1
       )
     end
   end

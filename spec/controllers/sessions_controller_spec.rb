@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
@@ -46,11 +48,11 @@ RSpec.describe SessionsController, type: :controller do
     context 'with omniauth' do
       context 'when person already exists' do
         before do
-          request.env["omniauth.auth"] = john_doe_omniauth_hash
+          request.env['omniauth.auth'] = john_doe_omniauth_hash
         end
 
         it 'does not create a user' do
-          expect { post :create }.to_not change Person, :count
+          expect { post :create }.not_to change Person, :count
         end
 
         it 'redirects to the person\'s profiles page' do
@@ -61,11 +63,11 @@ RSpec.describe SessionsController, type: :controller do
 
       context 'when person already exists with same UID but different email' do
         before do
-          request.env["omniauth.auth"] = same_uid_as_john_doe_omniauth_hash
+          request.env['omniauth.auth'] = same_uid_as_john_doe_omniauth_hash
         end
 
         it 'does not create a user' do
-          expect { post :create }.to_not change Person, :count
+          expect { post :create }.not_to change Person, :count
         end
 
         it 'redirects to the person\'s profiles page' do
@@ -76,7 +78,7 @@ RSpec.describe SessionsController, type: :controller do
 
       context 'when person does not exist' do
         before do
-          request.env["omniauth.auth"] = fred_bloggs_omniauth_hash
+          request.env['omniauth.auth'] = fred_bloggs_omniauth_hash
         end
 
         it 'creates the new person' do
@@ -95,7 +97,7 @@ RSpec.describe SessionsController, type: :controller do
         it 'redirects to the person\'s profile edit page, ignoring desired path' do
           request.session[:desired_path] = new_group_path
           post :create
-          expect(response).to redirect_to edit_person_path(Person.find_by(ditsso_user_id: 'dec0de'), page_title: "Create profile")
+          expect(response).to redirect_to edit_person_path(Person.find_by(ditsso_user_id: 'dec0de'), page_title: 'Create profile')
         end
       end
     end

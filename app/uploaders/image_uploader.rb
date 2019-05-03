@@ -1,4 +1,5 @@
-# encoding: utf-8
+# frozen_string_literal: true
+
 require 'fastimage'
 
 class ImageUploader < CarrierWave::Uploader::Base
@@ -11,12 +12,13 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    '%suploads/peoplefinder/%s/%s/%s' % [
+    format(
+      '%suploads/peoplefinder/%s/%s/%s',
       base_upload_dir,
       model.class.to_s.underscore,
       mounted_as_without_legacy_prefix,
       model.id
-    ]
+    )
   end
 
   def default_url
@@ -57,7 +59,7 @@ class ImageUploader < CarrierWave::Uploader::Base
     end
   end
 
-  def origin_and_dimensions model
+  def origin_and_dimensions(model)
     x = model.crop_x.to_i
     y = model.crop_y.to_i
     w = model.crop_w.to_i
@@ -71,7 +73,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   # white list of permissable file extensions for upload
   def extension_whitelist
-    %w( jpg jpeg gif png )
+    %w[jpg jpeg gif png]
   end
 
   def dimensions
@@ -94,10 +96,7 @@ class ImageUploader < CarrierWave::Uploader::Base
     { width: w, height: h }
   end
 
-  def store_upload_dimensions _file
-    if model.upload_dimensions.nil?
-      model.upload_dimensions = uploaded_file_dimensions
-    end
+  def store_upload_dimensions(_file)
+    model.upload_dimensions = uploaded_file_dimensions if model.upload_dimensions.nil?
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ActiveJobHelper
   extend ActiveSupport::Concern
   include ActiveJob::TestHelper
@@ -12,5 +14,4 @@ module ActiveJobHelper
       end
     end
   end
-
 end

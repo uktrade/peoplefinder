@@ -1,14 +1,14 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe MembershipChangesPresenter, type: :presenter do
+  subject { described_class.new(person.changes) }
+
   let(:person) { create(:person) }
   let(:moj) { create(:department) }
   let(:ds) { create(:group, name: 'Digital Services') }
   let(:csg) { create(:group, name: 'Corporate Services Group') }
-
-  subject { described_class.new(person.changes) }
-
-  it_behaves_like 'a changes_presenter'
 
   let(:mass_assignment_params) do
     {
@@ -38,6 +38,8 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
     person.save!
   end
 
+  it_behaves_like 'a changes_presenter'
+
   describe '#raw' do
     subject { described_class.new(person.membership_changes).raw }
 
@@ -49,20 +51,20 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
         {
           person_id: [nil, person.id],
           group_id: [nil, ds.id],
-          role: [nil, "Lead Developer"],
+          role: [nil, 'Lead Developer'],
           leader: [false, true],
           subscribed: [true, false]
         },
         {
           person_id: [nil, person.id],
           group_id: [nil, csg.id],
-          role: [nil, "Senior Developer"]
+          role: [nil, 'Senior Developer']
         }
       ]
     end
 
     it 'returns all original changes' do
-      is_expected.to be_a Hash
+      expect(subject).to be_a Hash
       expect(subject.size).to eq 3
       expect(subject.values).to include(*membership_changes)
     end
@@ -78,11 +80,11 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
             raw: {
               person_id: [nil, person.id],
               group_id: [nil, ds.id],
-              role: [nil, "Lead Developer"],
+              role: [nil, 'Lead Developer'],
               leader: [false, true],
               subscribed: [true, false]
             },
-            message: "Added you to the Digital Services team as Lead Developer. You are a leader of the team"
+            message: 'Added you to the Digital Services team as Lead Developer. You are a leader of the team'
           }
         }
       }
@@ -95,7 +97,7 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
             raw: {
               group_id: [moj.id, nil]
             },
-            message: "Removed you from the Ministry of Justice team"
+            message: 'Removed you from the Ministry of Justice team'
           }
         }
       }
@@ -104,15 +106,15 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
     it_behaves_like '#changes on changes_presenter'
 
     it 'returns expected format of data for additions' do
-      is_expected.to include membership_changes_for_ds
+      expect(subject).to include membership_changes_for_ds
     end
 
     it 'returns expected format of data for removals' do
-      is_expected.to include membership_changes_for_moj
+      expect(subject).to include membership_changes_for_moj
     end
 
     it 'returns a set for each membership' do
-      expect(subject.size).to eql 3
+      expect(subject.size).to be 3
     end
   end
 
@@ -121,5 +123,4 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
 
     include_examples 'serializability'
   end
-
 end

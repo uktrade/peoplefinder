@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Deployment, type: :service do
@@ -40,8 +42,8 @@ RSpec.describe Deployment, type: :service do
 
   it 'provides a convenient class method' do
     hash = { foo: 'bar' }
-    allow_any_instance_of(described_class).to receive(:info).
-      and_return(hash)
+    allow_any_instance_of(described_class).to receive(:info)
+      .and_return(hash)
     expect(described_class.info).to eq(hash)
   end
 end

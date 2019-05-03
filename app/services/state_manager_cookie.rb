@@ -1,9 +1,10 @@
+# frozen_string_literal: true
+
 # This class holds the state during the people creation / edit actions
 # and can be serialised to store in a cookie.
 #
 class StateManagerCookie
-
-  KEY = 'state-manager'.freeze
+  KEY = 'state-manager'
 
   # takes a the controller's cookie jar, and extracts what it needs from there
   def initialize(cookie_jar)

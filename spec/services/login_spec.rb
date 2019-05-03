@@ -1,20 +1,24 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Login, type: :service do
-  let(:session) { {} }
-  let(:person) { create(:person) }
   subject(:service) { described_class.new(session, person) }
 
+  let(:session) { {} }
+  let(:person) { create(:person) }
+
   describe '#login' do
-    let(:current_time) { Time.now }
     subject { service.login }
 
+    let(:current_time) { Time.now.in_time_zone }
+
     it 'increments login count' do
-      expect { subject }.to change { person.login_count }.by(1)
+      expect { subject }.to change(person, :login_count).by(1)
     end
     it 'stores the current time of login' do
       Timecop.freeze(current_time) do
-        expect { subject }.to change { person.last_login_at }
+        expect { subject }.to change(person, :last_login_at)
         expect(person.last_login_at.change(usec: 0)).to eq(current_time.change(usec: 0))
       end
     end
@@ -25,6 +29,7 @@ RSpec.describe Login, type: :service do
 
   describe '#logout' do
     subject { service.logout }
+
     before do
       session[Login::SESSION_KEY] = person.id
     end

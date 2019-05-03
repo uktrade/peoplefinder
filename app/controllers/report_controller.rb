@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReportController < ApplicationController
   require 'zendesk_api'
   require 'json'

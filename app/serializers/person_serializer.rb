@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PersonSerializer < ActiveModel::Serializer
   include ActionView::Helpers::AssetUrlHelper
 

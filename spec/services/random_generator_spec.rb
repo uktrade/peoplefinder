@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe RandomGenerator do
-  let(:group) { create(:group) }
   subject { described_class.new(group) }
+
+  let(:group) { create(:group) }
 
   describe '#clear' do
     let!(:same_level_group) { create(:group) }
@@ -27,6 +30,7 @@ RSpec.describe RandomGenerator do
     let(:groups_per_level) { 2 }
     let(:people_per_group) { 3 }
     let(:domain) { 'digital.justice.gov.uk' }
+
     before do
       subject.generate(groups_levels, groups_per_level, people_per_group, domain)
     end
@@ -45,5 +49,4 @@ RSpec.describe RandomGenerator do
       expect { subject.generate_members(3) }.to change(group.people, :count).by 3
     end
   end
-
 end

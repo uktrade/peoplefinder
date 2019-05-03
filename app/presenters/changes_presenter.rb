@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 require 'json'
 class ChangesPresenter
-
   #
   # helper to format changes to a dirty model
   # for output in a human friendly format.
@@ -18,7 +19,7 @@ class ChangesPresenter
   def_delegator :changes, :[]
   attr_reader :raw
 
-  Change = Struct.new(:change) do
+  Change = Struct.new(:change) do # rubocop:disable Metrics/BlockLength
     def old_val
       change&.first
     end
@@ -40,7 +41,7 @@ class ChangesPresenter
     end
   end
 
-  def initialize raw_changes
+  def initialize(raw_changes)
     @raw = raw_changes
     changes
   end
@@ -56,7 +57,7 @@ class ChangesPresenter
     }.to_json
   end
 
-  def self.deserialize json
+  def self.deserialize(json)
     new(JSON.parse(json)['data']['raw'])
   end
 
@@ -73,7 +74,7 @@ class ChangesPresenter
   end
 
   # over-ride in subclasses requiring fields with special handling
-  def format raw_changes
+  def format(raw_changes)
     h = {}
     raw_changes.each do |field, raw_change|
       h.merge!(default(field, raw_change)) if changed? raw_change
@@ -84,13 +85,13 @@ class ChangesPresenter
   protected
 
   # ignore nil => empty string or vice versa changes
-  def changed? change
+  def changed?(change)
     change.first&.gsub(/\s/, '').present? || change.second&.gsub(/\s/, '').present?
-  rescue
+  rescue StandardError
     true
   end
 
-  def template field, &_block
+  def template(field, &_block)
     h = {
       field =>
         {
@@ -102,7 +103,7 @@ class ChangesPresenter
     h
   end
 
-  def default field, raw_change
+  def default(field, raw_change)
     template(field) do |h|
       h[field][:raw] = raw_change
       h[field][:message] = sentence(field, raw_change)&.humanize
@@ -111,7 +112,7 @@ class ChangesPresenter
 
   private
 
-  def sentence field, raw_change
+  def sentence(field, raw_change)
     change = Change.new(raw_change)
     if change.addition?
       "added a #{field}"
@@ -121,5 +122,4 @@ class ChangesPresenter
       "changed your #{field} from #{change.old_val} to #{change.new_val}"
     end
   end
-
 end

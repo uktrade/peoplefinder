@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'sections/person_confirm_form'
 require_relative 'sections/person_confirm_search_results'
 

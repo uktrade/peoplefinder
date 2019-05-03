@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe EmailExtractor, type: :service do
@@ -6,18 +8,18 @@ RSpec.describe EmailExtractor, type: :service do
   end
 
   it 'returns the original email when supplied with a valid email address' do
-    expect(subject.extract("user.o'postrophe@example.com")).
-      to eq("user.o'postrophe@example.com")
+    expect(subject.extract("user.o'postrophe@example.com"))
+      .to eq("user.o'postrophe@example.com")
   end
 
   it 'returns an email address in <>' do
-    expect(subject.extract("John <user.o'postrophe@example.com>")).
-      to eq("user.o'postrophe@example.com")
+    expect(subject.extract("John <user.o'postrophe@example.com>"))
+      .to eq("user.o'postrophe@example.com")
   end
 
   it 'returns an email address in ()' do
-    expect(subject.extract("John (user.o'postrophe@example.com)")).
-      to eq("user.o'postrophe@example.com")
+    expect(subject.extract("John (user.o'postrophe@example.com)"))
+      .to eq("user.o'postrophe@example.com")
   end
 
   it 'returns nil if email is nil' do
@@ -29,12 +31,12 @@ RSpec.describe EmailExtractor, type: :service do
   end
 
   it 'finds the best email address amongst multiple sets of parentheses' do
-    expect(subject.extract("(102 PF) (user.o'postrophe@example.com)")).
-      to eq("user.o'postrophe@example.com")
+    expect(subject.extract("(102 PF) (user.o'postrophe@example.com)"))
+      .to eq("user.o'postrophe@example.com")
   end
 
   it 'strips space around the email address' do
-    expect(subject.extract("  user.o'postrophe@example.com  ")).
-      to eq("user.o'postrophe@example.com")
+    expect(subject.extract("  user.o'postrophe@example.com  "))
+      .to eq("user.o'postrophe@example.com")
   end
 end

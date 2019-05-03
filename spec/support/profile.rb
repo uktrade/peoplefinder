@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SpecSupport
   module Profile # rubocop:disable Metrics/ModuleLength
     def person_attributes
@@ -27,17 +29,17 @@ module SpecSupport
 
     def complete_profile!(person)
       profile_photo = create(:profile_photo)
-      person.update_attributes(
-        person_attributes.
-          except(:email).
-          merge(profile_photo_id: profile_photo.id, country: 'GB')
+      person.update(
+        person_attributes
+          .except(:email)
+          .merge(profile_photo_id: profile_photo.id, country: 'GB')
       )
       person.groups << create(:group)
     end
 
-    def govuk_label_click locator
+    def govuk_label_click(locator)
       el = page.find("label[for='#{locator}']")
-    rescue
+    rescue StandardError
       nil
     ensure
       el ||= page.find('label', text: locator)
@@ -52,13 +54,13 @@ module SpecSupport
       within('#mobile-number-fields') do
         fill_in 'Mobile number', with: person_attributes[:primary_phone_number]
         select(person_attributes[:primary_phone_country_code],
-          from: 'Country code', match: :first)
+               from: 'Country code', match: :first)
       end
 
       within('#landline-number-fields') do
         fill_in 'Landline number', with: person_attributes[:secondary_phone_number]
         select(person_attributes[:secondary_phone_country_code],
-          from: 'Country code', match: :first)
+               from: 'Country code', match: :first)
       end
 
       fill_in 'Primary work email', with: person_attributes[:email]
@@ -141,13 +143,13 @@ module SpecSupport
       expect(page).to have_text(person_attributes[:country])
 
       within('ul.working_days') do
-        expect(page).to_not have_selector("li.active[alt='Monday']")
+        expect(page).not_to have_selector("li.active[alt='Monday']")
         expect(page).to have_selector("li.active[alt='Tuesday']")
         expect(page).to have_selector("li.active[alt='Wednesday']")
         expect(page).to have_selector("li.active[alt='Thursday']")
-        expect(page).to_not have_selector("li.active[alt='Friday']")
-        expect(page).to_not have_selector("li.active[alt='Saturday']")
-        expect(page).to_not have_selector("li.active[alt='Sunday']")
+        expect(page).not_to have_selector("li.active[alt='Friday']")
+        expect(page).not_to have_selector("li.active[alt='Saturday']")
+        expect(page).not_to have_selector("li.active[alt='Sunday']")
       end
 
       within '#key_skills' do

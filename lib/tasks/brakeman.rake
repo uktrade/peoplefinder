@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 task :brakeman do
   system <<-SCRIPT
     echo "Running brakeman..."
@@ -7,6 +9,4 @@ task :brakeman do
   SCRIPT
 end
 
-if %w[development test].include? Rails.env
-  task(:default).prerequisites << task(:brakeman)
-end
+task(:default).prerequisites << task(:brakeman) if %w[development test].include? Rails.env

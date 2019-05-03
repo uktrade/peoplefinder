@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 RSpec.describe Metrics::ProfilesController, type: :controller do
   let(:parsed_body) { JSON.parse(response.body) }
 
   describe 'GET index' do
     let(:number_of_profiles) { 7 }
+
     before do
       create_list(:person, number_of_profiles)
       get :index

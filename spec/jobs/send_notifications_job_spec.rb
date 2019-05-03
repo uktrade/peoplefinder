@@ -1,15 +1,16 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe SendNotificationsJob, type: :job do
-
-  subject(:perform_later) { described_class.perform_later }
-
-  subject(:perform_now) { described_class.perform_now }
-
   subject(:job) { described_class.new }
 
+  let(:perform_later) { described_class.perform_later }
+
+  let(:perform_now) { described_class.perform_now }
+
   context 'when enqueued' do
-    it "enqueues with appropriate config settings" do
+    it 'enqueues with appropriate config settings' do
       expect(job.queue_name).to eq 'send_notifications'
       expect(job.max_run_time).to eq 10.minutes
       expect(job.max_attempts).to eq 3
@@ -31,8 +32,8 @@ RSpec.describe SendNotificationsJob, type: :job do
 
   context 'when performed' do
     it 'invokes the NotificationSender and Geckoboard publishers' do
-      mock_sender = double("NotificationSender")
-      mock_publisher = double("Publisher")
+      mock_sender = double('NotificationSender')
+      mock_publisher = double('Publisher')
 
       expect(NotificationSender).to receive(:new).and_return(mock_sender)
       expect(mock_sender).to receive(:send!)
@@ -48,5 +49,4 @@ RSpec.describe SendNotificationsJob, type: :job do
       perform_now
     end
   end
-
 end

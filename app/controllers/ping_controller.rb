@@ -1,5 +1,6 @@
-class PingController < ActionController::Base
+# frozen_string_literal: true
 
+class PingController < ActionController::Base
   protect_from_forgery with: :exception
 
   def index

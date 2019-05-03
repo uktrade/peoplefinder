@@ -1,5 +1,6 @@
-class GroupUpdateMailer < ActionMailer::Base
+# frozen_string_literal: true
 
+class GroupUpdateMailer < ActionMailer::Base
   layout 'email'
   add_template_helper MailHelper
 

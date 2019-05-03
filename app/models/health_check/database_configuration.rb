@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'uri'
 
 module HealthCheck
   class DatabaseConfiguration
-    SAFE = %w( adapter database host port ).freeze
+    SAFE = %w[adapter database host port].freeze
 
     def initialize(hash)
       @hash = if hash.key?('url')
@@ -13,11 +15,11 @@ module HealthCheck
     end
 
     def to_s
-      @hash.
-        sort.
-        select { |k, v| SAFE.include?(k.to_s) && v }.
-        map { |k, v| "#{k}=#{v}" }.
-        join(' ')
+      @hash
+        .sort
+        .select { |k, v| SAFE.include?(k.to_s) && v }
+        .map { |k, v| "#{k}=#{v}" }
+        .join(' ')
     end
 
     private

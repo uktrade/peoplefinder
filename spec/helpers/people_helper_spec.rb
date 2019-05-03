@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PeopleHelper, type: :helper do
   describe 'day_name' do
-    it "returns a name for each day" do
-      expect(day_name(:works_wednesday)).to eql("Wednesday")
+    it 'returns a name for each day' do
+      expect(day_name(:works_wednesday)).to eql('Wednesday')
     end
 
-    it "returns a symbol for each day" do
-      expect(day_symbol(:works_wednesday)).to eql("W")
+    it 'returns a symbol for each day' do
+      expect(day_symbol(:works_wednesday)).to eql('W')
     end
   end
 
@@ -42,7 +44,7 @@ RSpec.describe PeopleHelper, type: :helper do
     end
 
     it 'adds a link to the person profile by default' do
-      expect(profile_image_tag(person, options)).to match(/.*href=\"\/people\/.*\".*/)
+      expect(profile_image_tag(person, options)).to match(%r{.*href=\"/people/.*\".*})
     end
 
     it 'adds alternative text to the person profile by default' do
@@ -50,15 +52,15 @@ RSpec.describe PeopleHelper, type: :helper do
     end
 
     it 'does not add a link to when option set' do
-      expect(profile_image_tag(person, options.merge(link: false))).to_not match(/.*href=.*/)
+      expect(profile_image_tag(person, options.merge(link: false))).not_to match(/.*href=.*/)
     end
 
     it 'uses the specified image version' do
-      expect(profile_image_tag(person, options)).to match(/.*profile_photo.*\/croppable.*/)
+      expect(profile_image_tag(person, options)).to match(%r{.*profile_photo.*/croppable.*})
     end
 
     it 'adds a link_uri and alt_text to options hash' do
-      expect { profile_image_tag(person, options) }.to change { options.keys }.from([:class, :version]).to([:class, :version, :link_uri, :alt_text])
+      expect { profile_image_tag(person, options) }.to change(options, :keys).from(%i[class version]).to(%i[class version link_uri alt_text])
     end
 
     it 'does not output internally used options' do
@@ -71,12 +73,12 @@ RSpec.describe PeopleHelper, type: :helper do
 
     it 'defaults to using the medium image version' do
       options.delete(:version)
-      expect(profile_image_tag(person, options)).to match(/.*profile_photo.*\/medium_.*/)
+      expect(profile_image_tag(person, options)).to match(%r{.*profile_photo.*/medium_.*})
     end
 
     it 'fallsback to using medium_no_photo.png' do
       person.profile_photo_id = nil
-      expect(profile_image_tag(person, options)).to match(/.*\/medium_no_photo.png.*/)
+      expect(profile_image_tag(person, options)).to match(%r{.*/medium_no_photo.png.*})
     end
 
     context 'environments using local storage' do
@@ -87,7 +89,7 @@ RSpec.describe PeopleHelper, type: :helper do
       end
 
       it 'uses local file as image src' do
-        is_expected.to match(/.*src=\".*\/uploads\/peoplefinder\/profile_photo\/image\/[\d]+\/medium_.*\.png\".*/)
+        expect(subject).to match(%r{.*src=\".*/uploads/peoplefinder/profile_photo/image/[\d]+/medium_.*\.png\".*})
       end
     end
 
@@ -96,12 +98,12 @@ RSpec.describe PeopleHelper, type: :helper do
 
       let(:version) do
         double 'version',
-          file: file
+               file: file
       end
 
       let(:file) do
         double 'file',
-          authenticated_url: 'https://my-prod-bucket.s3.amazonaws.com/dir1/dir2/medium_photo_1.jpg?X-Amz-Signature=XnXXX12345xxx'
+               authenticated_url: 'https://my-prod-bucket.s3.amazonaws.com/dir1/dir2/medium_photo_1.jpg?X-Amz-Signature=XnXXX12345xxx'
       end
 
       before do
@@ -112,7 +114,7 @@ RSpec.describe PeopleHelper, type: :helper do
 
       it 'uses pre-signed, time-limited, url for image src' do
         expect(file).to receive(:authenticated_url)
-        is_expected.to include file.authenticated_url
+        expect(subject).to include file.authenticated_url
       end
     end
   end
@@ -122,19 +124,19 @@ RSpec.describe PeopleHelper, type: :helper do
     let(:options) { { class: 'my-class' } }
 
     it 'adds a link to the team profile by default' do
-      expect(team_image_tag(team, options)).to match(/.*href=\"\/teams\/.*\".*/)
+      expect(team_image_tag(team, options)).to match(%r{.*href=\"/teams/.*\".*})
     end
 
     it 'does not add a link to when option set' do
-      expect(team_image_tag(team, options.merge(link: false))).to_not match(/.*href=.*/)
+      expect(team_image_tag(team, options.merge(link: false))).not_to match(/.*href=.*/)
     end
 
     it 'uses the medium team image' do
-      expect(team_image_tag(team, options)).to match(/.*\/medium_team.*/)
+      expect(team_image_tag(team, options)).to match(%r{.*/medium_team.*})
     end
 
     it 'adds a link uri to options hash' do
-      expect { team_image_tag(team, options) }.to change { options.keys }.from([:class]).to([:class, :link_uri, :alt_text])
+      expect { team_image_tag(team, options) }.to change(options, :keys).from([:class]).to(%i[class link_uri alt_text])
     end
   end
 
@@ -144,7 +146,7 @@ RSpec.describe PeopleHelper, type: :helper do
     let(:person) { create :person, slug: 'fred-bloggs' }
 
     it 'builds an anchor tag reference to edit page for the person' do
-      expect(edit_person_link('Edit profile', person)).to match(/href=\"\/people\/fred-bloggs\/edit\"/)
+      expect(edit_person_link('Edit profile', person)).to match(%r{href=\"/people/fred-bloggs/edit\"})
     end
 
     it 'inserts activity option as url param' do
@@ -156,5 +158,4 @@ RSpec.describe PeopleHelper, type: :helper do
       edit_person_link('Edit profile', person)
     end
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe GeckoboardPublisher::PhotoProfilesReport, geckoboard: true do
@@ -9,7 +11,7 @@ RSpec.describe GeckoboardPublisher::PhotoProfilesReport, geckoboard: true do
     let(:expected_fields) do
       [
         Geckoboard::NumberField.new(:count, name: 'Count'),
-        Geckoboard::DateField.new(:photo_added_at, name: 'Photo Added'),
+        Geckoboard::DateField.new(:photo_added_at, name: 'Photo Added')
       ].map { |field| [field.class, field.id, field.name] }
     end
 
@@ -23,15 +25,15 @@ RSpec.describe GeckoboardPublisher::PhotoProfilesReport, geckoboard: true do
       [
         {
           count: 1,
-          photo_added_at: "2015-02-28",
+          photo_added_at: '2015-02-28'
         },
         {
           count: 2,
-          photo_added_at: "2015-03-01",
+          photo_added_at: '2015-03-01'
         },
         {
           count: 1,
-          photo_added_at: "2016-06-21",
+          photo_added_at: '2016-06-21'
         }
       ]
     end
@@ -45,6 +47,7 @@ RSpec.describe GeckoboardPublisher::PhotoProfilesReport, geckoboard: true do
     end
 
     before { Timecop.freeze Date.parse('01-SEP-2016') }
+
     after { Timecop.return }
 
     include_examples 'returns valid items structure'
@@ -54,14 +57,13 @@ RSpec.describe GeckoboardPublisher::PhotoProfilesReport, geckoboard: true do
     end
 
     it 'returns profiles with photos added regardless of how old they are' do
-      expect(subject.size).to eql 3
+      expect(subject.size).to be 3
     end
 
     it 'returns expected dataset items' do
       expected_items.each do |item|
-        is_expected.to include item
+        expect(subject).to include item
       end
     end
   end
-
 end

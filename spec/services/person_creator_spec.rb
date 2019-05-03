@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe PersonCreator, type: :service do
+  subject { described_class.new(person: person, current_user: current_user, state_cookie: smc) }
+
   let(:person) do
     double(
       'Person',
@@ -12,7 +16,6 @@ RSpec.describe PersonCreator, type: :service do
     )
   end
   let(:current_user) { double('Current User', email: 'user@example.com', id: 25) }
-  subject { described_class.new(person: person, current_user: current_user, state_cookie: smc) }
 
   context 'Saving profile' do
     let(:smc) { double StateManagerCookie, save_profile?: true }
@@ -28,6 +31,7 @@ RSpec.describe PersonCreator, type: :service do
     describe 'create!' do
       context 'person membership defaults' do
         subject { described_class.new(person: person_object, current_user: current_user, state_cookie: smc).create! }
+
         let!(:moj) { create(:department) }
         let(:person_object) { build(:person) }
 
@@ -43,13 +47,13 @@ RSpec.describe PersonCreator, type: :service do
       end
 
       it 'sends no new profile email if not required' do
-        allow(person).
-          to receive(:notify_of_change?).
-          with(current_user).
-          and_return(false)
-        expect(class_double('UserUpdateMailer').as_stubbed_const).
-          to receive(:new_profile_email).
-          never
+        allow(person)
+          .to receive(:notify_of_change?)
+          .with(current_user)
+          .and_return(false)
+        expect(class_double('UserUpdateMailer').as_stubbed_const)
+          .not_to receive(:new_profile_email)
+
         subject.create!
       end
 
@@ -70,5 +74,4 @@ RSpec.describe PersonCreator, type: :service do
       subject.create!
     end
   end
-
 end

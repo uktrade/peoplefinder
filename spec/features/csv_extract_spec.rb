@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'Super admin views CSV extracts' do
+describe 'Super admin views CSV extracts' do
   before do
     admin = create(:super_admin)
     omni_auth_log_in_as(admin.ditsso_user_id)
     click_link 'Manage'
   end
 
-  scenario 'in general' do
+  it 'in general' do
     within('#csv-extract') { click_link 'download' }
 
     header = page.response_headers['Content-Disposition']

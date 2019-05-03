@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class GroupsController < ApplicationController
-  before_action :set_group, only: [
-    :show, :edit, :update, :destroy, :all_people, :people_outside_subteams
+  before_action :set_group, only: %i[
+    show edit update destroy all_people people_outside_subteams
   ]
-  before_action :set_org_structure, only: [:new, :edit, :create, :update]
+  before_action :set_org_structure, only: %i[new edit create update]
   before_action :load_versions, only: [:show]
 
   # GET /groups
@@ -87,7 +89,7 @@ class GroupsController < ApplicationController
 
   private
 
-  def create_success_response format
+  def create_success_response(format)
     format.html do
       notice :group_created, group: @group
       redirect_to @group
@@ -97,7 +99,7 @@ class GroupsController < ApplicationController
     end
   end
 
-  def create_failure_response format
+  def create_failure_response(format)
     format.html do
       # error :create_error
       render :new
@@ -120,8 +122,8 @@ class GroupsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list
   # through.
   def group_params
-    params.require(:group).
-      permit(:parent_id, :name, :acronym, :description)
+    params.require(:group)
+          .permit(:parent_id, :name, :acronym, :description)
   end
 
   def collection
@@ -139,8 +141,6 @@ class GroupsController < ApplicationController
   def load_versions
     versions = @group.versions
     @last_updated_at = versions.last ? versions.last.created_at : nil
-    if super_admin?
-      @versions = AuditVersionPresenter.wrap(versions)
-    end
+    @versions = AuditVersionPresenter.wrap(versions) if super_admin?
   end
 end

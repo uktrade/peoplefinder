@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 module GovukElementsErrorsHelperExtensions
-  def error_summary_message object, attribute, child_to_parents
+  def error_summary_message(object, attribute, child_to_parents)
     if nested_attribute?(object, attribute)
       association = association_from_attribute(attribute)
       nested_attribute = association_attribute_from_attribute(attribute)
@@ -15,34 +17,34 @@ module GovukElementsErrorsHelperExtensions
     end
   end
 
-  def map_association_error_tag parent:, association:, attribute:, &_block
-    parent.__send__(association).
-      each_with_object([]).
-      with_index do |(associated_object, memo), index|
-        if associated_object.errors.keys.include?(attribute) && block_given?
-          yield error_tag_for_nested_attribute(associated_object, index, attribute), memo
-        end
+  def map_association_error_tag(parent:, association:, attribute:, &_block)
+    parent.__send__(association)
+          .each_with_object([])
+          .with_index do |(associated_object, memo), index|
+      if associated_object.errors.key?(attribute) && block_given?
+        yield error_tag_for_nested_attribute(associated_object, index, attribute), memo
       end
+    end
   end
 
-  def association_names object
+  def association_names(object)
     object.class.reflect_on_all_associations.map(&:name)
   end
 
-  def association_from_attribute attribute
+  def association_from_attribute(attribute)
     attribute.to_s.split('.').first.pluralize.to_sym
   end
 
-  def association_attribute_from_attribute attribute
+  def association_attribute_from_attribute(attribute)
     attribute.to_s.split('.')&.second&.to_sym
   end
 
-  def nested_attribute? object, attribute
+  def nested_attribute?(object, attribute)
     association_attribute_from_attribute(attribute).present? &&
       association_names(object).include?(association_from_attribute(attribute))
   end
 
-  def error_tag_for_nested_attribute object, index, attribute
+  def error_tag_for_nested_attribute(object, index, attribute)
     messages = object.errors.full_messages_for attribute
     messages.map do |message|
       association_name = object.class.name.downcase
@@ -56,16 +58,16 @@ module GovukElementsErrorsHelperExtensions
     end
   end
 
-  def error_html_attributes form_object, attribute
+  def error_html_attributes(form_object, attribute)
     {
-      class: ('error' if form_object.object.errors.keys.include?(attribute)).to_s,
+      class: ('error' if form_object.object.errors.key?(attribute)).to_s,
       id: dom_id_for_nested_error(form_object.object.class.name.downcase, form_object.index, attribute)
     }
   end
 
   private
 
-  def dom_id_for_nested_error association_name, index, attribute
+  def dom_id_for_nested_error(association_name, index, attribute)
     ['error', association_name, index, attribute].join('_')
   end
 end

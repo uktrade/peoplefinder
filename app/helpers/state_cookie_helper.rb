@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 # the state cookie is in fact a pair of cookies: state_manager_action and state_manager_destination
 #
 module StateCookieHelper
-
   def delete_state_cookie
     cookies.delete StateManagerCookie::KEY
   end

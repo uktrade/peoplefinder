@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'search/person', type: :view do
@@ -32,19 +34,19 @@ RSpec.describe 'search/person', type: :view do
   end
 
   shared_examples 'sets analytics attributes' do
-    it "sets data-event-category correctly on links" do
+    it 'sets data-event-category correctly on links' do
       list.each do |item|
         expect(rendered).to have_selector('[data-event-category="Search result click"]', text: item)
       end
     end
 
-    it "sets data-event-action correctly on links" do
+    it 'sets data-event-action correctly on links' do
       list.each.with_index do |item, idx|
-        expect(rendered).to have_selector("[data-event-action=\"Click result 00#{idx+1}\"]", text: item)
+        expect(rendered).to have_selector("[data-event-action=\"Click result 00#{idx + 1}\"]", text: item)
       end
     end
 
-    it "sets data-virtual-pageview correctly on links" do
+    it 'sets data-virtual-pageview correctly on links' do
       expect(rendered).to have_selector(".#{div} [data-virtual-pageview=\"/search-result,/top-3-search-result\"]", count: 3)
       expect(rendered).to have_selector(".#{div} [data-virtual-pageview=\"/search-result,/below-top-3-search-result\"]", count: 1)
     end
@@ -76,5 +78,4 @@ RSpec.describe 'search/person', type: :view do
 
     include_examples 'sets analytics attributes'
   end
-
 end

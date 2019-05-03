@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
-  sequence(:email) { |n| 'example.user.%d@digital.justice.gov.uk' % n }
+  sequence(:email) { |n| format('example.user.%d@digital.justice.gov.uk', n) }
   sequence(:given_name) { |n| "First name #{('a'.ord + (n % 25)).chr}" }
   sequence(:surname) { |n| "Surname #{('a'.ord + (n % 25)).chr}" }
   sequence(:location_in_building) { |n| "Room #{n}, #{n.ordinalize}" }
-  sequence(:city) { |n| 'Megacity %d' % n }
-  sequence(:country) { |n| 'Country %d' % n }
-  sequence(:primary_phone_number) { |n| '07708 %06d' % (900_000 + n) }
-  sequence(:pager_number) { |n| '07600 %06d' % (900_000 + n) }
-  sequence(:phone_number) { |n| '07700 %06d' % (900_000 + n) }
-  sequence(:ditsso_user_id) { |n| '00000000-0000-0000-0000-00000000%04d' % n }
+  sequence(:city) { |n| format('Megacity %d', n) }
+  sequence(:country) { |n| format('Country %d', n) }
+  sequence(:primary_phone_number) { |n| format('07708 %06d', (900_000 + n)) }
+  sequence(:pager_number) { |n| format('07600 %06d', (900_000 + n)) }
+  sequence(:phone_number) { |n| format('07700 %06d', (900_000 + n)) }
+  sequence(:ditsso_user_id) { |n| format('00000000-0000-0000-0000-00000000%04d', n) }
 
   factory :department, class: 'Group' do
     initialize_with do
@@ -18,7 +20,7 @@ FactoryBot.define do
 
   factory :group do
     sequence :name do |n|
-      'Group-%04d' % n
+      format('Group-%04d', n)
     end
     association :parent, factory: :department
   end
@@ -59,7 +61,7 @@ FactoryBot.define do
       surname { Faker::Name.unique.last_name }
       email { "#{given_name}.#{surname}@example.com" }
       primary_phone_number { Faker::PhoneNumber.phone_number }
-      login_count { Random.rand(20) + 1 }
+      login_count { Random.rand(1..20) }
       last_login_at { login_count == 0 ? nil : Random.rand(15).days.ago }
       country { Faker::Address.country_code }
     end
@@ -71,10 +73,10 @@ FactoryBot.define do
 
       given_name { Faker::Name.first_name }
       surname { Faker::Name.last_name }
-      sequence(:email) { |n| '%{given_name}.%{surname}.%{unique}.@digital.justice.gov.uk' % [given_name: given_name, surname: surname, unique: n] }
+      sequence(:email) { |n| format('%{given_name}.%{surname}.%{unique}.@digital.justice.gov.uk', given_name: given_name, surname: surname, unique: n) }
       primary_phone_number { Faker::PhoneNumber.phone_number }
       secondary_phone_number { Faker::PhoneNumber.phone_number }
-      login_count { Random.rand(20) + 1 }
+      login_count { Random.rand(1..20) }
       last_login_at { login_count == 0 ? nil : Random.rand(15).days.ago }
       description { Faker::Lorem.sentences.join(' ') }
     end
@@ -127,7 +129,6 @@ FactoryBot.define do
     factory :super_admin do
       super_admin { true }
     end
-
   end
 
   factory :profile_photo do

@@ -1,5 +1,6 @@
-class BaseQuery
+# frozen_string_literal: true
 
+class BaseQuery
   class << self
     delegate :call, to: :new
   end

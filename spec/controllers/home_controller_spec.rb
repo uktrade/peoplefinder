@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe HomeController, type: :controller do
@@ -28,7 +30,7 @@ RSpec.describe HomeController, type: :controller do
       end
 
       it '#can_add_person_here? returns true' do
-        expect(controller.can_add_person_here?).to eql true
+        expect(controller.can_add_person_here?).to be true
       end
 
       it 'redirects to the top-level group' do

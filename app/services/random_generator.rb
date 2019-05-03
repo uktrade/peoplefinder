@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'faker'
 
 class RandomGenerator
@@ -90,5 +92,4 @@ class RandomGenerator
       city: Faker::Address.city
     }
   end
-
 end

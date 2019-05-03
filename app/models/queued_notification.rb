@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: queued_notifications
@@ -16,7 +18,6 @@
 #
 
 class QueuedNotification < ApplicationRecord
-
   GRACE_PERIOD = 15.minutes
 
   scope :unsent, -> { where(sent: false) }
@@ -46,10 +47,10 @@ class QueuedNotification < ApplicationRecord
   #
   def self.all_for_grouped_item(gi)
     where(session_id: gi.session_id,
-      person_id: gi.person_id,
-      current_user_id: gi.current_user_id,
-      processing_started_at: nil).
-      order(:id)
+          person_id: gi.person_id,
+          current_user_id: gi.current_user_id,
+          processing_started_at: nil)
+      .order(:id)
   end
 
   # Returns all the records for a grouped item after having datestamped the processing_started_at column.
@@ -70,18 +71,19 @@ class QueuedNotification < ApplicationRecord
   #  - are unsent and finalised
   #
   def self.unsent_groups
-    groups = unprocessed.select(:session_id, :person_id, :current_user_id).
-             group(:session_id, :person_id, :current_user_id)
+    groups = unprocessed.select(:session_id, :person_id, :current_user_id)
+                        .group(:session_id, :person_id, :current_user_id)
     groups.to_a.delete_if { |group| unfinalised_and_within_grace_period?(group) }
   end
 
   # this method returns true if the group is unsent AND the most recent record in the group is within the grace period
   def self.unfinalised_and_within_grace_period?(group)
     recs = where(session_id: group.session_id,
-                      person_id: group.person_id,
-                      current_user_id: group.current_user_id).order(:id)
+                 person_id: group.person_id,
+                 current_user_id: group.current_user_id).order(:id)
     return false if recs.map(&:edit_finalised?).include?(true)
     return false if recs.last.created_at < GRACE_PERIOD.ago
+
     true
   end
 

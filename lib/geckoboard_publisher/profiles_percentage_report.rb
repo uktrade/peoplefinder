@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 module GeckoboardPublisher
   class ProfilesPercentageReport < Report
-
     def fields
       [
         Geckoboard::PercentageField.new(:with_photos, name: 'With Photos'),
@@ -41,16 +42,15 @@ module GeckoboardPublisher
     end
 
     class PercentageOfTotal
-      def initialize model_klass
+      def initialize(model_klass)
         @model_klass = model_klass
         @total = model_klass.count.to_f
       end
 
-      def value scope
+      def value(scope)
         count = @model_klass.__send__(scope).count
-        (count/@total).round(2)
+        (count / @total).round(2)
       end
     end
   end
-
 end

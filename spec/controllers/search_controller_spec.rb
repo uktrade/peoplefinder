@@ -1,21 +1,23 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe SearchController, type: :controller do
+  subject { get :index, params: { query: query, search_filters: search_filters } }
+
   let(:group) { create(:group) }
   let(:person) { create(:person) }
   let(:person_search) { double(PersonSearch, perform_search: people_results) }
   let(:group_search) { double(GroupSearch, perform_search: team_results) }
   let(:people_results) { double('People results') }
   let(:team_results) { double('Team results') }
-  let(:search_filters) { %w(people teams) }
+  let(:search_filters) { %w[people teams] }
 
   before do
     mock_logged_in_user
     allow(PersonSearch).to receive(:new).and_return(person_search)
     allow(GroupSearch).to receive(:new).and_return(group_search)
   end
-
-  subject { get :index, params: { query: query, search_filters: search_filters } }
 
   describe 'GET #index' do
     context 'with valid UTF-8' do
@@ -52,6 +54,7 @@ RSpec.describe SearchController, type: :controller do
 
       context 'with defaults' do
         let(:search_filters) { ['people'] }
+
         it 'searches people only' do
           subject
           expect(assigns(:people_results)).to eq(people_results)
@@ -60,7 +63,8 @@ RSpec.describe SearchController, type: :controller do
       end
 
       context 'on people and team' do
-        let(:search_filters) { %w(people teams) }
+        let(:search_filters) { %w[people teams] }
+
         it 'searches people and teams' do
           subject
           expect(assigns(:people_results)).to eq(people_results)
@@ -70,6 +74,7 @@ RSpec.describe SearchController, type: :controller do
 
       context 'only on teams' do
         let(:search_filters) { ['teams'] }
+
         it 'searches teams only' do
           subject
           expect(assigns(:people_results)).to be_nil
@@ -77,6 +82,5 @@ RSpec.describe SearchController, type: :controller do
         end
       end
     end
-
   end
 end

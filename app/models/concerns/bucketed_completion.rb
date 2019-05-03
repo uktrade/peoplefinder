@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Concerns::BucketedCompletion
   extend ActiveSupport::Concern
 
@@ -29,7 +31,7 @@ module Concerns::BucketedCompletion
       SQL
     end
 
-    def parse_bucketed_results results
+    def parse_bucketed_results(results)
       results = results.inject({}) { |memo, tuple| memo.merge(tuple['bucket'] => tuple['people_count'].to_i) }
       default_bucket_scores.merge results
     end
@@ -38,5 +40,4 @@ module Concerns::BucketedCompletion
       Hash[BUCKETS.map { |r| ["[#{r.begin},#{r.end}]", 0] }]
     end
   end
-
 end

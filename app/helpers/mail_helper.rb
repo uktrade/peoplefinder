@@ -1,5 +1,6 @@
-module MailHelper
+# frozen_string_literal: true
 
+module MailHelper
   APP_GUIDANCE_PAGE = (ENV['HOME_PAGE_URL'] || 'http://test.local').freeze
 
   def browser_warning
@@ -41,5 +42,4 @@ module MailHelper
       default: t(key, **options, scope: [:mailers])
     )
   end
-
 end

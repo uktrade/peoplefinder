@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe 'Completion' do # rubocop:disable RSpec/DescribeClass
+RSpec.describe Concerns::Completion do
   let(:completed_attributes) do
     {
       given_name: 'Bobby',
@@ -26,7 +28,7 @@ RSpec.describe 'Completion' do # rubocop:disable RSpec/DescribeClass
   context '#completion_score' do
     it 'returns 0 if all fields are empty' do
       person = Person.new
-      expect(person.completion_score).to eql(0)
+      expect(person.completion_score).to be(0)
       expect(person).to be_incomplete
     end
 
@@ -50,10 +52,11 @@ RSpec.describe 'Completion' do # rubocop:disable RSpec/DescribeClass
 
     context 'when all the fields are completed' do
       let(:person) { create(:person, completed_attributes) }
+
       before { create(:membership, person: person) }
 
       it 'returns 100' do
-        expect(person.completion_score).to eql(100)
+        expect(person.completion_score).to be(100)
         expect(person).not_to be_incomplete
       end
     end
@@ -62,15 +65,16 @@ RSpec.describe 'Completion' do # rubocop:disable RSpec/DescribeClass
       let(:person) do
         create(
           :person,
-          completed_attributes.
-            reject { |k, _v| k == :profile_photo_id }.
-            merge(image: 'profile_MoJ_small.jpg')
+          completed_attributes
+            .reject { |k, _v| k == :profile_photo_id }
+            .merge(image: 'profile_MoJ_small.jpg')
         )
       end
+
       before { create(:membership, person: person) }
 
       it 'returns 100' do
-        expect(person.completion_score).to eql(100)
+        expect(person.completion_score).to be(100)
         expect(person).not_to be_incomplete
       end
     end
@@ -90,15 +94,13 @@ RSpec.describe 'Completion' do # rubocop:disable RSpec/DescribeClass
 
     it 'returns average of two profiles completion scores' do
       2.times do
-        create(
-          :person,
-          given_name: generate(:given_name),
-          surname: generate(:surname),
-          email: generate(:email),
-          city: generate(:city),
-          primary_phone_number: generate(:phone_number)
-        )
+        create(:person, given_name: generate(:given_name),
+                        surname: generate(:surname),
+                        email: generate(:email),
+                        city: generate(:city),
+                        primary_phone_number: generate(:phone_number))
       end
+
       expect(Person.overall_completion).to be_within(1).of(75)
     end
 
@@ -116,9 +118,7 @@ RSpec.describe 'Completion' do # rubocop:disable RSpec/DescribeClass
         person
       end
       expect(UpdateGroupMembersCompletionScoreJob).to receive(:perform_later).at_least(:once)
-      2.times do
-        create(:membership, person: people[0])
-      end
+      create_list(:membership, 2, person: people[0])
       people.each(&:reload)
       expect(people[0].completion_score).to be_within(1).of(75)
       expect(people[1].completion_score).to be_within(1).of(63)
@@ -148,13 +148,14 @@ RSpec.describe 'Completion' do # rubocop:disable RSpec/DescribeClass
 
     it 'returns a rounded float for use as a percentage' do
       create(:person, :with_details)
-      expect(Person.average_completion_score).to eql 88
+      expect(Person.average_completion_score).to be 88
     end
   end
 
   describe '.inadequate_profiles' do
-    let!(:person) { create(:person, completed_attributes) }
     subject { Person.inadequate_profiles }
+
+    let!(:person) { create(:person, completed_attributes) }
 
     it 'is empty when all attributes are populated' do
       expect(subject).to be_empty

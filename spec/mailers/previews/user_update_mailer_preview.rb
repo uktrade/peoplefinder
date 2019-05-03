@@ -1,5 +1,6 @@
-class UserUpdateMailerPreview < ActionMailer::Preview
+# frozen_string_literal: true
 
+class UserUpdateMailerPreview < ActionMailer::Preview
   include PreviewHelper
 
   def new_profile_email

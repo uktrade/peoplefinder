@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe StateManagerCookie do
-
   let(:smc) { described_class.new('state-manager' => 'action=create&phase=edit-picture', 'other-cookie' => 'something') }
 
   describe '.static_create_and_save' do
@@ -48,5 +49,4 @@ describe StateManagerCookie do
   def state_hash(state_manager)
     state_manager.instance_variable_get(:@state_hash)
   end
-
 end
