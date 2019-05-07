@@ -15,14 +15,22 @@ namespace :peoplefinder do
       end
 
       def create_groups
-        moj = Group.where(ancestry_depth: 0).first_or_create!(name: 'Ministry of Justice', acronym: 'MoJ')
-        csg = Group.find_or_create_by!(name: 'Corporate Services Group', acronym: 'CSG', parent: moj)
-        tech = Group.find_or_create_by!(name: 'Technology', acronym: 'Tech', parent: csg)
-        ds = Group.find_or_create_by!(name: 'Digital Services', acronym: 'DS', parent: csg)
-        cn = Group.find_or_create_by!(name: 'Content', parent: ds)
-        dev = Group.find_or_create_by!(name: 'Development', parent: ds)
-        ops = Group.find_or_create_by!(name: 'Webops', parent: ds)
-        @group_membership = [[moj, 1], [csg, 1], [tech, 2], [ds, 2], [cn, 1], [dev, 3], [ops, 2]]
+        dit = Group.where(ancestry_depth: 0).first_or_create!(
+          name: 'Department for International Trade',
+          acronym: 'DIT'
+        )
+        coo = Group.find_or_create_by!(
+          name: 'Chief Operating Officer (Corporate Services)',
+          acronym: 'COO',
+          parent: dit
+        )
+        finance = Group.find_or_create_by!(name: 'Finance', acronym: 'Fin', parent: coo)
+        ddat = Group.find_or_create_by!(name: 'Digital, Data and Technology', acronym: 'DDaT', parent: coo)
+        cn = Group.find_or_create_by!(name: 'Content', parent: ddat)
+        dev = Group.find_or_create_by!(name: 'Development', parent: ddat)
+        ops = Group.find_or_create_by!(name: 'Webops', parent: ddat)
+
+        @group_membership = [[dit, 1], [coo, 1], [finance, 2], [ddat, 2], [cn, 1], [dev, 3], [ops, 2]]
       end
     end
 
@@ -33,10 +41,10 @@ namespace :peoplefinder do
     #
     # Group demo data structure is as below (left to right):
     #
-    # moj > csg > digital services > content
+    # dit > coo > digital services > content
     #           |                  |
     #           |                  |
-    #           > technology       > development
+    #           > finance          > development
     #                              |
     #                              |
     #                              > webops
@@ -76,13 +84,21 @@ namespace :peoplefinder do
         given_name = name.split.first
         surname = name.split.second
         email = "#{given_name.downcase}.#{surname.downcase}@#{DOMAIN}"
-        Person.find_or_initialize_by(given_name: given_name, surname: surname, email: email).tap do |person|
+        ditsso_user_id = SecureRandom.uuid
+
+        Person.find_or_initialize_by(
+          given_name: given_name,
+          surname: surname,
+          email: email,
+          ditsso_user_id: ditsso_user_id
+        ).tap do |person|
           membership = Membership.new(person_id: person.id, group_id: demo_groups.sample.first.id)
           person.memberships << membership if person.memberships.empty?
           person.description = 'PA to Steve Richards' if email == "personal.assistant@#{DOMAIN}"
           person.save!
         end
       end
+
       puts 'Generated data for steve\'s search scenario'
     end
 
