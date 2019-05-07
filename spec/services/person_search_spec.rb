@@ -50,6 +50,15 @@ RSpec.describe PersonSearch, elastic: true do
     @john_richardson = create(:person, given_name: 'John', surname: 'Richardson')
     @john_edmundson = create(:person, given_name: 'John', surname: 'Edmundson') # should not appea
     @jane_medurst = create(:person, given_name: 'Jane', surname: 'Medurst')
+
+    @maurice = create(
+      :person,
+      given_name: 'Maurice',
+      surname: 'Moss',
+      primary_phone_country_code: 'GB',
+      primary_phone_number: '0118(999)881-999 119 725 ext. 3'
+    )
+
     Person.import force: true
     Person.__elasticsearch__.refresh_index!
   end
@@ -65,6 +74,12 @@ RSpec.describe PersonSearch, elastic: true do
       results = search_for(@alice.email.upcase)
       expect(results.set.first.name).to eq @alice.name
       expect(results.contains_exact_match).to eq true
+    end
+
+    it 'searches by phone number' do
+      results = search_for('+44 118 999-881 (999) 119 725 3')
+      expect(results.set.first.name).to eq @maurice.name
+      expect(results.contains_exact_match).to eq(true)
     end
 
     it 'searches by surname' do
@@ -235,8 +250,8 @@ RSpec.describe PersonSearch, elastic: true do
         end
 
         it 'test has expected records and ES index documents' do
-          expect(Person.count).to be 30
-          expect(Person.search('*').results.total).to be 30
+          expect(Person.count).to be 31
+          expect(Person.search('*').results.total).to be 31
         end
       end
 
