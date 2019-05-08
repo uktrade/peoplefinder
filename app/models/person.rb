@@ -139,7 +139,7 @@ class Person < ApplicationRecord
   validates :given_name, presence: true
   attr_accessor :skip_must_have_surname
   validates :surname, presence: true, unless: :skip_must_have_surname
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, email: true
+  validates :email, presence: true, email: true
   validates :secondary_email, email: true, allow_blank: true
 
   has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
