@@ -119,15 +119,6 @@ describe 'Person maintenance' do
         expect(edit_profile_page.error_summary.leader_unique_error).to have_text "#{role} (leader of #{department}) already exists. Select \"No\" or change the current #{role}'s profile first", count: 1
       end
 
-      it 'Editing a person to have an existing e-mail raises an error' do
-        existing_person = create(:person)
-
-        edit_profile_page.load(slug: person.slug)
-        edit_profile_page.form.email.set existing_person.email
-        edit_profile_page.form.save.click
-        expect(edit_profile_page.error_summary).to have_email_error
-      end
-
       it 'Recording audit details' do
         allow_any_instance_of(ActionDispatch::Request)
           .to receive(:remote_ip).and_return('1.2.3.4')
