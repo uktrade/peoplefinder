@@ -85,6 +85,62 @@ RSpec.describe Person, type: :model do
     end
   end
 
+  describe '#phone_number_variations' do
+    subject do
+      build(
+        :person,
+        primary_phone_number: phone_number,
+        primary_phone_country_code: country_code
+      )
+    end
+
+    let(:phone_number) { '0118 999-881 999 119 (725) ext. 3' }
+    let(:country_code) { 'GB' }
+
+    it 'returns the expected variatons' do
+      expect(subject.phone_number_variations).to eq(
+        %w[
+          01189998819991197253
+          441189998819991197253
+        ]
+      )
+    end
+
+    context 'when no country is provided' do
+      let(:country_code) { nil }
+
+      it 'returns only the country code-less variation' do
+        expect(subject.phone_number_variations).to eq(
+          %w[
+            01189998819991197253
+          ]
+        )
+      end
+    end
+
+    context 'when the phone number does not start with "0"' do
+      let(:phone_number) { '123456' }
+
+      it 'returns the expected variatons' do
+        expect(subject.phone_number_variations).to eq(
+          %w[
+            123456
+            44123456
+            0123456
+          ]
+        )
+      end
+    end
+
+    context 'when no phone number is provided' do
+      let(:phone_number) { nil }
+
+      it 'returns nil' do
+        expect(subject.phone_number_variations).to be_nil
+      end
+    end
+  end
+
   describe '#email' do
     it 'does not raise an invalid format error if blank' do
       person = build :person, email: ''

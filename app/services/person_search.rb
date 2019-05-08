@@ -7,7 +7,7 @@ class PersonSearch
   POST_TAGS = ['</span>'].freeze
 
   def initialize(query, results)
-    @query = clean_query query
+    @query = clean_query(query)
     @query_regexp = /#{@query.downcase}/i
     @email_query = query.strip.downcase
     @results = results
@@ -100,11 +100,16 @@ class PersonSearch
   end
 
   def clean_query(query)
-    query
-      .gsub(/[^[[:alnum:]]’\']/, ' ')
-      .tr(',', ' ')
-      .squeeze(' ')
-      .strip
+    if query.match?(/^\s*\+?[\d\s\-\(\)]+$/)
+      # If the query looks like a phone number, normalise it to the format in which we index phone numbers
+      query.gsub(/[\+\s\-\(\)]/, '')
+    else
+      query
+        .gsub(/[^[[:alnum:]]’\']/, ' ')
+        .tr(',', ' ')
+        .squeeze(' ')
+        .strip
+    end
   end
 
   def search(query)
@@ -187,6 +192,7 @@ class PersonSearch
       name^4
       surname^12
       role_and_group^6
+      phone_number_variations^5
       languages^5
       current_project^4
       location^4

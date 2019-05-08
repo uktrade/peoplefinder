@@ -83,7 +83,7 @@ class Person < ApplicationRecord
     as_json(
       only: %i[surname current_project email],
       methods: %i[
-        name role_and_group location languages
+        name role_and_group location languages phone_number_variations
         formatted_key_skills formatted_learning_and_development
       ]
     )
@@ -219,6 +219,17 @@ class Person < ApplicationRecord
 
   def phone
     [primary_phone_number, secondary_phone_number].find(&:present?)
+  end
+
+  # Normalises the different ways in which people may search for phone numbers
+  def phone_number_variations
+    return nil unless phone
+
+    base_phone = phone.gsub(/[^\d]/, '')
+    phone_with_prefix = "#{primary_phone_country.country_code}#{base_phone.gsub(/^0/, '')}" if primary_phone_country
+    phone_starting_with_zero = "0#{base_phone}" unless base_phone =~ /^[0\+]/
+
+    [base_phone, phone_with_prefix, phone_starting_with_zero].compact
   end
 
   def primary_phone_country
