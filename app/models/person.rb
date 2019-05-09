@@ -154,7 +154,6 @@ class Person < ApplicationRecord
   scope :never_logged_in, PeopleNeverLoggedInQuery.new
   scope :logged_in_at_least_once, PeopleLoggedInAtLeastOnceQuery.new
   scope :last_reminder_email_older_than, ->(within) { ReminderMailOlderThanQuery.new(within).call }
-  scope :updated_at_older_than, ->(within) { PeopleUpdatedOlderThanQuery.new(within).call }
   scope :updated_at_older_than, ->(within) { where('updated_at < ?', within) }
   scope :created_at_older_than, ->(within) { where('created_at < ?', within) }
 
