@@ -206,7 +206,7 @@ GEM
     govuk_frontend_toolkit (5.2.0)
       rails (>= 3.1.0)
       sass (>= 3.2.0)
-    govuk_template (0.19.2)
+    govuk_template (0.22.3)
       rails (>= 3.1)
     guard (2.14.2)
       formatador (>= 0.2.4)
@@ -446,7 +446,7 @@ GEM
       nokogiri (>= 1.4.4)
       nokogumbo (~> 1.4)
     sass (3.2.19)
-    sass-rails (5.0.6)
+    sass-rails (5.0.7)
       railties (>= 4.0.0, < 6)
       sass (~> 3.1)
       sprockets (>= 2.8, < 4.0)
@@ -561,9 +561,9 @@ DEPENDENCIES
   geckoboard-ruby (~> 0.4.0)
   govspeak
   govuk_elements_form_builder (~> 0.0, >= 0.0.3)
-  govuk_elements_rails (>= 1.1.2)
+  govuk_elements_rails (~> 2.2)
   govuk_frontend_toolkit (>= 5.2.0)
-  govuk_template (~> 0.19.2)
+  govuk_template (~> 0.22.3)
   guard-jasmine
   haml-rails
   jasmine-rails
@@ -594,7 +594,7 @@ DEPENDENCIES
   rubocop
   rubocop-performance
   rubocop-rspec
-  sass-rails (~> 5.0.6)
+  sass-rails (~> 5.0.7)
   sentry-raven
   shoulda-matchers (~> 4.0.0.rc1)
   simplecov

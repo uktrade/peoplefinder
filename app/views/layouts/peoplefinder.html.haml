@@ -4,9 +4,6 @@
 - content_for :cookie_message do
   = "<p>GOV.UK uses cookies to make the site simpler. <a href=\"/cookies\">Find out more about cookies</a></p>".html_safe
 
-- content_for :global_header_text do
-  /#{Rails.configuration.department_abbrev}
-
 - content_for :homepage_url do
   = ENV['HOME_PAGE_URL']
 
@@ -19,16 +16,6 @@
   = stylesheet_link_tag "digital-workspace-overrides/application", media: "all"
   = csrf_meta_tag
   %meta{name: "format-detection", content: "telephone=no"}
-
-  /[if IE 6]
-    = stylesheet_link_tag "application-ie6", media: "all"
-
-  /[if IE 7]
-    = stylesheet_link_tag "application-ie7", media: "all"
-
-  /[if IE 8]
-    = stylesheet_link_tag "application-ie8", media: "all"
-
 
 - content_for :body_classes do
   = " controller-" + controller.controller_name
