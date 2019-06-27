@@ -1,0 +1,16 @@
+version: 2.1
+jobs:
+  build:
+    machine: true
+    working_directory: ~/peoplefinder
+    steps:
+      - checkout
+      - run: cp .circleci/env .env
+      # Workaround for ES permission requirements
+      #  cf. https://github.com/elastic/elasticsearch-docker/issues/111
+      - run: mkdir -p tmp/elasticsearch && sudo chown 1000:1000 tmp/elasticsearch
+      # Workaround for ES memory requirements
+      - run: sudo sysctl -w vm.max_map_count=262144
+      - run: docker-compose up -d
+      - run: docker-compose run web bundle exec rake db:create db:migrate
+      - run: docker-compose run web bundle exec rake
