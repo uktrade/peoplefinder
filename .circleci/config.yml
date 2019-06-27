@@ -1,0 +1,11 @@
+version: 2.1
+jobs:
+  build:
+    machine: true
+    working_directory: ~/peoplefinder
+    steps:
+      - checkout
+      - run: cp .circleci/env .env
+      - run: docker-compose up -d
+      - run: docker-compose run web bundle exec rake db:create db:migrate
+      - run: docker-compose run web bundle exec rake
