@@ -6,6 +6,9 @@ jobs:
     steps:
       - checkout
       - run: cp .circleci/env .env
+      # Workaround for ES permission requirements
+      #  cf. https://github.com/elastic/elasticsearch-docker/issues/111
+      - run: mkdir -p tmp/elasticsearch && sudo chown 1000:1000 tmp/elasticsearch
       - run: docker-compose up -d
       - run: docker-compose run web bundle exec rake db:create db:migrate
       - run: docker-compose run web bundle exec rake
