@@ -250,7 +250,7 @@ en:
       non_graded_secondee: Non graded - secondee
       non_graded_post: Non graded - post
     learning_and_development_names:
-      shadowing: Shadowing
+      shadowing: Work shadowing
       mentoring: Mentoring
       research: Research
       overseas_posts: Overseas posts
@@ -315,6 +315,7 @@ en:
       policy_profiession: Policy profession
       procurement_profession: Procurement profession
       project_delivery: Project delivery profession
+      international_trade: International trade profession
   management:
     header: Management
     report_header: Reports
