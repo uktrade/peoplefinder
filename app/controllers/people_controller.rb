@@ -97,7 +97,7 @@ class PeopleController < ApplicationController
     # Parameters that can only be updated by super admins, not regular users
     return [] unless super_admin?
 
-    [:super_admin]
+    %i[super_admin ditsso_user_id]
   end
 
   def set_org_structure
