@@ -85,7 +85,7 @@ class PeopleController < ApplicationController
       :email, :secondary_email, :language_intermediate, :language_fluent,
       :profile_photo_id, :crop_x, :crop_y, :crop_w, :crop_h,
       :description, :current_project, :previous_positions, :grade,
-      :other_uk, :other_overseas, *Person::DAYS_WORKED,
+      :other_uk, :other_overseas, *Person::DAYS_WORKED, :pronouns,
       :other_key_skills, :other_learning_and_development, :other_additional_responsibilities,
       building: [], key_skills: [], learning_and_development: [], networks: [],
       key_responsibilities: [], additional_responsibilities: [], professions: [],
