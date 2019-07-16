@@ -103,6 +103,14 @@
             %dd
               = link_to(@person.skype_name, "skype:#{@person.skype_name}?call")
 
+        - if @person.pronouns.present?
+          %dl.inline-labels
+            %dt
+              Preferred pronouns
+            %dd
+              = @person.pronouns
+
+
         %h4.heading-small
           = "Days worked"
 

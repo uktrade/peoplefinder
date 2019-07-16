@@ -60,6 +60,7 @@ FactoryBot.define do
       given_name { Faker::Name.unique.first_name }
       surname { Faker::Name.unique.last_name }
       email { "#{given_name}.#{surname}@example.com" }
+      pronouns { 'pronoun1 pronoun2 pronoun3' }
       primary_phone_number { Faker::PhoneNumber.phone_number }
       login_count { Random.rand(1..20) }
       last_login_at { login_count == 0 ? nil : Random.rand(15).days.ago }
