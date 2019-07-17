@@ -484,7 +484,7 @@ en:
       person:
         given_name: First name
         surname: Last name
-        pronouns: Preferred pronouns
+        pronouns: My pronouns
         email: Primary work email
         secondary_email: Alternative work email address (optional)
         primary_phone_number: Mobile number
