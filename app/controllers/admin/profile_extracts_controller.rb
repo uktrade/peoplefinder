@@ -35,19 +35,20 @@ module Admin
         AddressLondonOffice AddressOtherUKRegional AddressOtherOverseas
         City Country JobTitle
         LastLogin ProfileCompletionScore
-        Team
+        TeamId TeamName
         PrimaryPhoneNumber
       ]
     end
 
     def person_row(person) # rubocop:disable Metrics/AbcSize
+      membership = person.memberships.first
       [
         person.ditsso_user_id,
         person.given_name, person.surname, person.email,
         person.formatted_buildings, person.other_uk, person.other_overseas,
-        person.city, person.country_name, person.memberships.first.try(:role),
+        person.city, person.country_name, membership.try(:role),
         person.last_login_at, person.completion_score,
-        person.memberships.first.try(:group).try(:name),
+        membership.try(:group).try(:id), membership.try(:group).try(:name),
         phone_number_with_country_code(
           person.primary_phone_country,
           person.primary_phone_number
