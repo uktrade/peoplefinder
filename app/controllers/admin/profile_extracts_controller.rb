@@ -33,6 +33,7 @@ module Admin
         SSOUserId
         Firstname Surname Email
         AddressLondonOffice AddressOtherUKRegional AddressOtherOverseas
+        LocationInBuilding
         City Country JobTitle
         LastLogin ProfileCompletionScore
         TeamId TeamName
@@ -46,6 +47,7 @@ module Admin
         person.ditsso_user_id,
         person.given_name, person.surname, person.email,
         person.formatted_buildings, person.other_uk, person.other_overseas,
+        person.location_in_building,
         person.city, person.country_name, membership.try(:role),
         person.last_login_at, person.completion_score,
         membership.try(:group).try(:id), membership.try(:group).try(:name),
