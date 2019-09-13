@@ -41,7 +41,7 @@ describe 'Group browsing' do
 
     expect(page).to have_text('0% of profile information completed')
     expect(page).not_to have_link("View all 0 people in #{current_group.name}")
-    expect(page).not_to have_link('View 0 people not assigned to a sub-team')
+    expect(page).not_to have_link('View 0 people not assigned to a team')
   end
 
   it 'A team with no subteams (leaf_node) and some people' do
@@ -62,7 +62,7 @@ describe 'Group browsing' do
 
     expect(page).not_to have_text("Teams within #{current_group.name}")
     expect(page).not_to have_link("View all 0 people in #{current_group.name}")
-    expect(page).not_to have_link('View 0 people not assigned to a sub-team')
+    expect(page).not_to have_link('View 0 people not assigned to a team')
   end
 
   context 'A team with people and subteams with people' do
@@ -77,14 +77,14 @@ describe 'Group browsing' do
 
       visit group_path(department)
       expect(page).not_to have_link("View all 7 people in #{department.name}")
-      expect(page).to have_link('View 1 person not assigned to a sub-team')
+      expect(page).to have_link('View 1 person not assigned to a directorate')
     end
 
     it 'viewing text on page' do
       visit group_path(team)
       expect(page).to have_text("Teams within #{team.name}")
       expect(page).to have_link('View all people')
-      expect(page).to have_link('View 3 people not assigned to a sub-team')
+      expect(page).to have_link('View 3 people not assigned to a team')
       expect(page).to have_text("#{subteam.members_completion_score}% of profile information completed")
     end
 
@@ -106,7 +106,7 @@ describe 'Group browsing' do
 
     it 'following link to view people not assigned to a sub-team' do
       visit group_path(team)
-      click_link('View 3 people not assigned to a sub-team')
+      click_link('View 3 people not assigned to a team')
 
       expect(page).to have_title("People in #{team.name}")
       within('.breadcrumbs') do

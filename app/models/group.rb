@@ -83,6 +83,10 @@ class Group < ApplicationRecord
     end
   end
 
+  def root_group?
+    parent.blank?
+  end
+
   def to_s
     name
   end
