@@ -74,6 +74,19 @@ RSpec.describe Group, type: :model do
     expect(a).not_to be_valid
   end
 
+  describe '.root_group?' do
+    let(:root_group) { create(:department) }
+    let(:non_root_group) { create(:group, parent: root_group) }
+
+    it 'returns true if the group is a root group' do
+      expect(root_group).to be_root_group
+    end
+
+    it 'returns false if the group is not a root group' do
+      expect(non_root_group).not_to be_root_group
+    end
+  end
+
   describe '.leaf_node?' do
     let(:group) { create(:group) }
 

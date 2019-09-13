@@ -29,10 +29,6 @@ RSpec.describe HomeController, type: :controller do
         get :show
       end
 
-      it '#can_add_person_here? returns true' do
-        expect(controller.can_add_person_here?).to be true
-      end
-
       it 'redirects to the top-level group' do
         expect(response).to redirect_to('/teams/ministry-of-justice')
       end

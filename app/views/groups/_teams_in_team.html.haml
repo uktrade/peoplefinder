@@ -1,7 +1,9 @@
+- team_descriptor = @group.root_group? ? 'directorate' : 'team'
+
 .grid-row.mod-heading
   .column-full
     %h2.heading-large.mod-heading-border
-      Teams within
+      = "#{team_descriptor.pluralize.capitalize} within"
       - if @group.acronym?
         = @group.acronym
       - else
@@ -9,9 +11,9 @@
 
       %span.pull-right
         - if @people_outside_subteams_count > 0
-          = link_to "View #{ pluralize_with_delimiter @people_outside_subteams_count, 'person' } not assigned to a sub-team", people_outside_subteams_group_path(@group), class: 'font-xsmall'
+          = link_to "View #{ pluralize_with_delimiter @people_outside_subteams_count, 'person' } not assigned to a #{team_descriptor}", people_outside_subteams_group_path(@group), class: 'font-xsmall'
         - if policy(Group).create?
-          = link_to 'Add new sub-team', new_group_group_path(@group), class: 'font-xsmall pipe-left'
+          = link_to "Add new #{team_descriptor}", new_group_group_path(@group), class: 'font-xsmall pipe-left'
 
 #teams.grid-row.mod-subgroups
   = render partial: "subgroup", collection: @group.children
