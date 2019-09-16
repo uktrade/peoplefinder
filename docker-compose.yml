@@ -5,17 +5,21 @@ services:
     environment:
       POSTGRES_PASSWORD: "postgres"
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      # Volume set to `delegated` to improve performance (container FS authoritative)
+      - ./tmp/db:/var/lib/postgresql/data:delegated
   web:
     build: .
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    # The pidfile often ends up not being deleted on shutdown, there's no reason to
+    # keep it around in an ephemeral Docker container anyway, so set it to /dev/null
+    command: bundle exec rails s -p 3000 -b '0.0.0.0' -P /dev/null
     env_file: .env
     environment:
       DATABASE_URL: "postgres://postgres:postgres@db/peoplefinder_development"
       DB_TEST_URL: "postgres://postgres:postgres@db/peoplefinder_test"
       ES_URL: "http://elasticsearch:9200"
     volumes:
-      - .:/peoplefinder
+      # Volume set to `delegated` to improve performance (container FS authoritative)
+      - .:/peoplefinder:delegated
     ports:
       - "3000:3000"
     depends_on:
@@ -32,6 +36,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./tmp/elasticsearch:/usr/share/elasticsearch/data
+      # Volume set to `delegated` to improve performance (container FS authoritative)
+      - ./tmp/elasticsearch:/usr/share/elasticsearch/data:delegated
     ports:
       - "9200:9200"
