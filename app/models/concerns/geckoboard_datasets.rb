@@ -10,7 +10,6 @@ module Concerns::GeckoboardDatasets
         .count
     end
 
-    # NOTE does not include legacy photos
     def photo_profiles_by_day_added
       unscoped
         .where.not(profile_photo: nil)
@@ -22,7 +21,7 @@ module Concerns::GeckoboardDatasets
 
     def photo_profiles
       unscope(:order)
-        .where('profile_photo_id IS NOT NULL OR length(image) > 0')
+        .where('profile_photo_id IS NOT NULL')
     end
 
     def additional_info_profiles

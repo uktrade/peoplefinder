@@ -93,13 +93,6 @@ class Person < ApplicationRecord
                   ignore: %i[updated_at created_at id slug login_count last_login_at
                              last_reminder_email_at]
 
-  # TODO: eerrh! what is this trying to do, it breaks when attempting to create people with legacy image uploads
-  def changes_for_paper_trail
-    super.tap do |changes|
-      changes['image'].map! { |img| img.url && File.basename(img.url) } if changes.key?('image')
-    end
-  end
-
   include Concerns::Sanitizable
   sanitize_fields :given_name, :surname, strip: true, remove_digits: true
   sanitize_fields :email, strip: true, downcase: true
@@ -125,14 +118,8 @@ class Person < ApplicationRecord
     profile_photo.crop crop_x, crop_y, crop_w, crop_h, versions if crop_x.present?
   end
 
-  mount_uploader :legacy_image, ImageUploader, mount_on: :image, mount_as: :image
-
   def profile_image
-    if profile_photo
-      profile_photo.image
-    elsif attributes['image']
-      legacy_image
-    end
+    profile_photo&.image
   end
 
   validates :ditsso_user_id, presence: true, uniqueness: true
@@ -179,7 +166,7 @@ class Person < ApplicationRecord
   # TODO: remove when not needed
   def self.all_in_groups(group_ids)
     query = <<-SQL
-      SELECT DISTINCT p.*,
+    SELECT DISTINCT p.*,
         string_agg(CASE role WHEN '' THEN NULL ELSE role END, ', ' ORDER BY role) AS role_names
       FROM memberships m, people p
       WHERE m.person_id = p.id AND m.group_id in (?)

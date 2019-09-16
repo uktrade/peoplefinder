@@ -16,7 +16,7 @@ class ImageUploader < CarrierWave::Uploader::Base
       '%suploads/peoplefinder/%s/%s/%s',
       base_upload_dir,
       model.class.to_s.underscore,
-      mounted_as_without_legacy_prefix,
+      mounted_as,
       model.id
     )
   end
@@ -65,10 +65,6 @@ class ImageUploader < CarrierWave::Uploader::Base
     w = model.crop_w.to_i
     h = model.crop_h.to_i
     [x, y, w, h]
-  end
-
-  def mounted_as_without_legacy_prefix
-    mounted_as.to_s.sub(/^legacy_/, '')
   end
 
   # white list of permissable file extensions for upload

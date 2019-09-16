@@ -60,24 +60,6 @@ RSpec.describe Concerns::Completion do
         expect(person).not_to be_incomplete
       end
     end
-
-    context 'when legacy image field exists instead of profile photo and all other fields completed' do
-      let(:person) do
-        create(
-          :person,
-          completed_attributes
-            .reject { |k, _v| k == :profile_photo_id }
-            .merge(image: 'profile_MoJ_small.jpg')
-        )
-      end
-
-      before { create(:membership, person: person) }
-
-      it 'returns 100' do
-        expect(person.completion_score).to be(100)
-        expect(person).not_to be_incomplete
-      end
-    end
   end
 
   context '.overall_completion' do
