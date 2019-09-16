@@ -9,7 +9,7 @@ module S3
   # bucket.
   #
   class Bucket
-    # needs to be a key-part that exists in both legacy and current profile image keys/file-paths
+    # needs to be a key-part that exists in current profile image keys/file-paths
     PROFILE_IMAGE_KEY_MATCHER = '/image/'
 
     def initialize(name = nil, options = {})

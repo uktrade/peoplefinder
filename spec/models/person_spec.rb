@@ -613,16 +613,8 @@ RSpec.describe Person, type: :model do
       end
     end
 
-    context 'when there is a legacy image but no profile photo' do
-      it 'returns the mounted uploader' do
-        person.assign_attributes image: 'cats.gif'
-        expect(person.profile_image).to be_kind_of(ImageUploader)
-      end
-    end
-
     context 'when there is no image' do
       it 'returns nil' do
-        person.assign_attributes image: nil
         expect(person.profile_image).to be_nil
       end
     end

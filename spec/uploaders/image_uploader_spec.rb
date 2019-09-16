@@ -53,20 +53,8 @@ RSpec.describe ImageUploader, type: :uploader do
     end
 
     it 'has a consistent path' do
-      # If you change this, you must also consider what to do with legacy image uploads.
       expect(subject.store_dir)
         .to eq("#{Rails.root}/spec/support/uploads/peoplefinder/profile_photo/image/#{profile_photo.id}")
-    end
-  end
-
-  context 'with a person object' do
-    subject { person.legacy_image }
-
-    let(:person) { create(:person, image: sample_image) }
-
-    it 'has a consistent path' do
-      expect(subject.store_dir)
-        .to eq("#{Rails.root}/spec/support/uploads/peoplefinder/person/image/#{person.id}")
     end
   end
 end
