@@ -260,6 +260,7 @@ en:
       coding: Coding
     network_names:
       age: Age network
+      coffee: Trade coffee network
       disability: Disability network
       enthnicity: Ethnicity network
       eu_nationals: EU nationals group
