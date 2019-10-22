@@ -38,10 +38,11 @@ module Admin
         LastLogin ProfileCompletionScore
         TeamId TeamName
         PrimaryPhoneNumber
+        SecondaryPhoneNumber
       ]
     end
 
-    def person_row(person) # rubocop:disable Metrics/AbcSize
+    def person_row(person) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
       membership = person.memberships.first
       [
         person.ditsso_user_id,
@@ -54,6 +55,10 @@ module Admin
         phone_number_with_country_code(
           person.primary_phone_country,
           person.primary_phone_number
+        ),
+        phone_number_with_country_code(
+          person.secondary_phone_country,
+          person.secondary_phone_number
         )
       ]
     end
