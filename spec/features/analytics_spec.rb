@@ -15,6 +15,7 @@ describe 'Google Analytics tracking' do
     it 'have event data to pass to GA' do
       expect(page.find_all('[data-event-category]').map(&:text)).to include 'Edit this profile', 'complete this profile'
     end
+
     it 'have virtual-pageview data to pass GA' do
       expect(page.find_all('[data-virtual-pageview]').map(&:text)).to include 'Edit this profile', 'complete this profile'
     end
@@ -29,6 +30,7 @@ describe 'Google Analytics tracking' do
     it 'have event data to pass to GA' do
       expect(page.find_all('[data-event-category]').map(&:text)).to include 'Edit this team'
     end
+
     it 'have virtual-pageview data to pass GA' do
       expect(page.find_all('[data-virtual-pageview]').map(&:text)).to include 'Edit this team'
     end

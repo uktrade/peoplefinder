@@ -10,7 +10,7 @@
 class FileSizeValidator < ActiveModel::EachValidator
   attr_reader :size
 
-  def validate_each(record, attribute, value) # rubocop:disable Metrics/AbcSize
+  def validate_each(record, attribute, value)
     options.assert_valid_keys :maximum, :range, :message
     @message = options[:message]
     @size = value.size

@@ -14,6 +14,7 @@ RSpec.describe MailHelper, type: :helper do
     it 'returns expected text' do
       expect(subject).to include 'Internet Explorer 6 and 7 users should copy and paste the link below into Firefox'
     end
+
     it 'applies class for styling' do
       expect(subject).to have_selector '.browser-warning'
     end

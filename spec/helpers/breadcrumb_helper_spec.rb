@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe BreadcrumbHelper, type: :helper do
-  context '#breadcrumbs' do
+  describe '#breadcrumbs' do
     let(:hrbp) { create(:group, parent: hr, name: 'Human Resources Business Partners', acronym: 'HRBP') }
     let(:hr) { create(:group, parent: csg, name: 'Human Resources', acronym: 'HR') }
     let(:csg) { create(:group, parent: moj, name: 'Corporate Services Group', acronym: 'CSG') }

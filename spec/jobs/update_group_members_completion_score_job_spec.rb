@@ -35,7 +35,7 @@ RSpec.describe UpdateGroupMembersCompletionScoreJob, type: :job do
     end
   end
 
-  context '#error_handler' do
+  describe '#error_handler' do
     subject(:enqueue_job) { described_class.perform_later(group) }
 
     let!(:group) { create(:group) }
