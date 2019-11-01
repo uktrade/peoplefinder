@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'codeclimate-test-reporter'
-CodeClimate::TestReporter.start
-
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV['SUPPORT_EMAIL'] = 'support@example.com'
 ENV['RAILS_ENV'] ||= 'test'
@@ -14,7 +11,6 @@ require 'timecop'
 require 'paper_trail/frameworks/rspec'
 require 'shoulda-matchers'
 require 'capybara/rspec'
-require 'capybara/poltergeist'
 require 'site_prism'
 
 unless ENV['SKIP_SIMPLECOV']
@@ -34,8 +30,15 @@ end
 # define a the PROFILE_API_TOKEN to ensure the API specs can be authenticated
 ENV['PROFILE_API_TOKEN'] = 'DEFINED'
 
-# Capybara.javascript_driver = :poltergeist # uncomment to enable console.log
-Capybara.javascript_driver = :poltergeist_silent # uncomment this to disable console.log (including warn)
+Capybara.register_driver :chrome do |app|
+  options = Selenium::WebDriver::Chrome::Options.new(
+    args: %w[headless disable-gpu no-sandbox]
+  )
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+end
+
+Capybara.server = :webrick
+Capybara.javascript_driver = :chrome
 Capybara.default_max_wait_time = 3
 
 # The feature tests check hidden elements using Capybara, which used to work but doesn't anymore, so we

@@ -190,7 +190,7 @@ describe 'Person maintenance' do
     it 'when it is complete' do
       complete_profile!(person)
       visit person_path(person)
-      expect(page).to have_text('Profile completeness 100%')
+      expect(page).to have_text('Profile completeness 100%', normalize_ws: true)
       expect(page).to have_text('Thanks for improving People Finder for everyone!')
     end
 

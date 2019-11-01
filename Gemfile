@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.5.3'
+ruby '2.6.2'
 
 gem 'active_model_serializers', '~> 0.10.2'
 gem 'activerecord-session_store'
@@ -26,7 +26,6 @@ gem 'haml-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails', '>= 4.0.4'
 gem 'json'
-gem 'keen'
 gem 'mail'
 gem 'mini_magick'
 gem 'omniauth-oauth2'
@@ -69,10 +68,15 @@ group :development do
 end
 
 group :test do
-  gem 'codeclimate-test-reporter', require: nil
+  gem 'capybara'
   gem 'database_cleaner'
+  gem 'factory_bot_rails'
+  gem 'jasmine-rails'
   gem 'rails-controller-testing'
   gem 'rspec-json_expectations'
+  gem 'rspec-rails'
+  gem 'selenium-webdriver'
+  gem 'shoulda-matchers', '~> 4.0.0.rc1'
   gem 'site_prism'
   gem 'webmock'
   gem 'whenever-test'
@@ -82,20 +86,11 @@ group :development, :test do
   gem 'annotate'
   gem 'brakeman', require: false
   gem 'byebug'
-  gem 'capybara'
-  gem 'factory_bot_rails'
-  gem 'guard-jasmine'
-  gem 'jasmine-rails'
-  gem 'launchy'
-  gem 'minitest'
-  gem 'poltergeist'
   gem 'pry-byebug'
   gem 'pry-rails'
-  gem 'rspec-rails'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rspec'
-  gem 'shoulda-matchers', '~> 4.0.0.rc1'
   gem 'simplecov'
   gem 'timecop'
 end
