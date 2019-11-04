@@ -367,7 +367,7 @@ RSpec.describe Person, type: :model do
     end
   end
 
-  context '#slug' do
+  describe '#slug' do
     it 'generates from the first part of the email address if present' do
       person = create(:person, email: 'user.example@digital.justice.gov.uk')
       person.reload
@@ -497,7 +497,7 @@ RSpec.describe Person, type: :model do
     end
   end
 
-  context '#path' do
+  describe '#path' do
     let(:person) { described_class.new }
 
     context 'when there are no memberships' do

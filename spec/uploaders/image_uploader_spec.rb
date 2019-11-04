@@ -18,7 +18,7 @@ RSpec.describe ImageUploader, type: :uploader do
 
     let(:profile_photo) { create(:profile_photo) }
 
-    context '#dimensions' do
+    describe '#dimensions' do
       it { is_expected.to respond_to :dimensions }
 
       it 'retrieves dimensions of stored object' do

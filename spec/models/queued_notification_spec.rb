@@ -198,7 +198,6 @@ RSpec.describe QueuedNotification, type: :model do
 
     after(:all) { described_class.destroy_all }
 
-    # rubocop:disable Metrics/AbcSize
     def populate_notifications
       Timecop.freeze(30.minutes.ago) do
         # old session abc for person 1 current user 100 - sent
@@ -232,7 +231,6 @@ RSpec.describe QueuedNotification, type: :model do
       create_notification('stu', 3, 100, false, 10.minutes.ago, false)
       create_notification('stu', 3, 100, true, 10.minutes.ago, false)
     end
-    # rubocop:enable Metrics/AbcSize
 
     # rubocop:disable Metrics/ParameterLists
     def create_notification(session_id, person_id, user_id, finalised, processing_started_at, sent)

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe HealthCheck::Database do
   subject { described_class.new }
 
-  context '#available?' do
+  describe '#available?' do
     it 'returns true if the database is available' do
       expect(subject).to be_available
     end
@@ -16,7 +16,7 @@ describe HealthCheck::Database do
     end
   end
 
-  context '#accessible?' do
+  describe '#accessible?' do
     it 'returns true if the database is accessible with our credentials' do
       expect(subject).to be_accessible
     end
@@ -29,7 +29,7 @@ describe HealthCheck::Database do
     end
   end
 
-  context '#errors' do
+  describe '#errors' do
     it 'returns the exception messages if there is an error accessing the database' do
       allow(ActiveRecord::Base).to receive(:connected?).and_return(false)
       subject.available?

@@ -222,6 +222,7 @@ RSpec.describe PersonSearch, elastic: true do
         expect(searcher.query).to eql 'Smith Bill'
       end
     end
+
     it 'replaces all other non-alpha-numeric characters as single whitespace' do
       search_for('\Smith\?Bill*&£23@%') do |searcher|
         expect(searcher.query).to eql 'Smith Bill 23'

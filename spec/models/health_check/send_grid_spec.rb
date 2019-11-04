@@ -7,7 +7,7 @@ describe HealthCheck::SendGrid do
 
   let(:smtp) { double Net::SMTP }
 
-  context '#available?' do
+  describe '#available?' do
     it 'returns true if the component is available' do
       allow(Net::SMTP).to receive(:start).and_yield(smtp)
       allow(smtp).to receive(:helo)
@@ -23,7 +23,7 @@ describe HealthCheck::SendGrid do
     end
   end
 
-  context '#accessible?' do
+  describe '#accessible?' do
     before do
       allow(Net::SMTP).to receive(:start).and_yield(smtp)
     end
@@ -42,7 +42,7 @@ describe HealthCheck::SendGrid do
     end
   end
 
-  context '#errors' do
+  describe '#errors' do
     it 'returns the exception messages if there is an error accessing the component' do
       allow(Net::SMTP).to receive(:start).and_yield(smtp)
       allow(smtp).to receive(:authenticate)

@@ -24,7 +24,7 @@ describe ProfileChangeAggregator do
           'works_tuesday' => [true, false],
           'works_thursday' => [true, false],
           'secondary_phone_number' => ['', '0759 049 3001'],
-          'slug' => ['sr2', 'stephen-richards']
+          'slug' => %w[sr2 stephen-richards]
         }
       end
     end
@@ -43,7 +43,7 @@ describe ProfileChangeAggregator do
           'works_tuesday' => [true, false],
           'works_thursday' => [true, false],
           'secondary_phone_number' => ['', '0777 15 16 568'],
-          'slug' => ['sr2', 'philip-stephen-richards']
+          'slug' => %w[sr2 philip-stephen-richards]
         }
       end
     end
@@ -137,7 +137,7 @@ describe ProfileChangeAggregator do
         'data' => {
           'raw' => {
             'secondary_phone_number' => ['', '0759 049 3001'],
-            'slug' => ['sr2', 'stephen-richards']
+            'slug' => %w[sr2 stephen-richards]
           }
         }
       }.to_json
@@ -152,7 +152,7 @@ describe ProfileChangeAggregator do
             'description' => ['', 'All animals are equal'],
             'secondary_phone_number' => ['759 049 3001', '0777 15 16 568'],
             'location_in_building' => ['', '10.51'],
-            'slug' => ['stephen-richards', 'philip-stephen-richards'],
+            'slug' => %w[stephen-richards philip-stephen-richards],
             'works_tuesday' => [true, false],
             'works_thursday' => [true, false]
           }
@@ -232,7 +232,7 @@ describe ProfileChangeAggregator do
 
     it 'eliminates noops at the top level' do
       changes = {
-        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'surname' => %w[Bonstart Bonstart-Smythe],
         'primary_phone_number' => ['020 7835 2232', '020 7835 2232'],
         'alternative_phone_number' => ['', ''],
         'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
@@ -241,7 +241,7 @@ describe ProfileChangeAggregator do
       }
 
       expected_changes = {
-        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'surname' => %w[Bonstart Bonstart-Smythe],
         'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
         'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
       }
@@ -251,7 +251,7 @@ describe ProfileChangeAggregator do
 
     it 'considers empty string and nil to be the same' do
       changes = {
-        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'surname' => %w[Bonstart Bonstart-Smythe],
         'primary_phone_number' => ['020 7835 2232', '020 7835 2232'],
         'alternative_phone_number' => [nil, ''],
         'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
@@ -260,7 +260,7 @@ describe ProfileChangeAggregator do
       }
 
       expected_changes = {
-        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'surname' => %w[Bonstart Bonstart-Smythe],
         'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
         'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
       }
@@ -270,7 +270,7 @@ describe ProfileChangeAggregator do
 
     it 'eliminates noops in membership hashes' do
       changes = {
-        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'surname' => %w[Bonstart Bonstart-Smythe],
         'primary_phone_number' => ['020 7835 2232', '020 7835 2232'],
         'alternative_phone_number' => [nil, ''],
         'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
@@ -280,7 +280,7 @@ describe ProfileChangeAggregator do
       }
 
       expected_changes = {
-        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'surname' => %w[Bonstart Bonstart-Smythe],
         'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
         'membership_6' => { 'group_id' => [1, 6], 'leader' => [false, true], 'subscribed' => [false, true] },
         'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
@@ -291,7 +291,7 @@ describe ProfileChangeAggregator do
 
     it 'considers empty strings and nil to be the same in membership hashes' do
       changes = {
-        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'surname' => %w[Bonstart Bonstart-Smythe],
         'primary_phone_number' => ['020 7835 2232', '020 7835 2232'],
         'alternative_phone_number' => [nil, ''],
         'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
@@ -301,7 +301,7 @@ describe ProfileChangeAggregator do
       }
 
       expected_changes = {
-        'surname' => ['Bonstart', 'Bonstart-Smythe'],
+        'surname' => %w[Bonstart Bonstart-Smythe],
         'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
         'membership_6' => { 'group_id' => [1, 6], 'subscribed' => [false, true] },
         'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']

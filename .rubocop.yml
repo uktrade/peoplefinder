@@ -15,7 +15,6 @@ AllCops:
     - '**/Rakefile'
     - '**/Vagrantfile'
   TargetRubyVersion: 2.5
-  TargetRailsVersion: 5.1
 
 Rails:
   Enabled: true

@@ -17,7 +17,7 @@ gem 'fastimage', '~> 2.1'
 gem 'fog-aws', '~> 2.0.1'
 gem 'friendly_id', '~> 5.2.5'
 gem 'geckoboard-ruby', '~> 0.4.0'
-gem 'govspeak'
+gem 'govspeak', '~> 5'
 gem 'govuk_elements_form_builder', '>= 0.0.3', '~> 0.0'
 gem 'govuk_elements_rails', '~> 2.2'
 gem 'govuk_frontend_toolkit', '>= 5.2.0'
@@ -60,11 +60,7 @@ group :production do
 end
 
 group :development do
-  gem 'binding_of_caller'
   gem 'daemon'
-  gem 'meta_request'
-  gem 'rb-fsevent', require: !RUBY_PLATFORM[/darwin/i].to_s.empty?
-  gem 'spring-commands-rspec'
 end
 
 group :test do
@@ -76,7 +72,7 @@ group :test do
   gem 'rspec-json_expectations'
   gem 'rspec-rails'
   gem 'selenium-webdriver'
-  gem 'shoulda-matchers', '~> 4.0.0.rc1'
+  gem 'shoulda-matchers'
   gem 'site_prism'
   gem 'webmock'
   gem 'whenever-test'
