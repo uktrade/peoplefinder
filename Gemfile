@@ -3,28 +3,28 @@
 source 'https://rubygems.org'
 ruby '2.6.5'
 
-gem 'active_model_serializers', '~> 0.10.2'
+gem 'active_model_serializers'
 gem 'activerecord-session_store'
-gem 'ancestry', '~> 3.0.5'
-gem 'aws-sdk', '~> 2.5', '>= 2.5.5'
+gem 'ancestry'
+gem 'aws-sdk-s3'
 gem 'country_select'
-gem 'delayed_job', '~> 4.1.5'
-gem 'delayed_job_active_record', '~> 4.1.0'
-gem 'elasticsearch-model'
-gem 'elasticsearch-rails'
+gem 'delayed_job'
+gem 'delayed_job_active_record'
+gem 'elasticsearch', '~> 6.1' # TODO: Pinned because we're using ES 6.x, not 7.x
+gem 'elasticsearch-model', '~> 6.0.0' # TODO: Pinned due to search result order issue in >= 6.1
+gem 'elasticsearch-rails', '~> 6.1'
 gem 'faker'
-gem 'fastimage', '~> 2.1'
-gem 'fog-aws', '~> 2.0.1'
-gem 'friendly_id', '~> 5.2.5'
-gem 'geckoboard-ruby', '~> 0.4.0'
-gem 'govspeak', '~> 5'
-gem 'govuk_elements_form_builder', '>= 0.0.3', '~> 0.0'
+gem 'fastimage'
+gem 'fog-aws'
+gem 'friendly_id'
+gem 'geckoboard-ruby'
+gem 'govuk_elements_form_builder', '~> 0.0'
 gem 'govuk_elements_rails', '~> 2.2'
-gem 'govuk_frontend_toolkit', '>= 5.2.0'
-gem 'govuk_template', '~> 0.22.3'
+gem 'govuk_frontend_toolkit'
+gem 'govuk_template'
 gem 'haml-rails'
 gem 'jbuilder'
-gem 'jquery-rails', '>= 4.0.4'
+gem 'jquery-rails'
 gem 'json'
 gem 'mail'
 gem 'mini_magick'
@@ -37,7 +37,7 @@ gem 'rails', '~> 5.1.7'
 gem 'sass-rails'
 gem 'sentry-raven'
 gem 'text'
-gem 'uglifier', '>= 2.7.2'
+gem 'uglifier'
 gem 'unf'
 gem 'unicorn', '~> 4.8.3'
 gem 'unicorn-worker-killer', '~> 0.4.4'
@@ -55,12 +55,18 @@ gem 'carrierwave', '~> 1.1.0'
 #       start looking into this.
 gem 'sprockets', '~> 3'
 
+# TODO: Pinned because >= 6.0 includes extreme amounts of unneeded dependencies
+#       All this just for a tiny bit of Markdown in team descriptions, we
+#       should find something more lightweight (or just use Trix once we're on
+#       a more up-to-date Rails)
+gem 'govspeak', '~> 5.0'
+
 group :assets do
   gem 'coffee-rails'
 end
 
 group :production do
-  gem 'logstasher', '~> 0.6.2'
+  gem 'logstasher'
   gem 'rails_12factor'
 end
 
