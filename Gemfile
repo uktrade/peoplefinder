@@ -33,7 +33,7 @@ gem 'paper_trail', '~> 9.2'
 gem 'pg'
 gem 'premailer-rails'
 gem 'pundit'
-gem 'rails', '~> 5.1.7'
+gem 'rails', '~> 5.2.3'
 gem 'sass-rails'
 gem 'sentry-raven'
 gem 'text'
@@ -48,7 +48,7 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'zendesk_api'
 
-gem 'carrierwave', '~> 1.1.0'
+gem 'carrierwave', '~> 1.3.1'
 
 # TODO: Sprockets 4 is currently causing too many issues with the assets mess
 #       in People Finder. Once the frontend code has been cleaned up, we can

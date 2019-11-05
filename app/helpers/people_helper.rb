@@ -54,7 +54,7 @@ module PeopleHelper
 
   def image_tag_wrapper(source, options)
     image_tag(
-      source,
+      source.respond_to?(:url) ? source.url : source,
       options
         .except(:version, :link, :link_uri, :alt_text)
         .merge(alt: options[:alt_text], class: 'media-object')

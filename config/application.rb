@@ -18,6 +18,8 @@ Bundler.require(*Rails.groups)
 
 module Peoplefinder
   class Application < Rails::Application
+    config.load_defaults 5.1
+
     # Settings in config/environments/* take precedence over those specified
     # here.
     # Application configuration should go into files in config/initializers
@@ -34,6 +36,11 @@ module Peoplefinder
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales',
     # '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    # TODO: Fix the suboptimal way in which associations are set up on various
+    #       models so this "old Rails" default can be removed.
+    # Require `belongs_to` associations by default. Previous versions had false.
+    Rails.application.config.active_record.belongs_to_required_by_default = false
 
     ActionView::Base.default_form_builder = GovukElementsFormBuilder::FormBuilder
 
