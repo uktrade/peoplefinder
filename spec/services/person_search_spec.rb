@@ -8,7 +8,7 @@ RSpec.describe PersonSearch, elastic: true do
     clean_up_indexes_and_tables
     @alice = create(:person, given_name: 'Alice', surname: 'Andrews', current_project: 'digital project')
     @bob = create(:person, given_name: 'Bob', surname: 'Browning',
-                           location_in_building: '10th floor', building: '102 Petty France',
+                           location_in_building: '10th floor', building: ['102 Petty France'],
                            city: 'London', description: 'weekends only',
                            current_project: 'Current project',
                            language_fluent: 'Spanish, Italian',
@@ -113,7 +113,7 @@ RSpec.describe PersonSearch, elastic: true do
       expect(results.contains_exact_match).to eq true
     end
 
-    xit 'puts name synonym matches in results' do
+    it 'puts name synonym matches in results' do
       results = search_for('Abe Kiehn')
       expect(results.set.map(&:name)).to match_array [@abraham_kiehn.name, @abe.name]
       expect(results.contains_exact_match).to eq false
@@ -161,21 +161,19 @@ RSpec.describe PersonSearch, elastic: true do
       expect(results.contains_exact_match).to eq true
     end
 
-    xit 'searches by location' do
+    it 'searches by location' do
       results = search_for('petty france')
       expect(results.set.map(&:name)).not_to include(@alice.name)
       expect(results.set.map(&:name)).to include(@bob.name)
     end
 
-    xit 'searches by description, location' do
+    it 'searches by description, location' do
       results = search_for('weekends only petty france office')
       expect(results.set.map(&:name)).not_to include(@alice.name)
       expect(results.set.map(&:name)).to include(@bob.name)
     end
 
-    xit 'searches ignoring * in search term' do
-      # TODO: Results seems to always be 1, looks like it's random whether it returns
-      #       Andrew Alice or Alice Andrews
+    it 'searches ignoring * in search term' do
       results = search_for('Alice *')
       expect(results.set.map(&:name)).to include(@alice.name)
       expect(results.contains_exact_match).to eq true
@@ -193,7 +191,7 @@ RSpec.describe PersonSearch, elastic: true do
       expect(results.contains_exact_match).to eq true
     end
 
-    xit 'searches ignoring " in middle of search term' do
+    it 'searches ignoring " in middle of search term' do
       results = search_for('Alice" Andrews')
       expect(results.set.map(&:name)).to include(@alice.name)
       expect(results.contains_exact_match).to eq true
@@ -260,7 +258,7 @@ RSpec.describe PersonSearch, elastic: true do
         let(:query) { 'Steve' }
         let(:expected_steves) { %w[Steve Steven Stephen] }
 
-        xit 'returns people in order of given names distance from exact name' do
+        it 'returns people in order of given names distance from exact name' do
           actual_steves = results.set.map(&:name).map(&:split).map(&:first).uniq
           expect(actual_steves).to match_array expected_steves
           expect(actual_steves.last).to eql expected_steves.last
