@@ -295,9 +295,11 @@ GEM
     omniauth-oauth2 (1.6.0)
       oauth2 (~> 1.1)
       omniauth (~> 1.9)
-    paper_trail (8.1.2)
-      activerecord (>= 4.2, < 5.2)
+    paper_trail (9.2.0)
+      activerecord (>= 4.2, < 5.3)
+      paper_trail-association_tracking (< 2)
       request_store (~> 1.1)
+    paper_trail-association_tracking (1.1.1)
     parallel (1.18.0)
     parser (2.6.5.0)
       ast (~> 2.4.0)
@@ -541,7 +543,7 @@ DEPENDENCIES
   mail
   mini_magick
   omniauth-oauth2
-  paper_trail (~> 8.1.2)
+  paper_trail (~> 9.2)
   pg
   premailer-rails
   pry-byebug
