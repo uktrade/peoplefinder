@@ -1,2 +1,2 @@
-web: bundle exec rake db:migrate && unicorn -p $PORT -c ./config/unicorn.rb
+web: bundle exec rake db:migrate && bundle exec puma -C config/puma.rb
 worker: bundle exec rake jobs:work
