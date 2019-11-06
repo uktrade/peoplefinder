@@ -3,22 +3,16 @@
 source 'https://rubygems.org'
 ruby '2.6.5'
 
-# gem 'actioncable', '~> 6.0.1'
-# gem 'actionmailbox', '~> 6.0.1'
-gem 'actionmailer', '~> 6.0.1'
-gem 'actionpack', '~> 6.0.1'
-# gem 'actiontext', '~> 6.0.1'
-gem 'actionview', '~> 6.0.1'
-gem 'activejob', '~> 6.0.1'
-gem 'activemodel', '~> 6.0.1'
-gem 'activerecord', '~> 6.0.1'
-gem 'activestorage', '~> 6.0.1'
-gem 'activesupport', '~> 6.0.1'
+# TODO: Only load the subgems we need
+#  This is currently not possible because some `govuk_*` gems wrongly specify
+#  the whole of `rails` as a dependency.
+gem 'rails', '~> 6.0.1'
 
 gem 'active_model_serializers'
 gem 'activerecord-session_store'
 gem 'ancestry'
 gem 'aws-sdk-s3'
+gem 'carrierwave'
 gem 'country_select'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
@@ -42,13 +36,14 @@ gem 'kramdown'
 gem 'mail'
 gem 'mini_magick'
 gem 'omniauth-oauth2'
-gem 'paper_trail', '~> 10.3'
+gem 'paper_trail'
 gem 'pg'
 gem 'premailer-rails'
 gem 'puma'
 gem 'pundit'
 gem 'sass-rails'
 gem 'sentry-raven'
+gem 'sprockets', '~> 3' # TODO: Pinned due to asset issues with >= 4.0
 gem 'text'
 gem 'uglifier'
 gem 'unf'
@@ -58,13 +53,6 @@ gem 'whenever', require: false
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'zendesk_api'
-
-gem 'carrierwave', '~> 1.3.1'
-
-# TODO: Sprockets 4 is currently causing too many issues with the assets mess
-#       in People Finder. Once the frontend code has been cleaned up, we can
-#       start looking into this.
-gem 'sprockets', '~> 3'
 
 group :assets do
   gem 'coffee-rails'
