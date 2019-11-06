@@ -89,7 +89,7 @@ class Person < ApplicationRecord
     )
   end
 
-  has_paper_trail class_name: 'Version',
+  has_paper_trail versions: { class_name: 'Version' },
                   on: %i[create destroy update],
                   ignore: %i[updated_at created_at id slug login_count last_login_at
                              last_reminder_email_at]

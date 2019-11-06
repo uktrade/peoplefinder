@@ -14,7 +14,7 @@ describe 'Super admin views CSV extracts' do
 
     header = page.response_headers['Content-Disposition']
     expect(header).to match(/^attachment/)
-    expect(header).to match(/filename="profiles-.*.csv"$/)
+    expect(header).to match(/filename="profiles-.*.csv"/)
 
     expect(page).to have_text('Firstname,Surname,Email')
 
@@ -28,7 +28,7 @@ describe 'Super admin views CSV extracts' do
 
     header = page.response_headers['Content-Disposition']
     expect(header).to match(/^attachment/)
-    expect(header).to match(/filename="teams-.*.csv"$/)
+    expect(header).to match(/filename="teams-.*.csv"/)
 
     expect(page).to have_text('TeamId,TeamName,ParentId,Ancestry')
 
