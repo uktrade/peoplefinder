@@ -26,6 +26,7 @@ gem 'haml-rails'
 gem 'jbuilder'
 gem 'jquery-rails'
 gem 'json'
+gem 'kramdown'
 gem 'mail'
 gem 'mini_magick'
 gem 'omniauth-oauth2'
@@ -53,12 +54,6 @@ gem 'carrierwave', '~> 1.3.1'
 #       in People Finder. Once the frontend code has been cleaned up, we can
 #       start looking into this.
 gem 'sprockets', '~> 3'
-
-# TODO: Pinned because >= 6.0 includes extreme amounts of unneeded dependencies
-#       All this just for a tiny bit of Markdown in team descriptions, we
-#       should find something more lightweight (or just use Trix once we're on
-#       a more up-to-date Rails)
-gem 'govspeak', '~> 5.0'
 
 group :assets do
   gem 'coffee-rails'

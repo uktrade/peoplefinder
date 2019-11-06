@@ -43,19 +43,19 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
-  describe '#govspeak' do
+  describe '#markdown' do
     it 'renders Markdown starting from h3' do
       source = "# Header\n\nPara para"
-      fragment = Capybara::Node::Simple.new(govspeak(source))
+      fragment = Capybara::Node::Simple.new(markdown(source))
 
       expect(fragment).to have_selector('h3', text: 'Header')
     end
   end
 
-  describe '#govspeak_without_hyperlinks' do
+  describe '#markdown_without_hyperlinks' do
     it 'renders Markdown with <a> tags replaced by their content' do
       source = "# Header\n\nPara para\n\n[link to](nowhere)"
-      fragment = Capybara::Node::Simple.new(govspeak_without_hyperlinks(source))
+      fragment = Capybara::Node::Simple.new(markdown_without_hyperlinks(source))
 
       expect(fragment).to have_selector('h3', text: 'Header')
       expect(fragment).not_to have_selector('a')

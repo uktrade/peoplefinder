@@ -24,7 +24,7 @@
       = "About the team"
 
     .mod-wrap-text.formatted-text
-      = govspeak(@group.with_placeholder_default(:description))
+      = markdown(@group.with_placeholder_default(:description))
 
     - unless @group.leaf_node?
       - if @all_people_count > 0 && @group.parent.present?

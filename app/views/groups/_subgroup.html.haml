@@ -9,4 +9,4 @@
           of profile information completed
       %div.about-subgroup
         .formatted-text
-          = govspeak_without_hyperlinks(truncate(subgroup.with_placeholder_default(:description), length: 350))
+          = markdown_without_hyperlinks(truncate(subgroup.with_placeholder_default(:description), length: 350))

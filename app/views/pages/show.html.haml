@@ -8,4 +8,4 @@
 
 .grid-row.formatted-text
   .column-full
-    = govspeak(t(:body, scope: [:pages, @page_name]))
+    = markdown(t(:body, scope: [:pages, @page_name]))
