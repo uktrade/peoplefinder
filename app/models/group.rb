@@ -23,7 +23,7 @@ class Group < ApplicationRecord
 
   MAX_DESCRIPTION = 1500
 
-  has_paper_trail class_name: 'Version',
+  has_paper_trail versions: { class_name: 'Version' },
                   on: %i[create destroy update],
                   ignore: %i[updated_at created_at slug id
                              description_reminder_email_at
