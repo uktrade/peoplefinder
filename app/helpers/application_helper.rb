@@ -18,18 +18,18 @@ module ApplicationHelper
     "#{updated_at(@last_updated_at)}#{updated_by(current_object)}." if current_object && @last_updated_at.present?
   end
 
-  def govspeak(source)
+  def markdown(source)
     options = { header_offset: 2 }
-    doc = Govspeak::Document.new(source, options)
-    doc.to_sanitized_html.html_safe
+    doc = Kramdown::Document.new(source, options)
+    sanitize(doc.to_html, tags: %w[h1 h2 h3 h4 h5 ul li a], attributes: %w[href])
   end
 
-  def govspeak_without_hyperlinks(source)
-    # HACK: In the team description list, we render markdown into an <a> tag,
-    #   so we don't want any more <a> tags because it would be pointless and
-    #   be invalid HTML (but we want to preserve the remaining markup).
-    #   Govspeak doesn't let us do that easily.
-    govspeak(source).gsub(%r{<a[^>]*>(.*?)</a>}, '\1').html_safe
+  def markdown_without_hyperlinks(source)
+    # In the team description list, we render markdown into an <a> tag,
+    # so we don't want any more <a> tags because it would be pointless and
+    # be invalid HTML (but we want to preserve the remaining markup).
+    original = markdown(source)
+    sanitize(original, tags: %w[h1 h2 h3 h4 h5 ul li])
   end
 
   FLASH_NOTICE_KEYS = %w[error notice warning].freeze
