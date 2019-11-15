@@ -16,33 +16,6 @@ RSpec.describe ApplicationHelper, type: :helper do
     end
   end
 
-  describe '#last_update' do
-    before do
-      @last_updated_at = stubbed_time
-    end
-
-    it 'shows last_update for a person by a system generated user' do
-      @person = double(:person, paper_trail_originator: originator)
-      expect(last_update).to eql('Last updated: 31 Oct 2012 02:02.')
-    end
-
-    it 'shows last_update for a person by someone who is not the system user' do
-      @person = double(:person, paper_trail_originator: 'Bob')
-      expect(last_update).to eql('Last updated: 31 Oct 2012 02:02 by Bob.')
-    end
-
-    it 'shows last_update for a group' do
-      @group = double(:group, paper_trail_originator: originator)
-      expect(last_update).to eql('Last updated: 31 Oct 2012 02:02.')
-    end
-
-    it 'does not show last_update for a new person' do
-      @person = double(:group, paper_trail_originator: originator)
-      @last_updated_at = nil
-      expect(last_update).to be_blank
-    end
-  end
-
   describe '#markdown' do
     it 'renders Markdown starting from h3' do
       source = "# Header\n\nPara para"

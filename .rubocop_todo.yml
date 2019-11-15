@@ -64,8 +64,6 @@ Metrics/ClassLength:
 # AllowedNames: io, id, to, by, on, in, at, ip, db, os
 Naming/UncommunicativeMethodParamName:
   Exclude:
-    - 'app/models/health_check/component.rb'
-    - 'app/models/health_check/send_grid.rb'
     - 'app/models/profile_photo.rb'
     - 'app/models/queued_notification.rb'
     - 'app/services/notification_sender.rb'
@@ -112,7 +110,6 @@ RSpec/LeakyConstantDeclaration:
     - 'spec/models/concerns/placeholder_spec.rb'
     - 'spec/models/concerns/sanitizable_spec.rb'
     - 'spec/policies/admin/management_policy_spec.rb'
-    - 'spec/services/health_check_service_spec.rb'
     - 'spec/validators/email_validator_spec.rb'
     - 'spec/validators/file_size_validator_spec.rb'
     - 'spec/validators/image_dimensions_validator_spec.rb'
@@ -135,7 +132,6 @@ RSpec/RepeatedExample:
   Exclude:
     - 'spec/models/concerns/sanitizable_spec.rb'
     - 'spec/models/group_spec.rb'
-    - 'spec/models/health_check/elasticsearch_spec.rb'
 
 # Offense count: 3
 RSpec/ScatteredLet:
@@ -158,8 +154,6 @@ RSpec/ScatteredSetup:
 # Offense count: 10
 RSpec/SubjectStub:
   Exclude:
-    - 'spec/models/health_check/database_spec.rb'
-    - 'spec/models/health_check/elasticsearch_spec.rb'
     - 'spec/models/profile_photo_spec.rb'
     - 'spec/validators/image_dimensions_validator_spec.rb'
 
