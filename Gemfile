@@ -29,6 +29,7 @@ gem 'govuk_elements_rails', '~> 2.2'
 gem 'govuk_frontend_toolkit'
 gem 'govuk_template'
 gem 'haml-rails'
+gem 'health_check'
 gem 'jbuilder'
 gem 'jquery-rails'
 gem 'json'
@@ -54,10 +55,6 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'zendesk_api'
 
-group :assets do
-  gem 'coffee-rails'
-end
-
 group :production do
   gem 'logstasher'
   gem 'rails_12factor'
@@ -65,6 +62,10 @@ end
 
 group :development do
   gem 'daemon'
+end
+
+group :assets do
+  gem 'coffee-rails'
 end
 
 group :test do

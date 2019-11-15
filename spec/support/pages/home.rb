@@ -10,7 +10,6 @@ module Pages
     set_url_matcher('')
 
     element :page_title, '#content h1.cb-page-title'
-    element :unsupported_browser_warning, '.cb-unsupported-browser-warning'
     element :create_profile_link, 'a.add-new-person'
 
     section :search_form, Sections::SearchForm, 'form.mod-search-form'

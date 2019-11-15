@@ -13,11 +13,6 @@ module ApplicationHelper
     "#{number_with_delimiter(number)} #{text.pluralize(number)}"
   end
 
-  def last_update
-    current_object = @person || @group
-    "#{updated_at(@last_updated_at)}#{updated_by(current_object)}." if current_object && @last_updated_at.present?
-  end
-
   def markdown(source)
     options = { header_offset: 2 }
     doc = Kramdown::Document.new(source, options)
@@ -63,10 +58,6 @@ module ApplicationHelper
     (
       [@page_title] << Rails.configuration.app_title
     ).compact.join(' - ')
-  end
-
-  def render_search_box?
-    logged_in? && !@login_screen && !@editing_mode && !@admin_management
   end
 
   def call_to(telno)

@@ -2,8 +2,6 @@
 
 Rails.application.routes.draw do
   root 'home#show', as: :home
-  get 'ping', to: 'ping#index'
-  get 'healthcheck', to: 'health_check#index'
 
   post '/report_problem', to: 'report#index'
 
@@ -31,9 +29,7 @@ Rails.application.routes.draw do
                                 only: %i[new create]
   end
 
-  resource :sessions, only: %i[new create destroy] do
-    get :unsupported_browser, on: :new
-  end
+  resource :sessions, only: %i[new create destroy]
 
   match '/auth/:provider/callback', to: 'sessions#create', via: %i[get post]
   match '/audit_trail', to: 'versions#index', via: [:get]
@@ -61,4 +57,6 @@ Rails.application.routes.draw do
 
   get '/my/profile', to: 'home#my_profile'
   get '/cookies', to: 'pages#show', id: 'cookies', as: :cookies
+
+  health_check_routes
 end
