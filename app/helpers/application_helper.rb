@@ -21,7 +21,7 @@ module ApplicationHelper
   def markdown(source)
     options = { header_offset: 2 }
     doc = Kramdown::Document.new(source, options)
-    sanitize(doc.to_html, tags: %w[h1 h2 h3 h4 h5 ul li a], attributes: %w[href])
+    sanitize(doc.to_html, tags: %w[h1 h2 h3 h4 h5 p ul ol li a], attributes: %w[href])
   end
 
   def markdown_without_hyperlinks(source)
@@ -29,7 +29,7 @@ module ApplicationHelper
     # so we don't want any more <a> tags because it would be pointless and
     # be invalid HTML (but we want to preserve the remaining markup).
     original = markdown(source)
-    sanitize(original, tags: %w[h1 h2 h3 h4 h5 ul li])
+    sanitize(original, tags: %w[h1 h2 h3 h4 h5 p ul ol li])
   end
 
   FLASH_NOTICE_KEYS = %w[error notice warning].freeze
