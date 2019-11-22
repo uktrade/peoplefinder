@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   namespace :api, format: [:json] do
     resource :people, only: [:show]
+    match '/search', to: 'search#index', via: [:get]
   end
 
   resources :profile_photos, only: [:create]
