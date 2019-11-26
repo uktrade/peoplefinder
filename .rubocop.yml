@@ -14,7 +14,8 @@ AllCops:
     - '**/*.gemspec'
     - '**/Rakefile'
     - '**/Vagrantfile'
-  TargetRubyVersion: 2.5
+    - 'app/controllers/api/search_controller.rb' # experimental PoC
+  TargetRubyVersion: 2.6
 
 Rails:
   Enabled: true

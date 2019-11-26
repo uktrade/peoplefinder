@@ -9,23 +9,33 @@ module Api
     #   if we end up productionising this, it should use serialisers (and be tested, obviously).
     #   And we should probably fix the search.
 
+    include ApplicationHelper
+    include PeopleHelper
     include SearchHelper
     include ElasticsearchHelper
 
     def people
-      @people = PersonSearch.new(query, SearchResults.new).perform_search.each_with_hit.map do |person, hit|
-        {
-          name: hit.highlight.name.try(:first) || hit.name,
-          role_and_group: hit.highlight.role_and_group.try(:first) || hit.role_and_group,
-          email: hit.highlight.email.try(:first) || hit.email,
-          phone: person.phone,
-          key_skills: hit.highlight.formatted_key_skills.try(:first) || hit.formatted_key_skills,
-          profile_url: person_url(person),
-          image_url: person.profile_image.try(:small).try(:url)
-        }
-      end
+      results = PersonSearch.new(query, SearchResults.new).perform_search
 
-      render json: @people
+      if results.size.zero?
+        # Avoid serializer rendering bogus JSON on empty result by forcing rendering of an empty array
+        render json: [].to_json
+      else
+        @people = results.each_with_hit.map do |person, hit|
+          {
+            name: hit.try(:highlight).try(:name).try(:first) || hit.name,
+            role_and_group: hit.try(:highlight).try(:role_and_group).try(:first) || hit.role_and_group,
+            email: hit.try(:highlight).try(:email).try(:first) || hit.email,
+            phone: phone_number_with_country_code(person.primary_phone_country, person.phone),
+            key_skills: hit.try(:highlight).try(:formatted_key_skills).try(:first) || hit.formatted_key_skills,
+            languages: hit.try(:highlight).try(:languages).try(:first) || hit.languages,
+            profile_url: person_url(person),
+            image_url: ActionController::Base.helpers.asset_url(profile_image_source(person, {}), type: :image)
+          }
+        end
+
+        render json: @people
+      end
     end
 
     def groups
@@ -38,7 +48,12 @@ module Api
         }
       end
 
-      render json: @groups
+      if @groups.size.zero?
+        # Avoid serializer rendering bogus JSON on empty result by forcing rendering of an empty array
+        render json: [].to_json
+      else
+        render json: @groups
+      end
     end
 
     private
