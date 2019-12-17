@@ -4,21 +4,20 @@ a {
 	cursor: pointer;
 
 	&:link {
-		color: $brand_color_a;
+		color: $govuk-link-color;
 		text-decoration: underline;
 	}
 
 	&:hover {
-		color: $brand_color_a;
-		text-decoration: none;
+		color: $govuk-link-color;
 	}
 
 	&:active {
-		color: $brand_color_a;
+		color: $govuk-link-color;
 	}
 
 	&:visited {
-		color: $brand_color_b;
+		color: $govuk-link-visited-color;
 	}
 
 	// Heading links

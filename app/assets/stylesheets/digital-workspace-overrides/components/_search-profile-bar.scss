@@ -16,10 +16,7 @@
 			color: #ffffff;
 			overflow: auto;
 			.profile-flair {
-				background: $brand_color_c; /* For unsupported browsers */
-				background: rgba($brand_color_c, 0.3); /* IE8 */
-				-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=$brand_color_c, endColorstr=$brand_color_c)"; /* IE8 */
-				filter: alpha(opacity=30); /* IE8 */
+				background: #333333;
 				zoom: 1; /* IE8 */
 				display: block;
 				height: 70px;
@@ -149,9 +146,7 @@
 	.user-account {
 		width: 31%;
 		float: right;
-		background: $brand_color_c;
-		background: rgba(205,22,50,0.3);
-		-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=$brand_color_c, endColorstr=$brand_color_c)";
+		background: #333333;
 		text-align: right;
 		.maginot {
 			a {
