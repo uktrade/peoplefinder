@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Person Profile API', type: :request do
+describe 'Legacy Person Profile API', type: :request do
   let(:parsed_json) { JSON.parse(response.body).with_indifferent_access }
   let(:attr_hash) { parsed_json['data']['attributes'] }
   let(:links_hash) { parsed_json['data']['links'] }

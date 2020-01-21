@@ -6,9 +6,8 @@ ruby '2.6.5'
 # TODO: Only load the subgems we need
 #  This is currently not possible because some `govuk_*` gems wrongly specify
 #  the whole of `rails` as a dependency.
-gem 'rails', '~> 6.0.1'
+gem 'rails', '~> 6.0.2'
 
-gem 'active_model_serializers'
 gem 'activerecord-session_store'
 gem 'ancestry'
 gem 'aws-sdk-s3'
@@ -30,9 +29,7 @@ gem 'govuk_frontend_toolkit'
 gem 'govuk_template'
 gem 'haml-rails'
 gem 'health_check'
-gem 'jbuilder'
 gem 'jquery-rails'
-gem 'json'
 gem 'kramdown'
 gem 'mail'
 gem 'mini_magick'
@@ -75,7 +72,7 @@ group :test do
   gem 'jasmine-rails'
   gem 'rails-controller-testing'
   gem 'rspec-json_expectations'
-  gem 'rspec-rails', '~> 4.0.0beta3' # TODO: Unpin when 4.0 release is out
+  gem 'rspec-rails', '~> 4.0.0beta4' # TODO: Unpin when 4.0 release is out
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'site_prism'

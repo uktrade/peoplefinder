@@ -89,7 +89,7 @@ FactoryBot.define do
     # i.e. person in a group with ancestry of 1+
     trait :team_member do
       after(:build) do |p|
-        create(:membership, person: p)
+        create(:membership, person: p, role: Faker::Job.title)
       end
     end
 
