@@ -13,7 +13,7 @@ module Api
       authenticate_or_request_with_http_token do |token, _options|
         ActiveSupport::SecurityUtils.secure_compare(
           ::Digest::SHA256.hexdigest(token),
-          ::Digest::SHA256.hexdigest(ENV['PROFILE_API_TOKEN'])
+          ::Digest::SHA256.hexdigest(ENV.fetch('PROFILE_API_TOKEN'))
         )
       end
     end

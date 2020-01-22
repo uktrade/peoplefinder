@@ -2,11 +2,9 @@
 
 module Api
   class PeopleController < Api::ApplicationController
-    before_action :set_person, only: [:show]
-
     def show
-      if @person
-        render json: @person
+      if person
+        render json: LegacyProfileSerializer.new(person)
       else
         render json: { error: 'That person was not found' }, status: :not_found
       end
@@ -14,8 +12,8 @@ module Api
 
     private
 
-    def set_person
-      @person = Person.find_by(ditsso_user_id: params[:ditsso_user_id]) if params[:ditsso_user_id].present?
+    def person
+      @person ||= Person.includes(:memberships).find_by(ditsso_user_id: params.require(:ditsso_user_id))
     end
   end
 end
