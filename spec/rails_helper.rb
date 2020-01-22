@@ -56,25 +56,6 @@ Dir[File.expand_path('controllers/concerns/shared_examples*.rb', __dir__)].sort.
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  config.use_transactional_fixtures = false
-
-  # Both Docker Compose and Travis CI use remote DB URLs
-  DatabaseCleaner.allow_remote_database_url = true
-
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.before do |example|
-    DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction
-    DatabaseCleaner.start
-  end
-
-  config.after do
-    DatabaseCleaner.clean
-  end
-
-  config.infer_spec_type_from_file_location!
   config.include FactoryBot::Syntax::Methods
   config.include SpecSupport::Login
   config.include SpecSupport::Search
@@ -87,4 +68,10 @@ RSpec.configure do |config|
   config.include SpecSupport::FeatureFlags
   config.include SpecSupport::AppConfig
   config.include SpecSupport::GeckoboardHelper
+
+  config.infer_spec_type_from_file_location!
+
+  # This enable Rails's `use_transactional_tests` (for legacy reasons, it hasn't been renamed
+  # in RSpec config)
+  config.use_transactional_fixtures = true
 end

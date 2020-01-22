@@ -149,9 +149,9 @@ class Person < ApplicationRecord
     email.split('@').first.gsub(/[\W]|[\d]/, '')
   end
 
-  scope :all_in_groups_scope, ->(groups) { PeopleInGroupsQuery.new(groups).call }
-
-  scope :all_in_subtree, ->(group) { PeopleInGroupsQuery.new(group.subtree_ids).call }
+  def self.all_in_subtree(group)
+    PeopleInGroupsQuery.new(group.subtree_ids).call
+  end
 
   def self.outside_subteams(group)
     unscope(:order)

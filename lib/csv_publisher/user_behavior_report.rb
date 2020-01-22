@@ -39,7 +39,7 @@ module CsvPublisher
 
       # e.g. peoplefinder_staging_user_behavior_report
       def default_file_name
-        Rails.application.class.parent_name.underscore +
+        Rails.application.class.module_parent_name.underscore +
           '_' +
           (ENV['ENV'] || Rails.env).downcase +
           '_' +

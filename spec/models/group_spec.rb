@@ -33,7 +33,7 @@ RSpec.describe Group, type: :model do
     create(:department)
     group = build(:group, parent: nil)
     expect(group.valid?).to eq false
-    expect(group.errors[:parent_id]).to eq ['is required']
+    expect(group.errors[:parent_id]).to eq ['is required (a root group/department already exists)']
     expect { group.save! }.to raise_error(Exception)
   end
 

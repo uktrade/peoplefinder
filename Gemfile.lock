@@ -134,7 +134,6 @@ GEM
     css_parser (1.7.0)
       addressable
     daemon (1.2.0)
-    database_cleaner (1.7.0)
     delayed_job (4.1.8)
       activesupport (>= 3.0, < 6.1)
     delayed_job_active_record (4.1.4)
@@ -505,7 +504,6 @@ DEPENDENCIES
   coffee-rails
   country_select
   daemon
-  database_cleaner
   delayed_job
   delayed_job_active_record
   dotenv-rails
