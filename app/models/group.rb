@@ -58,7 +58,7 @@ class Group < ApplicationRecord
   validates :slug, uniqueness: true
   validates :description, length: { maximum: MAX_DESCRIPTION }
 
-  validate :not_second_root_group
+  validate :only_one_root_group
 
   before_destroy :check_deletability
 
@@ -147,12 +147,14 @@ class Group < ApplicationRecord
 
   private
 
-  def not_second_root_group
-    if parent_id.nil?
-      department = Group.department
-      root_group_exists = department.present? && department != self
-      errors.add(:parent_id, 'is required') if root_group_exists
-    end
+  def only_one_root_group
+    # Pass if this isn't a root group
+    return if parent_id
+
+    # Pass unless a root group exists that isn't this one
+    return unless Group.unscoped.roots.where.not(id: id).exists?
+
+    errors.add(:parent_id, 'is required (a root group/department already exists)')
   end
 
   def name_and_sequence

@@ -193,7 +193,7 @@ RSpec.describe GroupsController, type: :controller do
         post :create, params: { group: attributes, format: :json }, session: valid_session
 
         expect(response.code).to eq '422'
-        expect(response.body).to eq '{"parent_id":["is required"]}'
+        expect(response.body).to eq '{"parent_id":["is required (a root group/department already exists)"]}'
       end
     end
 
