@@ -3,6 +3,7 @@ inherit_from: .rubocop_todo.yml
 require:
   - rubocop-performance
   - rubocop-rspec
+  - rubocop-rails
 
 AllCops:
   # Exclude anything that isn't really part of our code.
@@ -41,7 +42,7 @@ Metrics/BlockLength:
 
 # Slightly more lenient line length
 # TODO: Specs should adhere to line length too, but too many offending lines to be worth fixing now
-Metrics/LineLength:
+Layout/LineLength:
   Max: 120
   Exclude:
     - 'spec/**/*'
