@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-class PersonDeletionRequestMailer < ActionMailer::Base
-  layout 'email'
-
+class PersonDeletionRequestMailer < ApplicationMailer
   def deletion_request(reporter:, person:, note:)
     @reporter = reporter
     @person = person

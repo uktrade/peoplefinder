@@ -23,6 +23,7 @@ RUN mkdir /peoplefinder
 WORKDIR /peoplefinder
 COPY Gemfile /peoplefinder/Gemfile
 COPY Gemfile.lock /peoplefinder/Gemfile.lock
+RUN gem install bundler:2.1.4
 RUN bundle install --jobs=3
 
 COPY . /peoplefinder

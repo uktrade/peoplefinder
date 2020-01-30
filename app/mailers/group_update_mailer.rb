@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class GroupUpdateMailer < ActionMailer::Base
-  layout 'email'
+class GroupUpdateMailer < ApplicationMailer
   add_template_helper MailHelper
 
   def inform_subscriber(recipient, group, instigator)
