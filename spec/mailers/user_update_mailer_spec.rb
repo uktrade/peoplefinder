@@ -140,7 +140,7 @@ describe UserUpdateMailer do
 
       it 'includes team membership removals' do
         %w[plain html].each do |part_type|
-          expect(get_message_part(mail, part_type)).to have_content(/Removed you from the Ministry of Justice team/m, normalize_ws: true)
+          expect(get_message_part(mail, part_type)).to have_content(/Removed you from the Department for International Trade team/m, normalize_ws: true)
         end
       end
 

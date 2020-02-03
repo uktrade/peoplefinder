@@ -6,7 +6,7 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
   subject { described_class.new(person.changes) }
 
   let(:person) { create(:person) }
-  let(:moj) { create(:department) }
+  let(:dit) { create(:department) }
   let(:ds) { create(:group, name: 'Digital Services') }
   let(:csg) { create(:group, name: 'Corporate Services Group') }
 
@@ -26,7 +26,7 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
           subscribed: true
         },
         '2' => {
-          id: person.memberships.find_by(group_id: moj.id).id,
+          id: person.memberships.find_by(group_id: dit.id).id,
           _destroy: '1'
         }
       }
@@ -46,7 +46,7 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
     let(:membership_changes) do
       [
         {
-          group_id: [moj.id, nil]
+          group_id: [dit.id, nil]
         },
         {
           person_id: [nil, person.id],
@@ -90,14 +90,14 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
       }
     end
 
-    let(:membership_changes_for_moj) do
+    let(:membership_changes_for_dit) do
       {
-        "membership_#{moj.id}".to_sym => {
+        "membership_#{dit.id}".to_sym => {
           removed: {
             raw: {
-              group_id: [moj.id, nil]
+              group_id: [dit.id, nil]
             },
-            message: 'Removed you from the Ministry of Justice team'
+            message: 'Removed you from the Department for International Trade team'
           }
         }
       }
@@ -110,7 +110,7 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
     end
 
     it 'returns expected format of data for removals' do
-      expect(subject).to include membership_changes_for_moj
+      expect(subject).to include membership_changes_for_dit
     end
 
     it 'returns a set for each membership' do

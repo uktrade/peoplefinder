@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  sequence(:email) { |n| format('example.user.%d@digital.justice.gov.uk', n) }
+  sequence(:email) { |n| format('example.user.%d@trade.gov.uk', n) }
   sequence(:given_name) { |n| "First name #{('a'.ord + (n % 25)).chr}" }
   sequence(:surname) { |n| "Surname #{('a'.ord + (n % 25)).chr}" }
   sequence(:location_in_building) { |n| "Room #{n}, #{n.ordinalize}" }
@@ -14,7 +14,7 @@ FactoryBot.define do
 
   factory :department, class: 'Group' do
     initialize_with do
-      Group.where(ancestry_depth: 0).first_or_create(name: 'Ministry of Justice')
+      Group.where(ancestry_depth: 0).first_or_create(name: 'Department for International Trade')
     end
   end
 

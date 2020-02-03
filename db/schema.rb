@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_16_141532) do
+ActiveRecord::Schema.define(version: 2020_02_03_153001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 2019_09_16_141532) do
     t.text "ancestry"
     t.integer "ancestry_depth", default: 0, null: false
     t.text "acronym"
-    t.datetime "description_reminder_email_at"
     t.integer "members_completion_score"
     t.index ["ancestry"], name: "index_groups_on_ancestry"
     t.index ["slug"], name: "index_groups_on_slug"

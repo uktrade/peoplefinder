@@ -1,0 +1,13 @@
+<%= render partial: 'breadcrumbs' %>
+
+<div class="grid-row mod-heading">
+  <div class="column-full">
+    <h1 class="heading-large mod-heading-border">Teams within <%= @group.name %></h1>
+  </div>
+</div>
+
+<div class="grid-row">
+  <div class="column-full">
+    <%= render partial: 'tree_level', locals: { groups: @tree } %>
+  </div>
+</div>

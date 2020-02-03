@@ -6,13 +6,28 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-# HEY YOU! YES YOU. This comment is important. Expect `rake db:seed` to be run
-# in all environments at random. Along with being run as part of `rake
-# db:setup`, it might be run on server restart, on building an environment,
-# whenever Jupiter is in aphelion, when the wolf lies with the lamb, etc.
-#
-# This means anything it runs should be idempotent (i.e. running `rake db:seed`
-# multiple times should have the same end result as running it once).
+require 'factory_bot'
 
-$:.unshift(Rails.root.join('db', 'seeds'))
+dit = Group.create!(name: 'Department for International Trade', acronym: 'DIT')
+coo = Group.create!(name: 'Chief Operating Officer (Corporate Functions)', acronym: 'COO', parent: dit)
+ddat = Group.create!(name: 'Digital, Data and Technology', acronym: 'DDaT', parent: coo)
 
+groups = [dit, coo, ddat] + Group.create!([
+  { name: 'Marketing', parent: dit },
+  { name: 'GREAT', parent: dit },
+  { name: 'Finance', parent: coo },
+  { name: 'Digital', parent: ddat },
+  { name: 'Data', parent: ddat },
+  { name: 'Technology', parent: ddat }
+])
+
+groups.each do |group|
+  rand(10).times do
+    FactoryBot.create(
+      :person,
+      :member_of,
+      :with_random_dets,
+      team: group
+    )
+  end
+end

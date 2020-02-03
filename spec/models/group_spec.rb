@@ -1,22 +1,5 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: groups
-#
-#  id                            :integer          not null, primary key
-#  name                          :text
-#  created_at                    :datetime
-#  updated_at                    :datetime
-#  slug                          :string
-#  description                   :text
-#  ancestry                      :text
-#  ancestry_depth                :integer          default(0), not null
-#  acronym                       :text
-#  description_reminder_email_at :datetime
-#  members_completion_score      :integer
-#
-
 require 'rails_helper'
 
 RSpec.describe Group, type: :model do
@@ -355,14 +338,14 @@ RSpec.describe Group, type: :model do
       let!(:first_duplicate) { create(:group, name: 'Digital Services') }
 
       it 'prepends the parent' do
-        expect(first_duplicate.slug).to eql('ministry-of-justice-digital-services')
+        expect(first_duplicate.slug).to eql('department-for-international-trade-digital-services')
       end
 
       context 'when a second duplicate (name and parent name) is added' do
         let(:second_duplicate) { create(:group, name: 'Digital Services') }
 
         it 'appends -1 to the group name' do
-          expect(second_duplicate.slug).to eql('ministry-of-justice-digital-services-2')
+          expect(second_duplicate.slug).to eql('department-for-international-trade-digital-services-2')
         end
       end
     end

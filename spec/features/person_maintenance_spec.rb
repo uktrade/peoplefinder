@@ -5,14 +5,10 @@ require 'rails_helper'
 describe 'Person maintenance' do
   include ActiveJobHelper
 
-  let(:department) { create(:department) }
+  let!(:department) { create(:department) }
   let(:person) { create(:person, email: 'test.user@digital.justice.gov.uk') }
   let(:super_admin) { create(:super_admin, email: 'super.admin@digital.justice.gov.uk') }
   let(:another_person) { create(:person, email: 'someone.else@digital.justice.gov.uk') }
-
-  before do
-    department
-  end
 
   before(:each, user: :regular) do
     omni_auth_log_in_as person.ditsso_user_id
@@ -40,7 +36,7 @@ describe 'Person maintenance' do
         fill_in 'First name', with: 'Jane'
         fill_in 'Last name', with: 'Doe'
         click_link 'Change team'
-        select_in_team_select 'Ministry of Justice'
+        select_in_team_select 'Department for International Trade'
         click_button 'Save', match: :first
 
         expect(page).to have_content('We have let Jane Doe know that you’ve made changes')
