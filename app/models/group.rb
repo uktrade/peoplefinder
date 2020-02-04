@@ -1,32 +1,16 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: groups
-#
-#  id                            :integer          not null, primary key
-#  name                          :text
-#  created_at                    :datetime
-#  updated_at                    :datetime
-#  slug                          :string
-#  description                   :text
-#  ancestry                      :text
-#  ancestry_depth                :integer          default(0), not null
-#  acronym                       :text
-#  description_reminder_email_at :datetime
-#  members_completion_score      :integer
-#
-
+# Represents a team and its associated hierarchy
 class Group < ApplicationRecord
-  include Concerns::Hierarchical
   include Concerns::Placeholder
 
   MAX_DESCRIPTION = 1500
 
+  has_ancestry cache_depth: true
+
   has_paper_trail versions: { class_name: 'Version' },
                   on: %i[create destroy update],
                   ignore: %i[updated_at created_at slug id
-                             description_reminder_email_at
                              members_completion_score]
 
   extend FriendlyId
@@ -48,7 +32,6 @@ class Group < ApplicationRecord
   has_many :people, through: :memberships
   has_many :leaderships, -> { where(leader: true) }, class_name: 'Membership'
   has_many :leaders, through: :leaderships, source: :person
-  has_many :non_leaders, through: :non_leaderships, source: :person
 
   def distinct_non_leaderships
     DistinctMembershipQuery.new(group: self, leadership: false).call
@@ -88,6 +71,10 @@ class Group < ApplicationRecord
     parent.blank?
   end
 
+  def leaf_node?
+    children.blank?
+  end
+
   def to_s
     name
   end
@@ -109,8 +96,6 @@ class Group < ApplicationRecord
   end
 
   def people_outside_subteams
-    # TODO: replace with scope and person method for role_names
-    # i.e. Person.outside_subteams(self)
     Person.all_in_groups([id]) - Person.all_in_groups(subteam_ids) - leaders
   end
 
@@ -138,11 +123,6 @@ class Group < ApplicationRecord
 
   def subscribers
     memberships.subscribing.joins(:person).map(&:person)
-  end
-
-  def description_reminder_email_sent?(within_days:)
-    description_reminder_email_at.present? &&
-      description_reminder_email_at.end_of_day >= within_days.day.ago
   end
 
   private

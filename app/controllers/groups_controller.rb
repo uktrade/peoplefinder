@@ -2,7 +2,7 @@
 
 class GroupsController < ApplicationController
   before_action :set_group, only: %i[
-    show edit update destroy all_people people_outside_subteams
+    show edit update destroy all_people people_outside_subteams tree
   ]
   before_action :set_org_structure, only: %i[new edit create update]
   before_action :load_versions, only: [:show]
@@ -85,6 +85,11 @@ class GroupsController < ApplicationController
     @group.destroy
     notice :group_deleted, group: @group
     redirect_to next_page
+  end
+
+  # GET /groups/1/tree
+  def tree
+    @tree = @group.subtree.arrange
   end
 
   private

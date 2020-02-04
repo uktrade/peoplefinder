@@ -205,7 +205,7 @@ RSpec.describe PeopleController, type: :controller do
           end
 
           delete :destroy, params: { id: person.to_param }
-          expect(response).to redirect_to(group_path(groups.first))
+          expect(response).to redirect_to(group_path(person.groups.first))
         end
       end
 

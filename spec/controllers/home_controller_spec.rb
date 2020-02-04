@@ -30,7 +30,7 @@ RSpec.describe HomeController, type: :controller do
       end
 
       it 'redirects to the top-level group' do
-        expect(response).to redirect_to('/teams/ministry-of-justice')
+        expect(response).to redirect_to('/teams/department-for-international-trade')
       end
     end
 

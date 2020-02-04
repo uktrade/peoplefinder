@@ -100,7 +100,6 @@ detectors:
     - UpdateGroupMembersCompletionScoreJob#perform
     - Concerns::BucketedCompletion#bucket_case_statement
     - Concerns::GeckoboardDatasets#completions_set
-    - Concerns::Hierarchical#self.find_or_create_by!
     - Concerns::PersonChangesTracker#membership_key
     - Group#slug_candidates
     - Person#self.outside_subteams
@@ -268,7 +267,6 @@ detectors:
     - Concerns::ExposeMandatoryFields
     - Concerns::FormFieldOptions
     - Concerns::GeckoboardDatasets
-    - Concerns::Hierarchical
     - Concerns::PersonChangesTracker
     - Concerns::Placeholder
     - Concerns::ProfileFields
@@ -441,7 +439,6 @@ detectors:
     - SearchHelper#people_count
     - SearchHelper#team_count
     - UserUpdateMailer#updated_profile_email
-    - Concerns::Hierarchical#self.sanitize_and_get_parent_id
     - Concerns::PersonChangesTracker#initialize_changes_store
     - Concerns::PersonChangesTracker#membership_changes
     - Concerns::PersonChangesTracker#membership_key

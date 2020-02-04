@@ -6,31 +6,30 @@ RSpec.describe BreadcrumbHelper, type: :helper do
   describe '#breadcrumbs' do
     let(:hrbp) { create(:group, parent: hr, name: 'Human Resources Business Partners', acronym: 'HRBP') }
     let(:hr) { create(:group, parent: csg, name: 'Human Resources', acronym: 'HR') }
-    let(:csg) { create(:group, parent: moj, name: 'Corporate Services Group', acronym: 'CSG') }
-    let(:moj) { create(:department, acronym: 'MOJ') }
+    let(:csg) { create(:group, parent: dit, name: 'Corporate Services Group', acronym: 'CSG') }
+    let(:dit) { create(:department, acronym: 'DIT') }
 
     it 'builds linked breadcrumbs' do
-      justice = create(:department)
-      digital_service = create(:group, parent: justice, name: 'Digital Services')
-      generated = breadcrumbs([justice, digital_service])
+      digital_service = create(:group, parent: dit, name: 'Digital Services')
+      generated = breadcrumbs([dit, digital_service])
       fragment = Capybara::Node::Simple.new(generated)
-      expect(fragment).to have_selector('a[href="/teams/ministry-of-justice"]', text: 'Ministry of Justice')
+      expect(fragment).to have_selector('a[href="/teams/department-for-international-trade"]', text: 'DIT')
       expect(fragment).to have_selector('a[href="/teams/digital-services"]', text: 'Digital Services')
     end
 
     it 'builds linked breadcrumbs only showing acronyms for first two levels' do
-      generated = breadcrumbs([moj, csg, hr, hrbp])
+      generated = breadcrumbs([dit, csg, hr, hrbp])
       fragment = Capybara::Node::Simple.new(generated)
-      expect(fragment).to have_selector('a[href="/teams/ministry-of-justice"]', text: 'MOJ')
+      expect(fragment).to have_selector('a[href="/teams/department-for-international-trade"]', text: 'DIT')
       expect(fragment).to have_selector('a[href="/teams/corporate-services-group"]', text: 'CSG')
       expect(fragment).to have_selector('a[href="/teams/human-resources"]', text: 'HR')
       expect(fragment).to have_selector('a[href="/teams/human-resources-business-partners"]', text: 'Human Resources Business Partners')
     end
 
     it 'builds linked breadcrumbs only showing acronyms for first two levels when Home path at front of breadcrumbs' do
-      generated = breadcrumbs(Home.path + [moj, csg, hr, hrbp])
+      generated = breadcrumbs(Home.path + [dit, csg, hr, hrbp])
       fragment = Capybara::Node::Simple.new(generated)
-      expect(fragment).to have_selector('a[href="/teams/ministry-of-justice"]', text: 'MOJ')
+      expect(fragment).to have_selector('a[href="/teams/department-for-international-trade"]', text: 'DIT')
       expect(fragment).to have_selector('a[href="/teams/corporate-services-group"]', text: 'CSG')
       expect(fragment).to have_selector('a[href="/teams/human-resources"]', text: 'HR')
       expect(fragment).to have_selector('a[href="/teams/human-resources-business-partners"]', text: 'Human Resources Business Partners')

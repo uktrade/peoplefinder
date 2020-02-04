@@ -1,0 +1,8 @@
+<ul class="list list-bullet">
+  <% groups.each do |group, children| %>
+    <li>
+      <%= link_to group.name, group %>
+      <%= render partial: 'tree_level', locals: { groups: children } %>
+    </li>
+  <% end %>
+</ul>

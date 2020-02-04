@@ -34,7 +34,7 @@ describe 'Group maintenance' do
 
     it 'Creating a top-level department' do
       Group.destroy_all
-      name = 'Ministry of Justice'
+      name = 'Department for International Trade'
       visit new_group_path
       expect(page).to have_title("Create a team - #{app_title}")
 
@@ -42,7 +42,7 @@ describe 'Group maintenance' do
       fill_in 'Team description', with: 'about my team'
       click_button 'Save'
 
-      expect(page).to have_content('Created Ministry of Justice')
+      expect(page).to have_content('Department for International Trade')
 
       dept = Group.find_by(name: name)
       expect(dept.name).to eql(name)
@@ -152,7 +152,7 @@ describe 'Group maintenance' do
     it 'Change parent to department via clicking "Back"' do
       group = setup_three_level_group
       setup_group_member group
-      expect(dept.name).to eq 'Ministry of Justice'
+      expect(dept.name).to eq 'Department for International Trade'
       visit_edit_view(group)
 
       expect(page).to have_selector('.editable-fields', visible: :hidden)
@@ -259,7 +259,7 @@ describe 'Group maintenance' do
       visit new_group_path
 
       fill_in 'Team name', with: 'Digital'
-      select_in_parent_team_select 'Ministry of Justice'
+      select_in_parent_team_select 'Department for International Trade'
       click_button 'Save'
       expect(page).to have_link 'Edit this team'
     end

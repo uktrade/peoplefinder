@@ -17,8 +17,12 @@ Rails.application.routes.draw do
 
   resources :groups, path: 'teams' do
     resources :groups, only: [:new]
-    get :people, on: :member, action: 'all_people'
-    get :"people-outside-subteams", on: :member, action: 'people_outside_subteams'
+
+    member do
+      get :all_people, path: 'people', as: 'people'
+      get :people_outside_subteams, path: 'people-outside-subteams', as: 'people_outside_subteams'
+      get :tree
+    end
   end
 
   resources :people, except: %i[new create] do

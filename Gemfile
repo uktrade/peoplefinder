@@ -67,7 +67,6 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'factory_bot_rails'
   gem 'jasmine-rails'
   gem 'rails-controller-testing'
   gem 'rspec-json_expectations'
@@ -83,6 +82,7 @@ group :development, :test do
   gem 'annotate'
   gem 'brakeman', require: false
   gem 'byebug'
+  gem 'factory_bot_rails'
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'reek'
