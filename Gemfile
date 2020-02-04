@@ -79,7 +79,6 @@ group :test do
 end
 
 group :development, :test do
-  gem 'annotate'
   gem 'brakeman', require: false
   gem 'byebug'
   gem 'factory_bot_rails'

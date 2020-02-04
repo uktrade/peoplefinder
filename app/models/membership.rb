@@ -1,19 +1,5 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: memberships
-#
-#  id         :integer          not null, primary key
-#  group_id   :integer          not null
-#  person_id  :integer          not null
-#  role       :text
-#  created_at :datetime
-#  updated_at :datetime
-#  leader     :boolean          default(FALSE)
-#  subscribed :boolean          default(TRUE), not null
-#
-
 class Membership < ApplicationRecord
   has_paper_trail versions: { class_name: 'Version' },
                   ignore: %i[updated_at created_at id]

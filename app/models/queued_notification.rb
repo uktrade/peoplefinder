@@ -1,22 +1,5 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: queued_notifications
-#
-#  id                    :integer          not null, primary key
-#  email_template        :string
-#  session_id            :string
-#  person_id             :integer
-#  current_user_id       :integer
-#  changes_json          :text
-#  edit_finalised        :boolean          default(FALSE)
-#  processing_started_at :datetime
-#  sent                  :boolean          default(FALSE)
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#
-
 class QueuedNotification < ApplicationRecord
   GRACE_PERIOD = 15.minutes
 
