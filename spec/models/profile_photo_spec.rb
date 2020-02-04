@@ -1,15 +1,5 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: profile_photos
-#
-#  id         :integer          not null, primary key
-#  image      :string
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 require 'rails_helper'
 
 RSpec.describe ProfilePhoto, type: :model do

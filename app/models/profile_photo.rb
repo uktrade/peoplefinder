@@ -1,15 +1,5 @@
 # frozen_string_literal: true
 
-# == Schema Information
-#
-# Table name: profile_photos
-#
-#  id         :integer          not null, primary key
-#  image      :string
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 class ProfilePhoto < ApplicationRecord
   has_one :person
   mount_uploader :image, ImageUploader
