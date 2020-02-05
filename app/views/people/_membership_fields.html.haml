@@ -21,16 +21,6 @@
         = membership_f.radio_button :leader, false
         No
 
-  .form-group.team-subscribed
-    %fieldset.inline
-      %legend.form-label-bold= role_translate(person, 'memberships.subscribed')
-      = membership_f.label :subscribed, value: true, class: 'block-label' do
-        = membership_f.radio_button :subscribed, true
-        Yes
-      = membership_f.label :subscribed, value: false, class: 'block-label' do
-        = membership_f.radio_button :subscribed, false
-        No
-
   .form-group
     .remove-link
       - if membership.new_record?

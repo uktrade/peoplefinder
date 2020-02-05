@@ -89,7 +89,7 @@ class PeopleController < ApplicationController
       :other_key_skills, :other_learning_and_development, :other_additional_responsibilities,
       building: [], key_skills: [], learning_and_development: [], networks: [],
       key_responsibilities: [], additional_responsibilities: [], professions: [],
-      memberships_attributes: %i[id role group_id leader subscribed _destroy]
+      memberships_attributes: %i[id role group_id leader _destroy]
     ] + super_admin_person_params
   end
 

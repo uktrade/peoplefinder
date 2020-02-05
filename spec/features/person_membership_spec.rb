@@ -166,19 +166,6 @@ describe 'Person maintenance' do
     expect(page).to have_selector('h3', text: 'Head Honcho, Master of None')
   end
 
-  it 'Unsubscribing from notifications', js: true do
-    person = create_person_in_digital_justice
-
-    visit edit_person_path(person)
-
-    fill_in 'Job title', with: 'Head Honcho'
-    within('.team-subscribed') { govuk_label_click('No') }
-    click_button 'Save', match: :first
-
-    membership = Person.last.memberships.last
-    expect(membership).not_to be_subscribed
-  end
-
   it 'Leaving a team', js: true do
     ds = create(:group, name: 'Digital Justice')
     person = create(:person, :member_of, team: ds, role: 'tester', sole_membership: false)
@@ -223,7 +210,7 @@ def setup_three_level_team
 end
 
 def setup_team_member(group)
-  create(:person, :member_of, team: group, subscribed: true, sole_membership: true)
+  create(:person, :member_of, team: group, sole_membership: true)
 end
 
 def visit_edit_view(group)

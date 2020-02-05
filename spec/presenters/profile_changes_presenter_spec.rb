@@ -19,7 +19,7 @@ RSpec.describe ProfileChangesPresenter, type: :presenter do
   end
 
   let(:mass_assignment_params) do
-    membership = person.reload.memberships.create(group_id: csg.id, role: 'Executive Office', leader: false, subscribed: true)
+    membership = person.reload.memberships.create(group_id: csg.id, role: 'Executive Office', leader: false)
     {
       given_name: 'Frederick',
       surname: 'Reese-Bloggs',
@@ -39,15 +39,13 @@ RSpec.describe ProfileChangesPresenter, type: :presenter do
         '0' => {
           role: 'The Boss',
           group_id: ds.id,
-          leader: true,
-          subscribed: false
+          leader: true
         },
         '1' => {
           id: membership.id,
           group_id: membership.group_id,
           role: 'Chief Executive Officer',
-          leader: true,
-          subscribed: false
+          leader: true
         }
       }
     }

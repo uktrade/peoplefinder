@@ -51,21 +51,18 @@ describe UserUpdateMailer do
           '0' => {
             role: 'Lead Developer',
             group_id: ds.id,
-            leader: true,
-            subscribed: false
+            leader: true
           },
           '1' => {
             role: 'Product Manager',
             group_id: csg.id,
-            leader: false,
-            subscribed: true
+            leader: false
           },
           '2' => {
             id: hr_membership.id,
             group_id: hr.id,
             role: 'Chief Executive Officer',
-            leader: true,
-            subscribed: false
+            leader: true
           },
           '3' => {
             id: person.memberships.find_by(group_id: Group.department).id,
@@ -82,8 +79,7 @@ describe UserUpdateMailer do
             id: hr_membership.id,
             group_id: ds.id,
             role: 'Chief Executive Officer',
-            leader: true,
-            subscribed: false
+            leader: true
           }
         }
       }
@@ -161,12 +157,6 @@ describe UserUpdateMailer do
       it 'includes team membership leadership modifications' do
         %w[plain html].each do |part_type|
           expect(get_message_part(mail, part_type)).to have_content(/Made you leader of the Human Resources team/m, normalize_ws: true)
-        end
-      end
-
-      it 'includes team membership subscription modifications' do
-        %w[plain html].each do |part_type|
-          expect(get_message_part(mail, part_type)).to have_content(/Changed your notification settings so you don't get notifications if changes are made to the Human Resources team./m, normalize_ws: true)
         end
       end
 

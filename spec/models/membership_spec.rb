@@ -14,10 +14,6 @@ RSpec.describe Membership, type: :model do
     expect(subject).not_to be_leader
   end
 
-  it 'is subscribed by default' do
-    expect(subject).to be_subscribed
-  end
-
   # The Permanent Secretary is whomever has a membership indicating
   # that they are the leader of the top-most team (a.k.a department,
   # Ministry of Justice)
@@ -48,7 +44,6 @@ RSpec.describe Membership, type: :model do
 
       it 'permits updates to perm. sec.' do
         membership = boss.memberships.first
-        membership.subscribed = !membership.subscribed
         expect(membership).to be_valid
       end
 

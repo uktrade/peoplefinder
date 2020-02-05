@@ -123,13 +123,12 @@ describe 'Group maintenance' do
 
     def setup_group_member(group)
       user = create(:person)
-      create :membership, person: user, group: group, subscribed: true
+      create :membership, person: user, group: group
       user
     end
 
     it 'Editing a team name' do
       group = setup_three_level_group
-      user = setup_group_member group
       visit_edit_view(group)
 
       expect(page).to have_title("Edit team - #{app_title}")
@@ -142,11 +141,6 @@ describe 'Group maintenance' do
       expect(page).to have_selector('.mod-search-form')
       group.reload
       expect(group.name).to eql(new_name)
-
-      expect(last_email.to).to include(user.email)
-      expect(last_email.subject).to eq('People Finder team updated')
-      expect(page).to have_text(new_name)
-      expect(last_email.body.encoded).to match(group_url(group))
     end
 
     it 'Change parent to department via clicking "Back"' do

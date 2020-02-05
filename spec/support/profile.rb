@@ -22,8 +22,7 @@ module SpecSupport
       {
         role: 'The boss',
         group_id: Group.first.id || create(:group).id,
-        leader: true,
-        subscribed: false
+        leader: true
       }
     end
 
@@ -115,9 +114,6 @@ module SpecSupport
       select_in_team_select(team_name)
       within '.team-leader' do
         govuk_label_click(membership_attributes[:leader] ? 'Yes' : 'No')
-      end
-      within '.team-subscribed' do
-        govuk_label_click(membership_attributes[:subscribed] ? 'Yes' : 'No')
       end
     end
 

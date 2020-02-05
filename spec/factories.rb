@@ -32,7 +32,6 @@ FactoryBot.define do
     factory :membership_default do
       role { nil }
       leader { false }
-      subscribed { true }
       group_id { create(:department).id }
     end
   end
@@ -97,7 +96,6 @@ FactoryBot.define do
       transient do
         team { nil }
         leader { false }
-        subscribed { true }
         role { nil }
         sole_membership { false }
       end
@@ -105,10 +103,10 @@ FactoryBot.define do
         if peep.memberships.map(&:group).include? evaluator.team
           memberships = peep.memberships.select { |m| m.group == evaluator.team }
           memberships.each do |membership|
-            membership.assign_attributes(leader: evaluator.leader, subscribed: evaluator.subscribed, role: evaluator.role)
+            membership.assign_attributes(leader: evaluator.leader, role: evaluator.role)
           end
         else
-          peep.memberships << build(:membership, group: evaluator.team, person: peep, leader: evaluator.leader, subscribed: evaluator.subscribed, role: evaluator.role)
+          peep.memberships << build(:membership, group: evaluator.team, person: peep, leader: evaluator.leader, role: evaluator.role)
         end
         peep.memberships = peep.memberships.select { |m| m.group_id == evaluator.team.id } if evaluator.sole_membership
       end

@@ -67,7 +67,6 @@ detectors:
     exclude:
     - BreadcrumbHelper#adjust_breadcrumb_index
     - PeopleHelper#person_form_class
-    - MembershipChangesPresenter#subscribed_text
     - mock_expectations
     - S3::Bucket#aws_s3_bucket
   DataClump:
@@ -110,7 +109,6 @@ detectors:
     - MembershipChangesPresenter#leader_change
     - MembershipChangesPresenter#role_change
     - MembershipChangesPresenter#role_change_sentence
-    - MembershipChangesPresenter#subscribed_change
     - MembershipChangesPresenter#team_change_sentence
     - PersonChangesPresenter#extra_info_change
     - PersonChangesPresenter#profile_photo_change
@@ -251,7 +249,6 @@ detectors:
     - SendNotificationsJob
     - UpdateGroupMembersCompletionScoreJob
     - ApplicationMailer
-    - GroupUpdateMailer
     - PersonDeletionRequestMailer
     - UserUpdateMailer
     - ApplicationRecord
@@ -304,7 +301,6 @@ detectors:
     - GroupLister
     - GroupLister::ListedGroup
     - GroupSearch
-    - GroupUpdateService
     - Login
     - MetricsPublisher
     - PersonCreator
@@ -321,7 +317,6 @@ detectors:
     - Peoplefinder::Application
     - CarrierWave::DirHelpers
     - CarrierWave::MiniMagick
-    - GroupUpdateMailerPreview
     - PreviewHelper
     - UserUpdateMailerPreview
     - TestModel
@@ -388,6 +383,7 @@ detectors:
     - HealthCheck::ElasticsearchHealthCheck
     - InitSchema
     - RemoveReminderEmailsFromGroup
+    - RemoveSubscribedFromMemberships
   LongParameterList:
     exclude:
     - Metrics::ActivationsController#bullet_graph
@@ -478,10 +474,8 @@ detectors:
   TooManyMethods:
     exclude:
     - ApplicationController
-    - GroupsController
     - Group
     - Person
-    - MembershipChangesPresenter
     - PersonSearch
   TooManyStatements:
     exclude:
@@ -508,7 +502,6 @@ detectors:
     - SpecSupport::DbHelper#table_counts
     - SpecSupport::Profile#check_creation_of_profile_details
     - SpecSupport::Profile#fill_in_complete_profile_details
-    - SpecSupport::Profile#fill_in_membership_details
     - mock_expectations
     - GovukElementsErrorsHelperExtensions#error_tag_for_nested_attribute
     - GeckoboardPublisher::ProfilesPercentageReport#setup
@@ -559,7 +552,6 @@ detectors:
     - MembershipChangesPresenter#group_id_change
     - MembershipChangesPresenter#leader_change
     - MembershipChangesPresenter#role_change
-    - MembershipChangesPresenter#subscribed_change
     - PersonChangesPresenter#extra_info_change
     - PersonChangesPresenter#profile_photo_change
     - PersonChangesPresenter#work_days_template
