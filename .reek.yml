@@ -40,7 +40,6 @@ detectors:
     exclude:
     - BreadcrumbHelper#adjust_breadcrumb_index
     - PeopleHelper#person_form_class
-    - mock_expectations
     - S3::Bucket#aws_s3_bucket
   DataClump:
     exclude:
@@ -105,8 +104,6 @@ detectors:
     - SpecSupport::FeatureFlags#without_feature
     - SpecSupport::Login#omni_auth_log_in_as
     - SpecSupport::Profile#check_creation_of_profile_details
-    - mock_expectations
-    - CsvPublisher::UserBehaviorReport#save!
     - GovukElementsErrorsHelperExtensions#error_html_attributes
     - S3::ProfileImage#public_read?
     - InitSchema#up
@@ -128,7 +125,6 @@ detectors:
     - BucketedCompletion#bucket_case_statement
     - BucketedCompletion#parse_bucketed_results
     - Group#average_completion_score
-    - Report#to_csv_file
     - Version#reify
     - MembershipChangeSet#valid_missing_method
     - MembershipChangesPresenter#added_removed_template
@@ -181,10 +177,6 @@ detectors:
     - ApplicationController
     - GroupsController
     - HomeController
-    - Metrics::ActivationsController
-    - Metrics::CompletionsController
-    - Metrics::ProfilesController
-    - Metrics::TeamDescriptionsController
     - PagesController
     - PersonDeletionRequestController
     - PersonImageController
@@ -204,7 +196,6 @@ detectors:
     - SearchHelper
     - VersionsHelper
     - ApplicationJob
-    - GenerateReportJob
     - SendNotificationsJob
     - UpdateGroupMembersCompletionScoreJob
     - ApplicationMailer
@@ -230,7 +221,6 @@ detectors:
     - Person
     - ProfilePhoto
     - QueuedNotification
-    - Report
     - Version
     - Admin::ManagementPolicy
     - ApplicationPolicy
@@ -260,7 +250,6 @@ detectors:
     - GroupLister::ListedGroup
     - GroupSearch
     - Login
-    - MetricsPublisher
     - PersonCreator
     - PersonDestroyer
     - PersonDestroyer::NewRecordError
@@ -287,7 +276,6 @@ detectors:
     - SpecSupport::Email
     - FeatureFlagSpecHelper
     - SpecSupport::FeatureFlags
-    - SpecSupport::GeckoboardHelper
     - SpecSupport::Login
     - DelayedJobHelper
     - SpecSupport::OrgBrowser
@@ -324,7 +312,6 @@ detectors:
     - EmailValidatorTestModel
     - FileSizeTestModel
     - ImageDimensionsTestModel
-    - CsvPublisher::UserBehaviorReport
     - OmniAuth::Strategies::DitssoInternal
     - GovukElementsErrorsHelper
     - GovukElementsErrorsHelperExtensions
@@ -335,7 +322,6 @@ detectors:
     - RemoveSubscribedFromMemberships
   LongParameterList:
     exclude:
-    - Metrics::ActivationsController#bullet_graph
     - PersonFormBuilder#check_box
     - BreadcrumbHelper#link_to_breadcrumb_name_unless_current
     - ProfilePhoto#crop
@@ -359,13 +345,11 @@ detectors:
     exclude:
     - SendNotificationsJob
     - Group
-    - MetricsPublisher
     - NotificationSender
     - PersonCreator
     - PersonDestroyer
     - PersonUpdater
     - StateManagerCookie
-    - CsvPublisher::UserBehaviorReport
   NestedIterators:
     exclude:
     - Admin::ProfileExtractsController#people_csv
@@ -374,10 +358,8 @@ detectors:
     - MembershipChangesPresenter#each_pair
     - ProfileChangesPresenter#each
     - ProfileChangesPresenter#each_pair
-    - CsvPublisher::UserBehaviorReport#write!
   NilCheck:
     exclude:
-    - Admin::ManagementController#download
     - SessionsController#create
     - SearchHelper#filter_text
     - SearchHelper#filtered_on?
@@ -449,7 +431,6 @@ detectors:
     - SpecSupport::DbHelper#table_counts
     - SpecSupport::Profile#check_creation_of_profile_details
     - SpecSupport::Profile#fill_in_complete_profile_details
-    - mock_expectations
     - GovukElementsErrorsHelperExtensions#error_tag_for_nested_attribute
     - InitSchema#up
   UncommunicativeMethodName:
@@ -516,7 +497,6 @@ detectors:
     - InitSchema#up
   UtilityFunction:
     exclude:
-    - Admin::ManagementController#serialize
     - Admin::TeamExtractsController#group_row
     - ApplicationController#can_edit_profiles?
     - PeopleController#build_membership
@@ -545,8 +525,6 @@ detectors:
     - PeopleHelper#url_for_image
     - SearchHelper#count_as_string
     - VersionsHelper#view_template
-    - GenerateReportJob#deserialize
-    - GenerateReportJob#max_run_time
     - SendNotificationsJob#max_run_time
     - SendNotificationsJob#notify_people!
     - UpdateGroupMembersCompletionScoreJob#perform
@@ -577,8 +555,6 @@ detectors:
     - GroupLister#scope_with_maximum_depth
     - GroupSearch#hierarchy_ordered
     - GroupSearch#words
-    - MetricsPublisher#completion_report
-    - MetricsPublisher#profiles_report
     - NotificationSender#new_profile_notification?
     - PersonSearch#clean_query
     - PersonSearch#search
@@ -598,7 +574,6 @@ detectors:
     - results_struct
     - jsonify
     - state_hash
-    - delete_csv_reports
     - SpecSupport::AppConfig#app_title
     - SpecSupport::Carrierwave#test_image
     - SpecSupport::ElasticSearchHelper#all_documents
@@ -613,7 +588,6 @@ detectors:
     - content
     - squish_sql
     - SpecSupport::Search#clean_up_indexes_and_tables
-    - CsvPublisher::UserBehaviorReport#csv_record
     - GovukElementsErrorsHelperExtensions#association_attribute_from_attribute
     - GovukElementsErrorsHelperExtensions#association_from_attribute
     - GovukElementsErrorsHelperExtensions#association_names

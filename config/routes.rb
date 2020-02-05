@@ -48,17 +48,9 @@ Rails.application.routes.draw do
   get '/groups/:id/edit', to: redirect('/teams/%{id}/edit')
   get '/groups/:id/people', to: redirect('/teams/%{id}/people')
 
-  namespace :metrics do
-    resources :activations, only: [:index]
-    resources :completions, only: [:index]
-    resources :profiles, only: [:index]
-    resources :team_descriptions, only: [:index]
-  end
-
   namespace :admin do
     root to: 'management#show', as: :home
-    get 'user_behavior_report', controller: 'management', action: :user_behavior_report
-    get 'generate_user_behavior_report', controller: 'management', action: :generate_user_behavior_report
+
     resource :profile_extract, only: [:show]
     resource :team_extract, only: [:show]
   end

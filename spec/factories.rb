@@ -66,21 +66,6 @@ FactoryBot.define do
       country { Faker::Address.country_code }
     end
 
-    trait :for_demo_csv do
-      after :build do |peep, _evaluator|
-        peep.memberships.first.role = Faker::Job.title
-      end
-
-      given_name { Faker::Name.first_name }
-      surname { Faker::Name.last_name }
-      sequence(:email) { |n| format('%{given_name}.%{surname}.%{unique}.@digital.justice.gov.uk', given_name: given_name, surname: surname, unique: n) }
-      primary_phone_number { Faker::PhoneNumber.phone_number }
-      secondary_phone_number { Faker::PhoneNumber.phone_number }
-      login_count { Random.rand(1..20) }
-      last_login_at { login_count == 0 ? nil : Random.rand(15).days.ago }
-      description { Faker::Lorem.sentences.join(' ') }
-    end
-
     trait :with_photo do
       association :profile_photo, factory: :profile_photo
     end
@@ -145,14 +130,6 @@ FactoryBot.define do
       end
     end
 
-    trait :non_image do
-      image do
-        Rack::Test::UploadedFile.new(
-          File.join(Rails.root, 'spec', 'fixtures', 'invalid_rows.csv')
-        )
-      end
-    end
-
     trait :too_small_dimensions do
       image do
         Rack::Test::UploadedFile.new(
@@ -168,18 +145,6 @@ FactoryBot.define do
         )
       end
     end
-  end
-
-  factory :report do
-    content do
-      <<~CSV
-        id,full_name,login_count
-        1,John Smith,5
-      CSV
-    end
-    name { 'factory_test_report' }
-    extension { 'csv' }
-    mime_type { 'text/csv' }
   end
 
   factory :queued_notification do

@@ -97,14 +97,6 @@ RSpec.describe ProfilePhoto, type: :model do
     end
 
     context 'saving file' do
-      context 'with non image' do
-        subject { build :profile_photo, :non_image }
-
-        it 'raises expected error' do
-          expect { subject.save! }.to raise_error ActiveRecord::RecordInvalid, /not allowed to upload "csv" files, allowed types: jpg, jpeg, gif, png/
-        end
-      end
-
       context 'with very large file' do
         subject { build :profile_photo }
 
