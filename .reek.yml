@@ -34,7 +34,6 @@ detectors:
     - BreadcrumbHelper#breadcrumbs
     - SearchResults#initialize
     - SpecSupport::Login#mock_logged_in_user
-    - GeckoboardPublisher::Report#publish!
     - S3::Bucket#respond_to_missing?
     - S3::ProfileImage#respond_to_missing?
   ControlParameter:
@@ -71,7 +70,6 @@ detectors:
     - VersionsHelper#link_to_edited_item
     - UpdateGroupMembersCompletionScoreJob#perform
     - BucketedCompletion#bucket_case_statement
-    - GeckoboardDatasets#completions_set
     - PersonChangesTracker#membership_key
     - Group#slug_candidates
     - Person#self.outside_subteams
@@ -110,10 +108,6 @@ detectors:
     - mock_expectations
     - CsvPublisher::UserBehaviorReport#save!
     - GovukElementsErrorsHelperExtensions#error_html_attributes
-    - GeckoboardPublisher::ProfilesChangedReport#find_or_create_set
-    - GeckoboardPublisher::ProfilesPercentageReport#fields
-    - GeckoboardPublisher::Report#publish!
-    - Object#to_string_boolean
     - S3::ProfileImage#public_read?
     - InitSchema#up
   FeatureEnvy:
@@ -148,10 +142,6 @@ detectors:
     - ProfileChangeAggregator#merge_membership_changes
     - ProfileChangeAggregator#update_change_set
     - GovukElementsErrorsHelperExtensions#error_html_attributes
-    - GeckoboardPublisher::ProfileDuplicatesReport#add_set
-    - GeckoboardPublisher::ProfileDuplicatesReport#update_set
-    - GeckoboardPublisher::ProfilesChangedReport#find_or_create_set
-    - GeckoboardPublisher::Report#cron_logger
     - S3::ProfileImage#public_read?
     - InitSchema#up
   InstanceVariableAssumption:
@@ -179,9 +169,6 @@ detectors:
     - FileSizeValidator
     - PermanentSecretaryUniqueValidator
     - UserUpdateMailerPreview
-    - GeckoboardPublisher::ProfileDuplicatesReport
-    - GeckoboardPublisher::ProfilesChangedReport
-    - GeckoboardPublisher::ProfilesPercentageReport
   IrresponsibleModule:
     exclude:
     - Admin::ManagementController
@@ -231,7 +218,6 @@ detectors:
     - DataMigrationUtils
     - ExposeMandatoryFields
     - FormFieldOptions
-    - GeckoboardDatasets
     - PersonChangesTracker
     - Placeholder
     - ProfileFields
@@ -342,15 +328,6 @@ detectors:
     - OmniAuth::Strategies::DitssoInternal
     - GovukElementsErrorsHelper
     - GovukElementsErrorsHelperExtensions
-    - GeckoboardPublisher::PhotoProfilesReport
-    - GeckoboardPublisher::ProfileCompletionsReport
-    - GeckoboardPublisher::ProfileDuplicatesReport
-    - GeckoboardPublisher::ProfilesChangedReport
-    - GeckoboardPublisher::ProfilesPercentageReport
-    - GeckoboardPublisher::ProfilesPercentageReport::PercentageOfTotal
-    - GeckoboardPublisher::Report
-    - Object
-    - GeckoboardPublisher::TotalProfilesReport
     - QueryGenerator
     - HealthCheck::ElasticsearchHealthCheck
     - InitSchema
@@ -389,7 +366,6 @@ detectors:
     - PersonUpdater
     - StateManagerCookie
     - CsvPublisher::UserBehaviorReport
-    - GeckoboardPublisher::Report
   NestedIterators:
     exclude:
     - Admin::ProfileExtractsController#people_csv
@@ -433,7 +409,6 @@ detectors:
     - ImageUploader#store_upload_dimensions
     - PreviewHelper#clean_recipient
     - GovukElementsErrorsHelperExtensions#association_attribute_from_attribute
-    - GeckoboardPublisher::ProfileDuplicatesReport#update_set
   RepeatedConditional:
     exclude:
     - ProfileChangeAggregator
@@ -476,8 +451,6 @@ detectors:
     - SpecSupport::Profile#fill_in_complete_profile_details
     - mock_expectations
     - GovukElementsErrorsHelperExtensions#error_tag_for_nested_attribute
-    - GeckoboardPublisher::ProfilesPercentageReport#setup
-    - GeckoboardPublisher::Report#publish!
     - InitSchema#up
   UncommunicativeMethodName:
     exclude:
@@ -539,9 +512,6 @@ detectors:
     - ImageUploader#uploaded_file_dimensions
     - SpecSupport::DbHelper#table_counts
     - SpecSupport::Email#get_message_part
-    - GeckoboardPublisher::Report#publish!
-    - GeckoboardPublisher::Report#test_client
-    - GeckoboardPublisher::Report#unpublish!
     - HealthCheck::ElasticsearchHealthCheck#self.check
     - InitSchema#up
   UtilityFunction:
@@ -578,15 +548,11 @@ detectors:
     - GenerateReportJob#deserialize
     - GenerateReportJob#max_run_time
     - SendNotificationsJob#max_run_time
-    - SendNotificationsJob#notify_geckoboard!
     - SendNotificationsJob#notify_people!
     - UpdateGroupMembersCompletionScoreJob#perform
     - BucketedCompletion#default_bucket_scores
     - Completion#inadequate_profiles_sql
     - Completion#where_people_in
-    - GeckoboardDatasets#non_branch_tip_teams
-    - GeckoboardDatasets#not_in_subteam
-    - GeckoboardDatasets#top_level_teams
     - PersonChangesTracker#membership_key
     - Sanitizable#downcase?
     - Sanitizable#remove_digits?
@@ -652,15 +618,5 @@ detectors:
     - GovukElementsErrorsHelperExtensions#association_from_attribute
     - GovukElementsErrorsHelperExtensions#association_names
     - GovukElementsErrorsHelperExtensions#dom_id_for_nested_error
-    - GeckoboardPublisher::PhotoProfilesReport#fields
-    - GeckoboardPublisher::PhotoProfilesReport#parse
-    - GeckoboardPublisher::ProfileCompletionsReport#fields
-    - GeckoboardPublisher::ProfileCompletionsReport#parse
-    - GeckoboardPublisher::ProfileDuplicatesReport#fields
-    - GeckoboardPublisher::ProfilesChangedReport#fields
-    - GeckoboardPublisher::ProfilesChangedReport#template
-    - GeckoboardPublisher::ProfilesPercentageReport#fields
-    - GeckoboardPublisher::TotalProfilesReport#fields
-    - GeckoboardPublisher::TotalProfilesReport#parse
     - S3::Bucket#aws_s3_client
     - S3::Bucket#profile_image_object
