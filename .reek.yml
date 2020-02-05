@@ -121,7 +121,6 @@ detectors:
     - Admin::ProfileExtractsController#person_row
     - Api::SearchController#people
     - ReportController#zendesk_client
-    - AnalyticsHelper#search_result_analytics_attributes
     - ApplicationHelper#bold_tag
     - BreadcrumbHelper#breadcrumbs
     - BreadcrumbHelper#link_to_breadcrumb_name_unless_current
@@ -208,7 +207,6 @@ detectors:
     - SessionsController
     - VersionsController
     - PersonFormBuilder
-    - AnalyticsHelper
     - ApplicationHelper
     - BreadcrumbHelper
     - ElasticsearchHelper
@@ -649,7 +647,6 @@ detectors:
     - content
     - squish_sql
     - SpecSupport::Search#clean_up_indexes_and_tables
-    - current_user
     - CsvPublisher::UserBehaviorReport#csv_record
     - GovukElementsErrorsHelperExtensions#association_attribute_from_attribute
     - GovukElementsErrorsHelperExtensions#association_from_attribute

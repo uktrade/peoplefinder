@@ -37,7 +37,6 @@ module PeopleHelper
             edit_person_path(person, activity: options[:activity]),
             options
       .except(:activity)
-      .merge(data: edit_profile_analytics_attributes(person.id))
   end
 
   # Why do we need to go to this trouble to repeat new_person/edit_person? you

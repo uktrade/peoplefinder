@@ -10,21 +10,20 @@
 
       .media-body
         %h4.media-heading.cb-person-name
-          = link_to es_highlighter(hit, person, :name), person,
-            { data: search_result_analytics_attributes(index) }
+          = link_to es_highlighter(hit, person, :name), person
         %ul
           - if person.memberships.present?
             %li.cb-person-memberships
               - person.memberships.each.with_index do |membership, idx|
                 - if hit.try(:highlight).try(:role_and_group)
-                  = link_to es_highlighter(hit, person, :role_and_group), membership.group, { data: search_result_analytics_attributes(index) } if idx == 0
+                  = link_to es_highlighter(hit, person, :role_and_group), membership.group if idx == 0
                 - else
                   = "#{ membership.role }, " if membership.role?
-                  = link_to membership.group.name, membership.group, { data: search_result_analytics_attributes(index) }
+                  = link_to membership.group.name, membership.group
           %li.cb-person-phone
             = call_to_with_country_code(person.primary_phone_country, person.phone)
           %li.cb-person-email
-            = mail_to(person.email, es_highlighter(hit, person, :email), data: search_result_analytics_attributes(index) )
+            = mail_to(person.email, es_highlighter(hit, person, :email))
 
           - if person.current_project.present?
             %li.cb-person-current-project.core-16
