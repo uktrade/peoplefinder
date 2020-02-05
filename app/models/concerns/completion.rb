@@ -5,7 +5,6 @@
 #
 module Completion
   extend ActiveSupport::Concern
-  include BucketedCompletion
 
   ADEQUATE_FIELDS = %i[
     country

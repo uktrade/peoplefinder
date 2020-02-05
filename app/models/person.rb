@@ -3,14 +3,12 @@
 class Person < ApplicationRecord
   attr_accessor :working_days
 
-  include Acquisition
-  include Activation
   include Completion
   include FormFieldOptions
-  include ExposeMandatoryFields
   include PersonChangesTracker
-  include DataMigrationUtils
   include ProfileFields
+  include Sanitizable
+  include Searchable
 
   belongs_to :profile_photo
 
@@ -20,8 +18,6 @@ class Person < ApplicationRecord
   def slug_source
     email.present? ? Digest::SHA1.hexdigest(email.split(/@/).first) : name
   end
-
-  include Searchable
 
   def as_indexed_json(_options = {})
     as_json(
@@ -38,7 +34,6 @@ class Person < ApplicationRecord
                   ignore: %i[updated_at created_at id slug login_count last_login_at
                              last_reminder_email_at]
 
-  include Sanitizable
   sanitize_fields :given_name, :surname, strip: true, remove_digits: true
   sanitize_fields :email, strip: true, downcase: true
 

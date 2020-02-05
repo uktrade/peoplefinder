@@ -68,7 +68,6 @@ detectors:
     - SearchHelper#filter_text
     - VersionsHelper#link_to_edited_item
     - UpdateGroupMembersCompletionScoreJob#perform
-    - BucketedCompletion#bucket_case_statement
     - PersonChangesTracker#membership_key
     - Group#slug_candidates
     - Person#self.outside_subteams
@@ -121,9 +120,6 @@ detectors:
     - StateCookieHelper#set_state_cookie_picture_editing_complete
     - VersionsHelper#link_to_edited_item
     - UpdateGroupMembersCompletionScoreJob#error_handler
-    - Acquisition#acquired_people
-    - BucketedCompletion#bucket_case_statement
-    - BucketedCompletion#parse_bucketed_results
     - Group#average_completion_score
     - Version#reify
     - MembershipChangeSet#valid_missing_method
@@ -202,12 +198,7 @@ detectors:
     - PersonDeletionRequestMailer
     - UserUpdateMailer
     - ApplicationRecord
-    - Acquisition
-    - Activation
-    - BucketedCompletion
     - ConcatenatedFields
-    - DataMigrationUtils
-    - ExposeMandatoryFields
     - FormFieldOptions
     - PersonChangesTracker
     - Placeholder
@@ -244,8 +235,6 @@ detectors:
     - UserBehaviorQuery
     - LegacyProfileSerializer
     - PersonSerializer
-    - Deployment
-    - EmailExtractor
     - GroupLister
     - GroupLister::ListedGroup
     - GroupSearch
@@ -459,7 +448,6 @@ detectors:
     - PeopleHelper#learning_and_development_names
     - PeopleHelper#network_names
     - PeopleHelper#profession_names
-    - BucketedCompletion#default_bucket_scores
     - Completion#inadequate_profiles_sql
     - ConcatenatedFields#self.concatenated_field
     - PersonChangesTracker
@@ -483,7 +471,6 @@ detectors:
     - PersonChangesPresenter#work_days_template
     - ProfileChangesPresenter#raw_membership_changes
     - ProfileChangesPresenter#raw_person_changes
-    - EmailExtractor#extract
     - PersonSearch#any_exact_matches?
     - PersonSearch#any_partial_name_matches?
     - StateManagerCookie#to_cookie
@@ -528,7 +515,6 @@ detectors:
     - SendNotificationsJob#max_run_time
     - SendNotificationsJob#notify_people!
     - UpdateGroupMembersCompletionScoreJob#perform
-    - BucketedCompletion#default_bucket_scores
     - Completion#inadequate_profiles_sql
     - Completion#where_people_in
     - PersonChangesTracker#membership_key
@@ -549,9 +535,6 @@ detectors:
     - PersonChangesPresenter#work_days?
     - ProfileChangesPresenter#raw_membership_changes
     - ProfileChangesPresenter#raw_person_changes
-    - EmailExtractor#angled
-    - EmailExtractor#parenthesized
-    - EmailExtractor#valid?
     - GroupLister#scope_with_maximum_depth
     - GroupSearch#hierarchy_ordered
     - GroupSearch#words
