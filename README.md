@@ -25,9 +25,9 @@ docker-compose build
 docker-compose up
 ```
 
-#### Seed database and Elasticsearch with test data
+#### Create database and seed test data
 ```bash
-docker-compose run web bundle exec rake db:create peoplefinder:db:reload
+docker-compose run web bundle exec rake db:create db:schema:load peoplefinder:demo
 ```
 
 #### Run the tests (optional)
