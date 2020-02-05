@@ -3,7 +3,7 @@
     <li>
       <% if children.any? %>
         <strong class="group-tree-has-subgroups"><%= link_to group.name, group %></strong>
-        [<%= link_to 'View tree', tree_group_path(group) %>]
+        [<%= link_to 'Only show subteams of this team', tree_group_path(group) %>]
         <%= render partial: 'tree_level', locals: { groups: children } %>
       <% else %>
         <%= link_to group.name, group %>
