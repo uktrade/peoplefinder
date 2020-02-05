@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe Concerns::ConcatenatedFields do
+RSpec.describe ConcatenatedFields do
   class TestModel
     attr_accessor :field_a, :field_b
 
-    include Concerns::ConcatenatedFields
+    include ConcatenatedFields
     concatenated_field :concatenated, :field_a, :field_b, join_with: ', '
   end
 

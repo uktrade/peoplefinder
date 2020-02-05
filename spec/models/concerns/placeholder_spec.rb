@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-RSpec.describe Concerns::Placeholder do
+RSpec.describe Placeholder do
   class TestModel
     extend ActiveModel::Naming
-    include Concerns::Placeholder
+    include Placeholder
     attr_accessor :field
   end
 

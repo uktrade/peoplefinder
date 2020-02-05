@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Concerns::ProfileFields
+module ProfileFields
   extend ActiveSupport::Concern
 
   def formatted_buildings

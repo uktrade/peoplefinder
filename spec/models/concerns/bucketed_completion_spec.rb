@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Concerns::BucketedCompletion do
+RSpec.describe BucketedCompletion do
   xcontext '.bucketed_completion' do
     def create_bucketed_people
       create(:person)

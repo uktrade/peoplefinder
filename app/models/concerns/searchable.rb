@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Concerns::Searchable
+module Searchable
   extend ActiveSupport::Concern
 
   included do

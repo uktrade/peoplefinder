@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Concerns::ExposeMandatoryFields
+module ExposeMandatoryFields
   extend ActiveSupport::Concern
 
   included do

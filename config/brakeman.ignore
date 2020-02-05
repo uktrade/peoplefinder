@@ -7,7 +7,7 @@
       "check_name": "SendFile",
       "message": "Model attribute used in file name",
       "file": "app/controllers/admin/management_controller.rb",
-      "line": 29,
+      "line": 31,
       "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
       "code": "send_file(Report.find_by(:name => name).to_csv_file, :filename => Report.find_by(:name => name).client_filename, :type => Report.find_by(:name => name).mime_type)",
       "render_path": null,
@@ -23,31 +23,11 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
-      "fingerprint": "a3a768073f322565a93a63bc30ee837cb52945b09b9b580d885d8aa42e5dc595",
-      "check_name": "SQL",
-      "message": "Possible SQL injection",
-      "file": "app/models/concerns/activation.rb",
-      "line": 8,
-      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
-      "code": "acquired_people(:from => from, :before => before).where(\"#{completion_score_calculation} > ?\", 0.8)",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "Concerns::Activation",
-        "method": "activated_percentage"
-      },
-      "user_input": "completion_score_calculation",
-      "confidence": "Weak",
-      "note": "Calls method that returns dynamically generated SQL but with no injection possible"
-    },
-    {
-      "warning_type": "SQL Injection",
-      "warning_code": 0,
       "fingerprint": "cbc7ef3a54f9d006a9d1fd593bed3d4af8776a2103e8463ea145c9efd6a71055",
       "check_name": "SQL",
       "message": "Possible SQL injection",
       "file": "app/jobs/update_group_members_completion_score_job.rb",
-      "line": 25,
+      "line": 24,
       "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
       "code": "Delayed::Job.where(\"substring(handler from 'job_class: #{self.class}') IS NOT NULL\")",
       "render_path": null,
@@ -59,8 +39,28 @@
       "user_input": "self.class",
       "confidence": "Weak",
       "note": "Interpolation of class name, not user input"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "d9826b1b15ef6dcd5e8bc827c53e917fc586c8e8c85b183bb6b62ca57d376f2c",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/concerns/activation.rb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "acquired_people(:from => from, :before => before).where(\"#{completion_score_calculation} > ?\", 0.8)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Activation",
+        "method": "activated_percentage"
+      },
+      "user_input": "completion_score_calculation",
+      "confidence": "Weak",
+      "note": "No user generated input"
     }
   ],
-  "updated": "2018-11-07 12:03:14 +0000",
-  "brakeman_version": "4.3.1"
+  "updated": "2020-02-05 12:38:49 +0000",
+  "brakeman_version": "4.7.2"
 }

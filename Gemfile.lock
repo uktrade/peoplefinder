@@ -112,13 +112,6 @@ GEM
     coderay (1.1.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
-    coffee-rails (5.0.0)
-      coffee-script (>= 2.2.0)
-      railties (>= 5.2.0)
-    coffee-script (2.4.1)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.12.2)
     concurrent-ruby (1.1.5)
     countries (3.0.0)
       i18n_data (~> 0.8.0)
@@ -237,12 +230,6 @@ GEM
     inflection (1.0.0)
     ipaddress (0.8.3)
     jaro_winkler (1.5.4)
-    jasmine-core (3.5.0)
-    jasmine-rails (0.15.0)
-      jasmine-core (>= 1.3, < 4.0)
-      phantomjs (>= 1.9)
-      railties (>= 3.2.0)
-      sprockets-rails
     jmespath (1.4.0)
     jquery-rails (4.3.5)
       rails-dom-testing (>= 1, < 3)
@@ -297,7 +284,6 @@ GEM
     parser (2.7.0.2)
       ast (~> 2.4.0)
     pg (1.2.2)
-    phantomjs (2.1.1.0)
     premailer (1.11.1)
       addressable
       css_parser (>= 1.6.0)
@@ -508,7 +494,6 @@ DEPENDENCIES
   byebug
   capybara
   carrierwave
-  coffee-rails
   country_select
   daemon
   delayed_job
@@ -529,7 +514,6 @@ DEPENDENCIES
   govuk_template
   haml-rails
   health_check
-  jasmine-rails
   jquery-rails
   kramdown
   logstasher

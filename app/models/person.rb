@@ -3,15 +3,15 @@
 class Person < ApplicationRecord
   attr_accessor :working_days
 
-  include Concerns::Acquisition
-  include Concerns::Activation
-  include Concerns::Completion
-  include Concerns::FormFieldOptions
-  include Concerns::ExposeMandatoryFields
-  include Concerns::GeckoboardDatasets
-  include Concerns::PersonChangesTracker
-  include Concerns::DataMigrationUtils
-  include Concerns::ProfileFields
+  include Acquisition
+  include Activation
+  include Completion
+  include FormFieldOptions
+  include ExposeMandatoryFields
+  include GeckoboardDatasets
+  include PersonChangesTracker
+  include DataMigrationUtils
+  include ProfileFields
 
   belongs_to :profile_photo
 
@@ -22,7 +22,7 @@ class Person < ApplicationRecord
     email.present? ? Digest::SHA1.hexdigest(email.split(/@/).first) : name
   end
 
-  include Concerns::Searchable
+  include Searchable
 
   def as_indexed_json(_options = {})
     as_json(
@@ -39,7 +39,7 @@ class Person < ApplicationRecord
                   ignore: %i[updated_at created_at id slug login_count last_login_at
                              last_reminder_email_at]
 
-  include Concerns::Sanitizable
+  include Sanitizable
   sanitize_fields :given_name, :surname, strip: true, remove_digits: true
   sanitize_fields :email, strip: true, downcase: true
 
@@ -172,7 +172,7 @@ class Person < ApplicationRecord
     secondary_phone_country_code.present? ? ISO3166::Country.new(secondary_phone_country_code) : nil
   end
 
-  include Concerns::ConcatenatedFields
+  include ConcatenatedFields
   concatenated_field :location, :location_in_building, :building, :city, join_with: ', '
   concatenated_field :name, :given_name, :surname, join_with: ' '
 

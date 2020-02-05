@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Concerns::BucketedCompletion
+module BucketedCompletion
   extend ActiveSupport::Concern
 
   BUCKETS = [0..19, 20..49, 50..79, 80..100].freeze

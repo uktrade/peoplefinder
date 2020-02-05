@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Concerns::Activation do
+RSpec.describe Activation do
   let(:completed_attributes) do
     {
       given_name: 'Bobby',
