@@ -111,33 +111,6 @@ RSpec.describe Person, type: :model do
     end
   end
 
-  context 'who has never logged in' do
-    before { person.save }
-
-    it 'is returned by .never_logged_in' do
-      expect(described_class.never_logged_in).to include(person)
-    end
-
-    it 'is not returned by .logged_in_at_least_once' do
-      expect(described_class.logged_in_at_least_once).not_to include(person)
-    end
-  end
-
-  context 'who has logged in' do
-    before do
-      person.login_count = 1
-      person.save!
-    end
-
-    it 'is not returned by .never_logged_in' do
-      expect(described_class.never_logged_in).not_to include(person)
-    end
-
-    it 'is returned by .logged_in_at_least_once' do
-      expect(described_class.logged_in_at_least_once).to include(person)
-    end
-  end
-
   describe '#name' do
     context 'with a given_name and surname' do
       let(:person) { build(:person, given_name: 'Jon', surname: 'von Brown') }
@@ -169,19 +142,16 @@ RSpec.describe Person, type: :model do
     let!(:team) { create(:group) }
     let!(:subteam) { create(:group, parent: team) }
 
-    it 'calls PeopleInGroupsQuery with group subtrees' do
-      query = double PeopleInGroupsQuery
-      expect(PeopleInGroupsQuery).to receive(:new).with(team.subtree_ids).and_return(query)
-      expect(query).to receive(:call)
-      described_class.all_in_subtree(team)
+    let!(:person1) { create(:person, :member_of, team: team, role: 'A role') }
+    let!(:person2) { create(:person, :member_of, team: subteam, role: 'Another role') }
+
+    before do
+      person1.memberships.create(group: team, role: 'Side gig')
     end
 
-    it 'returns a ActiveRecord::Relation' do
-      expect(described_class.all_in_subtree(team)).to be_a(ActiveRecord::Relation)
-    end
-
-    it 'returns relation that includes aggregate role_names column' do
-      expect { described_class.all_in_subtree(team).pluck(:role_names) }.not_to raise_error
+    it 'returns people with aggregate role_names column' do
+      expect(described_class.all_in_subtree(team).map(&:role_names))
+        .to eq(['A role, Side gig', 'Another role'])
     end
   end
 

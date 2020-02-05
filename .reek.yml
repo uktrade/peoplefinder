@@ -128,7 +128,6 @@ detectors:
     - MembershipChangesPresenter#team_change_sentence
     - PersonChangesPresenter#add_or_create_work_days
     - PersonChangesPresenter#work_days_template
-    - UserBehaviorQuery#data
     - GroupLister#list
     - PersonSearch#any_partial_match_for?
     - ProfileChangeAggregator#merge_membership_changes
@@ -154,8 +153,6 @@ detectors:
     - MembershipChangeSet
     - MembershipChangesPresenter
     - ProfileChangesPresenter
-    - PeopleLoggedInAtLeastOnceQuery
-    - PeopleNeverLoggedInQuery
     - NotificationSender
     - PersonSearch
     - FileSizeValidator
@@ -226,13 +223,6 @@ detectors:
     - MembershipChangesPresenter::::Hash
     - PersonChangesPresenter
     - ProfileChangesPresenter
-    - BaseQuery
-    - DistinctMembershipQuery
-    - PeopleInGroupsQuery
-    - PeopleLoggedInAtLeastOnceQuery
-    - PeopleNeverLoggedInQuery
-    - ReminderMailOlderThanQuery
-    - UserBehaviorQuery
     - LegacyProfileSerializer
     - PersonSerializer
     - GroupLister
@@ -304,7 +294,6 @@ detectors:
     - OmniAuth::Strategies::DitssoInternal
     - GovukElementsErrorsHelper
     - GovukElementsErrorsHelperExtensions
-    - QueryGenerator
     - HealthCheck::ElasticsearchHealthCheck
     - InitSchema
     - RemoveReminderEmailsFromGroup
@@ -373,8 +362,6 @@ detectors:
     - MembershipChangesPresenter#format
     - PersonChangesPresenter#extra_info_change
     - PersonChangesPresenter#profile_photo_change
-    - UserBehaviorQuery#data
-    - UserBehaviorQuery#team_name_map
     - ProfileChangeAggregator#no_change?
     - StateManagerCookie#initialize
     - ImageUploader#store_upload_dimensions
