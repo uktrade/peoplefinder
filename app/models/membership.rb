@@ -19,7 +19,5 @@ class Membership < ApplicationRecord
   include Concerns::ConcatenatedFields
   concatenated_field :to_s, :group_name, :role, join_with: ', '
 
-  scope :subscribing, -> { where(subscribed: true) }
-
   before_destroy { |m| UpdateGroupMembersCompletionScoreJob.perform_later(m.group) }
 end

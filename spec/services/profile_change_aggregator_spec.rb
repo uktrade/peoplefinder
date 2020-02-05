@@ -81,13 +81,11 @@ describe ProfileChangeAggregator do
             'primary_phone_number' => ['020 27835 2232', '07159 048 3001'],
             'membership_6' => {
               'role' => ['This is a new role in a new group', 'This is a editted role in a new group'],
-              'leader' => [false, true],
-              'subscribed' => [false, true]
+              'leader' => [false, true]
             },
             'membership_2055' => {
               'role' => ['Software Developer', 'Backend Developer'],
-              'leader' => [false, true],
-              'subscribed' => [false, true]
+              'leader' => [false, true]
             }
           }
         end
@@ -104,13 +102,11 @@ describe ProfileChangeAggregator do
             'primary_phone_number' => ['020 27835 2232', '999'],
             'membership_6' => {
               'role' => ['This is a new role in a new group', 'Superhero'],
-              'leader' => [false, true],
-              'subscribed' => [false, true]
+              'leader' => [false, true]
             },
             'membership_2055' => {
               'role' => ['Software Developer', 'Senior Software Developer'],
-              'leader' => [false, true],
-              'subscribed' => [false, true]
+              'leader' => [false, true]
             }
           }
         end
@@ -182,8 +178,7 @@ describe ProfileChangeAggregator do
             'primary_phone_number' => ['020 27835 2232', '07159 048 3001'],
             'membership_6' => {
               'role' => ['This is a new role in a new group', 'This is a editted role in a new group'],
-              'leader' => [false, true],
-              'subscribed' => [false, true]
+              'leader' => [false, true]
             }
           }
         }
@@ -197,8 +192,7 @@ describe ProfileChangeAggregator do
           'raw' => {
             'membership_2055' => {
               'role' => ['Software Developer', 'Backend Developer'],
-              'leader' => [false, true],
-              'subscribed' => [false, true]
+              'leader' => [false, true]
             }
           }
         }
@@ -213,13 +207,11 @@ describe ProfileChangeAggregator do
             'primary_phone_number' => ['07159 048 3001', '999'],
             'membership_2055' => {
               'role' => ['Backend Developer', 'Senior Software Developer'],
-              'leader' => [false, true],
-              'subscribed' => [false, true]
+              'leader' => [false, true]
             },
             'membership_6' => {
               'role' => ['This is a editted role in a new group', 'Superhero'],
-              'leader' => [false, true],
-              'subscribed' => [false, true]
+              'leader' => [false, true]
             }
           }
         }
@@ -274,7 +266,7 @@ describe ProfileChangeAggregator do
         'primary_phone_number' => ['020 7835 2232', '020 7835 2232'],
         'alternative_phone_number' => [nil, ''],
         'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
-        'membership_6' => { 'group_id' => [1, 6], 'role' => %w[dogsbody dogsbody], 'leader' => [false, true], 'subscribed' => [false, true] },
+        'membership_6' => { 'group_id' => [1, 6], 'role' => %w[dogsbody dogsbody], 'leader' => [false, true] },
         'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday'],
         'works_monday' => [true, true]
       }
@@ -282,7 +274,7 @@ describe ProfileChangeAggregator do
       expected_changes = {
         'surname' => %w[Bonstart Bonstart-Smythe],
         'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
-        'membership_6' => { 'group_id' => [1, 6], 'leader' => [false, true], 'subscribed' => [false, true] },
+        'membership_6' => { 'group_id' => [1, 6], 'leader' => [false, true] },
         'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
       }
       actual_changes = aggregator.__send__(:eliminate_noops, changes)
@@ -295,7 +287,7 @@ describe ProfileChangeAggregator do
         'primary_phone_number' => ['020 7835 2232', '020 7835 2232'],
         'alternative_phone_number' => [nil, ''],
         'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
-        'membership_6' => { 'group_id' => [1, 6], 'role' => ['', nil], 'leader' => [false, false], 'subscribed' => [false, true] },
+        'membership_6' => { 'group_id' => [1, 6], 'role' => ['', nil], 'leader' => [false, false] },
         'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday'],
         'works_monday' => [true, true]
       }
@@ -303,7 +295,7 @@ describe ProfileChangeAggregator do
       expected_changes = {
         'surname' => %w[Bonstart Bonstart-Smythe],
         'email' => ['step.bonstart@digital.justice.gov.uk', 'step.bonstart-smythe@digital.justice.gov.uk'],
-        'membership_6' => { 'group_id' => [1, 6], 'subscribed' => [false, true] },
+        'membership_6' => { 'group_id' => [1, 6] },
         'description' => ['Mon-Wed only', 'Tuesday, Wednesday, Friday, Saturday']
       }
       actual_changes = aggregator.__send__(:eliminate_noops, changes)

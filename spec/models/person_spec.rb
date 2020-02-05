@@ -417,8 +417,7 @@ RSpec.describe Person, type: :model do
             '0' => {
               role: 'Service Assessments Lead',
               group_id: ds.id,
-              leader: true,
-              subscribed: false
+              leader: true
             }
           }
         }
@@ -430,8 +429,7 @@ RSpec.describe Person, type: :model do
             {
               group_id: [nil, ds.id],
               role: [nil, 'Service Assessments Lead'],
-              leader: [false, true],
-              subscribed: [true, false]
+              leader: [false, true]
             }
         }
       end

@@ -16,14 +16,12 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
         '0' => {
           role: 'Lead Developer',
           group_id: ds.id,
-          leader: true,
-          subscribed: false
+          leader: true
         },
         '1' => {
           role: 'Senior Developer',
           group_id: csg.id,
-          leader: false,
-          subscribed: true
+          leader: false
         },
         '2' => {
           id: person.memberships.find_by(group_id: dit.id).id,
@@ -52,8 +50,7 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
           person_id: [nil, person.id],
           group_id: [nil, ds.id],
           role: [nil, 'Lead Developer'],
-          leader: [false, true],
-          subscribed: [true, false]
+          leader: [false, true]
         },
         {
           person_id: [nil, person.id],
@@ -81,8 +78,7 @@ RSpec.describe MembershipChangesPresenter, type: :presenter do
               person_id: [nil, person.id],
               group_id: [nil, ds.id],
               role: [nil, 'Lead Developer'],
-              leader: [false, true],
-              subscribed: [true, false]
+              leader: [false, true]
             },
             message: 'Added you to the Digital Services team as Lead Developer. You are a leader of the team'
           }

@@ -121,10 +121,6 @@ class Group < ApplicationRecord
     new_record? || parent.present? || children.empty?
   end
 
-  def subscribers
-    memberships.subscribing.joins(:person).map(&:person)
-  end
-
   private
 
   def only_one_root_group

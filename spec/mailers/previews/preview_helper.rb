@@ -48,7 +48,7 @@ module PreviewHelper
   end
 
   def mass_person_attrs(person)
-    membership = person.reload.memberships.create(group_id: Group.department.id, role: 'Executive Officer', leader: false, subscribed: true)
+    membership = person.reload.memberships.create(group_id: Group.department.id, role: 'Executive Officer', leader: false)
     {
       given_name: 'Frederick',
       surname: 'Reese-Bloggs',
@@ -67,15 +67,13 @@ module PreviewHelper
         '0' => {
           role: 'The Boss',
           group_id: Group.first.id,
-          leader: true,
-          subscribed: false
+          leader: true
         },
         '1' => {
           id: membership.id,
           group_id: membership.group_id,
           role: 'Chief Executive Officer',
-          leader: true,
-          subscribed: false
+          leader: true
         },
         '2' => {
           id: person.memberships.find_by(group_id: Group.department.id).id,
