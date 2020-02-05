@@ -1,8 +1,13 @@
-<ul class="list list-bullet">
+<ul class="list group-tree">
   <% groups.each do |group, children| %>
     <li>
-      <%= link_to group.name, group %>
-      <%= render partial: 'tree_level', locals: { groups: children } %>
+      <% if children.any? %>
+        <strong class="group-tree-has-subgroups"><%= link_to group.name, group %></strong>
+        [<%= link_to 'View tree', tree_group_path(group) %>]
+        <%= render partial: 'tree_level', locals: { groups: children } %>
+      <% else %>
+        <%= link_to group.name, group %>
+      <% end %>
     </li>
   <% end %>
 </ul>

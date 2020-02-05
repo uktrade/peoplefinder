@@ -10,8 +10,9 @@
         = @group.name
 
       %span.pull-right
+        = link_to 'Tree view', tree_group_path(@group), class: 'font-xsmall'
         - if @people_outside_subteams_count > 0
-          = link_to "View #{ pluralize_with_delimiter @people_outside_subteams_count, 'person' } not assigned to a #{team_descriptor}", people_outside_subteams_group_path(@group), class: 'font-xsmall'
+          = link_to "View #{ pluralize_with_delimiter @people_outside_subteams_count, 'person' } not assigned to a #{team_descriptor}", people_outside_subteams_group_path(@group), class: 'font-xsmall pipe-left'
         - if policy(Group).create?
           = link_to "Add new #{team_descriptor}", new_group_group_path(@group), class: 'font-xsmall pipe-left'
 
