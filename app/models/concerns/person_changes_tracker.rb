@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Concerns::PersonChangesTracker
+module PersonChangesTracker
   extend ActiveSupport::Concern
 
   included do

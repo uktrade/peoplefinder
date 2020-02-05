@@ -63,7 +63,6 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'jasmine-rails'
   gem 'rails-controller-testing'
   gem 'rspec-json_expectations'
   gem 'rspec-rails', '~> 4.0.0beta4' # TODO: Unpin when 4.0 release is out

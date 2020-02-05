@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Concerns::Activation
+module Activation
   extend ActiveSupport::Concern
 
   class_methods do

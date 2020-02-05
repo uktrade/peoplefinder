@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Concerns::FormFieldOptions do
+RSpec.describe FormFieldOptions do
   describe '.works_weekends?' do
     let(:weekday_person) { create(:person) }
     let(:weekend_person) { create(:person,  works_saturday: true) }

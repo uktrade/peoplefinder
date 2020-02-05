@@ -2,7 +2,7 @@
 
 # Represents a team and its associated hierarchy
 class Group < ApplicationRecord
-  include Concerns::Placeholder
+  include Placeholder
 
   MAX_DESCRIPTION = 1500
 

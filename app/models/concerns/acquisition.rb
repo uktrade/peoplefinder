@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Concerns::Acquisition
+module Acquisition
   extend ActiveSupport::Concern
 
   class_methods do

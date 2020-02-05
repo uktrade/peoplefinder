@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Concerns::FormFieldOptions
+module FormFieldOptions
   extend ActiveSupport::Concern
 
   included do
