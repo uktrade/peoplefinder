@@ -17,18 +17,9 @@
       %span.download-link
         = link_to 'Teams', admin_team_extract_path(format: :csv), class: "button"
 
-    %h3.heading-small
-      = "User behaviour report"
-
-    #user-behavior-report
-      %span.generate-link
-        = link_to 'generate', admin_generate_user_behavior_report_path, class: "button"
-      %span.download-link
-        = link_to 'download', admin_user_behavior_report_path, class: "button"
-
     %h2.heading-medium.with-border-lg.tool-name
       = t('management.tools_header')
 
     %ul
       %li#audit-trail
-        = link_to 'Audit trail', audit_trail_path
+        = link_to 'Audit trail', audit_trail_path, class: "button"

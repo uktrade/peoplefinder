@@ -12,14 +12,6 @@ module Admin
       admin_user?
     end
 
-    def user_behavior_report?
-      admin_user?
-    end
-
-    def generate_user_behavior_report?
-      admin_user?
-    end
-
     def csv_extract_report?
       admin_user?
     end
