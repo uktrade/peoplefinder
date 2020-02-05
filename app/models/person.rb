@@ -31,8 +31,7 @@ class Person < ApplicationRecord
 
   has_paper_trail versions: { class_name: 'Version' },
                   on: %i[create destroy update],
-                  ignore: %i[updated_at created_at id slug login_count last_login_at
-                             last_reminder_email_at]
+                  ignore: %i[updated_at created_at id slug login_count last_login_at]
 
   sanitize_fields :given_name, :surname, strip: true, remove_digits: true
   sanitize_fields :email, strip: true, downcase: true
@@ -78,19 +77,17 @@ class Person < ApplicationRecord
 
   default_scope { order(surname: :asc, given_name: :asc) }
 
-  scope :never_logged_in, PeopleNeverLoggedInQuery.new
-  scope :logged_in_at_least_once, PeopleLoggedInAtLeastOnceQuery.new
-  scope :last_reminder_email_older_than, ->(within) { ReminderMailOlderThanQuery.new(within).call }
-  scope :updated_at_older_than, ->(within) { where('updated_at < ?', within) }
-  scope :created_at_older_than, ->(within) { where('created_at < ?', within) }
-
   def email_prefix
     email.split('@').first.gsub(/[\W]|[\d]/, '')
   end
 
-  def self.all_in_subtree(group)
-    PeopleInGroupsQuery.new(group.subtree_ids).call
-  end
+  scope :all_in_subtree, lambda { |group|
+    joins(:memberships)
+      .where(memberships: { group_id: group.subtree_ids })
+      .select("people.*,
+            string_agg(CASE role WHEN '' THEN NULL ELSE role END, ', ' ORDER BY role) AS role_names")
+      .group(:id)
+  }
 
   def self.outside_subteams(group)
     unscope(:order)

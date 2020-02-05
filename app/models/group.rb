@@ -31,11 +31,17 @@ class Group < ApplicationRecord
            dependent: :destroy
   has_many :people, through: :memberships
   has_many :leaderships, -> { where(leader: true) }, class_name: 'Membership'
+  has_many :non_leaderships, -> { where(leader: false) }, class_name: 'Membership'
   has_many :leaders, through: :leaderships, source: :person
-
-  def distinct_non_leaderships
-    DistinctMembershipQuery.new(group: self, leadership: false).call
-  end
+  # TODO: Clean up this scope - this is ported from what previously was a query object, and the role_names
+  #       are required in some places. We should find a cleaner way of doing this though!
+  has_many :non_leaders,
+           lambda {
+             select("people.*, string_agg(CASE role WHEN '' THEN NULL ELSE role END, ', ' ORDER BY role) AS role_names")
+               .group('people.id')
+           },
+           through: :non_leaderships,
+           source: :person
 
   validates :name, presence: true
   validates :slug, uniqueness: true
