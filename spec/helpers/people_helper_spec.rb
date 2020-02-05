@@ -141,8 +141,6 @@ RSpec.describe PeopleHelper, type: :helper do
   end
 
   describe 'edit_person_link' do
-    include AnalyticsHelper
-
     let(:person) { create :person, slug: 'fred-bloggs' }
 
     it 'builds an anchor tag reference to edit page for the person' do
@@ -151,11 +149,6 @@ RSpec.describe PeopleHelper, type: :helper do
 
     it 'inserts activity option as url param' do
       expect(edit_person_link('Edit profile', person, activity: 'complete')).to include '?activity=complete'
-    end
-
-    it 'sends message to contruct google analytics attributes' do
-      expect(self).to receive(:edit_profile_analytics_attributes).with(person.id)
-      edit_person_link('Edit profile', person)
     end
   end
 end

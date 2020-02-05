@@ -2,4 +2,4 @@
   - if @group.children.count > 0
     = link_to "View #{pluralize_with_delimiter @group.children.count, 'sub-team'}", '#teams', class: 'font-xsmall'
   - if policy(@group).update?
-    = link_to 'Edit this team', edit_group_path(@group), { class: 'font-xsmall pipe-left', data: edit_team_analytics_attributes(@group.id) }
+    = link_to 'Edit this team', edit_group_path(@group), { class: 'font-xsmall pipe-left' }
