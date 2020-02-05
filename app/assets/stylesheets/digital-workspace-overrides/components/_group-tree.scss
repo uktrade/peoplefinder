@@ -1,37 +1,38 @@
 p.group-tree,
 ul.group-tree,
 ul.group-tree ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 ul.group-tree ul {
-	margin-left: 1.0em;
+  margin-left: 1.0em;
 }
 
 ul.group-tree li {
-	margin-left: 0.35em;
+  margin-left: 0.35em;
   margin-bottom: 0;
-	border-left: thin solid #000;
+  border-left: thin solid #000;
+  line-height: 1.6;
 }
 
 ul.group-tree li:last-child {
-	border-left: none;
+  border-left: none;
 }
 
 ul.group-tree li:before {
-	width: 0.9em;
-	height: 0.6em;
-	margin-right: 0.1em;
-	vertical-align: top;
-	border-bottom: thin solid #000;
-	content: "";
-	display: inline-block;
+  width: 0.9em;
+  height: 0.6em;
+  margin-right: 0.1em;
+  vertical-align: top;
+  border-bottom: thin solid #000;
+  content: "";
+  display: inline-block;
 }
 
 ul.group-tree li:last-child:before {
-	border-left: thin solid #000;
+  border-left: thin solid #000;
 }
 
 .group-tree-has-subgroups {
