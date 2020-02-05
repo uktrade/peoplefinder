@@ -90,7 +90,6 @@ module Peoplefinder
     # Note: ENV is set to 'dev','staging','production' on dev,staging, production respectively
     config.send_reminder_emails = (ENV['ENV'] == 'production')
 
-    # make the geckoboard publisher available generally
     # NOTE: may need to eager load paths instead if lib code is commonly called
     config.autoload_paths << Rails.root.join('lib')
   end

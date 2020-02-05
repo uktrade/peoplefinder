@@ -5,7 +5,6 @@ class SendNotificationsJob < ApplicationJob
 
   def perform
     notify_people!
-    notify_geckoboard!
   end
 
   def max_attempts
@@ -22,13 +21,5 @@ class SendNotificationsJob < ApplicationJob
 
   def notify_people!
     NotificationSender.new.send!
-  end
-
-  def notify_geckoboard!
-    GeckoboardPublisher::PhotoProfilesReport.new.publish!(true)
-    GeckoboardPublisher::ProfilesPercentageReport.new.publish!(true)
-    GeckoboardPublisher::TotalProfilesReport.new.publish!(true)
-    GeckoboardPublisher::ProfilesChangedReport.new.publish!(true)
-    GeckoboardPublisher::ProfileCompletionsReport.new.publish!(true)
   end
 end

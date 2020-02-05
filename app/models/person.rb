@@ -8,7 +8,6 @@ class Person < ApplicationRecord
   include Completion
   include FormFieldOptions
   include ExposeMandatoryFields
-  include GeckoboardDatasets
   include PersonChangesTracker
   include DataMigrationUtils
   include ProfileFields
