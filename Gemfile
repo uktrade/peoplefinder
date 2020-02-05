@@ -61,10 +61,6 @@ group :development do
   gem 'daemon'
 end
 
-group :assets do
-  gem 'coffee-rails'
-end
-
 group :test do
   gem 'capybara'
   gem 'jasmine-rails'
