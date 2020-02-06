@@ -8,20 +8,19 @@ class PersonUpdater
 
   def_delegators :person, :valid?
 
-  attr_reader :person, :current_user, :session_id
+  attr_reader :person, :instigator
 
-  def initialize(person:, current_user:, state_cookie:, session_id: nil)
+  def initialize(person:, instigator:, state_cookie:)
     raise NewRecordError, 'cannot update a new Person record' if person.new_record?
 
     @person = person
-    @current_user = current_user
+    @instigator = instigator
     @state_cookie = state_cookie
-    @session_id = session_id
   end
 
   def update!
     person.save!
-    QueuedNotification.queue!(self) if person.notify_of_change?(@current_user)
+    send_notification
   end
 
   def flash_message
@@ -30,5 +29,18 @@ class PersonUpdater
 
   def edit_finalised?
     @state_cookie.save_profile?
+  end
+
+  private
+
+  def send_notification
+    return unless person.notify_of_change?(instigator)
+
+    changes = ProfileChangesPresenter.new(person.all_changes)
+    UserUpdateMailer.updated_profile_email(
+      person,
+      changes.serialize,
+      instigator.try(:email)
+    ).deliver_later
   end
 end

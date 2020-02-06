@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe PersonUpdater, type: :service do
-  subject { described_class.new(person: person, current_user: current_user, state_cookie: smc) }
+  subject { described_class.new(person: person, instigator: instigator, state_cookie: smc) }
 
   let(:person) do
     double(
@@ -15,15 +15,17 @@ RSpec.describe PersonUpdater, type: :service do
     )
   end
 
-  let(:null_object) { double('null_object').as_null_object }
-  let(:current_user) { double('Current User', email: 'user@example.com') }
+  let(:instigator) { double('Current User', email: 'user@example.com') }
+
+  before do
+    # TODO: This is an implementation detail of MembershipChangesPresenter and we
+    # shouldn't be stubbing this, but I don't want to fix too many issues at the
+    # same time.
+    allow(Group).to receive(:find).and_return(double(Group))
+  end
 
   context 'Saving profile on update' do
     let(:smc) { double StateManagerCookie, save_profile?: true, create?: false }
-
-    before do
-      allow(Group).to receive(:find).and_return null_object
-    end
 
     describe 'initialize' do
       it 'raises an exception if person is a new record' do
@@ -41,45 +43,34 @@ RSpec.describe PersonUpdater, type: :service do
     end
 
     describe 'update!' do
+      let(:mailer) { double('mailer') }
+      let(:changes_presenter) { double(ProfileChangesPresenter, serialize: { foo: 'bar' }) }
+
       it 'saves the person' do
         expect(person).to receive(:save!)
         subject.update!
       end
 
-      it 'stores changes to person for use in update email' do
+      it 'sends an update email if required' do
         expect(person).to receive(:notify_of_change?).and_return(true)
-        expect(QueuedNotification).to receive(:queue!).with(subject)
+        expect(ProfileChangesPresenter).to receive(:new).with(person.all_changes).and_return(changes_presenter)
+        expect(UserUpdateMailer).to receive(:updated_profile_email).with(
+          person,
+          { foo: 'bar' },
+          'user@example.com'
+        ).and_return(mailer)
+        expect(mailer).to receive(:deliver_later)
         subject.update!
       end
 
       it 'sends no update email if not required' do
         allow(person)
           .to receive(:notify_of_change?)
-          .with(current_user)
+          .with(instigator)
           .and_return(false)
-        expect(QueuedNotification).not_to receive(:queue!)
+        expect(UserUpdateMailer).not_to receive(:updated_profile_email)
         subject.update!
       end
-
-      it 'sends creates a queued notification if required' do
-        allow(person)
-          .to receive(:notify_of_change?)
-          .with(current_user)
-          .and_return(true)
-
-        expect(QueuedNotification).to receive(:queue!)
-        subject.update!
-      end
-    end
-  end
-
-  context 'saving profile on create' do
-    let(:smc) { double StateManagerCookie, save_profile?: true, create?: true }
-
-    it 'queues a update notification' do
-      allow(person).to receive(:notify_of_change?).and_return(true)
-      expect(QueuedNotification).to receive(:queue!)
-      subject.update!
     end
   end
 end

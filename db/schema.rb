@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_05_111306) do
+ActiveRecord::Schema.define(version: 2020_02_06_163346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -112,19 +112,6 @@ ActiveRecord::Schema.define(version: 2020_02_05_111306) do
     t.string "image"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "queued_notifications", id: :serial, force: :cascade do |t|
-    t.string "email_template"
-    t.string "session_id"
-    t.integer "person_id"
-    t.integer "current_user_id"
-    t.text "changes_json"
-    t.boolean "edit_finalised", default: false
-    t.datetime "processing_started_at"
-    t.boolean "sent", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "reports", id: :serial, force: :cascade do |t|
