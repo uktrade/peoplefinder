@@ -34,13 +34,10 @@ detectors:
     - BreadcrumbHelper#breadcrumbs
     - SearchResults#initialize
     - SpecSupport::Login#mock_logged_in_user
-    - S3::Bucket#respond_to_missing?
-    - S3::ProfileImage#respond_to_missing?
   ControlParameter:
     exclude:
     - BreadcrumbHelper#adjust_breadcrumb_index
     - PeopleHelper#person_form_class
-    - S3::Bucket#aws_s3_bucket
   DataClump:
     exclude:
     - ApplicationController
@@ -104,7 +101,6 @@ detectors:
     - SpecSupport::Login#omni_auth_log_in_as
     - SpecSupport::Profile#check_creation_of_profile_details
     - GovukElementsErrorsHelperExtensions#error_html_attributes
-    - S3::ProfileImage#public_read?
     - InitSchema#up
   FeatureEnvy:
     exclude:
@@ -133,7 +129,6 @@ detectors:
     - ProfileChangeAggregator#merge_membership_changes
     - ProfileChangeAggregator#update_change_set
     - GovukElementsErrorsHelperExtensions#error_html_attributes
-    - S3::ProfileImage#public_read?
     - InitSchema#up
   InstanceVariableAssumption:
     exclude:
@@ -315,10 +310,6 @@ detectors:
     - Sanitizable#strip?
     - Version#reify
     - ImageUploader#url_or_file
-    - S3::Bucket#method_missing
-    - S3::Bucket#respond_to_missing?
-    - S3::ProfileImage#method_missing
-    - S3::ProfileImage#respond_to_missing?
   MissingSafeMethod:
     exclude:
     - SendNotificationsJob
@@ -421,7 +412,6 @@ detectors:
   UncommunicativeModuleName:
     exclude:
     - Api::V2
-    - S3
   UncommunicativeParameterName:
     exclude:
     - ProfilePhoto#crop
@@ -562,5 +552,3 @@ detectors:
     - GovukElementsErrorsHelperExtensions#association_from_attribute
     - GovukElementsErrorsHelperExtensions#association_names
     - GovukElementsErrorsHelperExtensions#dom_id_for_nested_error
-    - S3::Bucket#aws_s3_client
-    - S3::Bucket#profile_image_object
