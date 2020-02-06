@@ -8,18 +8,6 @@ RSpec.describe MailHelper, type: :helper do
     @virtual_path = 'path.to.view'
   end
 
-  describe '#browser_warning' do
-    subject { browser_warning }
-
-    it 'returns expected text' do
-      expect(subject).to include 'Internet Explorer 6 and 7 users should copy and paste the link below into Firefox'
-    end
-
-    it 'applies class for styling' do
-      expect(subject).to have_selector '.browser-warning'
-    end
-  end
-
   describe '#easy_copy_link_to' do
     subject { easy_copy_link_to url: 'www.example.com' }
 
@@ -41,7 +29,7 @@ RSpec.describe MailHelper, type: :helper do
     end
 
     it 'includes link to intranet' do
-      expect(subject).to have_link 'DIT Intranet', href: 'http://test.local'
+      expect(subject).to have_link 'Digital Workspace', href: 'http://test.local'
     end
   end
 

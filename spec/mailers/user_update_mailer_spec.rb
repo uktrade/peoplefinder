@@ -14,19 +14,6 @@ describe UserUpdateMailer do
   let(:instigator) { create(:person, email: 'instigator.user@digital.justice.gov.uk') }
   let(:person) { create(:person, email: 'test.user@digital.justice.gov.uk', profile_photo_id: 1, description: 'old info') }
 
-  describe '.new_profile_email' do
-    subject(:mail) { described_class.new_profile_email(person, instigator.email).deliver_now }
-
-    include_examples 'common mailer template elements'
-    include_examples "common #{described_class} mail elements"
-
-    it 'includes the person show url' do
-      %w[plain html].each do |part_type|
-        expect(get_message_part(mail, part_type)).to have_text(person_url(person))
-      end
-    end
-  end
-
   describe '.updated_profile_email' do
     subject(:mail) do
       described_class.updated_profile_email(person, serialized_changes, instigator.email).deliver_now

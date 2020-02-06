@@ -3,10 +3,6 @@
 class UserUpdateMailerPreview < ActionMailer::Preview
   include PreviewHelper
 
-  def new_profile_email
-    UserUpdateMailer.new_profile_email(recipient, instigator.email)
-  end
-
   def updated_profile_email
     @dirty ||= dirty_recipient
     UserUpdateMailer.updated_profile_email(

@@ -3,12 +3,6 @@
 module MailHelper
   APP_GUIDANCE_PAGE = (ENV['HOME_PAGE_URL'] || 'http://test.local').freeze
 
-  def browser_warning
-    content_tag(:p, class: 'browser-warning') do
-      mailer_t(:browser_warning)
-    end
-  end
-
   def easy_copy_link_to(url:)
     content_tag(:div, style: 'padding: 10px 25px;') do
       link_to url, url, target: '_blank', rel: 'noopener'
@@ -26,7 +20,7 @@ module MailHelper
   end
 
   def link_to_guidance
-    link_to("#{Rails.configuration.department_abbrev} Intranet", APP_GUIDANCE_PAGE, target: '_blank', rel: 'noopener')
+    link_to('Digital Workspace', APP_GUIDANCE_PAGE, target: '_blank', rel: 'noopener')
   end
 
   # try relative path then specific scope:
