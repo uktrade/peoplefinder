@@ -16,10 +16,7 @@ class PersonCreator
   end
 
   def create!
-    Person.transaction do
-      person.save!
-      QueuedNotification.queue!(self) if person.notify_of_change?(@current_user)
-    end
+    person.save!
   end
 
   def edit_finalised?

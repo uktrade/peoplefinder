@@ -151,7 +151,7 @@ RSpec.describe Person, type: :model do
 
     it 'returns people with aggregate role_names column' do
       expect(described_class.all_in_subtree(team).map(&:role_names))
-        .to eq(['A role, Side gig', 'Another role'])
+        .to contain_exactly('A role, Side gig', 'Another role')
     end
   end
 

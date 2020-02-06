@@ -34,8 +34,7 @@ describe 'Person edit notifications' do
     fill_in 'Last name', with: 'Smelly Pants'
     expect do
       click_button 'Save', match: :first
-    end.to change(QueuedNotification, :count).by(1)
-    expect(QueuedNotification.last.changes_hash['data']['raw']['surname']).to eq(['Smith', 'Smelly Pants'])
+    end.to change { ActionMailer::Base.deliveries.count }.by(1)
   end
 
   it 'Editing a person with same email', user: :regular do

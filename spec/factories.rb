@@ -146,13 +146,4 @@ FactoryBot.define do
       end
     end
   end
-
-  factory :queued_notification do
-    session_id { 'MyString' }
-    person_id { 1 }
-    current_user_id { 1 }
-    changes_json { '{}' }
-    edit_finalised { false }
-    sent { false }
-  end
 end
