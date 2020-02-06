@@ -9,6 +9,7 @@ module PreviewHelper
 
   def recipient
     @recipient ||= Person.find_or_create_by!(
+      ditsso_user_id: 'blah-di-bluh',
       given_name: 'Fred',
       surname: 'Bloggs',
       email: 'fred.bloggs@fake-moj.justice.gov.uk',
@@ -31,6 +32,7 @@ module PreviewHelper
 
   def instigator
     @instigator ||= Person.find_or_create_by!(
+      ditsso_user_id: 'blah-di-blah',
       given_name: 'Insti',
       surname: 'Gator',
       email: 'insti.gator@fake-moj.justice.gov.uk'
@@ -50,6 +52,7 @@ module PreviewHelper
   def mass_person_attrs(person)
     membership = person.reload.memberships.create(group_id: Group.department.id, role: 'Executive Officer', leader: false)
     {
+      ditsso_user_id: 'foobar',
       given_name: 'Frederick',
       surname: 'Reese-Bloggs',
       primary_phone_number: '0123 456 789',

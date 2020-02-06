@@ -18,4 +18,6 @@ Rails.application.configure do
   config.action_mailer.asset_host = ENV['ACTION_MAILER_DEFAULT_URL'] || 'http://localhost:3000'
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = { address: 'localhost', port: 1025 }
+  # TODO: This should not be required, but for some reason Rails does not pick up on the correct path
+  config.action_mailer.preview_path = Rails.root.join('spec/mailers/previews')
 end
