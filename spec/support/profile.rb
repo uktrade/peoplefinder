@@ -102,7 +102,7 @@ module SpecSupport
     end
 
     def click_edit_profile(matcher = :first)
-      click_link('Edit this profile', match: matcher)
+      click_link('Edit profile', match: matcher)
     end
 
     def click_delete_profile(matcher = :first)

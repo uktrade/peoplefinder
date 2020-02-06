@@ -449,39 +449,6 @@ RSpec.describe Person, type: :model do
     end
   end
 
-  describe '#last_reminder_email_at' do
-    it 'is nil on create' do
-      expect(person.last_reminder_email_at).to be_nil
-    end
-
-    it 'can be set to a datetime' do
-      datetime = Time.now.in_time_zone
-      person.last_reminder_email_at = datetime
-      expect(person.last_reminder_email_at).to eq(datetime)
-    end
-  end
-
-  describe '#reminder_email_sent? within 30 days' do
-    it 'is false on create' do
-      expect(person.reminder_email_sent?(within: 30.days)).to be false
-    end
-
-    it 'is true when last_reminder_email_at is today' do
-      person.last_reminder_email_at = Time.now.in_time_zone
-      expect(person.reminder_email_sent?(within: 30.days)).to be true
-    end
-
-    it 'is true when last_reminder_email_at is 30 days ago' do
-      person.last_reminder_email_at = Time.now.in_time_zone - 30.days
-      expect(person.reminder_email_sent?(within: 30.days)).to be true
-    end
-
-    it 'is false when last_reminder_email_at is 31 days ago' do
-      person.last_reminder_email_at = Time.now.in_time_zone - 31.days
-      expect(person.reminder_email_sent?(within: 30.days)).to be false
-    end
-  end
-
   describe '#skip_group_completion_score_updates' do
     before do
       digital_services = create(:group, name: 'Digital Services')

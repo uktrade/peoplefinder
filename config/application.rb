@@ -54,11 +54,6 @@ module Peoplefinder
 
     config.department_abbrev = 'DIT'
 
-    # disabling the adding/editing/deletion of another person's profile
-    config.disable_open_profiles = false
-
-    config.admin_ip_ranges = ENV.fetch('ADMIN_IP_RANGES', '127.0.0.1')
-
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
 
     config.support_email = ENV.fetch('SUPPORT_EMAIL')
@@ -86,9 +81,6 @@ module Peoplefinder
     config.action_mailer.asset_host = config.action_mailer.default_url_options[:protocol] +
                                       '://' +
                                       (config.action_mailer.default_url_options[:host] || 'localhost')
-
-    # Note: ENV is set to 'dev','staging','production' on dev,staging, production respectively
-    config.send_reminder_emails = (ENV['ENV'] == 'production')
 
     # NOTE: may need to eager load paths instead if lib code is commonly called
     config.autoload_paths << Rails.root.join('lib')

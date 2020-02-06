@@ -1,24 +1,3 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
   groups:
     form:
@@ -32,37 +11,14 @@ en:
     formats:
       default: "%d %b %Y %H:%M"
   search:
-    index:
-      results_footer_html: "Can't find the person you're looking for? Why not %{new_profile_link}"
     filter_sidebar:
         filter_results_heading: "Filter by:"
         people_checkbox_label: People
         teams_checkbox_label: Teams
-  sessions:
-    login_page:
-      heading: Request link to access People Finder
-      heading_unauthorised: Log in to edit People Finder
-      intro: |
-        We will email you a secure link so you can log in to People Finder and create or edit profiles. The link will be active for %{ttl}.
-      intro_unauthorised: |
-        For security reasons, you have to be logged in to People Finder to make any changes.
-        We will email you a secure link so you can log in. This link will be active for %{ttl}.
-      heading_ditsso: Got a DIT account?
-      body_ditsso:
-        If you have a DIT account ending in trade.gov.uk, you can log in now.
-      heading_other: Enter your DIT email address
-      log_in_google: Log in
-      log_in_email: Request link
   controllers:
     admin:
-      person_uploads:
-        unauthorised: *unauthorised
-        upload_succeeded: "Successfully uploaded %{count} people"
-        upload_failed: "Upload failed"
       management:
         unauthorised: *unauthorised
-        generate_user_behavior_report: User behaviour report will be processed shortly. Try downloading in 2 minutes
-        file_not_generated: User behaviour report has not been generated. Generate first
     versions:
       unauthorised: *unauthorised
 
@@ -279,42 +235,17 @@ en:
     header: Management
     report_header: Reports
     tools_header: Tools
-  person_uploads:
-    header: Upload people’s details
-    add_new_team: Add new team
-    error_summary_header: There is a problem with the CSV file
-    error_summary_hint: Check below for more detail
-    error_header: Upload CSV file
-    error_blurb: |
-      There were errors in the CSV file, listed below. Update the file then try again.
-    error_table:
-      line_number: Line
-      messages: Error
-      raw: Current content
   person_deletion_request:
     instruction: If %{name} has left the department, please provide details in the form below. Our support team will confirm the details and remove the profile.
     your_details_hint: Your profile details will be included with the request.
   problem_report_mailer:
     problem_report:
       subject: "Problem reported by People Finder user"
-  reminder_mailer:
-    never_logged_in:
-      subject: 'Are your People Finder details up to date?'
-    person_profile_update:
-      subject: 'Are your People Finder details up to date?'
-    team_description_missing:
-      subject: 'Improve your team’s profile on People Finder'
   user_update_mailer:
-    new_profile_email:
-      subject: "You’re on DIT People Finder, check your profile today"
     updated_profile_email:
       subject: "Your profile on DIT People Finder has been edited"
     deleted_profile_email:
       subject: "Your profile on DIT People Finder has been deleted"
-    updated_address_from_email:
-      subject: "This email address has been removed from a profile on DIT People Finder"
-    updated_address_to_email:
-      subject: "This email address has been added to a profile on DIT People Finder"
   errors: &errors
     person:
       general_message: "You need to add more information to complete your profile - see below."
@@ -357,7 +288,6 @@ en:
         group: Team
 
   mailers:
-    browser_warning: Internet Explorer 6 and 7 users should copy and paste the link below into Firefox
     app_guidance_html: "People Finder allows you to update any profile. Find out more about how to use People Finder on the %{link}."
     do_not_reply: This email is automatically generated. Do not reply.
 
@@ -391,7 +321,6 @@ en:
       hint_person_upload_group: |
         You can only upload people’s details to an existing team.
       location_in_building_hint: "For example, 10.30"
-      building_hint: "For example, 102 Petty France"
       city_hint: "For example, London"
       current_project_hint:
         mine: |

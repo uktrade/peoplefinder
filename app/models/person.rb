@@ -171,11 +171,6 @@ class Person < ApplicationRecord
     person_responsible.try(:email) != email
   end
 
-  def reminder_email_sent?(within:)
-    last_reminder_email_at.present? &&
-      last_reminder_email_at.end_of_day >= within.ago
-  end
-
   def email_address_with_name
     address = Mail::Address.new email
     address.display_name = name
