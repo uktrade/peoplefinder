@@ -1,0 +1,20 @@
+<% team_descriptor = @group.root_group? ? 'directorate' : 'team' %>
+<div class="grid-row mod-heading">
+  <div class="column-full">
+    <h2 class="heading-large mod-heading-border">
+      <%= "#{team_descriptor.pluralize.capitalize} within #{@group.short_name}" %>
+      <span class="pull-right">
+        <%= link_to 'View all sub-teams', tree_group_path(@group), class: 'font-xsmall' %>
+        <% if @people_outside_subteams_count > 0 %>
+          <%= link_to "View #{ pluralize_with_delimiter @people_outside_subteams_count, 'person' } not assigned to a #{team_descriptor}", people_outside_subteams_group_path(@group), class: 'font-xsmall pipe-left' %>
+        <% end %>
+        <% if policy(Group).create? %>
+          <%= link_to "Add new #{team_descriptor}", new_group_group_path(@group), class: 'font-xsmall pipe-left' %>
+        <% end %>
+      </span>
+    </h2>
+  </div>
+</div>
+<div class="grid-row mod-subgroups" id="teams">
+  <%= render partial: "subgroup", collection: @group.children %>
+</div>

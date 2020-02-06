@@ -1,0 +1,58 @@
+<% @page_title = @group %>
+<% content_for :body_classes, 'team-page ' %>
+
+<%= render partial: 'breadcrumbs' %>
+
+<div class="grid-row mod-heading">
+  <div class="column-full">
+    <h1 class="heading-xlarge mod-heading-border">
+      <span class="heading-secondary">
+        <%= @group.acronym %>
+      </span>
+      <%= @group.name %>
+      <span class="pull-right">
+        <% if policy(@group).update? %>
+          <%= link_to 'Edit this team', edit_group_path(@group), { class: 'font-xsmall pipe-left' } %>
+        <% end %>
+      </span>
+    </h1>
+  </div>
+</div>
+
+<div class="grid-row mod-team-overview">
+  <div class="column-one-third cb-leaders">
+    <% if @group.leaderships.count > 0 %>
+      <h3 class="heading-medium">
+        <%= "Team #{'leader'.pluralize(@group.leaderships.count)}" %>
+      </h3>
+      <% @group.leaderships_by_person.each do |person, leaderships| %>
+        <%= render partial: 'leaderships', object: leaderships, locals: { person: person, counter: @group.leaderships.count } %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="column-two-thirds">
+    <h3 class="heading-medium">
+      <%= "About the team" %>
+    </h3>
+    <div class="mod-wrap-text formatted-text">
+      <%= markdown(@group.with_placeholder_default(:description)) %>
+    </div>
+
+    <% unless @group.leaf_node? %>
+      <% if @all_people_count > 0 && @group.parent.present? %>
+        <%= link_to "View #{ @all_people_count > 1 ? 'all' : '' } people", people_group_path(@group), class: 'view-all-people' %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+<% if @group.leaf_node? %>
+  <%= render partial: "people_in_team" %>
+<% else %>
+  <%= render partial: "teams_in_team" %>
+<% end %>
+
+<% unless @versions.nil? %>
+  <%= render 'shared/audit', versions: @versions %>
+<% end %>
