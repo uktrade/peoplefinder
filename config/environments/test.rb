@@ -18,7 +18,4 @@ Rails.application.configure do
   }
   config.action_mailer.asset_host = 'http://www.example.com'
   config.active_job.queue_adapter = :test
-
-  # enable these features just for tests
-  config.disable_open_profiles = false
 end

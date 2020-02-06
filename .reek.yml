@@ -281,6 +281,7 @@ detectors:
     - RemoveReminderEmailsFromGroup
     - RemoveSubscribedFromMemberships
     - DeleteQueuedNotifications
+    - RemoveReminderEmailFromPeople
   LongParameterList:
     exclude:
     - PersonFormBuilder#check_box
@@ -349,7 +350,6 @@ detectors:
     - PersonSearch
   TooManyMethods:
     exclude:
-    - ApplicationController
     - Group
     - Person
     - PersonSearch
@@ -431,7 +431,6 @@ detectors:
   UtilityFunction:
     exclude:
     - Admin::TeamExtractsController#group_row
-    - ApplicationController#can_edit_profiles?
     - PeopleController#build_membership
     - SessionsController#person_from_oauth
     - PersonFormBuilder#label_t

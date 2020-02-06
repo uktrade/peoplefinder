@@ -17,10 +17,6 @@ class SearchController < ApplicationController
     search.perform_search
   end
 
-  def can_add_person_here?
-    can_edit_profiles?
-  end
-
   def query
     params[:query]
   end
