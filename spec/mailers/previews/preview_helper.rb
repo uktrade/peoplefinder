@@ -14,8 +14,7 @@ module PreviewHelper
       surname: 'Bloggs',
       email: 'fred.bloggs@fake-moj.justice.gov.uk',
       primary_phone_number: '0555 555 555',
-      location_in_building: 'room 101',
-      description: 'old info'
+      location_in_building: 'room 101'
     ) do |person|
       person.memberships << Membership.new(group_id: Group.department.id)
     end
@@ -57,14 +56,11 @@ module PreviewHelper
       surname: 'Reese-Bloggs',
       primary_phone_number: '0123 456 789',
       secondary_phone_number: '07708 139 313',
-      pager_number: '0113 432 567',
       email: 'fred.reese-bloggs@fake-moj.justice.gov.uk',
       location_in_building: '',
       city: 'Manchester',
-      current_project: 'Office 365 Rollout',
       works_monday: false,
       works_saturday: true,
-      description: 'new info',
       profile_photo_id: 1,
       memberships_attributes: {
         '0' => {

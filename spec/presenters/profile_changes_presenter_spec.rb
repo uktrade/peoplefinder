@@ -13,8 +13,7 @@ RSpec.describe ProfileChangesPresenter, type: :presenter do
     create(
       :person,
       email: old_email,
-      location_in_building: '10.51',
-      description: nil
+      location_in_building: '10.51'
     )
   end
 
@@ -25,15 +24,12 @@ RSpec.describe ProfileChangesPresenter, type: :presenter do
       surname: 'Reese-Bloggs',
       primary_phone_number: '0123 456 789',
       secondary_phone_number: '07708 139 313',
-      pager_number: '0113 432 567',
       email: new_email,
       location_in_building: '',
       building: 'St Pancras',
       city: 'Manchester',
-      current_project: 'Office 365 Rollout',
       works_monday: false,
       works_saturday: true,
-      description: 'new info',
       profile_photo_id: 1,
       memberships_attributes: {
         '0' => {

@@ -25,13 +25,6 @@
           %li.cb-person-email
             = mail_to(person.email, es_highlighter(hit, person, :email))
 
-          - if person.current_project.present?
-            %li.cb-person-current-project.core-16
-              %span.bold
-                Current project(s)
-              %br/
-              = es_highlighter(hit, person, :current_project)
-
           - if person.languages.present?
             %li.cb-person-languages.core-16
               %span.bold

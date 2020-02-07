@@ -12,7 +12,6 @@ RSpec.describe Person, type: :model do
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to have_many(:groups) }
 
-  it { is_expected.to respond_to(:pager_number) }
   it { is_expected.to respond_to(:skip_group_completion_score_updates) }
 
   context 'test factory' do
@@ -298,7 +297,6 @@ RSpec.describe Person, type: :model do
           works_monday: false,
           works_saturday: true,
           profile_photo_id: 2,
-          description: 'changed info',
           memberships_attributes: {
             '0' => {
               role: 'Service Assessments Lead',

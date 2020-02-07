@@ -8,7 +8,6 @@ FactoryBot.define do
   sequence(:city) { |n| format('Megacity %d', n) }
   sequence(:country) { |n| format('Country %d', n) }
   sequence(:primary_phone_number) { |n| format('07708 %06d', (900_000 + n)) }
-  sequence(:pager_number) { |n| format('07600 %06d', (900_000 + n)) }
   sequence(:phone_number) { |n| format('07700 %06d', (900_000 + n)) }
   sequence(:ditsso_user_id) { |n| format('00000000-0000-0000-0000-00000000%04d', n) }
 
@@ -50,7 +49,6 @@ FactoryBot.define do
 
     trait :with_details do
       primary_phone_number
-      pager_number
       country
       city
     end

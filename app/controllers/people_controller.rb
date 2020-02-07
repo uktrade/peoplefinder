@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# FIXME: Refactor this controller - it's too long
 class PeopleController < ApplicationController
   include StateCookieHelper
 
@@ -76,15 +75,15 @@ class PeopleController < ApplicationController
   end
 
   def person_params_list
-    [
-      :given_name, :surname, :location_in_building, :city, :country,
-      :primary_phone_number, :primary_phone_country_code, :skype_name,
-      :secondary_phone_number, :secondary_phone_country_code,
-      :email, :secondary_email, :language_intermediate, :language_fluent,
-      :profile_photo_id, :crop_x, :crop_y, :crop_w, :crop_h,
-      :description, :current_project, :previous_positions, :grade,
-      :other_uk, :other_overseas, *Person::DAYS_WORKED, :pronouns,
-      :other_key_skills, :other_learning_and_development, :other_additional_responsibilities,
+    %i[
+      given_name surname location_in_building city country primary_phone_number
+      primary_phone_country_code skype_name secondary_phone_number
+      secondary_phone_country_code email language_intermediate language_fluent
+      profile_photo_id crop_x crop_y crop_w crop_h previous_positions grade
+      other_uk other_overseas pronouns other_key_skills other_learning_and_development
+      other_additional_responsibilities
+    ] + [
+      *Person::DAYS_WORKED,
       building: [], key_skills: [], learning_and_development: [], networks: [],
       key_responsibilities: [], additional_responsibilities: [], professions: [],
       memberships_attributes: %i[id role group_id leader _destroy]

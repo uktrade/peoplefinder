@@ -67,10 +67,8 @@ class PersonSearch
 
   def any_partial_match?(person)
     %i[
-      description
       role_and_group
       location
-      current_project
       languages
       formatted_key_skills
       formatted_learning_and_development
@@ -194,7 +192,6 @@ class PersonSearch
       role_and_group^6
       phone_number_variations^5
       languages^5
-      current_project^4
       location^4
       formatted_key_skills^4
       formatted_learning_and_development^4
@@ -227,7 +224,6 @@ class PersonSearch
     {
       name: {},
       role_and_group: {},
-      current_project: {},
       email: {},
       languages: {},
       formatted_key_skills: {},

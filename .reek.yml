@@ -76,7 +76,6 @@ detectors:
     - MembershipChangesPresenter#role_change
     - MembershipChangesPresenter#role_change_sentence
     - MembershipChangesPresenter#team_change_sentence
-    - PersonChangesPresenter#extra_info_change
     - PersonChangesPresenter#profile_photo_change
     - PersonChangesPresenter#work_days_template
     - LegacyProfileSerializer#as_json
@@ -156,6 +155,7 @@ detectors:
     - GroupsController
     - HomeController
     - PagesController
+    - PeopleController
     - PersonDeletionRequestController
     - PersonImageController
     - ProfilePhotosController
@@ -282,6 +282,7 @@ detectors:
     - RemoveSubscribedFromMemberships
     - DeleteQueuedNotifications
     - RemoveReminderEmailFromPeople
+    - RemoveLegacyPeopleFields
   LongParameterList:
     exclude:
     - PersonFormBuilder#check_box
@@ -336,7 +337,6 @@ detectors:
     - MembershipChangeSet#removed?
     - MembershipChangesPresenter#each_pair
     - MembershipChangesPresenter#format
-    - PersonChangesPresenter#extra_info_change
     - PersonChangesPresenter#profile_photo_change
     - StateManagerCookie#initialize
     - ImageUploader#store_upload_dimensions
@@ -367,7 +367,6 @@ detectors:
     - BreadcrumbHelper#link_to_breadcrumb_name_unless_current
     - MembershipChangeSet#method_missing
     - MembershipChangesPresenter#format
-    - PersonChangesPresenter#format
     - PersonSearch#combined_search
     - ImageDimensionsValidator#validate_each
     - create_test_data
@@ -411,7 +410,6 @@ detectors:
     - MembershipChangesPresenter#group_id_change
     - MembershipChangesPresenter#leader_change
     - MembershipChangesPresenter#role_change
-    - PersonChangesPresenter#extra_info_change
     - PersonChangesPresenter#profile_photo_change
     - PersonChangesPresenter#work_days_template
     - ProfileChangesPresenter#raw_membership_changes
@@ -471,8 +469,6 @@ detectors:
     - MembershipChangeSet#team
     - MembershipChangesPresenter#bespoke_rule?
     - MembershipChangesPresenter#team_name
-    - PersonChangesPresenter#extra_info?
-    - PersonChangesPresenter#extra_info_sentence
     - PersonChangesPresenter#profile_photo?
     - PersonChangesPresenter#profile_photo_sentence
     - PersonChangesPresenter#work_days?

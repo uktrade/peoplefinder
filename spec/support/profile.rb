@@ -11,7 +11,6 @@ module SpecSupport
         primary_phone_country_code: '+44',
         secondary_phone_number: '718-555-1212',
         secondary_phone_country_code: '+1',
-        pager_number: '07666666666',
         location_in_building: '10.999',
         city: 'London',
         country: 'United Kingdom'

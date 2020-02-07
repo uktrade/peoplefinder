@@ -21,7 +21,7 @@ class Person < ApplicationRecord
 
   def as_indexed_json(_options = {})
     as_json(
-      only: %i[surname current_project email],
+      only: %i[surname email],
       methods: %i[
         name role_and_group location languages phone_number_variations
         formatted_key_skills formatted_learning_and_development
@@ -66,7 +66,6 @@ class Person < ApplicationRecord
   attr_accessor :skip_must_have_surname
   validates :surname, presence: true, unless: :skip_must_have_surname
   validates :email, presence: true, email: true
-  validates :secondary_email, email: true, allow_blank: true
 
   has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
   has_many :groups, through: :memberships
