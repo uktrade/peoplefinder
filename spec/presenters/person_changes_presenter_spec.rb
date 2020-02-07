@@ -11,8 +11,8 @@ RSpec.describe PersonChangesPresenter, type: :presenter do
     create(
       :person,
       email: old_email,
-      location_in_building: '10.51',
-      description: nil
+      country: nil,
+      location_in_building: '10.51'
     )
   end
 
@@ -61,8 +61,8 @@ RSpec.describe PersonChangesPresenter, type: :presenter do
     before do
       person.email = new_email
       person.location_in_building = ''
+      person.country = ''
       person.primary_phone_number = '01234, 567 890'
-      person.description = ''
     end
 
     it_behaves_like '#changes on changes_presenter'
@@ -72,7 +72,7 @@ RSpec.describe PersonChangesPresenter, type: :presenter do
     end
 
     it 'ignores empty strings as changes' do
-      expect(subject).not_to have_key :description
+      expect(subject).not_to have_key :country
     end
 
     it 'returns single message for work days' do
@@ -99,7 +99,6 @@ RSpec.describe PersonChangesPresenter, type: :presenter do
       person.email = 'changed.user@digital.justice.gov.uk'
       person.location_in_building = ''
       person.primary_phone_number = ' 01234, 567 890'
-      person.description = ''
     end
 
     include_examples 'serializability'

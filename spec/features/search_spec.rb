@@ -14,7 +14,6 @@ describe 'Searching feature', elastic: true do
                   surname: 'Browne',
                   email: 'jon.browne@digital.justice.gov.uk',
                   primary_phone_number: '0711111111',
-                  current_project: 'Digital Prisons',
                   language_fluent: 'Spanish, Italian',
                   key_skills: ['interviewing']
     )
@@ -23,8 +22,7 @@ describe 'Searching feature', elastic: true do
       given_name: 'Dodgy<script> alert(\'XSS\'); </script>',
       surname: 'Bloke',
       email: 'dodgy.bloke@digital.justice.gov.uk',
-      primary_phone_number: '0711111111',
-      current_project: 'Digital Prisons'
+      primary_phone_number: '0711111111'
     )
   end
 
@@ -72,7 +70,6 @@ describe 'Searching feature', elastic: true do
       expect(page).to have_text('Jon Browne')
       expect(page).to have_text('jon.browne@digital.justice.gov.uk')
       expect(page).to have_text('0711111111')
-      expect(page).to have_text('Digital Prisons')
     end
   end
 

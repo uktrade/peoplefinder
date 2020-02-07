@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_06_183411) do
+ActiveRecord::Schema.define(version: 2020_02_07_092037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,7 +62,6 @@ ActiveRecord::Schema.define(version: 2020_02_06_183411) do
     t.text "primary_phone_number"
     t.text "secondary_phone_number"
     t.text "location_in_building"
-    t.text "description"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean "works_monday", default: true
@@ -77,10 +76,7 @@ ActiveRecord::Schema.define(version: 2020_02_06_183411) do
     t.datetime "last_login_at"
     t.boolean "super_admin", default: false
     t.text "city"
-    t.text "secondary_email"
     t.integer "profile_photo_id"
-    t.string "current_project"
-    t.text "pager_number"
     t.text "primary_phone_country_code"
     t.string "building", default: [], array: true
     t.string "country"
@@ -95,7 +91,6 @@ ActiveRecord::Schema.define(version: 2020_02_06_183411) do
     t.string "additional_responsibilities", default: [], array: true
     t.text "other_uk"
     t.text "other_overseas"
-    t.string "internal_auth_key"
     t.string "other_key_skills"
     t.string "other_learning_and_development"
     t.string "other_additional_responsibilities"

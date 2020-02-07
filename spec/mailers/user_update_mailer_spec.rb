@@ -12,7 +12,7 @@ describe UserUpdateMailer do
   end
 
   let(:instigator) { create(:person, email: 'instigator.user@digital.justice.gov.uk') }
-  let(:person) { create(:person, email: 'test.user@digital.justice.gov.uk', profile_photo_id: 1, description: 'old info') }
+  let(:person) { create(:person, email: 'test.user@digital.justice.gov.uk', profile_photo_id: 1) }
 
   describe '.updated_profile_email' do
     subject(:mail) do
@@ -33,7 +33,6 @@ describe UserUpdateMailer do
         works_monday: false,
         works_saturday: true,
         profile_photo_id: 2,
-        description: 'changed info',
         memberships_attributes: {
           '0' => {
             role: 'Lead Developer',
@@ -159,12 +158,6 @@ describe UserUpdateMailer do
         %w[plain html].each do |part_type|
           expect(get_message_part(mail, part_type)).to have_content(/Changed your profile photo/m, normalize_ws: true)
           expect(get_message_part(mail, part_type)).not_to have_content(/Changed your profile photo id from/m, normalize_ws: true)
-        end
-      end
-
-      it 'includes extra info changes' do
-        %w[plain html].each do |part_type|
-          expect(get_message_part(mail, part_type)).to have_content(/Changed your extra information/m, normalize_ws: true)
         end
       end
     end

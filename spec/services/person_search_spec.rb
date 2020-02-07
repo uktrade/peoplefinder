@@ -6,11 +6,10 @@ require_relative 'shared_examples_for_search'
 RSpec.describe PersonSearch, elastic: true do
   before(:all) do
     clean_up_indexes_and_tables
-    @alice = create(:person, given_name: 'Alice', surname: 'Andrews', current_project: 'digital project')
+    @alice = create(:person, given_name: 'Alice', surname: 'Andrews')
     @bob = create(:person, given_name: 'Bob', surname: 'Browning',
                            location_in_building: '10th floor', building: ['102 Petty France'],
-                           city: 'London', description: 'weekends only',
-                           current_project: 'Current project',
+                           city: 'London',
                            language_fluent: 'Spanish, Italian',
                            language_intermediate: 'Hindi',
                            key_skills: ['interviewing'],
@@ -36,9 +35,9 @@ RSpec.describe PersonSearch, elastic: true do
 
     @peter_smithson = create(:person, given_name: 'Peter', surname: 'Smithson')
     @pete_smithson = create(:person, given_name: 'Pete', surname: 'Smithson')
-    @peter_smithson_pa = create(:person, given_name: 'Harold', surname: 'Jone', description: 'PA to Peter Smithson')
+    @peter_smithson_pa = create(:person, given_name: 'Harold', surname: 'Jone')
 
-    @steve_richards = create(:person, given_name: 'Steve', surname: 'Richards', current_project: 'PF')
+    @steve_richards = create(:person, given_name: 'Steve', surname: 'Richards')
     @steven_richards = create(:person, given_name: 'Steven', surname: 'Richards')
     @stephen_richards = create(:person, given_name: 'Stephen', surname: 'Richards')
     @steve_richardson = create(:person, given_name: 'Steve', surname: 'Richardson')
@@ -107,12 +106,6 @@ RSpec.describe PersonSearch, elastic: true do
       expect(results.contains_exact_match).to eq true
     end
 
-    it 'searches by single word non-name match' do
-      results = search_for('Digital')
-      expect(results.set.map(&:name)).to match_array [@alice.name, @bob.name, @john_smyth.name]
-      expect(results.contains_exact_match).to eq true
-    end
-
     it 'puts name synonym matches in results' do
       results = search_for('Abe Kiehn')
       expect(results.set.map(&:name)).to match_array [@abraham_kiehn.name, @abe.name]
@@ -129,12 +122,6 @@ RSpec.describe PersonSearch, elastic: true do
       results = search_for('Director at digiTAL Services')
       expect(results.set.map(&:name)).to include(@bob.name, @john_smyth.name)
       expect(results.contains_exact_match).to eq false
-    end
-
-    it 'searches by description, current_project, group and role ' do
-      results = search_for('Digital Project')
-      expect(results.set.map(&:name)).to include(@bob.name, @john_smyth.name)
-      expect(results.contains_exact_match).to eq true
     end
 
     it 'searches by language_fluent' do
@@ -163,12 +150,6 @@ RSpec.describe PersonSearch, elastic: true do
 
     it 'searches by location' do
       results = search_for('petty france')
-      expect(results.set.map(&:name)).not_to include(@alice.name)
-      expect(results.set.map(&:name)).to include(@bob.name)
-    end
-
-    it 'searches by description, location' do
-      results = search_for('weekends only petty france office')
       expect(results.set.map(&:name)).not_to include(@alice.name)
       expect(results.set.map(&:name)).to include(@bob.name)
     end

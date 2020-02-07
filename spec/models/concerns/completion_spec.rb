@@ -12,7 +12,6 @@ RSpec.describe Completion do
       location_in_building: '13.13',
       country: 'GB',
       city: 'London',
-      description: 'I am a real person',
       profile_photo_id: profile_photo.id
     }
   end
