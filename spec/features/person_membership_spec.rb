@@ -22,9 +22,7 @@ describe 'Person maintenance' do
     fill_in 'Job title', match: :first, with: 'Head Honcho'
     click_button 'Save', match: :first
 
-    membership = Person.last.memberships.last
-    expect(membership.role).to eql('Head Honcho')
-    expect(page).to have_selector('.cb-job-title', text: 'Head Honcho in Digital Justice')
+    expect(page).to have_selector('.cb-job-title', text: 'Head Honcho in Digital Justice', normalize_ws: true)
   end
 
   it 'Leaving the job title blank', js: true do
@@ -40,7 +38,7 @@ describe 'Person maintenance' do
     within('.profile') { expect(page).not_to have_selector('.cb-job-title') }
   end
 
-  xit 'Changing team membership via clicking "Back"', js: true do
+  it 'Changing team membership via clicking "Back"', js: true do
     group = setup_three_level_team
     person = setup_team_member group
 
@@ -54,7 +52,6 @@ describe 'Person maintenance' do
     within('.team.selected') { click_link 'Back' }
     expect(page).to have_selector('a.subteam-link', text: /CSG/, visible: :visible)
 
-    # FIXME: Test below this is flaky
     within('.team.selected') { click_link 'CSG' }
     click_link 'Done'
     expect(page).to have_selector('.editable-fields', visible: :hidden)

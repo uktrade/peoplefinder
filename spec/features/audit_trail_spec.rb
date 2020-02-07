@@ -103,32 +103,30 @@ describe 'Audit trail' do
     end
   end
 
-  # FIXME: works via app but not here
-  it 'Auditing the deletion of a membership', skip: 'FIXME: works via app but not here' do
-    group = create(:group, name: 'Digital Justice')
-    person = create(:person, given_name: 'Joe', surname: 'Bob')
-    person.memberships.destroy_all
-    person.memberships.create(group: group, role: 'Jefe', leader: true)
+  it 'Auditing the deletion of a membership', js: true do
+    group1 = create(:group, name: 'Test Group 1')
+    group2 = create(:group, name: 'Test Group 2')
+    person = create(:person)
+    person.memberships.create!(
+      [
+        { group: group1, leader: false, role: 'Individual' },
+        { group: group2, leader: true, role: 'Jefe' }
+      ]
+    )
 
-    Timecop.freeze(1.day.from_now) do
-      with_versioning do
-        visit edit_person_path(person)
-        within last_membership do
-          click_link 'Leave team'
-        end
-        click_button 'Save'
+    with_versioning do
+      visit edit_person_path(person)
+      within last_membership do
+        click_link 'Leave team'
       end
+      click_button 'Save'
     end
 
     visit '/audit_trail'
 
-    within('tbody tr:first-child') do
-      expect(page).to have_text('Deleted Membership')
-      expect(page).to have_text('Person was: Joe Bob')
-      expect(page).to have_text('Team was: Digital Justice')
-      expect(page).to have_text('Job title was: Jefe')
-      expect(page).to have_text('Leader was: Yes')
-      expect(page).not_to have_button 'undo'
-    end
+    expect(page).to have_text('Deleted Membership')
+    expect(page).to have_text('Team was: Test Group')
+    expect(page).to have_text('Job title was: Jefe')
+    expect(page).to have_text('Leader was: Yes')
   end
 end

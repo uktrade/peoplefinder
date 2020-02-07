@@ -241,8 +241,7 @@ RSpec.describe PersonSearch, elastic: true do
 
         it 'returns people in order of given names distance from exact name' do
           actual_steves = results.set.map(&:name).map(&:split).map(&:first).uniq
-          expect(actual_steves).to match_array expected_steves
-          expect(actual_steves.last).to eql expected_steves.last
+          expect(actual_steves).to eq(expected_steves)
         end
       end
 

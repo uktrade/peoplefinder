@@ -3,8 +3,6 @@
 require 'rails_helper'
 
 describe 'Searching feature', elastic: true do
-  extend FeatureFlagSpecHelper
-
   def create_test_data
     group = create(:group, name: 'HMP Wilsden')
     create(

@@ -41,12 +41,7 @@ Capybara.server = :webrick
 Capybara.javascript_driver = :chrome
 Capybara.default_max_wait_time = 3
 
-# The feature tests check hidden elements using Capybara, which used to work but doesn't anymore, so we
-# need to enable this setting.
-Capybara.ignore_hidden_elements = false
-
 Dir[File.expand_path('../{lib,app/*}', __dir__)].sort.each do |path|
-  $LOAD_PATH.unshift(path) unless $LOAD_PATH.include?(path)
 end
 
 Dir[File.expand_path('support/**/*.rb', __dir__)].sort.each { |f| require f }
@@ -63,9 +58,6 @@ RSpec.configure do |config|
   config.include SpecSupport::OrgBrowser
   config.include SpecSupport::Email
   config.include SpecSupport::Profile
-  config.include SpecSupport::DbHelper
-  config.include SpecSupport::ElasticSearchHelper
-  config.include SpecSupport::FeatureFlags
   config.include SpecSupport::AppConfig
 
   config.infer_spec_type_from_file_location!
