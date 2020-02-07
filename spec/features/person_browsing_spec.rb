@@ -16,18 +16,17 @@ describe 'Person browsing' do
     expect(page).to have_current_path(person_path(Digest::SHA1.hexdigest('john.doe')))
   end
 
-  it 'Using breadcrumbs on a profile page', skip: 'HELP REQUIRED' do
-    group_a = create_group_hierarchy('Ministry of Justice', 'Apple', 'Biwa')
-    group_b = create_group_hierarchy('Ministry of Justice', 'Cherry', 'Durian')
-    person = create(:person)
-    create(:membership, person: person, group: group_a)
-    create(:membership, person: person, group: group_b)
+  it 'Using breadcrumbs on a profile page' do
+    baz = create_group_hierarchy('DIT', 'Foo', 'Bar', 'Baz')
+    person = create(:person, :member_of, team: baz)
 
-    visit group_path(group_b)
-    click_link person.name
+    visit person_path(person)
 
-    expect(page).to have_selector('dd.breadcrumbs ol li a', text: 'Biwa')
-    expect(page).to have_selector('dd.breadcrumbs ol li a', text: 'Durian')
+    expect(page).to have_selector('.breadcrumbs ol li a', text: 'DIT')
+    expect(page).to have_selector('.breadcrumbs ol li a', text: 'Foo')
+    expect(page).to have_selector('.breadcrumbs ol li a', text: 'Bar')
+    expect(page).to have_selector('.breadcrumbs ol li a', text: 'Baz')
+    expect(page).to have_selector('.breadcrumbs ol li', text: person.name)
   end
 
   describe 'Days worked' do
@@ -52,7 +51,7 @@ describe 'Person browsing' do
   end
 
   def create_group_hierarchy(*names)
-    group = nil
+    group = create(:department)
     names.each do |name|
       group = Group.find_by(name: name) || create(:group, parent: group, name: name)
     end
