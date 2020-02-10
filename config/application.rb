@@ -7,11 +7,11 @@ require 'active_model/railtie'
 require 'active_job/railtie'
 require 'active_record/railtie'
 require 'action_controller/railtie'
-require 'action_mailer/railtie'
 require 'action_view/railtie'
 require 'sprockets/railtie'
 require 'rails/test_unit/railtie'
 # require 'action_mailbox/engine'
+# require 'action_mailer/railtie'
 # require 'action_text/engine'
 # require 'active_storage/engine'
 
@@ -58,10 +58,6 @@ module Peoplefinder
 
     config.support_email = ENV.fetch('SUPPORT_EMAIL')
 
-    config.action_mailer.default_options = {
-      from: config.support_email
-    }
-
     config.govuk_notify_api_key = ENV['GOVUK_NOTIFY_API_KEY']
 
     config.active_job.queue_adapter = :delayed_job
@@ -74,15 +70,6 @@ module Peoplefinder
     config.elastic_search_url = ENV['ES_URL']
 
     config.rack_timeout = (ENV['RACK_TIMEOUT'] || 14)
-
-    config.action_mailer.default_url_options = {
-      host: ENV['ACTION_MAILER_DEFAULT_URL'],
-      protocol: 'https'
-    }
-
-    config.action_mailer.asset_host = config.action_mailer.default_url_options[:protocol] +
-                                      '://' +
-                                      (config.action_mailer.default_url_options[:host] || 'localhost')
 
     # NOTE: may need to eager load paths instead if lib code is commonly called
     config.autoload_paths << Rails.root.join('lib')
