@@ -16,16 +16,13 @@ describe UserUpdateMailer do
 
   describe '.updated_profile_email' do
     subject(:mail) do
-      described_class.updated_profile_email(person, serialized_changes, instigator.email).deliver_now
+      described_class.updated_profile_email(person, instigator.email).deliver_now
     end
 
     let!(:hr) { create(:group, name: 'Human Resources') }
     let!(:hr_membership) { create(:membership, person: person, group: hr, role: 'Administrative Officer') }
     let!(:ds) { create(:group, name: 'Digital Services') }
     let!(:csg) { create(:group, name: 'Corporate Services Group') }
-
-    let(:changes_presenter) { ProfileChangesPresenter.new(person.all_changes) }
-    let(:serialized_changes) { changes_presenter.serialize }
 
     let(:mass_assignment_params) do
       {
@@ -74,14 +71,6 @@ describe UserUpdateMailer do
     include_examples 'common mailer template elements'
     include_examples "common #{described_class} mail elements"
 
-    it 'deserializes changes to create presenter objects' do
-      profile_changes_presenter = double(ProfileChangesPresenter).as_null_object
-      expect(ProfileChangesPresenter).to receive(:deserialize)
-        .with(serialized_changes)
-        .and_return(profile_changes_presenter)
-      mail
-    end
-
     it 'includes the person show url' do
       %w[plain html].each do |part_type|
         expect(get_message_part(mail, part_type)).to have_text(person_url(person))
@@ -91,74 +80,6 @@ describe UserUpdateMailer do
     context 'recipients' do
       it 'emails the changed person' do
         expect(mail.to).to include 'test.user@digital.justice.gov.uk'
-        expect(mail.cc).to be_empty
-      end
-
-      it 'when email changed it emails the changed person at new address and cc\'s old address' do
-        person.assign_attributes(email: 'changed.user@digital.justice.gov.uk')
-        person.save!
-        expect(mail.to).to include 'changed.user@digital.justice.gov.uk'
-        expect(mail.cc).to include 'test.user@digital.justice.gov.uk'
-      end
-    end
-
-    context 'mail content' do
-      before do
-        # Ensure updated memberships are reloaded (Rails 5 upgrade seems to have
-        # changed relationship reloading behaviour)
-        person.reload
-
-        # mock controller mass assignment behaviour for applying changes
-        person.assign_attributes(mass_assignment_params)
-        person.save!
-      end
-
-      it 'includes team membership additions' do
-        %w[plain html].each do |part_type|
-          expect(get_message_part(mail, part_type)).to have_content(/Added you to the Digital Services team as Lead Developer\. You are a leader of the team/m, normalize_ws: true)
-          expect(get_message_part(mail, part_type)).to have_content(/Added you to the Corporate Services Group team as Product Manager/m, normalize_ws: true)
-        end
-      end
-
-      it 'includes team membership removals' do
-        %w[plain html].each do |part_type|
-          expect(get_message_part(mail, part_type)).to have_content(/Removed you from the Department for International Trade team/m, normalize_ws: true)
-        end
-      end
-
-      it 'includes team membership modifications' do
-        person.assign_attributes(team_reassignment)
-        person.save!
-        %w[plain html].each do |part_type|
-          expect(get_message_part(mail, part_type)).to have_content(/Changed your membership of the Human Resources team to the Digital Services team/m, normalize_ws: true)
-        end
-      end
-
-      it 'includes team membership role modifications' do
-        %w[plain html].each do |part_type|
-          expect(get_message_part(mail, part_type)).to have_content(/Changed your role from Administrative Officer to Chief Executive Officer in the Human Resources team/m, normalize_ws: true)
-        end
-      end
-
-      it 'includes team membership leadership modifications' do
-        %w[plain html].each do |part_type|
-          expect(get_message_part(mail, part_type)).to have_content(/Made you leader of the Human Resources team/m, normalize_ws: true)
-        end
-      end
-
-      it 'includes list of presented changed person attributes' do
-        changes_presenter.each_pair do |_field, change|
-          %w[plain html].each do |part_type|
-            expect(get_message_part(mail, part_type)).to have_content(/#{change}/m, normalize_ws: true)
-          end
-        end
-      end
-
-      it 'includes profile photo changes' do
-        %w[plain html].each do |part_type|
-          expect(get_message_part(mail, part_type)).to have_content(/Changed your profile photo/m, normalize_ws: true)
-          expect(get_message_part(mail, part_type)).not_to have_content(/Changed your profile photo id from/m, normalize_ws: true)
-        end
       end
     end
   end

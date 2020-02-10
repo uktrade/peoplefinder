@@ -36,10 +36,8 @@ class PersonUpdater
   def send_notification
     return unless person.notify_of_change?(instigator)
 
-    changes = ProfileChangesPresenter.new(person.all_changes)
     UserUpdateMailer.updated_profile_email(
       person,
-      changes.serialize,
       instigator.try(:email)
     ).deliver_later
   end
