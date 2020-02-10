@@ -82,6 +82,8 @@ detectors:
     - Login#self.current_user
     - PersonSearch#any_partial_match_for?
     - PersonSearch#email_found
+    - Zendesk#report_problem
+    - Zendesk#request_deletion
     - FileSizeValidator#validate_each
     - ImageDimensionsValidator#humanize_dimensions
     - ImageDimensionsValidator#maximum_dimensions_valid?
@@ -95,7 +97,6 @@ detectors:
     exclude:
     - Admin::ProfileExtractsController#person_row
     - Api::SearchController#people
-    - ReportController#zendesk_client
     - ApplicationHelper#bold_tag
     - BreadcrumbHelper#breadcrumbs
     - BreadcrumbHelper#link_to_breadcrumb_name_unless_current
@@ -115,6 +116,9 @@ detectors:
     - PersonChangesPresenter#work_days_template
     - GroupLister#list
     - PersonSearch#any_partial_match_for?
+    - Zendesk#client
+    - Zendesk#report_problem
+    - Zendesk#request_deletion
     - GovukElementsErrorsHelperExtensions#error_html_attributes
     - InitSchema#up
     - DeleteQueuedNotifications#change
@@ -217,6 +221,7 @@ detectors:
     - PersonUpdater
     - PersonUpdater::NewRecordError
     - SearchResults
+    - Zendesk
     - ImageUploader
     - EmailValidator
     - PermanentSecretaryUniqueValidator
@@ -353,7 +358,6 @@ detectors:
     - GroupsController#show
     - PeopleController#destroy
     - PeopleController#update
-    - ReportController#zendesk_client
     - SessionsController#create_and_login_person
     - SessionsController#person_from_oauth
     - ApplicationHelper#flash_messages
@@ -361,6 +365,7 @@ detectors:
     - MembershipChangeSet#method_missing
     - MembershipChangesPresenter#format
     - PersonSearch#combined_search
+    - Zendesk#client
     - ImageDimensionsValidator#validate_each
     - create_test_data
     - SpecSupport::Profile#check_creation_of_profile_details

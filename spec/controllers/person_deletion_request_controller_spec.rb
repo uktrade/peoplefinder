@@ -17,24 +17,22 @@ RSpec.describe PersonDeletionRequestController, type: :controller do
   end
 
   describe 'POST create' do
-    it 'redirects to the profile page' do
-      post :create, params: { person_id: person.to_param }
-      expect(response).to redirect_to(person_path(person))
+    let(:zendesk) { instance_double(Zendesk) }
+
+    before do
+      allow(Zendesk).to receive(:new).and_return(zendesk)
     end
 
-    it 'invokes the mailer to send an email now' do
-      mock_mailer = double('PersonDeletionRequestMailer')
-
-      expect(PersonDeletionRequestMailer).to receive(:deletion_request)
-        .with(
-          reporter: current_user,
-          person: person,
-          note: 'This is a note'
-        ).and_return(mock_mailer)
-
-      expect(mock_mailer).to receive(:deliver_now)
+    it 'makes a Zendesk request and redirects' do
+      expect(zendesk).to receive(:request_deletion).with(
+        reporter: current_user,
+        person_to_delete: person,
+        note: 'This is a note'
+      )
 
       post :create, params: { person_id: person.to_param, note: 'This is a note' }
+
+      expect(response).to redirect_to(person_path(person))
     end
   end
 end
