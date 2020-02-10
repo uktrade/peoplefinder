@@ -62,6 +62,8 @@ module Peoplefinder
       from: config.support_email
     }
 
+    config.govuk_notify_api_key = ENV['GOVUK_NOTIFY_API_KEY']
+
     config.active_job.queue_adapter = :delayed_job
 
     config.active_record.schema_format = :ruby

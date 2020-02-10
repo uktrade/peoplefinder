@@ -47,7 +47,7 @@ class PeopleController < ApplicationController
   def destroy
     authorize @person
 
-    destroyer = PersonDestroyer.new(@person, current_user)
+    destroyer = PersonDestroyer.new(@person)
     destroyer.destroy!
     notice :profile_deleted, person: @person
     group = @person.groups.first

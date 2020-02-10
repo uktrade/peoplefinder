@@ -119,7 +119,6 @@ detectors:
     - SessionsController
     - VersionsController
     - PersonFormBuilder
-    - UserUpdateMailer
     - PersonSearch
     - FileSizeValidator
     - PermanentSecretaryUniqueValidator
@@ -187,7 +186,6 @@ detectors:
     - Login
     - PersonCreator
     - PersonDestroyer
-    - PersonDestroyer::NewRecordError
     - PersonSearch
     - PersonUpdater
     - PersonUpdater::NewRecordError
@@ -256,6 +254,7 @@ detectors:
     - PersonFormBuilder#check_box
     - BreadcrumbHelper#link_to_breadcrumb_name_unless_current
     - ProfilePhoto#crop
+    - GovukNotify#updated_profile
   ManualDispatch:
     exclude:
     - PersonFormBuilder#needed_for_completion?
