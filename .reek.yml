@@ -178,7 +178,6 @@ detectors:
     - ApplicationJob
     - UpdateGroupMembersCompletionScoreJob
     - ApplicationMailer
-    - PersonDeletionRequestMailer
     - UserUpdateMailer
     - ApplicationRecord
     - ConcatenatedFields
