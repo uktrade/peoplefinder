@@ -17,13 +17,6 @@ RSpec.describe PersonUpdater, type: :service do
 
   let(:instigator) { double('Current User', email: 'user@example.com') }
 
-  before do
-    # TODO: This is an implementation detail of MembershipChangesPresenter and we
-    # shouldn't be stubbing this, but I don't want to fix too many issues at the
-    # same time.
-    allow(Group).to receive(:find).and_return(double(Group))
-  end
-
   context 'Saving profile on update' do
     let(:smc) { double StateManagerCookie, save_profile?: true, create?: false }
 
@@ -44,7 +37,6 @@ RSpec.describe PersonUpdater, type: :service do
 
     describe 'update!' do
       let(:mailer) { double('mailer') }
-      let(:changes_presenter) { double(ProfileChangesPresenter, serialize: { foo: 'bar' }) }
 
       it 'saves the person' do
         expect(person).to receive(:save!)
@@ -53,10 +45,8 @@ RSpec.describe PersonUpdater, type: :service do
 
       it 'sends an update email if required' do
         expect(person).to receive(:notify_of_change?).and_return(true)
-        expect(ProfileChangesPresenter).to receive(:new).with(person.all_changes).and_return(changes_presenter)
         expect(UserUpdateMailer).to receive(:updated_profile_email).with(
           person,
-          { foo: 'bar' },
           'user@example.com'
         ).and_return(mailer)
         expect(mailer).to receive(:deliver_later)

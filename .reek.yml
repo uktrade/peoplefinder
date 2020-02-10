@@ -68,16 +68,6 @@ detectors:
     - PersonChangesTracker#membership_key
     - Group#slug_candidates
     - Person#self.outside_subteams
-    - ChangesPresenter#default
-    - MembershipChangeSet#valid_missing_method
-    - MembershipChangesPresenter#added_removed_template
-    - MembershipChangesPresenter#group_id_change
-    - MembershipChangesPresenter#leader_change
-    - MembershipChangesPresenter#role_change
-    - MembershipChangesPresenter#role_change_sentence
-    - MembershipChangesPresenter#team_change_sentence
-    - PersonChangesPresenter#profile_photo_change
-    - PersonChangesPresenter#work_days_template
     - LegacyProfileSerializer#as_json
     - Login#self.current_user
     - PersonSearch#any_partial_match_for?
@@ -108,12 +98,6 @@ detectors:
     - UpdateGroupMembersCompletionScoreJob#error_handler
     - Group#average_completion_score
     - Version#reify
-    - MembershipChangeSet#valid_missing_method
-    - MembershipChangesPresenter#added_removed_template
-    - MembershipChangesPresenter#role_change_sentence
-    - MembershipChangesPresenter#team_change_sentence
-    - PersonChangesPresenter#add_or_create_work_days
-    - PersonChangesPresenter#work_days_template
     - GroupLister#list
     - PersonSearch#any_partial_match_for?
     - Zendesk#client
@@ -136,14 +120,9 @@ detectors:
     - VersionsController
     - PersonFormBuilder
     - UserUpdateMailer
-    - ChangesPresenter
-    - MembershipChangeSet
-    - MembershipChangesPresenter
-    - ProfileChangesPresenter
     - PersonSearch
     - FileSizeValidator
     - PermanentSecretaryUniqueValidator
-    - UserUpdateMailerPreview
   IrresponsibleModule:
     exclude:
     - Admin::ManagementController
@@ -200,13 +179,6 @@ detectors:
     - PersonPolicy
     - VersionPolicy
     - AuditVersionPresenter
-    - ChangesPresenter
-    - ChangesPresenter::Change
-    - MembershipChangeSet
-    - MembershipChangesPresenter
-    - MembershipChangesPresenter::::Hash
-    - PersonChangesPresenter
-    - ProfileChangesPresenter
     - LegacyProfileSerializer
     - PersonSerializer
     - GroupLister
@@ -228,7 +200,6 @@ detectors:
     - CarrierWave::DirHelpers
     - CarrierWave::MiniMagick
     - PreviewHelper
-    - UserUpdateMailerPreview
     - TestModel
     - SanitizableTestModel
     - ActiveJobHelper
@@ -307,10 +278,6 @@ detectors:
     exclude:
     - Admin::ProfileExtractsController#people_csv
     - Admin::TeamExtractsController#groups_csv
-    - MembershipChangesPresenter#each
-    - MembershipChangesPresenter#each_pair
-    - ProfileChangesPresenter#each
-    - ProfileChangesPresenter#each_pair
   NilCheck:
     exclude:
     - SessionsController#create
@@ -319,22 +286,12 @@ detectors:
     - SearchHelper#matches_exist?
     - SearchHelper#people_count
     - SearchHelper#team_count
-    - UserUpdateMailer#updated_profile_email
     - PersonChangesTracker#initialize_changes_store
     - PersonChangesTracker#membership_changes
     - PersonChangesTracker#membership_key
     - PersonChangesTracker#person_changes
     - EmailAddress#globally_addressable_domain?
     - Person#profile_image
-    - ChangesPresenter#changed?
-    - ChangesPresenter#default
-    - ChangesPresenter::Change#new_val
-    - ChangesPresenter::Change#old_val
-    - MembershipChangeSet#added?
-    - MembershipChangeSet#removed?
-    - MembershipChangesPresenter#each_pair
-    - MembershipChangesPresenter#format
-    - PersonChangesPresenter#profile_photo_change
     - StateManagerCookie#initialize
     - ImageUploader#store_upload_dimensions
     - PreviewHelper#clean_recipient
@@ -343,7 +300,6 @@ detectors:
     exclude:
     - GroupsController
     - PeopleController
-    - UserUpdateMailer
     - PersonSearch
   TooManyMethods:
     exclude:
@@ -361,8 +317,6 @@ detectors:
     - SessionsController#person_from_oauth
     - ApplicationHelper#flash_messages
     - BreadcrumbHelper#link_to_breadcrumb_name_unless_current
-    - MembershipChangeSet#method_missing
-    - MembershipChangesPresenter#format
     - PersonSearch#combined_search
     - Zendesk#client
     - ImageDimensionsValidator#validate_each
@@ -398,18 +352,6 @@ detectors:
     - ProfileFields#formatted_networks
     - ProfileFields#formatted_professions
     - Membership
-    - ChangesPresenter#default
-    - ChangesPresenter#format
-    - ChangesPresenter#template
-    - MembershipChangesPresenter#added_removed_template
-    - MembershipChangesPresenter#format
-    - MembershipChangesPresenter#group_id_change
-    - MembershipChangesPresenter#leader_change
-    - MembershipChangesPresenter#role_change
-    - PersonChangesPresenter#profile_photo_change
-    - PersonChangesPresenter#work_days_template
-    - ProfileChangesPresenter#raw_membership_changes
-    - ProfileChangesPresenter#raw_person_changes
     - PersonSearch#any_exact_matches?
     - PersonSearch#any_partial_name_matches?
     - StateManagerCookie#to_cookie
@@ -458,17 +400,6 @@ detectors:
     - Sanitizable#remove_digits?
     - Sanitizable#strip?
     - EmailAddress#capitalise
-    - ChangesPresenter#changed?
-    - ChangesPresenter#sentence
-    - MembershipChangeSet#change
-    - MembershipChangeSet#team
-    - MembershipChangesPresenter#bespoke_rule?
-    - MembershipChangesPresenter#team_name
-    - PersonChangesPresenter#profile_photo?
-    - PersonChangesPresenter#profile_photo_sentence
-    - PersonChangesPresenter#work_days?
-    - ProfileChangesPresenter#raw_membership_changes
-    - ProfileChangesPresenter#raw_person_changes
     - GroupLister#scope_with_maximum_depth
     - GroupSearch#hierarchy_ordered
     - GroupSearch#words

@@ -19,7 +19,7 @@ unless ENV['SKIP_SIMPLECOV']
     add_filter '/gem/'
     add_filter '.bundle'
   end
-  SimpleCov.minimum_coverage 60
+  SimpleCov.minimum_coverage 50
 end
 
 Capybara.register_driver :poltergeist_silent do |app|
