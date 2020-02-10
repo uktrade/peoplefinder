@@ -13,7 +13,7 @@ FactoryBot.define do
 
   factory :department, class: 'Group' do
     initialize_with do
-      Group.where(ancestry_depth: 0).first_or_create(name: 'Department for International Trade')
+      Group.roots.first || Group.create(name: 'Department for International Trade')
     end
   end
 
