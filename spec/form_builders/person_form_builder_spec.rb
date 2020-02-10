@@ -4,7 +4,8 @@ require 'rails_helper'
 
 RSpec.describe PersonFormBuilder, type: :form_builder do
   let(:object) { Object.new }
-  let(:template) { ActionView::Base.new }
+  let(:lookup_context) { ActionView::LookupContext.new(nil) }
+  let(:template) { ActionView::Base.new(lookup_context) }
   let(:options) { {} }
   let(:builder) { described_class.new(:person, object, template, options) }
 
