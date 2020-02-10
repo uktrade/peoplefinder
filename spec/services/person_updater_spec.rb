@@ -3,41 +3,44 @@
 require 'rails_helper'
 
 RSpec.describe PersonUpdater, type: :service do
-  subject { described_class.new(person: person, instigator: instigator, state_cookie: smc) }
-
-  let(:person) do
-    double(
-      'Person',
-      all_changes: { email: ['test.user@digital.justice.gov.uk', 'changed.user@digital.justice.gov.uk'], membership_12: { group_id: [1, nil] } },
-      save!: true,
-      new_record?: false,
-      notify_of_change?: false
+  subject do
+    described_class.new(
+      person: person,
+      instigator: instigator,
+      profile_url: 'https://example.com',
+      state_cookie: smc
     )
   end
 
-  let(:instigator) { double('Current User', email: 'user@example.com') }
+  let(:person) do
+    double(
+      Person,
+      save!: true,
+      new_record?: false,
+      notify_of_change?: false,
+      name: 'Jane Test',
+      email: 'jane@example.com'
+    )
+  end
+
+  let(:instigator) { double('Current User', name: 'Insti Gator') }
 
   context 'Saving profile on update' do
+    let(:notify) { instance_double(GovukNotify, updated_profile: true) }
     let(:smc) { double StateManagerCookie, save_profile?: true, create?: false }
+
+    before do
+      allow(GovukNotify).to receive(:new).and_return(notify)
+    end
 
     describe 'initialize' do
       it 'raises an exception if person is a new record' do
         allow(person).to receive(:new_record?).and_return(true)
-        expect { subject }.to raise_error(PersonUpdater::NewRecordError)
-      end
-    end
-
-    describe 'valid?' do
-      it 'delegates valid? to the person' do
-        validity = double
-        expect(person).to receive(:valid?).and_return(validity)
-        expect(subject.valid?).to eq(validity)
+        expect { subject }.to raise_error(/Cannot update a new Person record/)
       end
     end
 
     describe 'update!' do
-      let(:mailer) { double('mailer') }
-
       it 'saves the person' do
         expect(person).to receive(:save!)
         subject.update!
@@ -45,11 +48,12 @@ RSpec.describe PersonUpdater, type: :service do
 
       it 'sends an update email if required' do
         expect(person).to receive(:notify_of_change?).and_return(true)
-        expect(UserUpdateMailer).to receive(:updated_profile_email).with(
-          person,
-          'user@example.com'
-        ).and_return(mailer)
-        expect(mailer).to receive(:deliver_later)
+        expect(notify).to receive(:updated_profile).with(
+          'jane@example.com',
+          recipient_name: 'Jane Test',
+          instigator_name: 'Insti Gator',
+          profile_url: 'https://example.com'
+        )
         subject.update!
       end
 
@@ -58,7 +62,7 @@ RSpec.describe PersonUpdater, type: :service do
           .to receive(:notify_of_change?)
           .with(instigator)
           .and_return(false)
-        expect(UserUpdateMailer).not_to receive(:updated_profile_email)
+        expect(notify).not_to receive(:updated_profile)
         subject.update!
       end
     end
