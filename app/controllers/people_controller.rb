@@ -34,7 +34,10 @@ class PeopleController < ApplicationController
 
     if @person.valid?
       smc = StateManagerCookie.new(cookies)
-      PersonUpdater.new(person: @person, instigator: current_user, state_cookie: smc).update!
+      PersonUpdater.new(
+        person: @person, instigator: current_user, state_cookie: smc,
+        profile_url: person_url(@person)
+      ).update!
       type = @person == current_user ? :mine : :other
       notice(:profile_updated, type, person: @person) if state_cookie_saving_profile?
       redirect_to redirection_destination

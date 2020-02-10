@@ -4,17 +4,15 @@ require 'forwardable'
 
 class PersonUpdater
   extend Forwardable
-  NewRecordError = Class.new(RuntimeError)
-
-  def_delegators :person, :valid?
 
   attr_reader :person, :instigator
 
-  def initialize(person:, instigator:, state_cookie:)
-    raise NewRecordError, 'cannot update a new Person record' if person.new_record?
+  def initialize(person:, instigator:, profile_url:, state_cookie:)
+    raise 'Cannot update a new Person record' if person.new_record?
 
     @person = person
     @instigator = instigator
+    @profile_url = profile_url
     @state_cookie = state_cookie
   end
 
@@ -36,9 +34,11 @@ class PersonUpdater
   def send_notification
     return unless person.notify_of_change?(instigator)
 
-    UserUpdateMailer.updated_profile_email(
-      person,
-      instigator.try(:email)
-    ).deliver_later
+    GovukNotify.new.updated_profile(
+      person.email,
+      recipient_name: person.name,
+      instigator_name: instigator.name,
+      profile_url: @profile_url
+    )
   end
 end
