@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   root 'home#show', as: :home
 
-  post '/report_problem', to: 'report#index'
+  post '/report_problem', to: 'report#create'
 
   namespace :api, format: [:json] do
     resource :people, only: [:show]

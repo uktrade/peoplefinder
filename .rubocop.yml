@@ -53,7 +53,7 @@ Metrics/ModuleLength:
 
 # Slightly more lenient method length (and ignore in specs - long setup methods)
 Metrics/MethodLength:
-  Max: 15
+  Max: 20
   Exclude:
     - 'spec/**/*'
 
