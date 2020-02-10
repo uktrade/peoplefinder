@@ -159,16 +159,10 @@ describe 'Person maintenance' do
     context 'for a super admin user', user: :super_admin do
       it 'Deleting a person' do
         person = create :person
-        email_address = person.email
-        given_name = person.given_name
 
         visit person_path(person)
         click_delete_profile
         expect { Person.find(person.id) }.to raise_error(ActiveRecord::RecordNotFound)
-
-        expect(last_email.to).to include(email_address)
-        expect(last_email.subject).to eq('Your profile on DIT People Finder has been deleted')
-        expect(last_email.body.encoded).to match("Hello #{given_name}")
       end
 
       it 'Allow deletion of a person even when there are memberships' do

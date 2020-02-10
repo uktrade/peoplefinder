@@ -83,17 +83,4 @@ describe UserUpdateMailer do
       end
     end
   end
-
-  describe '.deleted_profile_email' do
-    subject(:mail) { described_class.deleted_profile_email(person.email, person.name, instigator.email).deliver_now }
-
-    include_examples 'common mailer template elements'
-    include_examples "common #{described_class} mail elements"
-
-    it 'includes the persons name' do
-      %w[plain html].each do |part_type|
-        expect(get_message_part(mail, part_type)).to have_text(person.name)
-      end
-    end
-  end
 end

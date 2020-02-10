@@ -1,20 +1,12 @@
 # frozen_string_literal: true
 
-require 'forwardable'
-
 class PersonDestroyer
-  extend Forwardable
-  NewRecordError = Class.new(RuntimeError)
-
-  def_delegators :person, :valid?
-
   attr_reader :person
 
-  def initialize(person, current_user)
-    raise NewRecordError, 'cannot destroy a new Person record' if person.new_record?
+  def initialize(person)
+    raise 'Cannot destroy a new Person record' if person.new_record?
 
     @person = person
-    @current_user = current_user
   end
 
   def destroy!
@@ -25,10 +17,6 @@ class PersonDestroyer
   private
 
   def send_destroy_email!
-    if @person.notify_of_change?(@current_user)
-      UserUpdateMailer.deleted_profile_email(
-        @person.email, @person.given_name, @current_user.email
-      ).deliver_later
-    end
+    GovukNotify.new.deleted_profile(@person.email, recipient_name: @person.name)
   end
 end

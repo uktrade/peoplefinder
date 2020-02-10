@@ -264,6 +264,8 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.7)
       mini_portile2 (~> 2.4.0)
+    notifications-ruby-client (5.1.2)
+      jwt (>= 1.5, < 3)
     oauth2 (1.4.3)
       faraday (>= 0.8, < 2.0)
       jwt (>= 1.0, < 3.0)
@@ -517,6 +519,7 @@ DEPENDENCIES
   logstasher
   mail
   mini_magick
+  notifications-ruby-client
   omniauth-oauth2
   paper_trail
   pg
