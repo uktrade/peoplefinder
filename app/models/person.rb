@@ -65,7 +65,7 @@ class Person < ApplicationRecord
   validates :given_name, presence: true
   attr_accessor :skip_must_have_surname
   validates :surname, presence: true, unless: :skip_must_have_surname
-  validates :email, presence: true, email: true
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
   has_many :groups, through: :memberships
@@ -75,10 +75,6 @@ class Person < ApplicationRecord
   accepts_nested_attributes_for :memberships, allow_destroy: true
 
   default_scope { order(surname: :asc, given_name: :asc) }
-
-  def email_prefix
-    email.split('@').first.gsub(/[\W]|[\d]/, '')
-  end
 
   scope :all_in_subtree, lambda { |group|
     joins(:memberships)
@@ -168,12 +164,6 @@ class Person < ApplicationRecord
 
   def notify_of_change?(person_responsible)
     person_responsible.try(:email) != email
-  end
-
-  def email_address_with_name
-    address = Mail::Address.new email
-    address.display_name = name
-    address.format
   end
 
   def country_name

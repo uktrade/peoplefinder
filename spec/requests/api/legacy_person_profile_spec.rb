@@ -27,11 +27,11 @@ describe 'Legacy Person Profile API', type: :request do
       end
 
       it 'has the profile link' do
-        expect(links_hash['profile']).to eq(person_url(person))
+        expect(links_hash['profile']).to end_with(person_path(person))
       end
 
       it 'has the edit-profile link' do
-        expect(links_hash['edit-profile']).to eq(edit_person_url(person))
+        expect(links_hash['edit-profile']).to end_with(edit_person_path(person))
       end
 
       it 'has the profile-image-url' do

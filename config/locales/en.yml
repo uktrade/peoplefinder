@@ -238,14 +238,6 @@ en:
   person_deletion_request:
     instruction: If %{name} has left the department, please provide details in the form below. Our support team will confirm the details and remove the profile.
     your_details_hint: Your profile details will be included with the request.
-  problem_report_mailer:
-    problem_report:
-      subject: "Problem reported by People Finder user"
-  user_update_mailer:
-    updated_profile_email:
-      subject: "Your profile on DIT People Finder has been edited"
-    deleted_profile_email:
-      subject: "Your profile on DIT People Finder has been deleted"
   errors: &errors
     person:
       general_message: "You need to add more information to complete your profile - see below."
@@ -285,10 +277,6 @@ en:
       membership:
         leader: ''
         group: Team
-
-  mailers:
-    app_guidance_html: "People Finder allows you to update any profile. Find out more about how to use People Finder on the %{link}."
-    do_not_reply: This email is automatically generated. Do not reply.
 
   shared:
     search:

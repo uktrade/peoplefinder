@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
-# Here we ensure that url_for can be use by active model serializers
-Rails.application.routes.default_url_options =
-  Rails.application.config.action_mailer.default_url_options
+# Enable routes to work outside controller flows
+Rails.application.routes.default_url_options = {
+  host: ENV.fetch('APP_HOST')
+}

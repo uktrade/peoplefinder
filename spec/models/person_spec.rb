@@ -85,28 +85,15 @@ RSpec.describe Person, type: :model do
   end
 
   describe '#email' do
-    it 'does not raise an invalid format error if blank' do
-      person = build :person, email: ''
-      expect(person.save).to be false
-      expect(person.errors[:email]).to eq(['is required'])
-    end
-
-    it 'does raise an invalid format error if present but invalid' do
+    it 'raises an invalid format error if present but invalid' do
       person = build :person, email: 'sdsdsdsds'
       expect(person.save).to be false
-      expect(person.errors[:email]).to eq(['isn’t valid'])
+      expect(person.errors[:email]).to eq(['is invalid'])
     end
 
     it 'is converted to lower case' do
       person = create(:person, email: 'User.Example@digital.justice.gov.uk')
       expect(person.email).to eq 'user.example@digital.justice.gov.uk'
-    end
-  end
-
-  describe '#email_address_with_name' do
-    it 'returns name and email' do
-      person = create(:person, given_name: 'Sue', surname: 'Boe', email: 'User.Example@digital.justice.gov.uk')
-      expect(person.email_address_with_name).to eq 'Sue Boe <user.example@digital.justice.gov.uk>'
     end
   end
 
@@ -400,19 +387,6 @@ RSpec.describe Person, type: :model do
       person.building = ''
       person.city = nil
       expect(person.location).to eq('At home')
-    end
-  end
-
-  describe 'valid?' do
-    it 'is false when email invalid' do
-      person.email = 'bad'
-      expect(person.valid?).to be false
-      expect(person.errors.messages[:email]).to eq ['isn’t valid']
-    end
-
-    it 'is true when email valid' do
-      person.email = 'test@digital.justice.gov.uk'
-      expect(person.valid?).to be true
     end
   end
 

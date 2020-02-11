@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
 
   def person_from_oauth(auth_hash)
     ditsso_user_id = auth_hash['uid']
-    ditsso_email = EmailAddress.new(auth_hash['info']['email'])
+    ditsso_email = auth_hash['info']['email']
 
     person = Person.find_or_initialize_by(ditsso_user_id: ditsso_user_id)
 
