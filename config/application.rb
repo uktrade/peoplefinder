@@ -27,13 +27,13 @@ module Peoplefinder
     config.active_job.queue_adapter = :delayed_job
     config.active_record.schema_format = :ruby
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
-    config.eager_load_paths << Rails.root.join('lib')
+    config.autoload_paths << Rails.root.join('lib')
 
     # Custom application configuration (hardcoded)
     config.app_title = 'People Finder'
 
     # Custom application configuration (from environment)
-    config.x.s3.key = ENV['S3_KEY']
+    config.x.s3.access_key = ENV['S3_KEY']
     config.x.s3.secret = ENV['S3_SECRET']
     config.x.s3.region = ENV['S3_REGION']
     config.x.s3.bucket_name = ENV['S3_BUCKET_NAME']
