@@ -10,7 +10,6 @@ gem 'rails', '~> 6.0.2'
 
 gem 'activerecord-session_store'
 gem 'ancestry'
-gem 'aws-sdk-s3'
 gem 'carrierwave'
 gem 'country_select'
 gem 'delayed_job'
@@ -40,12 +39,8 @@ gem 'pundit'
 gem 'sass-rails'
 gem 'sentry-raven'
 gem 'sprockets', '~> 3' # TODO: Pinned due to asset issues with >= 4.0
-gem 'text'
 gem 'uglifier'
-gem 'unf'
 gem 'useragent'
-gem 'virtus'
-gem 'whenever', require: false
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'zendesk_api'
@@ -53,10 +48,6 @@ gem 'zendesk_api'
 group :production do
   gem 'logstasher'
   gem 'rails_12factor'
-end
-
-group :development do
-  gem 'daemon'
 end
 
 group :test do
