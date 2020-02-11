@@ -10,35 +10,12 @@ require 'action_controller/railtie'
 require 'action_view/railtie'
 require 'sprockets/railtie'
 require 'rails/test_unit/railtie'
-# require 'action_mailbox/engine'
-# require 'action_mailer/railtie'
-# require 'action_text/engine'
-# require 'active_storage/engine'
 
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
 module Peoplefinder
   class Application < Rails::Application
     config.load_defaults 6.0
-
-    # Settings in config/environments/* take precedence over those specified
-    # here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
-
-    # Set Time.zone default to the specified zone and make Active Record
-    # auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names.
-    # Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
-
-    # The default locale is :en and all translations from
-    # config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales',
-    # '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
 
     # TODO: Fix the suboptimal way in which associations are set up on various
     #       models so this "old Rails" default can be removed.
@@ -47,31 +24,36 @@ module Peoplefinder
 
     ActionView::Base.default_form_builder = GovukElementsFormBuilder::FormBuilder
 
-    # app title appears in the header bar
+    config.active_job.queue_adapter = :delayed_job
+    config.active_record.schema_format = :ruby
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
+    config.eager_load_paths << Rails.root.join('lib')
+
+    # Custom application configuration (hardcoded)
     config.app_title = 'People Finder'
 
-    config.department_name = 'Department for International Trade'
+    # Custom application configuration (from environment)
+    config.x.s3.key = ENV['S3_KEY']
+    config.x.s3.secret = ENV['S3_SECRET']
+    config.x.s3.region = ENV['S3_REGION']
+    config.x.s3.bucket_name = ENV['S3_BUCKET_NAME']
 
-    config.department_abbrev = 'DIT'
+    config.x.sso.use_developer_strategy = Rails.env.development? && ENV['DEVELOPER_AUTH_STRATEGY']
+    config.x.sso.provider = ENV['DITSSO_INTERNAL_PROVIDER']
+    config.x.sso.client_id = ENV['DITSSO_INTERNAL_CLIENT_ID']
+    config.x.sso.client_secret = ENV['DITSSO_INTERNAL_CLIENT_SECRET']
+    config.x.sso.callback_url = ENV['DITSSO_CALLBACK_URL']
 
-    config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
+    config.x.zendesk.url = ENV['ZD_URL']
+    config.x.zendesk.user = ENV['ZD_USER']
+    config.x.zendesk.password = ENV['ZD_PASS']
+    config.x.zendesk.service_id = ENV['ZD_SERVICE_ID']
+    config.x.zendesk.service_name = ENV['ZD_SERVICE_NAME']
 
-    config.support_email = ENV.fetch('SUPPORT_EMAIL')
-
-    config.govuk_notify_api_key = ENV['GOVUK_NOTIFY_API_KEY']
-
-    config.active_job.queue_adapter = :delayed_job
-
-    config.active_record.schema_format = :ruby
-
-    config.aws_elastic_region = ENV['AWS_ELASTICSEARCH_REGION']
-    config.aws_elastic_key = ENV['AWS_ELASTICSEARCH_KEY']
-    config.aws_elastic_secret = ENV['AWS_ELASTICSEARCH_SECRET']
     config.elastic_search_url = ENV['ES_URL']
-
-    config.rack_timeout = (ENV['RACK_TIMEOUT'] || 14)
-
-    # NOTE: may need to eager load paths instead if lib code is commonly called
-    config.autoload_paths << Rails.root.join('lib')
+    config.google_analytics_tracking_id = ENV['GA_TRACKING_ID']
+    config.govuk_notify_api_key = ENV['GOVUK_NOTIFY_API_KEY']
+    config.home_page_url = ENV['HOME_PAGE_URL']
+    config.profile_api_token = ENV['PROFILE_API_TOKEN']
   end
 end

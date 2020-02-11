@@ -8,7 +8,7 @@ class Zendesk
       { id: '45522345', value: params['problem_report_origin'] },
       { id: '34146805', value: params['problem_report_browser'] },
       { id: '45522485', value: params['problem_report_email'] },
-      { id: ENV['ZD_SERVICE_ID'], value: ENV['ZD_SERVICE_NAME'] }
+      { id: zendesk_config.service_id, value: zendesk_config.service_name }
     ]
 
     client.tickets.create!(
@@ -52,11 +52,15 @@ class Zendesk
 
   def client
     @client ||= ZendeskAPI::Client.new do |config|
-      config.url = ENV['ZD_URL']
-      config.username = ENV['ZD_USER']
-      config.password = ENV['ZD_PASS']
+      config.url = zendesk_config.url
+      config.username = zendesk_config.user
+      config.password = zendesk_config.password
       config.retry = true
       config.logger = Logger.new(STDOUT)
     end
+  end
+
+  def zendesk_config
+    Rails.configuration.x.zendesk
   end
 end

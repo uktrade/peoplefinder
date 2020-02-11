@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV['SUPPORT_EMAIL'] = 'support@example.com'
 ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 require File.expand_path('../config/environment', __dir__)
@@ -26,9 +24,6 @@ Capybara.register_driver :poltergeist_silent do |app|
   # Redirect phantomjs log output to a dummy StringIO to ignore it
   Capybara::Poltergeist::Driver.new(app, phantomjs_logger: StringIO.new)
 end
-
-# define a the PROFILE_API_TOKEN to ensure the API specs can be authenticated
-ENV['PROFILE_API_TOKEN'] = 'DEFINED'
 
 Capybara.register_driver :chrome do |app|
   options = Selenium::WebDriver::Chrome::Options.new(
