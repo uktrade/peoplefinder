@@ -5,7 +5,7 @@ module OmniAuth
     class DitssoInternal < OmniAuth::Strategies::OAuth2
       option :name, 'ditsso_internal'
 
-      SSO_PROVIDER = ENV['DITSSO_INTERNAL_PROVIDER']
+      SSO_PROVIDER = Rails.configuration.x.sso.provider
 
       option :client_options,
              site: SSO_PROVIDER,

@@ -10,7 +10,8 @@ describe 'Legacy Person Profile API', type: :request do
 
   context 'by SSO user_id' do
     before do
-      get "/api/people?ditsso_user_id=#{person.ditsso_user_id}", headers: { authorization: "Token #{ENV['PROFILE_API_TOKEN']}" }
+      allow(Rails.configuration).to receive(:profile_api_token).and_return('bogus-token')
+      get "/api/people?ditsso_user_id=#{person.ditsso_user_id}", headers: { authorization: 'Token bogus-token' }
     end
 
     context 'in general' do

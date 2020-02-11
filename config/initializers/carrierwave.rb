@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 CarrierWave.configure do |config|
-  if ENV['S3_KEY'].present? && ENV['S3_SECRET'].present? && ENV['S3_BUCKET_NAME'].present?
+  if Rails.env.production?
     config.fog_provider = 'fog-aws'
     config.fog_credentials = {
       provider: 'AWS',
-      aws_access_key_id: ENV['S3_KEY'],
-      aws_secret_access_key: ENV['S3_SECRET'],
-      region: ENV['S3_REGION']
+      aws_access_key_id: Rails.configuration.x.s3.key,
+      aws_secret_access_key: Rails.configuration.x.s3.secret,
+      region: Rails.configuration.x.s3.region
     }
     config.storage = :fog
-    config.fog_directory = ENV['S3_BUCKET_NAME']
+    config.fog_directory = Rails.configuration.x.s3.bucket_name
     config.fog_public = false
   elsif Rails.env.test?
     config.storage = :file

@@ -5,7 +5,7 @@
   = "<p>GOV.UK uses cookies to make the site simpler. <a href=\"/cookies\">Find out more about cookies</a></p>".html_safe
 
 - content_for :homepage_url do
-  = ENV['HOME_PAGE_URL']
+  = Rails.configuration.home_page_url
 
 - content_for :global_header_text do
   = 'Department for International Trade'
@@ -31,13 +31,13 @@
       %li
         = link_to "Account", "#{person_path(current_user)}", class: "mobile-account-button"
     %li
-      = link_to "Search", "#{ENV['HOME_PAGE_URL']}/search", class: "mobile-search-button"
+      = link_to "Search", home_page_link_helper('search'), class: "mobile-search-button"
   .header-proposition
     .content
-      = link_to "Digital Workspace", ENV['HOME_PAGE_URL'], id: "proposition-name"
+      = link_to "Digital Workspace", home_page_link_helper('/'), id: "proposition-name"
     = render partial: "widgets/nav"
     .search
-      %form{:action => "#{ENV['HOME_PAGE_URL']}/search", :method => "get", :role => "search-workspace"}
+      %form{:action => home_page_link_helper('search'), :method => "get", :role => "search-workspace"}
         .proposition-search.govuk-search
           %label.search-label
             Search site
@@ -47,11 +47,8 @@
               %button{:type => 'submit', :class => 'search-submit'}
                 Search Workspace
 
-/- content_for :footer_top do
-  
 - content_for :footer_support_links do
   = render 'layouts/footer'
-
 
 - content_for :body_end do
   = javascript_include_tag 'application'

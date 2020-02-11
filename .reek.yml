@@ -389,6 +389,7 @@ detectors:
     - GroupSearch#words
     - PersonSearch#clean_query
     - PersonSearch#search
+    - Zendesk#zendesk_config
     - ImageUploader#origin_and_dimensions
     - FileSizeValidator#add_error
     - ImageDimensionsValidator#add_error

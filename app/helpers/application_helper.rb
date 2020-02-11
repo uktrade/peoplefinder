@@ -2,8 +2,8 @@
 
 module ApplicationHelper
   def home_page_link_helper(path)
-    if ENV['HOME_PAGE_URL'].present?
-      URI.join(ENV['HOME_PAGE_URL'], path)
+    if Rails.configuration.home_page_url.present?
+      URI.join(Rails.configuration.home_page_url, path).to_s
     else
       path
     end
