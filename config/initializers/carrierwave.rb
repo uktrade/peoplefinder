@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 CarrierWave.configure do |config|
-  if Rails.env.production?
+  if Rails.configuration.x.s3.access_key.present?
     config.fog_provider = 'fog-aws'
     config.fog_credentials = {
       provider: 'AWS',
-      aws_access_key_id: Rails.configuration.x.s3.key,
+      aws_access_key_id: Rails.configuration.x.s3.access_key,
       aws_secret_access_key: Rails.configuration.x.s3.secret,
       region: Rails.configuration.x.s3.region
     }
