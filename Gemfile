@@ -8,7 +8,6 @@ ruby '2.6.5'
 #  the whole of `rails` as a dependency.
 gem 'rails', '~> 6.0.2'
 
-gem 'activerecord-session_store'
 gem 'ancestry'
 gem 'carrierwave'
 gem 'country_select'
@@ -36,6 +35,7 @@ gem 'paper_trail'
 gem 'pg'
 gem 'puma'
 gem 'pundit'
+gem 'redis'
 gem 'sass-rails'
 gem 'sentry-raven'
 gem 'sprockets', '~> 3' # TODO: Pinned due to asset issues with >= 4.0

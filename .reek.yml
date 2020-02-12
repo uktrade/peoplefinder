@@ -102,6 +102,8 @@ detectors:
     - Zendesk#report_problem
     - Zendesk#request_deletion
     - GovukElementsErrorsHelperExtensions#error_html_attributes
+    - VcapServices#named_service_url
+    - VcapServices#service_url
     - InitSchema#up
     - DeleteQueuedNotifications#change
   InstanceVariableAssumption:
