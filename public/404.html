@@ -1,457 +1,61 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>The page you were looking for doesn't exist (404)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <style>
-    .grid-row:after, #content:after {
-      content: "";
-      display: block;
-      clear: both;
-    }
-
-    #content {
-      max-width: 960px;
-      margin: 0 15px;
-    }
-    @media (min-width: 641px) {
-      #content {
-        margin: 0 30px;
+  <head>
+    <title>Digital Workspace</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <style>
+      html, body, div, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+      a, em, img, strong, b, u, i, center, ol, ul, li {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
       }
-    }
-    @media (min-width: 1020px) {
-      #content {
-        margin: 0 auto;
+
+      body {
+        line-height: 1;
+        margin: 2em;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       }
-    }
 
-    .grid-row {
-      margin: 0 -15px;
-    }
-
-    .grid-row:after, #content:after {
-      content: "";
-      display: block;
-      clear: both;
-    }
-
-    .grid-row:after, #content:after {
-      content: "";
-      display: block;
-      clear: both;
-    }
-
-    .visually-hidden,
-    .visuallyhidden {
-      position: absolute;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
-      height: 1px;
-      width: 1px;
-      margin: -1px;
-      padding: 0;
-      border: 0;
-    }
-
-    div,
-    span,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    blockquote,
-    pre,
-    a,
-    abbr,
-    acronym,
-    address,
-    big,
-    cite,
-    code,
-    del,
-    dfn,
-    em,
-    img,
-    ins,
-    kbd,
-    q,
-    s,
-    samp,
-    small,
-    strike,
-    strong,
-    sub,
-    sup,
-    tt,
-    var,
-    b,
-    u,
-    i,
-    center,
-    dl,
-    dt,
-    dd,
-    ol,
-    ul,
-    li,
-    fieldset,
-    form,
-    label,
-    legend,
-    table,
-    caption,
-    tbody,
-    tfoot,
-    thead,
-    tr,
-    th,
-    td,
-    article,
-    aside,
-    canvas,
-    details,
-    embed,
-    figure,
-    figcaption,
-    footer,
-    header,
-    hgroup,
-    menu,
-    nav,
-    output,
-    ruby,
-    section,
-    summary,
-    time,
-    mark {
-      border: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    blockquote,
-    pre,
-    small,
-    strike,
-    strong,
-    sub,
-    sup,
-    tt,
-    var,
-    b,
-    u,
-    i,
-    center,
-    input,
-    textarea,
-    table,
-    caption,
-    tbody,
-    tfoot,
-    thead,
-    tr,
-    th,
-    td {
-      font-size: inherit;
-      font-family: inherit;
-      line-height: inherit;
-      font-weight: normal;
-    }
-
-    abbr[title],
-    acronym[title] {
-      text-decoration: none;
-    }
-
-    legend {
-      box-sizing: border-box;
-      max-width: 100%;
-      display: table;
-    }
-
-    #content {
-      padding-bottom: 30px;
-      outline: none;
-    }
-    @media (min-width: 769px) {
-      #content {
-        padding-bottom: 90px;
+      ol, ul {
+        list-style: none;
       }
-    }
 
-    .column-quarter,
-    .column-one-quarter {
-      padding: 0 15px;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-    }
-    @media (min-width: 641px) {
-      .column-quarter,
-      .column-one-quarter {
-        float: left;
-        width: 25%;
+      li {
+        margin: 0.5em 0;
       }
-    }
 
-    .column-half,
-    .column-one-half {
-      padding: 0 15px;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-    }
-    @media (min-width: 641px) {
-      .column-half,
-      .column-one-half {
-        float: left;
-        width: 50%;
+      a {
+        color: #cd1632;
+        font-weight: 700;
       }
-    }
 
-    .column-third,
-    .column-one-third {
-      padding: 0 15px;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-    }
-    @media (min-width: 641px) {
-      .column-third,
-      .column-one-third {
-        float: left;
-        width: 33.3333333333%;
+      h1 {
+        font-size: 2em;
+        color: #cd1632;
+        margin-bottom: 0.5em;
       }
-    }
 
-    .column-two-thirds {
-      padding: 0 15px;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-    }
-    @media (min-width: 641px) {
-      .column-two-thirds {
-        float: left;
-        width: 66.6666666667%;
+      p {
+        margin: 1.5em 0;
+        color: #222222;
+        font-weight: 400;
       }
-    }
 
-    .column-full {
-      padding: 0 15px;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-    }
-    @media (min-width: 641px) {
-      .column-full {
-        float: left;
-        width: 100%;
+      p.lede {
+        color: #222222;
+        font-size: 1.2em;
       }
-    }
+    </style>
+  </head>
 
-    /* Media queries */
-    /* Colours */
-    /* Assets */
-    /* Utilities */
-    .clearfix {
-      *zoom: 1;
-    }
-    .clearfix:before, .clearfix:after {
-      display: table;
-      content: "";
-    }
-    .clearfix:after {
-      clear: both;
-    }
-
-    /* Links */
-    a {
-      cursor: pointer;
-    }
-    a:link {
-      color: #e04a22;
-      text-decoration: underline;
-    }
-    a:hover {
-      color: #e04a22;
-      text-decoration: none;
-    }
-    a:active {
-      color: #e04a22;
-    }
-    a:visited {
-      color: #a71182;
-    }
-    h1 a:link, h2 a:link, h3 a:link, h4 a:link, h5 a:link, h6 a:link {
-      text-decoration: none;
-    }
-    h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
-      text-decoration: underline;
-    }
-
-    /* Lists */
-    ul,
-    ol {
-      margin: 0px 0px 20px 0px;
-      padding: 0px 20px;
-      list-style-type: disc;
-    }
-
-    ol {
-      list-style-type: decimal;
-    }
-
-    li {
-      margin-bottom: 10px;
-    }
-
-    /* List style A */
-    ul.list-style-a,
-    ol.list-style-a {
-      margin: 0px;
-      padding: 0px;
-      list-style-type: none;
-    }
-
-    .related-content .list-style-a {
-      margin-bottom: 20px;
-    }
-
-    /* horizontal rules */
-    hr.rule-small {
-      clear: both;
-      background-color: transparent;
-      border-style: solid;
-      border-color: #454A4C;
-      border-width: 1px 0 0;
-      margin: 30px 0px;
-    }
-    hr.rule-large {
-      clear: both;
-      background-color: transparent;
-      border: 5px solid #cd1632;
-      border-width: 5px 0 0;
-      margin: 15px 0px;
-    }
-    hr.rule-top {
-      margin-top: 0;
-    }
-
-    /* Typography */
-    h1,
-    .heading-large {
-      font-size: 36px;
-      font-weight: 700;
-      margin-top: 1.25em;
-      margin-bottom: 0.5555555556em;
-    }
-
-    h2,
-    .heading-medium {
-      font-size: 24px;
-      font-weight: 700;
-      margin-top: 1.875em;
-      margin-bottom: 0.8333333333em;
-    }
-
-    h3,
-    .heading-small {
-      font-size: 19px;
-      font-weight: 700;
-      margin-top: 1.0526315789em;
-      margin-bottom: 0.3125em;
-    }
-
-    p,
-    ul li,
-    ol li,
-    dl li {
-      font-size: 19px;
-    }
-
-    p {
-      line-height: 28px;
-      margin-bottom: 20px;
-    }
-
-    html,
-    body,
-    h1, h2, h3,
-    p,
-    button,
-    input,
-    main,
-    table,
-    td,
-    th,
-    .heading-xlarge,
-    .heading-large,
-    .heading-medium,
-    .heading-small,
-    #footer .footer-meta .footer-meta-inner ul,
-    #footer .footer-meta .footer-meta-inner .open-government-licence p,
-    #footer .footer-meta .footer-meta-inner .footer-credits p,
-    #footer .footer-meta .copyright,
-    #footer h2, .govuk-search .search-input,
-    #global-header .header-proposition #proposition-name, #global-header .header-proposition #proposition-link a,
-    #global-header .header-proposition #proposition-links a {
-      color: #000000;
-      font-family: Arial, sans-serif;
-    }
-
-    strong {
-      font-weight: 700;
-    }
-
-    #footer .footer-meta .footer-meta-inner .footer-credits p {
-      font-size: 16px;
-    }
-
-    .dialog {
-      margin-top: 30px;
-    }
-
-    .dialog h1 {
-      margin-bottom: 50px;
-    }
-
-    .dialog ul {
-      margin-bottom: 40px;
-    }
-
-</style>
-</head>
-
-<body class="digital-workspace-error-page">
-  <!-- This file lives in public/404.html -->
-  <main class='root-index content-section' id='content'>
-      <div class='grid-row'>
-        <div class='column-two-thirds'>
-          <div class="dialog">
-            <p><a href="/">Home</a></p>
-            <hr />
-            <h1>Sorry but the page you were trying to view does not exist.</h1>
-            <p>It looks like this was the result of either:</p>
-            <ul>
-              <li>a mistyped address</li>
-              <li>an out-of-date link</li>
-            </ul>
-            <p><a href="/">Go back to the Digital Workspace home page</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-</body>
+  <body class="digital-workspace-error-page">
+    <h1>Page not found</h1>
+    <p>If you typed the web address, check it is correct.</p>
+    <p>If you pasted the web address, check you copied the entire address.</p>
+    <p><a href="/">Return to the Digital Workspace homepage</a></p>
+  </body>
 </html>
