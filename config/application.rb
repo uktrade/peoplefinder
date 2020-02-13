@@ -50,10 +50,12 @@ module Peoplefinder
     config.x.zendesk.service_id = ENV['ZD_SERVICE_ID']
     config.x.zendesk.service_name = ENV['ZD_SERVICE_NAME']
 
-    config.elastic_search_url = ENV['ES_URL']
+    config.elastic_search_url = ENV['ES_URL'] # Overridden in production config
     config.google_analytics_tracking_id = ENV['GA_TRACKING_ID']
     config.govuk_notify_api_key = ENV['GOVUK_NOTIFY_API_KEY']
     config.home_page_url = ENV['HOME_PAGE_URL']
     config.profile_api_token = ENV['PROFILE_API_TOKEN']
+    config.redis_cache_url = ENV['REDIS_CACHE_URL'] # Overridden in production config
+    config.redis_sidekiq_url = ENV['REDIS_SIDEKIQ_URL'] # Overridden in production config
   end
 end
