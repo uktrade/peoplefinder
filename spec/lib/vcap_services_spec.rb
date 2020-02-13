@@ -27,8 +27,9 @@ describe VcapServices do
     context 'when there are no services of the given type' do
       let(:service_url) { subject.service_url(:ms_sql_server_2008) }
 
-      it 'returns nil' do
-        expect(service_url).to be_nil
+      it 'raises an error' do
+        expect { service_url }
+          .to raise_error("VCAP_SERVICES has no services of type 'ms_sql_server_2008'")
       end
     end
   end
@@ -45,16 +46,18 @@ describe VcapServices do
     context 'for a service with a binding name that does not exist' do
       let(:named_service_url) { subject.named_service_url(:redis, 'redis_foo') }
 
-      it 'returns nil' do
-        expect(named_service_url).to be_nil
+      it 'raises an error' do
+        expect { named_service_url }
+          .to raise_error("VCAP_SERVICES has no 'redis_foo' services of type 'redis'")
       end
     end
 
     context 'when there are no services of the given type' do
       let(:named_service_url) { subject.named_service_url(:ms_sql_server_2008, 'foo') }
 
-      it 'returns nil' do
-        expect(named_service_url).to be_nil
+      it 'raises an error' do
+        expect { named_service_url }
+          .to raise_error("VCAP_SERVICES has no 'foo' services of type 'ms_sql_server_2008'")
       end
     end
   end
