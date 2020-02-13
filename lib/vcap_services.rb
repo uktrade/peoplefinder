@@ -8,7 +8,7 @@ class VcapServices
 
   def service_url(service_type)
     candidates = services_of_type(service_type)
-    return nil if candidates.blank?
+    raise "VCAP_SERVICES has no services of type '#{service_type}'" if candidates.blank?
 
     candidates.first.dig('credentials', 'uri')
   end
@@ -19,7 +19,7 @@ class VcapServices
     #       which means we need to disregard the last part of the name (which is usually an environment
     #       suffix).
     candidates = services_of_type(service_type).select { |service| service['name'].start_with?(binding_name) }
-    return nil if candidates.blank?
+    raise "VCAP_SERVICES has no '#{binding_name}' services of type '#{service_type}'" if candidates.blank?
 
     candidates.first.dig('credentials', 'uri')
   end
