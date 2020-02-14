@@ -103,6 +103,7 @@ detectors:
     - GovukElementsErrorsHelperExtensions#error_html_attributes
     - InitSchema#up
     - DeleteQueuedNotifications#change
+    - RemoveDelayedJobs#change
   InstanceVariableAssumption:
     exclude:
     - Admin::ProfileExtractsController
@@ -237,6 +238,7 @@ detectors:
     - DeleteQueuedNotifications
     - RemoveReminderEmailFromPeople
     - RemoveLegacyPeopleFields
+    - RemoveDelayedJobs
   LongParameterList:
     exclude:
     - PersonFormBuilder#check_box
@@ -311,6 +313,7 @@ detectors:
     - GovukElementsErrorsHelperExtensions#error_tag_for_nested_attribute
     - InitSchema#up
     - DeleteQueuedNotifications#change
+    - RemoveDelayedJobs#change
   UncommunicativeModuleName:
     exclude:
     - Api::V2
@@ -347,6 +350,7 @@ detectors:
     - HealthCheck::ElasticsearchHealthCheck#self.check
     - InitSchema#up
     - DeleteQueuedNotifications#change
+    - RemoveDelayedJobs#change
   UtilityFunction:
     exclude:
     - Admin::TeamExtractsController#group_row

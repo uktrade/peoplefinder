@@ -30,6 +30,23 @@ services:
       - db
       - elasticsearch
       - redis_cache_sidekiq
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    env_file: .env
+    environment:
+      DATABASE_URL: "postgres://postgres:postgres@db/peoplefinder_development"
+      TEST_DATABASE_URL: "postgres://postgres:postgres@db/peoplefinder_test"
+      ES_URL: "http://elasticsearch:9200"
+      REDIS_CACHE_URL: "redis://redis_cache_sidekiq"
+      REDIS_SIDEKIQ_URL: "redis://redis_cache_sidekiq"
+    volumes:
+      # Volume set to `delegated` to improve performance (container FS authoritative)
+      - .:/peoplefinder:delegated
+    depends_on:
+      - db
+      - elasticsearch
+      - redis_cache_sidekiq
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.6.0
     environment:

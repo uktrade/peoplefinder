@@ -11,8 +11,6 @@ gem 'rails', '~> 6.0.2'
 gem 'ancestry'
 gem 'carrierwave'
 gem 'country_select'
-gem 'delayed_job'
-gem 'delayed_job_active_record'
 gem 'elasticsearch', '~> 6.1' # TODO: Pinned because we're using ES 6.x, not 7.x
 gem 'elasticsearch-model', '~> 6.0.0' # TODO: Pinned due to search result order issue in >= 6.1
 gem 'elasticsearch-rails', '~> 6.1'

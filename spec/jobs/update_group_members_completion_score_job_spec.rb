@@ -8,21 +8,13 @@ RSpec.describe UpdateGroupMembersCompletionScoreJob, type: :job do
   let(:parent) { nil }
   let(:group) { double(parent: parent) }
 
-  context 'config' do
-    subject(:job) { described_class.new }
-
-    it 'enqueues as low priority' do
-      expect(job.queue_name).to eq 'low_priority'
-    end
-  end
-
   context 'enqueuing' do
     subject { proc { described_class.perform_later(group) } }
 
     let!(:group) { create(:group) }
 
     it 'enqueues on low priority queue' do
-      expect(subject).to have_enqueued_job(described_class).on_queue('low_priority')
+      expect(subject).to have_enqueued_job(described_class).on_queue('default')
     end
 
     it 'enqueues with group params' do
