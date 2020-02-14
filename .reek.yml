@@ -93,7 +93,6 @@ detectors:
     - StateCookieHelper#set_state_cookie_action_update_if_not_create
     - StateCookieHelper#set_state_cookie_picture_editing_complete
     - VersionsHelper#link_to_edited_item
-    - UpdateGroupMembersCompletionScoreJob#error_handler
     - Group#average_completion_score
     - Version#reify
     - GroupLister#list
@@ -102,8 +101,6 @@ detectors:
     - Zendesk#report_problem
     - Zendesk#request_deletion
     - GovukElementsErrorsHelperExtensions#error_html_attributes
-    - VcapServices#named_service_url
-    - VcapServices#service_url
     - InitSchema#up
     - DeleteQueuedNotifications#change
   InstanceVariableAssumption:
@@ -379,6 +376,7 @@ detectors:
     - PeopleHelper#url_for_image
     - SearchHelper#count_as_string
     - VersionsHelper#view_template
+    - UpdateGroupMembersCompletionScoreJob#error_handler
     - UpdateGroupMembersCompletionScoreJob#perform
     - Completion#inadequate_profiles_sql
     - Completion#where_people_in
