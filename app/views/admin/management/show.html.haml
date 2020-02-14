@@ -23,3 +23,11 @@
     %ul
       %li#audit-trail
         = link_to 'Audit trail', audit_trail_path, class: "button"
+
+    %h2.heading-medium.with-border-lg.tool-name
+      Job Queue metrics
+
+    %ul
+      %li= "Processed jobs: #{@sidekiq_stats.processed}"
+      %li= "Enqueued jobs: #{@sidekiq_stats.enqueued}"
+      %li= "Failed jobs: #{@sidekiq_stats.failed}"
