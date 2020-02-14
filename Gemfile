@@ -36,7 +36,7 @@ gem 'pundit'
 gem 'redis'
 gem 'sass-rails'
 gem 'sentry-raven'
-gem 'sidekiq'
+gem 'sidekiq', '< 6' # TODO: Pinned because 6.0 requires Redis 4 which PaaS doesn't provide yet
 gem 'sprockets', '~> 3' # TODO: Pinned due to asset issues with >= 4.0
 gem 'uglifier'
 gem 'useragent'
