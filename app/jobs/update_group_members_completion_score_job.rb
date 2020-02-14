@@ -5,8 +5,6 @@ class UpdateGroupMembersCompletionScoreJob < ApplicationJob
   # but before it is executed (i.e. #perform called).
   rescue_from ActiveJob::DeserializationError, with: :error_handler
 
-  queue_as :low_priority
-
   # update current groups and parent's score
   def perform(group)
     group.update_members_completion_score!
