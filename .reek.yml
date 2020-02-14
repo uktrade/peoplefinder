@@ -103,6 +103,7 @@ detectors:
     - GovukElementsErrorsHelperExtensions#error_html_attributes
     - InitSchema#up
     - DeleteQueuedNotifications#change
+    - RemoveSessions#change
     - RemoveDelayedJobs#change
   InstanceVariableAssumption:
     exclude:
@@ -238,6 +239,7 @@ detectors:
     - DeleteQueuedNotifications
     - RemoveReminderEmailFromPeople
     - RemoveLegacyPeopleFields
+    - RemoveSessions
     - RemoveDelayedJobs
   LongParameterList:
     exclude:
@@ -313,6 +315,7 @@ detectors:
     - GovukElementsErrorsHelperExtensions#error_tag_for_nested_attribute
     - InitSchema#up
     - DeleteQueuedNotifications#change
+    - RemoveSessions#change
     - RemoveDelayedJobs#change
   UncommunicativeModuleName:
     exclude:
@@ -350,6 +353,7 @@ detectors:
     - HealthCheck::ElasticsearchHealthCheck#self.check
     - InitSchema#up
     - DeleteQueuedNotifications#change
+    - RemoveSessions#change
     - RemoveDelayedJobs#change
   UtilityFunction:
     exclude:
