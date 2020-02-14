@@ -24,7 +24,7 @@ module Peoplefinder
 
     ActionView::Base.default_form_builder = GovukElementsFormBuilder::FormBuilder
 
-    config.active_job.queue_adapter = :delayed_job
+    config.active_job.queue_adapter = :sidekiq
     config.active_record.schema_format = :ruby
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
     config.autoload_paths << Rails.root.join('lib')

@@ -28,11 +28,6 @@ RSpec.describe UpdateGroupMembersCompletionScoreJob, type: :job do
     it 'enqueues with group params' do
       expect(subject).to have_enqueued_job.with(group)
     end
-
-    it 'checks job is not already enqueued' do
-      expect_any_instance_of(described_class).to receive(:enqueued?).with group
-      described_class.perform_later(group)
-    end
   end
 
   describe '#error_handler' do
@@ -44,13 +39,6 @@ RSpec.describe UpdateGroupMembersCompletionScoreJob, type: :job do
 
     it 'rescues from ActiveJob::DeserializationError' do
       expect_any_instance_of(described_class).to receive(:error_handler).with(ActiveJob::DeserializationError)
-      perform_enqueued_jobs { enqueue_job }
-    end
-
-    it 'logs the error' do
-      logger = double
-      expect(Rails).to receive(:logger).and_return(logger)
-      expect(logger).to receive(:warn).with(/#{described_class}/)
       perform_enqueued_jobs { enqueue_job }
     end
 

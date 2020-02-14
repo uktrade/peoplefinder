@@ -38,6 +38,7 @@ gem 'pundit'
 gem 'redis'
 gem 'sass-rails'
 gem 'sentry-raven'
+gem 'sidekiq'
 gem 'sprockets', '~> 3' # TODO: Pinned due to asset issues with >= 4.0
 gem 'uglifier'
 gem 'useragent'

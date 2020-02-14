@@ -7,10 +7,6 @@ class UpdateGroupMembersCompletionScoreJob < ApplicationJob
 
   queue_as :low_priority
 
-  around_enqueue do |job, block|
-    block.call unless enqueued? job.arguments.first
-  end
-
   # update current groups and parent's score
   def perform(group)
     group.update_members_completion_score!
@@ -19,16 +15,7 @@ class UpdateGroupMembersCompletionScoreJob < ApplicationJob
 
   private
 
-  def enqueued?(group)
-    count = Delayed::Job
-            .where("substring(handler from 'job_class: #{self.class}') IS NOT NULL")
-            .where("substring(handler from 'gid://peoplefinder/Group/#{group.id}.*') IS NOT NULL")
-            .count
-    count > 0
-  end
-
   def error_handler(exception)
-    Rails.logger.warn "#{self.class} encountered #{exception.class}: #{exception.message}"
     if exception.is_a? ActiveJob::DeserializationError
       return exception.cause.is_a? ActiveRecord::RecordNotFound
     else
