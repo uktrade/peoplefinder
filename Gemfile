@@ -26,6 +26,7 @@ gem 'haml-rails'
 gem 'health_check'
 gem 'jquery-rails'
 gem 'kramdown'
+gem 'lograge'
 gem 'mini_magick'
 gem 'notifications-ruby-client'
 gem 'omniauth-oauth2'
@@ -43,11 +44,6 @@ gem 'useragent'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'zendesk_api'
-
-group :production do
-  gem 'logstasher'
-  gem 'rails_12factor'
-end
 
 group :test do
   gem 'capybara'
