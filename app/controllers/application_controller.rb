@@ -87,4 +87,11 @@ class ApplicationController < ActionController::Base
     warning :unauthorised
     redirect_to home_path
   end
+
+  def append_info_to_payload(payload)
+    super
+
+    payload[:sso_user_id] = current_user&.ditsso_user_id
+    payload[:local_user_id] = current_user&.id
+  end
 end

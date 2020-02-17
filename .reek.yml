@@ -103,8 +103,8 @@ detectors:
     - GovukElementsErrorsHelperExtensions#error_html_attributes
     - InitSchema#up
     - DeleteQueuedNotifications#change
-    - RemoveSessions#change
     - RemoveDelayedJobs#change
+    - RemoveSessions#change
   InstanceVariableAssumption:
     exclude:
     - Admin::ProfileExtractsController
@@ -239,8 +239,8 @@ detectors:
     - DeleteQueuedNotifications
     - RemoveReminderEmailFromPeople
     - RemoveLegacyPeopleFields
-    - RemoveSessions
     - RemoveDelayedJobs
+    - RemoveSessions
   LongParameterList:
     exclude:
     - PersonFormBuilder#check_box
@@ -271,6 +271,7 @@ detectors:
     - Admin::TeamExtractsController#groups_csv
   NilCheck:
     exclude:
+    - ApplicationController#append_info_to_payload
     - SessionsController#create
     - SearchHelper#filter_text
     - SearchHelper#filtered_on?
@@ -292,6 +293,7 @@ detectors:
     - PersonSearch
   TooManyMethods:
     exclude:
+    - ApplicationController
     - Group
     - Person
     - PersonSearch
@@ -315,8 +317,8 @@ detectors:
     - GovukElementsErrorsHelperExtensions#error_tag_for_nested_attribute
     - InitSchema#up
     - DeleteQueuedNotifications#change
-    - RemoveSessions#change
     - RemoveDelayedJobs#change
+    - RemoveSessions#change
   UncommunicativeModuleName:
     exclude:
     - Api::V2
@@ -353,8 +355,8 @@ detectors:
     - HealthCheck::ElasticsearchHealthCheck#self.check
     - InitSchema#up
     - DeleteQueuedNotifications#change
-    - RemoveSessions#change
     - RemoveDelayedJobs#change
+    - RemoveSessions#change
   UtilityFunction:
     exclude:
     - Admin::TeamExtractsController#group_row
