@@ -1,0 +1,15 @@
+// Variables
+@import "vars/colors";
+
+// GOV.UK Design System Overrides
+@import "govuk-overrides/header";
+
+// Components
+// @import "components/search_and_profile_bar";
+// @import "components/search_field";
+
+.ws-width-container {
+  // For now, we are leaving this as the default, but this will allow us to change the container
+  // width in one fell swoop in the future.
+  @include govuk-width-container(960px);
+}

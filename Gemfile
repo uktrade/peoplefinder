@@ -41,6 +41,7 @@ gem 'sidekiq', '< 6' # TODO: Pinned because 6.0 requires Redis 4 which PaaS does
 gem 'sprockets', '~> 3' # TODO: Pinned due to asset issues with >= 4.0
 gem 'uglifier'
 gem 'useragent'
+gem 'webpacker'
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 gem 'zendesk_api'

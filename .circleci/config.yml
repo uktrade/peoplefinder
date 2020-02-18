@@ -13,5 +13,6 @@ jobs:
       # Workaround for ES memory requirements
       - run: sudo sysctl -w vm.max_map_count=262144
       - run: docker-compose up -d
+      - run: docker-compose run web bundle exec yarn install
       - run: docker-compose run web bundle exec rake db:create db:migrate
       - run: docker-compose run web bundle exec rake
