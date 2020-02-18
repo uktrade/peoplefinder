@@ -5,8 +5,8 @@
 @import "govuk-overrides/header";
 
 // Components
-// @import "components/search_and_profile_bar";
-// @import "components/search_field";
+@import "components/search_and_profile_bar";
+@import "components/search_field";
 
 .ws-width-container {
   // For now, we are leaving this as the default, but this will allow us to change the container

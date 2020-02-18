@@ -4,6 +4,8 @@ module Pages
   class Management < Base
     set_url '/admin'
 
-    element :audit_trail_link, '#audit-trail > a'
+    element :reports_tab, '#reports'
+    element :tools_tab, '#tools'
+    element :metrics_tab, '#metrics'
   end
 end
