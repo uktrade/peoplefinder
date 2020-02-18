@@ -14,7 +14,7 @@
   = 'Go to the Digital Workspace homepage'
 
 - content_for :head do
-  = stylesheet_link_tag "application", media: "all"
+  = stylesheet_link_tag "application_legacy", media: "all"
   = stylesheet_link_tag "digital-workspace-overrides/application", media: "all"
   = csrf_meta_tag
   %meta{name: "format-detection", content: "telephone=no"}
@@ -48,10 +48,10 @@
                 Search Workspace
 
 - content_for :footer_support_links do
-  = render 'layouts/footer'
+  = render 'layouts/footer_legacy'
 
 - content_for :body_end do
-  = javascript_include_tag 'application'
+  = javascript_include_tag 'application_legacy'
   = render 'layouts/ga'
 
 - content_for :content do

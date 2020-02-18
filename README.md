@@ -24,6 +24,11 @@ docker-compose build
 docker-compose up
 ```
 
+#### Get asset prerequisites set up
+```bash
+docker-compose run web yarn install
+```
+
 #### Create database and seed test data
 ```bash
 docker-compose run web bundle exec rake db:create db:schema:load peoplefinder:demo
