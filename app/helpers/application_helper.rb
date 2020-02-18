@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  def home_page_link_helper(path)
+  def home_page_link_helper(path = '/')
     if Rails.configuration.home_page_url.present?
       URI.join(Rails.configuration.home_page_url, path).to_s
     else
-      path
+      path.to_s
     end
   end
 

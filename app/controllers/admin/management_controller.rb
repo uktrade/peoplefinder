@@ -6,6 +6,9 @@ module Admin
   class ManagementController < ApplicationController
     before_action :authorize_user
 
+    # TODO: Remove once all controllers use new layout
+    layout 'application'
+
     def show
       @sidekiq_stats = Sidekiq::Stats.new
     end

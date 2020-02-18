@@ -1,0 +1,33 @@
+<footer class="govuk-footer " role="contentinfo">
+  <div class="ws-width-container ">
+    <div class="govuk-footer__meta">
+      <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+        <h2 class="govuk-visually-hidden">Support links</h2>
+        <ul class="govuk-footer__inline-list">
+          <li class="govuk-footer__inline-list-item">
+            <%= link_to 'Teams', group_path('department-for-international-trade'), class: 'govuk-footer__link' %>
+          </li>
+          <li class="govuk-footer__inline-list-item">
+            <%= link_to 'Networks', home_page_link_helper('/networks'), class: 'govuk-footer__link' %>
+          </li>
+          <li class="govuk-footer__inline-list-item">
+            <%= link_to 'Regions', group_path('uk-regions'), class: 'govuk-footer__link' %>
+          </li>
+          <li class="govuk-footer__inline-list-item">
+            <%= link_to 'Sectors', home_page_link_helper('/sectors'), class: 'govuk-footer__link' %>
+          </li>
+          <li class="govuk-footer__inline-list-item">
+            <%= link_to '', 'https://info.ecgd.gov.uk/pages/home.aspx', class: 'govuk-footer__link' %>
+          </li>
+        </ul>
+
+        <span class="govuk-footer__licence-description">
+          Built by the <%= link_to 'DIT Digital, Data and Technology team', group_path('digital-data-and-technology'), class: 'govuk-footer__link' %>
+        </span>
+      </div>
+      <div class="govuk-footer__meta-item">
+        <a class="govuk-footer__link govuk-footer__copyright-logo" href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/">© Crown copyright</a>
+      </div>
+    </div>
+  </div>
+</footer>
