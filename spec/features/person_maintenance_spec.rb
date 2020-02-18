@@ -68,7 +68,7 @@ describe 'Person maintenance' do
         click_edit_profile
         fill_in 'First name', with: ''
         fill_in 'Last name', with: ''
-        fill_in 'Primary work email', with: ''
+        fill_in 'Primary email', with: ''
         click_button 'Save', match: :first
 
         expect(edit_profile_page).to have_error_summary

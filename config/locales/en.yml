@@ -60,9 +60,9 @@ en:
       other: Select the person's new team
     leader:
       mine: |
-        Are you the head of the <span class="team-led">team above</span>? (optional)
+        Are you the head of the <span class="team-led">team above</span>?
       other: |
-        Is this person the leader of the <span class="team-led">team above</span>? (optional)
+        Is this person the leader of the <span class="team-led">team above</span>?
   people:
     day_names:
       works_monday: "Monday"
@@ -270,7 +270,7 @@ en:
     attributes:
       person:
         given_name: "First name"
-        email: Primary work email
+        email: Primary email
       memberships:
         leader: "Are you the Permanent Secretary of the Department?"
         group: Team
@@ -315,7 +315,7 @@ en:
         <p>All the information on your profile will be visible to DIT staff and contractors on the People Finder and other internal DIT tools.</p>
         <p>Occasionally, we may use data from the People Finder in aggregate for departmental insights.</p>
       profile_deletable: "Note that deleting a profile cannot be undone."
-      reported_profile_additional_details_label: "Additional details (optional)"
+      reported_profile_additional_details_label: Additional details
       request_information: "Incorrect or missing information? Has this person left the department or is this a duplicate?"
       request_information_link: "Help improve this profile"
       team_deletable: "Note that team deletion cannot be undone."
@@ -332,17 +332,17 @@ en:
         working_days: Which days of the week do you work?
     label:
       person:
-        given_name: First name
-        surname: Last name
+        given_name: First name (required)
+        surname: Last name (required)
         pronouns: My pronouns
-        email: Primary work email
-        primary_phone_number: Mobile number
-        secondary_phone_number: Landline number (optional)
-        location_in_building: Location in building (optional - do not enter location if in KCS)
-        building: Building I work in (optional)
-        city: Town, City or Region
+        email: Primary email (required)
+        primary_phone_number: Preferred contact number (recommended)
+        secondary_phone_number: Additional phone number
+        location_in_building: Location in building
+        building: Building I work in
+        city: Town, City or Region (recommended)
         country: Country
-        skype_name: Skype name (optional)
+        skype_name: Skype name
         works_monday: Monday
         works_tuesday: Tuesday
         works_wednesday: Wednesday
@@ -353,7 +353,7 @@ en:
         description: Extra information
         language_intermediate: Intermediate languages
         language_fluent: Fluent languages
-        previous_positions: Previous positions held (optional)
+        previous_positions: Previous positions held
         other_uk: Other - UK regional
         other_overseas: Other - Overseas
         other_additional_responsibilities: Other additional roles and responsibilities
@@ -386,9 +386,9 @@ en:
       file: Upload CSV file
     hint:
       person:
-        primary_phone_number: "Enter your mobile number then select your country code"
-        secondary_phone_number: "Enter your landline number then select your country code"
-        location_in_building: "For example, 10.30"
+        primary_phone_number: "Enter your phone number then select your country code"
+        secondary_phone_number: "Enter your phone number then select your country code"
+        location_in_building: "Do not enter location if in KCS"
         building: "Select options from the list"
         city: "For example, London"
         working_days: Select all that apply
