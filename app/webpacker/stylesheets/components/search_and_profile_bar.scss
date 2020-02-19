@@ -15,6 +15,18 @@
   }
 }
 
+.ws-search-and-profile-bar__profile-details {
+  @include govuk-font($size: 16, $weight: bold);
+  float: right;
+  max-width: 250px;
+  height: 40px;
+  padding: govuk-spacing(2) govuk-spacing(3) govuk-spacing(2) govuk-spacing(6);
+
+  text-align: right;
+
+  background-color: darken($brand-color-grey90, 5%);
+}
+
 .ws-search-and-profile-bar__profile-link {
   &:link,
   &:hover,
@@ -31,17 +43,6 @@
   }
 }
 
-.ws-search-and-profile-bar__profile-details {
-  @include govuk-font($size: 16, $weight: bold);
-
-  background-color: darken($brand-color-grey90, 5%);
-  height: 40px;
-  max-width: 250px;
-  padding: govuk-spacing(2) govuk-spacing(3) govuk-spacing(2) govuk-spacing(6);
-  float: right;
-  text-align: right;
-}
-
 .ws-search-and-profile-bar__profile-image {
   display: block;
   float: right;
@@ -51,5 +52,6 @@
 .ws-search-and-profile-bar__profile-prompt {
   @include govuk-font($size: 14);
   display: block;
+
   text-decoration: underline;
 }

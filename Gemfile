@@ -69,7 +69,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'pry-byebug'
   gem 'pry-rails'
-  gem 'reek'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
