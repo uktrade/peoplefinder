@@ -3,10 +3,13 @@
 source 'https://rubygems.org'
 ruby '2.6.5'
 
-# TODO: Only load the subgems we need
-#  This is currently not possible because some `govuk_*` gems wrongly specify
-#  the whole of `rails` as a dependency.
-gem 'rails', '~> 6.0.2'
+RAILS_VERSION = '~> 6.0.2'
+gem 'actionpack', RAILS_VERSION
+gem 'activemodel', RAILS_VERSION
+gem 'activejob', RAILS_VERSION
+gem 'activerecord', RAILS_VERSION
+gem 'activesupport', RAILS_VERSION
+gem 'railties', RAILS_VERSION
 
 gem 'ancestry'
 gem 'carrierwave'
