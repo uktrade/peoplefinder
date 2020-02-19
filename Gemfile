@@ -18,13 +18,7 @@ gem 'faker'
 gem 'fastimage'
 gem 'fog-aws'
 gem 'friendly_id'
-gem 'govuk_elements_form_builder', '~> 0.0'
-gem 'govuk_elements_rails', '~> 2.2'
-gem 'govuk_frontend_toolkit'
-gem 'govuk_template'
-gem 'haml-rails'
 gem 'health_check'
-gem 'jquery-rails'
 gem 'kramdown'
 gem 'lograge'
 gem 'mini_magick'
@@ -35,16 +29,27 @@ gem 'pg'
 gem 'puma'
 gem 'pundit'
 gem 'redis'
-gem 'sass-rails'
 gem 'sentry-raven'
 gem 'sidekiq', '< 6' # TODO: Pinned because 6.0 requires Redis 4 which PaaS doesn't provide yet
-gem 'sprockets', '~> 3' # TODO: Pinned due to asset issues with >= 4.0
-gem 'uglifier'
+gem 'slim'
 gem 'useragent'
 gem 'webpacker'
 gem 'will_paginate'
-gem 'will_paginate-bootstrap'
 gem 'zendesk_api'
+
+group :legacy_frontend, :default do
+  # TODO: Once the entire app is moved to GOV.UK Frontend, we can remove all of these dependencies.
+  gem 'govuk_elements_form_builder', '~> 0.0'
+  gem 'govuk_elements_rails', '~> 2.2'
+  gem 'govuk_frontend_toolkit'
+  gem 'govuk_template'
+  gem 'haml-rails'
+  gem 'jquery-rails'
+  gem 'sass-rails'
+  gem 'sprockets', '~> 3' # TODO: Pinned due to asset issues with >= 4.0
+  gem 'uglifier'
+  gem 'will_paginate-bootstrap'
+end
 
 group :test do
   gem 'capybara'
