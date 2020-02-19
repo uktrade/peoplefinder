@@ -10,7 +10,7 @@ describe 'Super admin views CSV extracts' do
   end
 
   it 'download of profiles' do
-    within('#csv-extract') { click_link 'Profiles' }
+    within('#profiles-download') { click_link 'Download' }
 
     header = page.response_headers['Content-Disposition']
     expect(header).to match(/^attachment/)
@@ -24,7 +24,7 @@ describe 'Super admin views CSV extracts' do
   end
 
   it 'download of teams' do
-    within('#csv-extract') { click_link 'Teams' }
+    within('#teams-download') { click_link 'Download' }
 
     header = page.response_headers['Content-Disposition']
     expect(header).to match(/^attachment/)
