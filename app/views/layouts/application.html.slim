@@ -1,0 +1,41 @@
+doctype html
+
+html.govuk-template[lang="en"]
+  head
+    title = page_title
+
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    meta name='format-detection' content='telephone=no'
+    meta name='robots' content='noindex, nofollow'
+    meta name='viewport' content='width=device-width, initial-scale=1'
+    meta name='theme-color' content='#cf102d'
+    meta property='og:image' content=asset_pack_path('media/images/govuk-opengraph-image.png')
+
+    = favicon_link_tag asset_pack_path('media/images/favicon.ico')
+    = favicon_link_tag asset_pack_path('media/images/govuk-mask-icon.svg'), rel: 'mask-icon', type: 'image/svg', color: "#0b0c0c"
+    = favicon_link_tag asset_pack_path('media/images/govuk-apple-touch-icon.png'), rel: 'apple-touch-icon', type: 'image/png'
+    = favicon_link_tag asset_pack_path('media/images/govuk-apple-touch-icon-152x152.png'), rel: 'apple-touch-icon', type: 'image/png', size: '152x152'
+    = favicon_link_tag asset_pack_path('media/images/govuk-apple-touch-icon-167x167.png'), rel: 'apple-touch-icon', type: 'image/png', size: '167x167'
+    = favicon_link_tag asset_pack_path('media/images/govuk-apple-touch-icon-180x180.png'), rel: 'apple-touch-icon', type: 'image/png', size: '180x180'
+
+    = stylesheet_pack_tag 'stylesheets', 'data-turbolinks-track': 'reload', media: 'all'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true
+
+  body.govuk-template__body
+    script
+      | document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled'); 
+
+    a.govuk-skip-link[href='#main-content'] Skip to main content
+
+    = render 'layouts/header'
+    = render 'layouts/search_and_profile_bar'
+
+    .ws-width-container
+      main#main-content.govuk-main-wrapper[role="main"]
+        = yield
+
+    = render 'layouts/footer'
+
+    script[async src="https://www.googletagmanager.com/gtag/js?id=#{Rails.configuration.google_analytics_tracking_id}"]

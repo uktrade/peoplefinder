@@ -1,0 +1,24 @@
+.ws-search-and-profile-bar
+  .ws-search-and-profile-bar__container.ws-width-container.govuk-grid-row
+    .ws-search-and-profile-bar__search.ws-search-field.govuk-grid-column-one-half-from-desktop
+      = form_tag search_path, method: :get do
+        label.govuk-visually-hidden[for="search-main"]
+          = t('shared.search.hint')
+        .ws-search-field__item-wrapper
+          = search_field_tag :query, @query, class: 'ws-search-field__item ws-search-field__input', id: 'search-main', placeholder: t('shared.search.hint')
+          - SearchHelper::FILTERS.each_value do |value|
+            = hidden_field_tag 'search_filters[]', value
+          .ws-search-field__item.ws-search-field__submit-wrapper
+            = submit_tag 'Search', class: 'ws-search-field__submit'
+
+    .ws-search-and-profile-bar__profile.govuk-grid-column-one-half-from-desktop
+      = link_to person_path(current_user), class: 'ws-search-and-profile-bar__profile-link' do
+        - if current_user.profile_image
+          = image_tag current_user.profile_image.medium.url, class: 'ws-search-and-profile-bar__profile-image', alt: "Profile image of #{current_user.name}"
+        .ws-search-and-profile-bar__profile-details
+          |  Hi, #{current_user.given_name}
+          span.ws-search-and-profile-bar__profile-prompt
+            - if current_user.complete?
+              |  View your profile
+            - else
+              |  Set up your profile (#{current_user.completion_score}% complete)

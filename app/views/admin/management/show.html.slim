@@ -1,0 +1,58 @@
+h1.govuk-heading-l Manage People Finder
+
+.govuk-tabs[data-module="govuk-tabs"]
+  h2.govuk-tabs__title Management options
+
+  ul.govuk-tabs__list
+    li.govuk-tabs__list-item.govuk-tabs__list-item--selected
+      a.govuk-tabs__tab[href="#reports"] Reports
+    li.govuk-tabs__list-item
+      a.govuk-tabs__tab[href="#tools"] Tools
+    li.govuk-tabs__list-item
+      a.govuk-tabs__tab[href="#metrics"] Metrics
+
+  section#reports.govuk-tabs__panel
+    h2.govuk-heading-m Reports
+    dl.govuk-summary-list
+      #profiles-download.govuk-summary-list__row
+        dt.govuk-summary-list__key Profiles
+        dd.govuk-summary-list__value
+          | A CSV of all profiles on People Finder with team, contact, and location data
+        dd.govuk-summary-list__actions
+          = link_to admin_profile_extract_path(format: :csv), class: "govuk-link" do
+            | Download
+            span.govuk-visually-hidden profiles CSV
+      #teams-download.govuk-summary-list__row
+        dt.govuk-summary-list__key Teams
+        dd.govuk-summary-list__value
+          | A CSV of all teams on People Finder and their ancestry (slash separated list of parent team IDs)
+        dd.govuk-summary-list__actions
+          = link_to admin_team_extract_path(format: :csv), class: "govuk-link" do
+            | Download
+            span.govuk-visually-hidden teams CSV
+
+  section#tools.govuk-tabs__panel.govuk-tabs__panel--hidden
+    h2.govuk-heading-m Tools
+    h3.govuk-heading-s Audit Trail
+    p.govuk-body
+      | A stream of all changes on People Finder, along with the option to undo individual changes. You can also find a list of changes to a specific profile on the profile itself.
+    = link_to 'Audit trail', audit_trail_path, class: 'govuk-button govuk-button--secondary'
+
+  section#metrics.govuk-tabs__panel.govuk-tabs__panel--hidden
+    h2.govuk-heading-m Metrics
+    table.govuk-table
+      caption.govuk-table__caption Job queue metrics
+      thead.govuk-table__head
+        tr.govuk-table__row
+          th.govuk-table__header[scope="col"] Job type
+          th.govuk-table__header[scope="col"] Count
+      tbody.govuk-table__body
+        tr.govuk-table__row
+          th.govuk-table__header[scope="row"] Processed jobs
+          td.govuk-table__cell = @sidekiq_stats.processed
+        tr.govuk-table__row
+          th.govuk-table__header[scope="row"] Enqueued jobs
+          td.govuk-table__cell = @sidekiq_stats.enqueued
+        tr.govuk-table__row
+          th.govuk-table__header[scope="row"] Failed jobs
+          td.govuk-table__cell = @sidekiq_stats.failed

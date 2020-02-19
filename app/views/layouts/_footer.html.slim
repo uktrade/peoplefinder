@@ -1,0 +1,23 @@
+footer.govuk-footer[role="contentinfo"]
+  .ws-width-container
+    .govuk-footer__meta
+      .govuk-footer__meta-item.govuk-footer__meta-item--grow
+        h2.govuk-visually-hidden
+          | Support links
+        ul.govuk-footer__inline-list
+          li.govuk-footer__inline-list-item
+            = link_to 'Teams', group_path('department-for-international-trade'), class: 'govuk-footer__link'
+          li.govuk-footer__inline-list-item
+            = link_to 'Networks', home_page_link_helper('/networks'), class: 'govuk-footer__link'
+          li.govuk-footer__inline-list-item
+            = link_to 'Regions', group_path('uk-regions'), class: 'govuk-footer__link'
+          li.govuk-footer__inline-list-item
+            = link_to 'Sectors', home_page_link_helper('/sectors'), class: 'govuk-footer__link'
+          li.govuk-footer__inline-list-item
+            = link_to 'UKEF', 'https://info.ecgd.gov.uk/pages/home.aspx', class: 'govuk-footer__link'
+        span.govuk-footer__licence-description
+          |  Built by the
+          = link_to 'DIT Digital, Data and Technology team', group_path('digital-data-and-technology'), class: 'govuk-footer__link'
+      .govuk-footer__meta-item
+        = link_to 'https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/', class: 'govuk-footer__link govuk-footer__copyright-logo' do
+          | &copy; Crown copyright
