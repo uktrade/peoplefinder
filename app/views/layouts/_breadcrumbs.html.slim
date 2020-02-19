@@ -1,0 +1,8 @@
+div.govuk-breadcrumbs
+  ol.govuk-breadcrumbs__list
+    - breadcrumb_trail do |crumb|
+      - if crumb.current?
+        li.govuk-breadcrumbs__list-item[aria-current='page'] = crumb.name
+      - else
+        li.govuk-breadcrumbs__list-item
+          = link_to crumb.name, crumb.path, class: 'govuk-breadcrumbs__link'
