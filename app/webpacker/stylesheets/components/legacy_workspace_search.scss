@@ -1,0 +1,28 @@
+// Recreates the ugly separate search field for legacy Digital Workspace
+// TODO: Remove once "combined search" is rolled out
+
+.ws-legacy-workspace-search {
+  position: absolute;
+  top: 8px;
+  right: 0;
+
+  display: none;
+  width: 300px;
+
+  border: 2px solid #000000;
+
+
+  @include govuk-media-query($from: tablet) {
+    display: block;
+  }
+
+  .ws-search-field__input[type="search"] {
+    height: 36px;
+  }
+
+  .ws-search-field__submit {
+    height: 36px;
+
+    background-color: govuk-colour("blue");
+  }
+}
