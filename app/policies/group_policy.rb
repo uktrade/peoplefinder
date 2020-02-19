@@ -5,6 +5,18 @@ class GroupPolicy < ApplicationPolicy
     true
   end
 
+  def all_people?
+    true
+  end
+
+  def people_outside_subteams?
+    true
+  end
+
+  def tree?
+    true
+  end
+
   def edit?
     admin_user?
   end

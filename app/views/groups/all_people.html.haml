@@ -1,13 +1,13 @@
 - content_for :breadcrumbs do
-  = breadcrumbs(Home.path + @group.path + ['All people'])
+  = breadcrumbs(Home.path + group.path + ['All people'])
 
 
 %h1.heading-xlarge.with-border-lg
-  = @page_title = "People in #{ @group.name }"
+  = @page_title = "People in #{ group.name }"
 
-= render partial: "all_people_pagination"
+= render partial: "all_people_pagination", locals: { people_in_subtree: people_in_subtree }
 
 .grid-row.mod-list.mod-list-people
-  = render partial: "people/summary", collection: @people_in_subtree
+  = render partial: "people/summary", collection: people_in_subtree
 
-= render partial: "all_people_pagination"
+= render partial: "all_people_pagination", locals: { people_in_subtree: people_in_subtree }

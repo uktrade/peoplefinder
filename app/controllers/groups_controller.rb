@@ -1,101 +1,129 @@
 # frozen_string_literal: true
 
 class GroupsController < ApplicationController
-  before_action :set_group, only: %i[
-    show edit update destroy all_people people_outside_subteams tree
-  ]
-  before_action :set_org_structure, only: %i[new edit create update]
-  before_action :load_versions, only: [:show]
-
-  # GET /groups
   def index
-    @group = Group.department || Group.first
-    if @group
-      redirect_to @group
+    group = Group.department || Group.first
+
+    if group
+      redirect_to group
     else
       redirect_to new_group_path
     end
   end
 
-  # GET /groups/1
   def show
-    authorize @group
-    @all_people_count = @group.all_people_count
-    @people_outside_subteams_count = @group.people_outside_subteams_count
+    authorize group
 
-    respond_to do |format|
-      format.html { session[:last_group_visited] = @group.id }
-      format.js
-    end
+    render 'show', locals: {
+      group: group,
+      versions: versions,
+      all_people_count: group.all_people_count,
+      people_outside_subteams_count: group.people_outside_subteams_count
+    }
   end
 
-  # GET /teams/slug_or_id/people
   def all_people
-    @people_in_subtree = @group.all_people.paginate(page: params[:page], per_page: 500)
+    authorize group
+
+    people_in_subtree = group.all_people.paginate(page: params[:page], per_page: 500)
+
+    render 'all_people', locals: {
+      group: group,
+      people_in_subtree: people_in_subtree
+    }
   end
 
-  # GET /groups/new
+  def people_outside_subteams
+    authorize group
+
+    people = group.people_outside_subteams
+
+    render 'people_outside_subteams', locals: {
+      group: group,
+      people_outside_subteams: people
+    }
+  end
+
   def new
-    @group = collection.new
-    @group.memberships.build person: person_from_person_id
-    authorize @group
+    group = collection.new
+    group.memberships.build person: person_from_person_id
+    authorize group
+
+    render 'new', locals: {
+      group: group,
+      org_structure: org_structure
+    }
   end
 
-  # GET /groups/1/edit
   def edit
-    @group.memberships.build if @group.memberships.empty?
-    authorize @group
+    group.memberships.build if group.memberships.empty?
+    authorize group
+
+    render 'edit', locals: {
+      group: group,
+      org_structure: org_structure
+    }
   end
 
-  # POST /groups
   def create
-    @group = collection.new(group_params)
-    authorize @group
+    group = collection.new(group_params)
+    authorize group
 
-    if @group.save
-      notice :group_created, group: @group
-      redirect_to @group
+    if group.save
+      notice :group_created, group: group
+      redirect_to group
     else
-      render :new
+      render 'new', locals: {
+        group: group,
+        org_structure: org_structure
+      }
     end
   end
 
-  # PATCH/PUT /groups/1
   def update
-    authorize @group
+    authorize group
 
-    if @group.update(group_params)
-      notice :group_updated, group: @group
-      redirect_to @group
+    if group.update(group_params)
+      notice :group_updated, group: group
+      redirect_to group
     else
-      render :edit
+      render 'edit', locals: {
+        group: group,
+        org_structure: org_structure
+      }
     end
   end
 
-  # DELETE /groups/1
   def destroy
-    authorize @group
+    authorize group
 
-    next_page = @group.parent ? group_path(@group.parent) : groups_path
-    @group.destroy
-    notice :group_deleted, group: @group
+    next_page = group.parent ? group_path(group.parent) : groups_path
+    group.destroy
+    notice :group_deleted, group: group
     redirect_to next_page
   end
 
-  # GET /groups/1/tree
   def tree
-    @tree = @group.subtree.arrange
+    authorize group
+
+    render 'tree', locals: {
+      group: group,
+      tree: group.subtree.arrange
+    }
   end
 
   private
 
-  def set_group
-    group = collection.friendly.find(params[:id])
-    @group = Group.includes(:people).find(group.id)
+  def group
+    @group ||= Group.includes(:people).find_by(slug: params[:id])
   end
 
-  def set_org_structure
-    @org_structure = Group.hierarchy_hash
+  def org_structure
+    @org_structure ||= Group.hierarchy_hash
+  end
+
+  def versions
+    @versions ||= AuditVersionPresenter.wrap(group.versions) if super_admin?
   end
 
   def group_params
@@ -105,7 +133,7 @@ class GroupsController < ApplicationController
 
   def collection
     if params[:group_id]
-      Group.friendly.find(params[:group_id]).children
+      Group.find_by(slug: params[:group_id]).children
     else
       Group
     end
@@ -113,11 +141,5 @@ class GroupsController < ApplicationController
 
   def person_from_person_id
     params[:person_id] ? Person.friendly.find(params[:person_id]) : nil
-  end
-
-  def load_versions
-    versions = @group.versions
-    @last_updated_at = versions.last ? versions.last.created_at : nil
-    @versions = AuditVersionPresenter.wrap(versions) if super_admin?
   end
 end

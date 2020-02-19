@@ -1,21 +1,21 @@
 - content_for :body_classes, 'edit-team-page '
 
-= render partial: 'breadcrumbs'
+= render partial: 'breadcrumbs', locals: { group: group }
 
 %h1.heading-xlarge
   = @page_title = 'Edit team'
 
-= GovukElementsErrorsHelper.error_summary @group,
+= GovukElementsErrorsHelper.error_summary group,
     "There is a problem with the form",
     "Check below for more detail"
 
-= render 'form'
+= render partial: 'form', locals: { group: group, org_structure: org_structure }
 
 .form-group.delete-actions
-  - if @group.deletable?
+  - if group.deletable?
     .deletable
-      = link_to info_text('delete_this_team'), @group, method: :delete,
-        data: { confirm: "Are you sure you want to delete #{ @group.name }?" }
+      = link_to info_text('delete_this_team'), group, method: :delete,
+        data: { confirm: "Are you sure you want to delete #{ group.name }?" }
     %p.form-hint= info_text('team_deletable')
   - else
     .deletable.opaque
