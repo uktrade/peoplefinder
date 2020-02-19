@@ -193,6 +193,8 @@ GEM
       thor (>= 0.14, < 2.0)
     jwt (2.2.1)
     kramdown (2.1.0)
+    loaf (0.9.0)
+      rails (>= 3.2)
     lograge (0.11.2)
       actionpack (>= 4)
       activesupport (>= 4)
@@ -461,6 +463,7 @@ DEPENDENCIES
   health_check
   jquery-rails
   kramdown
+  loaf
   lograge
   mini_magick
   notifications-ruby-client

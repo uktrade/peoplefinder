@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  breadcrumb 'home', :home
+
   def login_person(person)
     login_service = Login.new(session, person)
     login_service.login

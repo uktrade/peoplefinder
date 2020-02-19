@@ -9,6 +9,8 @@ module Admin
     # TODO: Remove once all controllers use new layout
     layout 'application'
 
+    breadcrumb 'admin.management', :admin_home
+
     def show
       @sidekiq_stats = Sidekiq::Stats.new
     end
