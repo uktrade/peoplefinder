@@ -53,6 +53,6 @@
   <%= render partial: "teams_in_team", locals: { people_outside_subteams_count: people_outside_subteams_count, group: group } %>
 <% end %>
 
-<% unless @versions.nil? %>
+<% if versions %>
   <%= render 'shared/audit', versions: versions %>
 <% end %>

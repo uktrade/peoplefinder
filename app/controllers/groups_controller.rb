@@ -46,7 +46,6 @@ class GroupsController < ApplicationController
 
   def new
     group = collection.new
-    group.memberships.build person: person_from_person_id
     authorize group
 
     render 'new', locals: {
@@ -56,7 +55,6 @@ class GroupsController < ApplicationController
   end
 
   def edit
-    group.memberships.build if group.memberships.empty?
     authorize group
 
     render 'edit', locals: {
@@ -137,9 +135,5 @@ class GroupsController < ApplicationController
     else
       Group
     end
-  end
-
-  def person_from_person_id
-    params[:person_id] ? Person.friendly.find(params[:person_id]) : nil
   end
 end
