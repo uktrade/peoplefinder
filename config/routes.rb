@@ -44,10 +44,6 @@ Rails.application.routes.draw do
   match '/audit_trail/undo/:id', to: 'versions#undo', via: [:post]
   match '/search', to: 'search#index', via: [:get]
 
-  get '/groups/:id', to: redirect('/teams/%{id}')
-  get '/groups/:id/edit', to: redirect('/teams/%{id}/edit')
-  get '/groups/:id/people', to: redirect('/teams/%{id}/people')
-
   namespace :admin do
     root to: 'management#show', as: :home
 

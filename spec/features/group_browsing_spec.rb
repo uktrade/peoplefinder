@@ -121,20 +121,6 @@ describe 'Group browsing' do
     end
   end
 
-  it 'redirecting from /groups' do
-    omni_auth_log_in_as_super_admin
-    create(:group, name: 'moj')
-
-    visit '/groups/moj'
-    expect(current_path).to eql('/teams/moj')
-
-    visit '/groups/moj/edit'
-    expect(current_path).to eql('/teams/moj/edit')
-
-    visit '/groups/moj/people'
-    expect(current_path).to eql('/teams/moj/people')
-  end
-
   def add_people_to_group(names, group)
     names.each do |gn, sn|
       create(:person, :member_of, team: group, sole_membership: true, given_name: gn, surname: sn)

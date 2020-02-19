@@ -1,6 +1,6 @@
 - @editing_mode = true
-= form_for @group do |f|
 
+= form_for group do |f|
   = f.text_field :name
   = f.text_field :acronym
 
@@ -49,7 +49,7 @@
           .panel
             To add a line space press enter
 
-  - if @group.editable_parent?
+  - if group.editable_parent?
     .form-group.group-parent.editable-container
       - if params[:group_id]
         = f.hidden_field :parent_id
@@ -59,18 +59,18 @@
         %p#error_group_base.form-hint
           Change where in the organisation this team is located.
 
-        -unless @group.new_record?
+        -unless group.new_record?
           .editable-summary.parent-summary
-            - if @group.parent
+            - if group.parent
               .title
-                = breadcrumbs(@group.parent.path, show_links: false)
+                = breadcrumbs(group.parent.path, show_links: false)
             = link_to 'Change team parent', '#', class: 'show-editable-fields'
 
-        .editable-fields{ style: ('display:none' unless @group.new_record?) }
+        .editable-fields{ style: ('display:none' unless group.new_record?) }
           %p.form-hint
             = t('.team_selector_hint')
-          - if @org_structure
-            = render 'shared/org_browser', org_structure: @org_structure, form: f, field_name: :parent_id
+          - if org_structure
+            = render 'shared/org_browser', org_structure: org_structure, form: f, field_name: :parent_id
             = link_to 'Done', '#', class: 'hide-editable-fields button-secondary'
 
   .form-group
@@ -78,8 +78,8 @@
 
   .form-group
     .cancel
-      - if @group.new_record?
+      - if group.new_record?
         = link_to 'Cancel', :back
       - else
-        = link_to 'Cancel', @group
+        = link_to 'Cancel', group
 

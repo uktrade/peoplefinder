@@ -56,7 +56,7 @@ describe 'Audit trail' do
 
   it 'Auditing the creation of a group' do
     with_versioning do
-      visit new_group_group_path(Group.department.id)
+      visit new_group_group_path(Group.department.slug)
       fill_in 'Team name', with: 'Jon'
       click_button 'Save', match: :first
 
