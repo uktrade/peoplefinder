@@ -1,0 +1,25 @@
+.ws-header-link-list {
+  text-align: left;
+
+  @include govuk-media-query($from: tablet) {
+    text-align: right;
+  }
+}
+
+.ws-header-link-list__link {
+  @extend %govuk-link;
+
+  display: inline-block;
+
+  margin-right: govuk-spacing(2);
+  padding-right: govuk-spacing(2);
+
+  border-right: 1px solid govuk-colour("mid-grey");
+
+  &:last-child {
+    margin-right: 0;
+    padding-right: 0;
+
+    border-right: none;
+  }
+}

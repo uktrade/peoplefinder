@@ -1,0 +1,28 @@
+div.govuk-grid-column-full
+  hr.govuk-section-break.govuk-section-break--m.govuk-section-break--visible
+  h2.govuk-heading-m Audit log
+
+  table.govuk-table
+    thead
+      tr
+        th.govuk-table__header Event at
+        th.govuk-table__header By
+        th.govuk-table__header IP address
+        th.govuk-table__header Browser
+        th.govuk-table__header Change
+      - versions.reverse.each do |v|
+        tr
+          td.govuk-table__cell = v.created_at.strftime('%F')
+          td.govuk-table__cell
+            - if v.whodunnit.is_a?(Person)
+              = link_to v.whodunnit.to_s, v.whodunnit
+            - else
+              = v.whodunnit || 'Not available'
+          td.govuk-table__cell = v.ip_address
+          td.govuk-table__cell = v.user_agent_summary
+          td.govuk-table__cell
+            ul.govuk-list
+              - v.changes.each do |field, value|
+                li
+                  strong #{field}:&nbsp;
+                  = value

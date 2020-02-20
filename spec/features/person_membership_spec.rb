@@ -120,16 +120,13 @@ describe 'Person maintenance' do
     click_button 'Save', match: :first
 
     visit group_path(Group.find_by(name: 'Ministry of Justice'))
-    within('.cb-leaders') do
-      expect(page).to have_selector('h4', text: 'Samantha Taylor')
+    within('.ws-person-cards--leaders') do
+      expect(page).to have_link('Samantha Taylor')
       expect(page).to have_text('Permanent Secretary')
     end
 
     visit person_path(person)
     expect(page).to have_selector('h3', text: 'Permanent Secretary')
-
-    visit home_path
-    expect(page.find('#content img.media-object')[:alt]).to have_content 'Current photo of Samantha Taylor'
   end
 
   it 'Adding an additional leadership role in same team', js: true do
@@ -154,8 +151,8 @@ describe 'Person maintenance' do
     click_button 'Save', match: :first
 
     visit group_path(Group.find_by(name: 'Digital Justice'))
-    within('.cb-leaders') do
-      expect(page).to have_selector('h4', text: 'Samantha Taylor')
+    within('.ws-person-cards--leaders') do
+      expect(page).to have_link('Samantha Taylor')
       expect(page).to have_text('Head Honcho, Master of None')
     end
 

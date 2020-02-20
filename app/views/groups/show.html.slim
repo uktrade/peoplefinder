@@ -1,0 +1,46 @@
+.govuk-grid-row
+  .govuk-grid-column-full
+    - if group.acronym?
+      span.govuk-caption-l = group.acronym
+    h1.govuk-heading-l = group.name
+    hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+  - if group.leaderships.any?
+    .govuk-grid-column-one-third
+      h2.govuk-heading-s Team #{'leader'.pluralize(group.leaderships.count)}
+      ol.ws-person-cards.ws-person-cards--leaders
+        = render partial: 'person', collection: group.leaders
+
+  .govuk-grid-column-two-thirds
+    h2.govuk-heading-s About the team
+    .govuk-body = markdown(group.with_placeholder_default(:description))
+    - if policy(group).update?
+      = link_to 'Edit team', edit_group_path(group), class: 'govuk-button govuk-button--secondary govuk-button--menuitem'
+    - if policy(Group).create?
+      = link_to 'Add new sub-team', new_group_group_path(group), class: 'govuk-button govuk-button--secondary govuk-button--menuitem'
+
+  - if group.leaf_node?
+    .govuk-grid-column-full
+      hr.govuk-section-break.govuk-section-break--m.govuk-section-break--visible
+      h2.govuk-heading-m People in #{group.short_name}
+      ol.ws-person-cards
+        = render partial: 'person', collection: group.non_leaders
+  - else
+    .govuk-grid-column-full
+      hr.govuk-section-break.govuk-section-break--m.govuk-section-break--visible
+      .govuk-grid-row
+        .govuk-grid-column-one-half
+          h2.govuk-heading-m Teams within #{group.short_name}
+        .govuk-grid-column-one-half
+          .ws-header-link-list
+            - if all_people_count.positive? && !group.leaf_node?
+              = link_to 'View all people', people_group_path(group), class: 'ws-header-link-list__link'
+            - if group.children?
+              = link_to 'View all sub-teams', tree_group_path(group), class: 'ws-header-link-list__link'
+            - if people_outside_subteams_count.positive?
+              = link_to "View #{ pluralize_with_delimiter people_outside_subteams_count, 'person' } not assigned to a team", people_outside_subteams_group_path(group), class: 'ws-header-link-list__link'
+      ol.ws-group-cards
+        = render partial: 'group', collection: group.children
+
+  - if versions
+    = render 'shared/audit', versions: versions

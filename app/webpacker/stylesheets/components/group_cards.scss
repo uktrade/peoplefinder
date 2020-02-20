@@ -1,0 +1,63 @@
+// Displays a group box on group list pages
+//  Adapted from GOV.UK Publishing's "highlight box" component
+
+.ws-group-cards {
+  @include govuk-text-colour;
+  display: flex;
+  flex-wrap: wrap;
+  margin: govuk-spacing(3) 0 0 0;
+  padding: 0;
+
+  @include govuk-media-query($from: tablet) {
+    margin-right: -25px;
+  }
+}
+
+.ws-group-cards__item-wrapper {
+  @include govuk-font(19);
+  box-sizing: border-box;
+  width: 100%;
+  padding: govuk-spacing(1) govuk-spacing(2) govuk-spacing(5) 0;
+
+  list-style-type: none;
+
+  @include govuk-media-query($from: tablet) {
+    width: 50%;
+    padding: govuk-spacing(1) govuk-spacing(5) govuk-spacing(5) 0;
+  }
+
+  @include govuk-media-query($from: desktop) {
+    width: (1 / 3) * 100%;
+    padding: govuk-spacing(1) govuk-spacing(5) govuk-spacing(5) 0;
+  }
+}
+
+.ws-group-cards__item {
+  box-sizing: border-box;
+  height: 100%;
+  padding: govuk-spacing(3) * 1.5;
+
+  border: 1px solid govuk-colour("mid-grey", $legacy: "grey-2");
+  box-shadow: 7px 7px 0 govuk-colour("white"), 8px 8px 0 govuk-colour("mid-grey", $legacy: "grey-2");
+}
+
+.ws-group-cards__title {
+  @extend %govuk-link;
+  @include govuk-font(19, $weight: bold);
+  display: block;
+  margin-bottom: 5px;
+
+  text-decoration: underline;
+}
+
+.ws-group-cards__description {
+  margin: 0 0 govuk-spacing(2) 0;
+}
+
+.ws-group-cards__metadata {
+  display: inline-block;
+  margin: 0 govuk-spacing(3) 0 0;
+
+  color: govuk-colour("dark-grey");
+  @include govuk-font(16);
+}

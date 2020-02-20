@@ -1,0 +1,42 @@
+.ws-person-cards {
+  @include govuk-text-colour;
+  display: flex;
+  flex-wrap: wrap;
+  margin: govuk-spacing(3) 0 0 0;
+  padding: 0;
+
+  @include govuk-media-query($from: tablet) {
+    margin-right: -25px;
+  }
+}
+
+.ws-person-cards__item {
+  @include govuk-font(16);
+  box-sizing: border-box;
+  width: 100%;
+
+  padding: govuk-spacing(1) govuk-spacing(2) govuk-spacing(5) 0;
+
+  list-style-type: none;
+
+  @include govuk-media-query($from: tablet) {
+    width: 25%;
+    padding: govuk-spacing(1) govuk-spacing(5) govuk-spacing(5) 0;
+  }
+}
+
+.ws-person-cards__image-wrapper {
+  img {
+    width: 100%;
+  }
+}
+
+.ws-person-cards__name {
+  @include govuk-font(19, $weight: bold);
+}
+
+.ws-person-cards.ws-person-cards--leaders {
+  .ws-person-cards__item {
+    width: 100%;
+  }
+}

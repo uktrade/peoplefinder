@@ -1,0 +1,6 @@
+li.ws-group-cards__item-wrapper
+  .ws-group-cards__item
+    = link_to group.name, group, class: 'ws-group-cards__title'
+    p.ws-group-cards__description = markdown_without_hyperlinks(truncate(group.with_placeholder_default(:description), length: 150, separator: ' '))
+    - if group.members_completion_score
+      p.ws-group-cards__metadata #{group.members_completion_score}% of profiles complete

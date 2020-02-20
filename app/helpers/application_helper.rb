@@ -42,6 +42,17 @@ module ApplicationHelper
     end
   end
 
+  def flash_messages_new
+    messages = flash.keys.map(&:to_s) & FLASH_NOTICE_KEYS
+    return if messages.empty?
+
+    content_tag(:div, id: 'flash-messages') do
+      messages.inject(ActiveSupport::SafeBuffer.new) do |html, type|
+        html << flash_message_new(type)
+      end
+    end
+  end
+
   def error_text(key)
     t(key, scope: 'errors')
   end
@@ -109,6 +120,14 @@ module ApplicationHelper
   def flash_message(type)
     content_tag(:div, class: "flash-message #{type}", role: 'alert') do
       flash[type]
+    end
+  end
+
+  def flash_message_new(type)
+    content_tag(:div, class: "ws-flash ws-flash--#{type}", role: 'alert') do
+      content_tag(:span, class: 'ws-flash__message') do
+        flash[type]
+      end
     end
   end
 end

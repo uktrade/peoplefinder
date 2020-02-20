@@ -3,38 +3,20 @@
 require 'rails_helper'
 
 describe 'Flash messages' do
-  RSpec::Matchers.define :appear_before do |later_content|
-    match do |earlier_content|
-      page.body.index(earlier_content) < page.body.index(later_content)
-    end
+  let(:department) { create(:department) }
+
+  before do
+    omni_auth_log_in_as_super_admin
   end
 
-  describe 'layout' do
-    let!(:dept) { create :department }
-    let(:person) { create :person }
-    let(:flash_messages) { 'flash-messages' }
-    let(:searchbox) { 'mod-search-form' }
-    let(:super_admin) { create(:super_admin) }
+  it 'displays flash messages below search box' do
+    visit group_path(department)
+    click_link 'Add new sub-team'
+    fill_in 'Team name', with: 'Digital'
+    click_button 'Save'
 
-    before do
-      omni_auth_log_in_as_super_admin
-      person.memberships.destroy_all
-    end
-
-    it 'display flash messages above search box for home page' do
-      visit person_path(person)
-      click_delete_profile
-      expect(flash_messages).to appear_before searchbox
-      expect(searchbox).not_to appear_before flash_messages
-    end
-
-    it 'display flash messages below search box' do
-      visit group_path(dept)
-      click_link 'Add new sub-team'
-      fill_in 'Team name', with: 'Digital'
-      click_button 'Save'
-      expect(searchbox).not_to appear_before flash_messages
-      expect(flash_messages).to appear_before searchbox
+    within('#flash-messages') do
+      expect(page).to have_content('Created Digital')
     end
   end
 end

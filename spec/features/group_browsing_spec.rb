@@ -39,7 +39,7 @@ describe 'Group browsing' do
     current_group = team
     visit group_path(current_group)
 
-    expect(page).to have_text('0% of profile information completed')
+    expect(page).to have_text('0% of profiles complete')
     expect(page).not_to have_link("View all 0 people in #{current_group.name}")
     expect(page).not_to have_link('View 0 people not assigned to a team')
   end
@@ -77,7 +77,7 @@ describe 'Group browsing' do
 
       visit group_path(department)
       expect(page).not_to have_link("View all 7 people in #{department.name}")
-      expect(page).to have_link('View 1 person not assigned to a directorate')
+      expect(page).to have_link('View 1 person not assigned to a team')
     end
 
     it 'viewing text on page' do
@@ -85,7 +85,7 @@ describe 'Group browsing' do
       expect(page).to have_text("Teams within #{team.name}")
       expect(page).to have_link('View all people')
       expect(page).to have_link('View 3 people not assigned to a team')
-      expect(page).to have_text("#{subteam.members_completion_score}% of profile information completed")
+      expect(page).to have_text("#{subteam.members_completion_score}% of profiles complete")
     end
 
     it 'following the view all people link' do
