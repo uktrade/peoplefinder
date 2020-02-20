@@ -17,6 +17,9 @@ module Peoplefinder
   class Application < Rails::Application
     config.load_defaults 6.0
 
+    # Autoloading: Ignore Webpacker assets directory
+    Rails.autoloaders.main.ignore(Rails.root.join('app/webpacker'))
+
     # TODO: Fix the suboptimal way in which associations are set up on various
     #       models so this "old Rails" default can be removed.
     # Require `belongs_to` associations by default. Previous versions had false.
