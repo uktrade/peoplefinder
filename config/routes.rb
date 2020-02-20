@@ -52,7 +52,6 @@ Rails.application.routes.draw do
   end
 
   get '/my/profile', to: 'home#my_profile'
-  get '/cookies', to: 'pages#show', id: 'cookies', as: :cookies
 
   health_check_routes
 end
