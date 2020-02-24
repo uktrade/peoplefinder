@@ -46,25 +46,6 @@ describe 'View person audit' do
           expect(v[0]).to have_link author.to_s, href: "/people/#{author.slug}"
         end
       end
-
-      it 'show IP address of author of a change' do
-        Version.last.update ip_address: '1.2.3.4'
-        profile_page.load(slug: person.slug)
-
-        profile_page.audit.versions.tap do |v|
-          expect(v[0]).to have_text '1.2.3.4'
-        end
-      end
-
-      it 'show browser used by author of a change' do
-        ua = 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)'
-        Version.last.update user_agent: ua
-        profile_page.load(slug: person.slug)
-
-        profile_page.audit.versions.tap do |v|
-          expect(v[0]).to have_text 'Internet Explorer 6.0'
-        end
-      end
     end
 
     context 'as a regular user' do
