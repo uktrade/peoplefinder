@@ -7,8 +7,6 @@ div.govuk-grid-column-full
       tr
         th.govuk-table__header Event at
         th.govuk-table__header By
-        th.govuk-table__header IP address
-        th.govuk-table__header Browser
         th.govuk-table__header Change
       - versions.reverse.each do |v|
         tr
@@ -18,8 +16,6 @@ div.govuk-grid-column-full
               = link_to v.whodunnit.to_s, v.whodunnit
             - else
               = v.whodunnit || 'Not available'
-          td.govuk-table__cell = v.ip_address
-          td.govuk-table__cell = v.user_agent_summary
           td.govuk-table__cell
             ul.govuk-list
               - v.changes.each do |field, value|

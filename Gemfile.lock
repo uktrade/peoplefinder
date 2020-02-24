@@ -402,7 +402,6 @@ GEM
       execjs (>= 0.3.0, < 3)
     unicode-display_width (1.6.1)
     unicode_utils (1.4.0)
-    useragent (0.16.10)
     webmock (3.8.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -494,7 +493,6 @@ DEPENDENCIES
   sprockets (~> 3)
   timecop
   uglifier
-  useragent
   webmock
   webpacker
   whenever-test

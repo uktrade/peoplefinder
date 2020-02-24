@@ -2,12 +2,10 @@
 
 require 'forwardable'
 require 'yaml'
-require 'user_agent'
 
 class AuditVersionPresenter
   extend Forwardable
-  def_delegators :@version, :event, :whodunnit, :created_at, :ip_address,
-                 :user_agent
+  def_delegators :@version, :event, :whodunnit, :created_at
 
   def initialize(version)
     @version = version
@@ -18,13 +16,6 @@ class AuditVersionPresenter
       value = new.presence || '(deleted)'
       [field, value]
     end
-  end
-
-  def user_agent_summary
-    return nil if user_agent.blank?
-
-    ua = UserAgent.parse(user_agent)
-    format('%s %s', ua.browser, ua.version)
   end
 
   def self.wrap(versions)

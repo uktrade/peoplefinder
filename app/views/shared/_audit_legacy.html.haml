@@ -10,10 +10,6 @@
           %th
             = "By"
           %th
-            = "IP address"
-          %th
-            = "Browser"
-          %th
             = "Change"
       %tbody
         - versions.reverse.each do |v|
@@ -26,10 +22,6 @@
             - else
               %td
                 = v.whodunnit || "Not available"
-            %td
-              = v.ip_address
-            %td{title: v.user_agent}
-              = v.user_agent_summary
             %td
               %ul
                 - v.changes.each do |field, value|
