@@ -5,10 +5,7 @@ require 'rails_helper'
 describe 'Group maintenance' do
   include ActiveJobHelper
 
-  let(:login_page) { Pages::Login.new }
-  let(:home_page) { Pages::Home.new }
-
-  let(:dept) { create(:department) }
+  let!(:dept) { create(:department) }
 
   before(:each, user: :regular) do
     omni_auth_log_in_as '007'
@@ -24,10 +21,6 @@ describe 'Group maintenance' do
   end
 
   context 'for a super admin', user: :super_admin, js: true do
-    before do
-      dept
-    end
-
     let(:group_three_deep) { create(:group, name: 'Digital Services', parent: parent_group) }
     let(:sibling_group) { create(:group, name: 'Technology', parent: parent_group) }
     let(:parent_group) { create(:group, name: 'CSG', parent: dept) }
@@ -90,9 +83,9 @@ describe 'Group maintenance' do
       click_on_subteam_in_org_browser 'Corporate Services'
       click_button 'Save'
 
-      within('.breadcrumbs ol') do
-        expect(page).to have_selector('li.breadcrumb-2', text: 'Corporate Services')
-        expect(page).to have_selector('li.breadcrumb-3', text: 'Digital Services')
+      within('#breadcrumbs') do
+        expect(page).to have_link('Corporate Services')
+        expect(page).to have_text('Digital Services')
       end
     end
 
@@ -138,7 +131,6 @@ describe 'Group maintenance' do
       click_button 'Save'
 
       expect(page).to have_content('Updated Cyberdigital Cyberservices')
-      expect(page).to have_selector('.mod-search-form')
       group.reload
       expect(group.name).to eql(new_name)
     end
@@ -215,7 +207,7 @@ describe 'Group maintenance' do
 
       visit group_path(group)
 
-      within('.mod-heading h1') do
+      within('main') do
         expect(page).to have_text('HMCTS')
       end
 
@@ -224,7 +216,6 @@ describe 'Group maintenance' do
       click_button 'Save'
 
       expect(page).not_to have_text('HMCTS')
-      expect(page).not_to have_selector('.group-title h2')
     end
 
     it 'Not responding to the selection of impossible parent nodes' do
@@ -253,7 +244,7 @@ describe 'Group maintenance' do
       fill_in 'Team name', with: 'Digital'
       select_in_parent_team_select 'Department for International Trade'
       click_button 'Save'
-      expect(page).to have_link 'Edit this team'
+      expect(page).to have_link 'Edit team'
     end
 
     it 'Cancelling an edit' do
@@ -281,14 +272,23 @@ describe 'Group maintenance' do
       expect(page).not_to have_link('Add new sub-team')
 
       visit new_group_group_path(dept)
-      expect(home_page).to be_displayed
-      expect(home_page.flash_message).to have_content('Unauthorised')
+      expect(page).to have_current_path(group_path(dept))
+
+      within('#flash-messages') do
+        expect(page).to have_content('Unauthorised')
+      end
     end
 
     it 'Is not allowed to edit a team' do
-      group = create(:group, name: 'Digital Services', parent: dept)
-      visit edit_group_path(group)
-      expect(home_page.flash_message).to have_content('Unauthorised')
+      visit group_path(dept)
+      expect(page).not_to have_link('Edit team')
+
+      visit edit_group_path(dept)
+      expect(page).to have_current_path(group_path(dept))
+
+      within('#flash-messages') do
+        expect(page).to have_content('Unauthorised')
+      end
     end
   end
 end

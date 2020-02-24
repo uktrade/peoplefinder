@@ -2,10 +2,15 @@
 @import "vars/colors";
 
 // GOV.UK Design System Overrides
+@import "govuk-overrides/button";
 @import "govuk-overrides/header";
 
 // Components
+@import "components/flash";
+@import "components/group_cards";
+@import "components/header_link_list";
 @import "components/legacy_workspace_search";
+@import "components/person_cards";
 @import "components/search_and_profile_bar";
 @import "components/search_field";
 

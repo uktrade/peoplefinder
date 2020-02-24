@@ -32,12 +32,15 @@ html.govuk-template[lang="en"]
     = render 'layouts/header'
     = render 'layouts/search_and_profile_bar'
 
+
     .ws-width-container
       = render 'layouts/breadcrumbs'
+      = flash_messages_new
 
       main#main-content.govuk-main-wrapper[role="main"]
         = yield
 
+    = render 'layouts/problem_report'
     = render 'layouts/footer'
 
     script[async src="https://www.googletagmanager.com/gtag/js?id=#{Rails.configuration.google_analytics_tracking_id}"]

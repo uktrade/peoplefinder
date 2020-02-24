@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   resources :profile_photos, only: [:create]
 
-  resources :groups, path: 'teams' do
+  resources :groups, except: [:index], path: 'teams' do
     resources :groups, only: [:new]
 
     member do

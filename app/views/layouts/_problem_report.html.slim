@@ -1,0 +1,16 @@
+.ws-width-container
+  details.govuk-details[data-module='govuk-details']
+    summary.govuk-details__summary
+      span.govuk-details__summary-text Is there anything wrong with this page?
+    .govuk-details__text
+      = form_tag('/report_problem', method: :post) do
+        .govuk-form-group
+          label.govuk-label[for='problem_report_goal'] What were you doing?
+          textarea.govuk-textarea#problem_report_goal[name='problem_report_goal' rows=2]
+
+          label.govuk-label[for='problem_report_problem'] What went wrong?
+          textarea.govuk-textarea#problem_report_problem[name='problem_report_problem' rows=2]
+
+        = hidden_field_tag('problem_report_origin', "#{request.original_url}")
+        = hidden_field_tag('problem_report_browser', "#{request.env['HTTP_USER_AGENT']}")
+        = submit_tag('Report', class: 'govuk-button')

@@ -28,11 +28,11 @@ header.govuk-header.govuk-header--ws[role="banner" data-module="govuk-header"]
           li.govuk-header__navigation-item.govuk-header__navigation-item--mobile-only
             = link_to "My profile (#{current_user.given_name})", person_path(current_user), class: 'govuk-header__link govuk-header__link--ws'
 
-      div.ws-legacy-workspace-search
+      .ws-legacy-workspace-search
         .ws-search-field
           = form_tag home_page_link_helper('search'), method: :get do
             label.govuk-visually-hidden[for="search-main"] Search site
             .ws-search-field__item-wrapper
-              = search_field_tag :query, @query, class: 'ws-search-field__item ws-search-field__input', id: 'search-workspace', placeholder: 'Search site'
+              = search_field_tag :s, @query, class: 'ws-search-field__item ws-search-field__input', id: 'search-workspace', placeholder: 'Search site'
               .ws-search-field__item.ws-search-field__submit-wrapper
-                = submit_tag 'Search', class: 'ws-search-field__submit'
+                = submit_tag 'Search Workspace', class: 'ws-search-field__submit'

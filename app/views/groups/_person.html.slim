@@ -1,0 +1,7 @@
+li.ws-person-cards__item
+  .ws-person-cards__image-wrapper
+    = profile_image_tag(person)
+  .ws-person-cards__name
+    = link_to(person.name, person, class: 'govuk-link')
+  .ws-person-cards__role
+    = person.role_names

@@ -18,7 +18,7 @@ describe 'Search results page' do
   before do
     create_test_data
     omni_auth_log_in_as '007'
-    visit '/'
+    visit '/search'
   end
 
   describe 'structure' do

@@ -1,25 +1,21 @@
 # frozen_string_literal: true
 
 class GroupsController < ApplicationController
-  def index
-    group = Group.department || Group.first
-
-    if group
-      redirect_to group
-    else
-      redirect_to new_group_path
-    end
+  before_action(only: [:show]) do
+    group.ancestors.each { |ancestor| breadcrumb ancestor.short_name, ancestor }
+    breadcrumb group.short_name, group
   end
 
   def show
     authorize group
+    @page_title = group
 
     render 'show', locals: {
       group: group,
       versions: versions,
       all_people_count: group.all_people_count,
       people_outside_subteams_count: group.people_outside_subteams_count
-    }
+    }, layout: 'application'
   end
 
   def all_people
