@@ -1,0 +1,10 @@
+- @page_title = 'Add new sub-team'
+- breadcrumb 'groups.new', new_group_group_path(parent_group)
+
+.govuk-grid-row
+  .govuk-grid-column-full
+    span.govuk-caption-l = parent_group.name
+    h1.govuk-heading-l Add new sub-team
+    hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+    = render partial: 'form', locals: { group: group, parent_group: parent_group, org_structure: org_structure }

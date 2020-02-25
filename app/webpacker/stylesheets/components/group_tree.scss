@@ -1,0 +1,49 @@
+.ws-group-tree {
+  margin: 0 0 0 1em;
+  padding: 0;
+
+  list-style: none;
+  @include govuk-font(19);
+
+  a {
+    @extend %govuk-link;
+  }
+}
+
+.ws-group-tree--with-subgroups {
+  font-weight: bold;
+}
+
+.ws-group-tree--root {
+  margin-left: 0;
+}
+
+.ws-group-tree__child {
+  margin-bottom: 0;
+  margin-left: 0.35em;
+
+  line-height: 1.6;
+
+  border-left: thin solid #000;
+
+  &:last-child {
+    border-left: none;
+  }
+  
+  &:before {
+    display: inline-block;
+    width: 0.9em;
+    height: 0.6em;
+    margin-right: 0.1em;
+
+    vertical-align: top;
+
+    border-bottom: thin solid #000;
+
+    content: "";
+  }
+
+  &:last-child:before {
+    border-left: thin solid #000;
+  }
+}

@@ -4,6 +4,7 @@
 class Group < ApplicationRecord
   include Placeholder
 
+  MAX_ACRONYM_LENGTH = 10
   MAX_DESCRIPTION = 1500
 
   has_ancestry cache_depth: true
@@ -51,6 +52,7 @@ class Group < ApplicationRecord
 
   validates :name, presence: true
   validates :slug, uniqueness: true
+  validates :acronym, length: { maximum: MAX_ACRONYM_LENGTH }
   validates :description, length: { maximum: MAX_DESCRIPTION }
 
   validate :only_one_root_group

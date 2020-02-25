@@ -1,0 +1,18 @@
+// Styles the output from the Kaminari gem
+
+.ws-pagination {
+  @include govuk-font(16);
+
+  a {
+    @extend %govuk-link;
+    margin: 0 govuk-spacing(2);
+  }
+
+  .current {
+    font-weight: bold;
+  }
+}
+
+.ws-pagination__info {
+  text-align: right;
+}

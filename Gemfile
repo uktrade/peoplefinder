@@ -21,7 +21,9 @@ gem 'faker'
 gem 'fastimage'
 gem 'fog-aws'
 gem 'friendly_id'
+gem 'govuk_design_system_formbuilder'
 gem 'health_check'
+gem 'kaminari'
 gem 'kramdown'
 gem 'loaf'
 gem 'lograge'
@@ -37,7 +39,6 @@ gem 'sentry-raven'
 gem 'sidekiq', '< 6' # TODO: Pinned because 6.0 requires Redis 4 which PaaS doesn't provide yet
 gem 'slim'
 gem 'webpacker'
-gem 'will_paginate'
 gem 'zendesk_api'
 
 group :legacy_frontend, :default do
@@ -51,7 +52,6 @@ group :legacy_frontend, :default do
   gem 'sass-rails'
   gem 'sprockets', '~> 3' # TODO: Pinned due to asset issues with >= 4.0
   gem 'uglifier'
-  gem 'will_paginate-bootstrap'
 end
 
 group :test do

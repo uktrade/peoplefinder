@@ -1,7 +1,0 @@
-.grid-row.mod-pagination
-  .column-one-half
-    .page-information
-      = page_entries_info(people_in_subtree)
-  .column-one-half
-    .page-navigation
-      = will_paginate(people_in_subtree, renderer: BootstrapPagination::Rails, class: 'page-nav-list')

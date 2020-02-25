@@ -1,0 +1,29 @@
+- @page_title = "People in #{group.name}"
+- breadcrumb 'groups.all_people', people_group_path(group)
+
+.govuk-grid-row
+  .govuk-grid-column-full
+    span.govuk-caption-l = group.name
+    h1.govuk-heading-l All people
+    hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+- if people_in_subtree.total_pages > 1
+  .govuk-grid-row.ws-pagination
+    .govuk-grid-column-one-half.ws-pagination__pagelinks
+      = paginate(people_in_subtree)
+    .govuk-grid-column-one-half.ws-pagination__info
+      = page_entries_info(people_in_subtree)
+
+.govuk-grid-row
+  .govuk-grid-column-full
+    ol.ws-person-cards
+      = render partial: 'person', collection: people_in_subtree
+
+- if people_in_subtree.total_pages > 1
+  .govuk-grid-row.ws-pagination
+    hr.govuk-section-break.govuk-section-break--m
+
+    .govuk-grid-column-one-half.ws-pagination__pagelinks
+      = paginate(people_in_subtree)
+    .govuk-grid-column-one-half.ws-pagination__info
+      = page_entries_info(people_in_subtree)

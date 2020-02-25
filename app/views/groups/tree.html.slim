@@ -1,0 +1,13 @@
+- @page_title = "All sub-teams of #{group.name}"
+- breadcrumb 'groups.tree', tree_group_path(group)
+
+.govuk-grid-row
+  .govuk-grid-column-full
+    span.govuk-caption-l = group.name
+    h1.govuk-heading-l All sub-teams
+    hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+    #group-tree aria-role='tree'
+      p.ws-group-tree.ws-group-tree--with-subgroups aria-role='treeitem' aria-level=1
+        = link_to group.name, group
+      = render partial: 'tree_level', locals: { groups: tree[group], level: 2 }

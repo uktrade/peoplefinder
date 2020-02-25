@@ -1,0 +1,19 @@
+.ws-team-browser__node data-target='team-browser.node' data-group=group.id class=(group == current_group ? 'ws-team-browser__node--visible' : '')
+  - if parent
+    .ws-team-browser__row.ws-team-browser__parent
+      button.ws-team-browser__switch data-group=parent.id data-action='team-browser#switchTo' type='button'
+        | Back to #{parent.name}
+  .ws-team-browser__row.ws-team-browser__row--current
+    = form.team_browser_radio_button(field, group.id, group.name)
+  ol.ws-team-browser__children
+    - subgroups.each do |subgroup, subsubgroups|
+      - if subsubgroups.any?
+        li.ws-team-browser__row.ws-team-browser__child--with-children
+          button.ws-team-browser__switch data-group=subgroup.id data-action='team-browser#switchTo' type='button'
+            = subgroup.name
+      - else
+        li.ws-team-browser__row.ws-team-browser__child--without-children
+          = form.team_browser_radio_button(field, subgroup.id, subgroup.name)
+
+- subgroups.each do |subgroup, subsubgroups|
+  = render partial: 'team_browser_node', locals: { form: form, field: field, object: object, parent: group, group: subgroup, subgroups: subsubgroups, current_group: current_group }
