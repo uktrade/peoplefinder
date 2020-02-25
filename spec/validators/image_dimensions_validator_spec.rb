@@ -62,11 +62,4 @@ RSpec.describe ImageDimensionsValidator, type: :validator do
 
     it { is_expected.to be_valid }
   end
-
-  context 'image with dimensions under the maximum' do
-    let(:width) { 648 }
-    let(:height) { 648 }
-
-    it { is_expected.to be_valid }
-  end
 end
