@@ -1,7 +1,0 @@
-{
-  "name": "peoplefinder",
-  "private": true,
-  "dependencies": {
-    "Jcrop": "~0.9.15"
-  }
-}
