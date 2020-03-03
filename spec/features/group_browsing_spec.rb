@@ -93,12 +93,12 @@ describe 'Group browsing' do
       click_link('View all people')
 
       expect(page).to have_title("People in #{team.name} - #{app_title}")
-      within('.breadcrumbs') do
+      within('#breadcrumbs') do
         expect(page).to have_link(team.name)
         expect(page).to have_text('All people')
       end
 
-      expect(page).to have_text("People in #{team.name}")
+      expect(page).to have_text('All people')
       names.each do |name|
         expect(page).to have_link(name.join(' '))
       end
@@ -109,12 +109,12 @@ describe 'Group browsing' do
       click_link('View 3 people not assigned to a team')
 
       expect(page).to have_title("People in #{team.name}")
-      within('.breadcrumbs') do
+      within('#breadcrumbs') do
         expect(page).to have_link(team.name)
-        expect(page).to have_text('People not assigned to a sub-team')
+        expect(page).to have_text('People not in a sub-team')
       end
 
-      expect(page).to have_text("People in #{team.name} not assigned to a sub-team", normalize_ws: true)
+      expect(page).to have_text('People not in a sub-team', normalize_ws: true)
       names.each do |name|
         expect(page).to have_link(name.join(' '))
       end

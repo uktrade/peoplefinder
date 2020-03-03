@@ -1,0 +1,9 @@
+ul.ws-group-tree
+  - groups.each do |group, children|
+    li.ws-group-tree__child aria-role='treeitem' aria-level=level
+      - if children.any?
+        strong.ws-group-tree--with-subgroups = link_to group.name, group
+        | &nbsp;[#{link_to 'Show this section', tree_group_path(group)}]
+        = render partial: 'tree_level', locals: { groups: children, level: level + 1 }
+      - else
+        = link_to group.name, group

@@ -1,27 +1,29 @@
 # frozen_string_literal: true
 
 class GroupsController < ApplicationController
-  before_action(only: [:show]) do
-    group.ancestors.each { |ancestor| breadcrumb ancestor.short_name, ancestor }
-    breadcrumb group.short_name, group
+  before_action do
+    breadcrumbs_group.ancestors.each { |ancestor| breadcrumb ancestor.short_name, ancestor }
+    breadcrumb breadcrumbs_group.short_name, breadcrumbs_group, match: :exact
   end
+
+  # TODO: Remove when all of app uses new layout
+  layout 'application'
 
   def show
     authorize group
-    @page_title = group
 
     render 'show', locals: {
       group: group,
       versions: versions,
       all_people_count: group.all_people_count,
       people_outside_subteams_count: group.people_outside_subteams_count
-    }, layout: 'application'
+    }
   end
 
   def all_people
     authorize group
 
-    people_in_subtree = group.all_people.paginate(page: params[:page], per_page: 500)
+    people_in_subtree = group.all_people.page(params[:page])
 
     render 'all_people', locals: {
       group: group,
@@ -46,6 +48,7 @@ class GroupsController < ApplicationController
 
     render 'new', locals: {
       group: group,
+      parent_group: group.parent,
       org_structure: org_structure
     }
   end
@@ -55,6 +58,7 @@ class GroupsController < ApplicationController
 
     render 'edit', locals: {
       group: group,
+      parent_group: group.parent,
       org_structure: org_structure
     }
   end
@@ -69,6 +73,7 @@ class GroupsController < ApplicationController
     else
       render 'new', locals: {
         group: group,
+        parent_group: group.parent,
         org_structure: org_structure
       }
     end
@@ -83,6 +88,7 @@ class GroupsController < ApplicationController
     else
       render 'edit', locals: {
         group: group,
+        parent_group: group.parent,
         org_structure: org_structure
       }
     end
@@ -112,6 +118,11 @@ class GroupsController < ApplicationController
     @group ||= Group.includes(:people).find_by(slug: params[:id])
   end
 
+  def breadcrumbs_group
+    @breadcrumbs_group ||= Group.find_by(slug: params[:id] || params[:group_id]) ||
+                           Group.find(params.dig(:group, :parent_id))
+  end
+
   def org_structure
     @org_structure ||= Group.hierarchy_hash
   end
@@ -121,8 +132,7 @@ class GroupsController < ApplicationController
   end
 
   def group_params
-    params.require(:group)
-          .permit(:parent_id, :name, :acronym, :description)
+    params.require(:group).permit(:parent_id, :name, :acronym, :description)
   end
 
   def collection

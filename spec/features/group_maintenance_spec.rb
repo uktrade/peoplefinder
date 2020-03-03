@@ -15,33 +15,10 @@ describe 'Group maintenance' do
     omni_auth_log_in_as_super_admin
   end
 
-  def visit_edit_view(group)
-    visit group_path(group)
-    click_link 'Edit'
-  end
-
   context 'for a super admin', user: :super_admin, js: true do
     let(:group_three_deep) { create(:group, name: 'Digital Services', parent: parent_group) }
     let(:sibling_group) { create(:group, name: 'Technology', parent: parent_group) }
     let(:parent_group) { create(:group, name: 'CSG', parent: dept) }
-
-    it 'Creating a top-level department' do
-      Group.destroy_all
-      name = 'Department for International Trade'
-      visit new_group_path
-      expect(page).to have_title("Create a team - #{app_title}")
-
-      fill_in 'Team name', with: name
-      fill_in 'Team description', with: 'about my team'
-      click_button 'Save'
-
-      expect(page).to have_content('Department for International Trade')
-
-      dept = Group.find_by(name: name)
-      expect(dept.name).to eql(name)
-      expect(dept.description).to eql('about my team')
-      expect(dept.parent).to be_nil
-    end
 
     it 'Creating a team inside the department' do
       visit group_path(dept)
@@ -74,25 +51,10 @@ describe 'Group maintenance' do
       expect(subteam.parent).to eql(team)
     end
 
-    it 'Creating a team and choosing the parent from the org browser' do
-      create(:group, name: 'Corporate Services')
-
-      visit new_group_path
-
-      fill_in 'Team name', with: 'Digital Services'
-      click_on_subteam_in_org_browser 'Corporate Services'
-      click_button 'Save'
-
-      within('#breadcrumbs') do
-        expect(page).to have_link('Corporate Services')
-        expect(page).to have_text('Digital Services')
-      end
-    end
-
     it 'Deleting a team' do
       group = create(:group)
       visit edit_group_path(group)
-      expect(page).to have_text('cannot be undone')
+      expect(page).to have_text('Delete team')
       accept_confirm do
         click_link('Delete this team')
       end
@@ -106,7 +68,7 @@ describe 'Group maintenance' do
       group = membership.group
       visit edit_group_path(group)
       expect(page).not_to have_link('Delete this team')
-      expect(page).to have_text('deletion is only possible if there are no people')
+      expect(page).to have_text('You can only delete a team if it does not contain any people or sub-teams')
     end
 
     def setup_three_level_group
@@ -122,7 +84,7 @@ describe 'Group maintenance' do
 
     it 'Editing a team name' do
       group = setup_three_level_group
-      visit_edit_view(group)
+      visit edit_group_path(group)
 
       expect(page).to have_title("Edit team - #{app_title}")
       new_name = 'Cyberdigital Cyberservices'
@@ -138,15 +100,14 @@ describe 'Group maintenance' do
     it 'Change parent to department via clicking "Back"' do
       group = setup_three_level_group
       setup_group_member group
-      expect(dept.name).to eq 'Department for International Trade'
-      visit_edit_view(group)
 
-      expect(page).to have_selector('.editable-fields', visible: :hidden)
-      within('.group-parent') { click_link 'Change team parent' }
-      expect(page).to have_selector('.editable-fields', visible: :visible)
+      visit edit_group_path(group)
 
-      within('.team.selected') { click_link 'Back' }
-      expect(page).to have_selector('a.team-link', text: /#{dept.name}/, visible: :visible)
+      within('.ws-team-browser') do
+        click_button "Back to #{dept.name}"
+        choose dept.name
+      end
+
       click_button 'Save'
 
       group.reload
@@ -156,15 +117,11 @@ describe 'Group maintenance' do
     it 'Changing a team parent via clicking sibling team name' do
       group = setup_three_level_group
       setup_group_member group
-      visit_edit_view(group)
 
-      within('.group-parent') { click_link 'Change team parent' }
-      within('.team.selected') do
-        expect(page).to have_link(sibling_group.name)
-        click_link sibling_group.name
-      end
-      within('.editable-fields') do
-        click_link 'Done'
+      visit edit_group_path(group)
+
+      within('.ws-team-browser') do
+        choose sibling_group.name
       end
 
       click_button 'Save'
@@ -178,23 +135,12 @@ describe 'Group maintenance' do
       subteam_group = create(:group, name: 'Test team', parent: sibling_group)
       setup_group_member group
       group.memberships.reload # seems to help flicker
-      visit_edit_view(group)
+      visit edit_group_path(group)
 
-      within('.group-parent') { click_link 'Change team parent' }
-
-      within('.team.selected') do
-        expect(page).to have_link("#{sibling_group.name} 1 sub-team")
-        click_link "#{sibling_group.name} 1 sub-team", wait: 6
-        expect(page).to have_link(subteam_group.name)
-        click_link subteam_group.name, wait: 6
+      within('.ws-team-browser') do
+        click_button sibling_group.name
+        choose subteam_group.name
       end
-
-      within('.editable-fields') do
-        click_link 'Done'
-      end
-
-      expect(page).to have_selector('.show-editable-fields', visible: :visible)
-      expect(page).to have_selector('.parent-summary', text: /Test team/)
 
       click_button 'Save'
 
@@ -212,7 +158,7 @@ describe 'Group maintenance' do
       end
 
       click_link 'Edit'
-      fill_in 'Team initials', with: ''
+      fill_in 'Team acronym/initials', with: ''
       click_button 'Save'
 
       expect(page).not_to have_text('HMCTS')
@@ -221,28 +167,33 @@ describe 'Group maintenance' do
     it 'Not responding to the selection of impossible parent nodes' do
       parent_group = create(:group, name: 'CSG', parent: dept)
       group = create(:group, name: 'Digital Services', parent: parent_group)
-      visit_edit_view(group)
 
-      new_name = 'Cyberdigital Cyberservices'
-      fill_in 'Team name', with: new_name
+      visit edit_group_path(group)
 
-      within('.group-parent') do
-        click_link 'Change team parent'
+      within '.ws-team-browser' do
+        choose 'Digital Services'
       end
 
-      click_on_subteam_in_org_browser 'Digital Services'
       click_button 'Save'
 
+      expect(page).to have_content('There is a problem')
+      expect(page).to have_content('cannot be a descendant of itself')
+
       group.reload
-      expect(group.name).to eql(new_name)
       expect(group.parent).to eql(parent_group)
     end
 
     it 'UI elements on the new/edit pages' do
-      visit new_group_path
+      create(:group, name: 'Child group', parent: dept)
 
-      fill_in 'Team name', with: 'Digital'
-      select_in_parent_team_select 'Department for International Trade'
+      visit new_group_group_path(dept)
+
+      fill_in 'Team name (required)', with: 'Digital'
+
+      within '.ws-team-browser' do
+        choose 'Child group'
+      end
+
       click_button 'Save'
       expect(page).to have_link 'Edit team'
     end
@@ -251,11 +202,6 @@ describe 'Group maintenance' do
       group = create(:group)
       visit edit_group_path(group)
       expect(page).to have_link('Cancel', href: group_path(group))
-    end
-
-    it 'Cancelling a new form' do
-      visit new_group_path
-      expect(page).to have_link('Cancel', href: 'javascript:history.back()')
     end
 
     it 'Not displaying an edit parent field for a department' do

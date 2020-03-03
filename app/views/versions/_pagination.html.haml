@@ -4,4 +4,4 @@
       = page_entries_info(@versions)
   .column-one-half
     .page-navigation
-      = will_paginate(@versions, renderer: BootstrapPagination::Rails, class: 'page-nav-list')
+      = paginate(@versions)

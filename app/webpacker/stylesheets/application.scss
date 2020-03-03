@@ -8,11 +8,14 @@
 // Components
 @import "components/flash";
 @import "components/group_cards";
+@import "components/group_tree";
 @import "components/header_link_list";
 @import "components/legacy_workspace_search";
+@import "components/pagination";
 @import "components/person_cards";
 @import "components/search_and_profile_bar";
 @import "components/search_field";
+@import "components/team_browser";
 
 .ws-width-container {
   // For now, we are leaving this as the default, but this will allow us to change the container

@@ -1,0 +1,11 @@
+- @page_title = "People in #{group.name}"
+- breadcrumb 'groups.people_outside_subteams', people_outside_subteams_group_path(group)
+
+.govuk-grid-row
+  .govuk-grid-column-full
+    span.govuk-caption-l = group.name
+    h1.govuk-heading-l People not in a sub-team
+    hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+    ol.ws-person-cards
+      = render partial: 'person', collection: people_outside_subteams

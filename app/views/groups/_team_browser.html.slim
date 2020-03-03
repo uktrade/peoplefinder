@@ -1,0 +1,3 @@
+.ws-team-browser data-controller='team-browser' class='govuk-!-width-two-thirds'
+  - groups.each do |group, subgroups|
+    = render partial: 'team_browser_node', locals: { form: form, field: field, object: object, parent: nil, group: group, subgroups: subgroups, current_group: current_group }
