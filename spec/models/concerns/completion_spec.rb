@@ -12,7 +12,8 @@ RSpec.describe Completion do
       location_in_building: '13.13',
       country: 'GB',
       city: 'London',
-      profile_photo_id: profile_photo.id
+      profile_photo_id: profile_photo.id,
+      line_manager_id: 666
     }
   end
 
@@ -42,10 +43,10 @@ RSpec.describe Completion do
       expect(person.completion_score).to be > initial
     end
 
-    it 'returns 55 if half the fields are completed' do
+    it 'returns an appropriate score if half the fields are completed' do
       person = create(:person, city: generate(:city), country: nil, primary_phone_number: generate(:phone_number))
       person.memberships.destroy_all
-      expect(person.completion_score).to be_within(1).of(63)
+      expect(person.completion_score).to be_within(1).of(56)
       expect(person).to be_incomplete
     end
 
@@ -82,7 +83,7 @@ RSpec.describe Completion do
                         primary_phone_number: generate(:phone_number))
       end
 
-      expect(Person.overall_completion).to be_within(1).of(75)
+      expect(Person.overall_completion).to be_within(1).of(67)
     end
 
     it 'includes membership in calculation' do
@@ -101,9 +102,9 @@ RSpec.describe Completion do
       expect(UpdateGroupMembersCompletionScoreJob).to receive(:perform_later).at_least(:once)
       create_list(:membership, 2, person: people[0])
       people.each(&:reload)
-      expect(people[0].completion_score).to be_within(1).of(75)
-      expect(people[1].completion_score).to be_within(1).of(63)
-      expect(Person.overall_completion).to be_within(1).of(69)
+      expect(people[0].completion_score).to be_within(1).of(67)
+      expect(people[1].completion_score).to be_within(1).of(56)
+      expect(Person.overall_completion).to be_within(1).of(61)
     end
   end
 
@@ -129,7 +130,7 @@ RSpec.describe Completion do
 
     it 'returns a rounded float for use as a percentage' do
       create(:person, :with_details)
-      expect(Person.average_completion_score).to be 88
+      expect(Person.average_completion_score).to be 78
     end
   end
 

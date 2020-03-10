@@ -27,10 +27,11 @@ module SpecSupport
 
     def complete_profile!(person)
       profile_photo = create(:profile_photo)
+      line_manager = create(:person)
       person.update(
         person_attributes
           .except(:email)
-          .merge(profile_photo_id: profile_photo.id, country: 'GB')
+          .merge(profile_photo_id: profile_photo.id, line_manager_id: line_manager.id, country: 'GB')
       )
       person.groups << create(:group)
     end

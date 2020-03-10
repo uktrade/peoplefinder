@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   match '/audit_trail', to: 'versions#index', via: [:get]
   match '/audit_trail/undo/:id', to: 'versions#undo', via: [:post]
   match '/search', to: 'search#index', via: [:get]
+  match '/search/people.json', to: 'search#people', via: [:get]
 
   namespace :admin do
     root to: 'management#show', as: :home

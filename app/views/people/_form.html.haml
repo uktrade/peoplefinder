@@ -29,6 +29,14 @@
 
   = f.text_field :skype_name
 
+  .form-group
+    %label.form-label{for: :line_manager} My manager (recommended)
+    - if @person.line_manager
+      - opts = raw("<option selected='selected' value='#{@person.line_manager.id}'>#{@person.line_manager.name} (#{@person.line_manager.role_and_group})</option>")
+    - else
+      - opts = raw('')
+    = select_tag 'person[line_manager_id]', opts, class: 'js-line-manager-select form-control'
+
   %h3.heading-medium.with-border-lg Location
 
   = f.text_field :city

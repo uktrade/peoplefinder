@@ -10,6 +10,21 @@ class SearchController < ApplicationController
     @people_results = search(PersonSearch) if people_filter?
   end
 
+  def people
+    # TODO: This was implemented for an urgent requirement and needs to be cleaned up
+    people = search(PersonSearch).set.records
+
+    people_data = people.map do |p|
+      {
+        id: p.id,
+        name: p.name,
+        role_and_group: p.role_and_group
+      }
+    end
+
+    render json: people_data.to_json
+  end
+
   private
 
   def search(klass)

@@ -53,6 +53,10 @@ FactoryBot.define do
       city
     end
 
+    trait :with_line_manager do
+      line_manager { create(:person) }
+    end
+
     trait :with_random_dets do
       given_name { Faker::Name.unique.first_name }
       surname { Faker::Name.unique.last_name }

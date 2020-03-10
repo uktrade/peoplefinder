@@ -103,6 +103,13 @@
             %dd
               = link_to(@person.skype_name, "skype:#{@person.skype_name}?call")
 
+        - if @person.line_manager.present?
+          %dl.inline-labels
+            %dt
+              My line manager
+            %dd
+              = link_to @person.line_manager.name, @person.line_manager
+
         - if @person.pronouns.present?
           %dl.inline-labels
             %dt
