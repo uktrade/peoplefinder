@@ -52,14 +52,23 @@ h1.govuk-heading-l Manage People Finder
           th.govuk-table__header[scope="row"] Total People
           td.govuk-table__cell = @people_metrics.total_count
         tr.govuk-table__row
-          th.govuk-table__header[scope="row"] Line Manager completed
+          th.govuk-table__header[scope="row"] Signed in last 24 hours
+          td.govuk-table__cell = @people_metrics.signed_in_last_day
+        tr.govuk-table__row
+          th.govuk-table__header[scope="row"] Changed profile in last 24 hours
+          td.govuk-table__cell = @people_metrics.changed_last_day
+        tr.govuk-table__row
+          th.govuk-table__header[scope="row"] New profiles in last 24 hours
+          td.govuk-table__cell = @people_metrics.created_last_day
+        tr.govuk-table__row
+          th.govuk-table__header[scope="row"] Profiles with photo uploaded
+          td.govuk-table__cell = @people_metrics.with_photo_count
+        tr.govuk-table__row
+          th.govuk-table__header[scope="row"] Profiles with line manager completed
           td.govuk-table__cell = @people_metrics.with_line_manager_count
         tr.govuk-table__row
-          th.govuk-table__header[scope="row"] Primary Phone completed
+          th.govuk-table__header[scope="row"] Profiles with primary phone completed
           td.govuk-table__cell = @people_metrics.with_primary_phone_count
-        tr.govuk-table__row
-          th.govuk-table__header[scope="row"] Photo uploaded
-          td.govuk-table__cell = @people_metrics.with_photo_count
 
     table.govuk-table
       caption.govuk-table__caption Job queue metrics
