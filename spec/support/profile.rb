@@ -51,13 +51,13 @@ module SpecSupport
       select_in_team_select 'Digital'
 
       within('#mobile-number-fields') do
-        fill_in 'Mobile number', with: person_attributes[:primary_phone_number]
+        fill_in 'Preferred contact number', with: person_attributes[:primary_phone_number]
         select(person_attributes[:primary_phone_country_code],
                from: 'Country code', match: :first)
       end
 
       within('#landline-number-fields') do
-        fill_in 'Landline number', with: person_attributes[:secondary_phone_number]
+        fill_in 'Additional phone number', with: person_attributes[:secondary_phone_number]
         select(person_attributes[:secondary_phone_country_code],
                from: 'Country code', match: :first)
       end
