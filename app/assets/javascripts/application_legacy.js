@@ -74,7 +74,7 @@ $(function() {
         },
         dataType: 'json',
       },
-      placeholder: 'Choose a new line manager',
+      placeholder: 'Choose a new manager',
       minimumInputLength: 4,
       templateResult: formatPerson,
       templateSelection: formatPersonSelection,

@@ -40,6 +40,27 @@ h1.govuk-heading-l Manage People Finder
 
   section#metrics.govuk-tabs__panel.govuk-tabs__panel--hidden
     h2.govuk-heading-m Metrics
+
+    table.govuk-table
+      caption.govuk-table__caption People Metrics
+      thead.govuk-table__head
+        tr.govuk-table__row
+          th.govuk-table__header[scope="col"] Metric
+          th.govuk-table__header[scope="col"] Value
+      tbody.govuk-table__body
+        tr.govuk-table__row
+          th.govuk-table__header[scope="row"] Total People
+          td.govuk-table__cell = @people_metrics.total_count
+        tr.govuk-table__row
+          th.govuk-table__header[scope="row"] Line Manager completed
+          td.govuk-table__cell = @people_metrics.with_line_manager_count
+        tr.govuk-table__row
+          th.govuk-table__header[scope="row"] Primary Phone completed
+          td.govuk-table__cell = @people_metrics.with_primary_phone_count
+        tr.govuk-table__row
+          th.govuk-table__header[scope="row"] Photo uploaded
+          td.govuk-table__cell = @people_metrics.with_photo_count
+
     table.govuk-table
       caption.govuk-table__caption Job queue metrics
       thead.govuk-table__head
