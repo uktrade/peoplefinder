@@ -395,8 +395,8 @@ RSpec.describe Group, type: :model do
       create(:membership, group: team, person: create(:person))
       create(:membership, group: team, person: create(:person))
       create(:membership, group: subteam, person: create(:person, city: 'Wherever'))
-      expect(team.average_completion_score).to be_between(52, 56)
-      expect(subteam.average_completion_score).to be_between(61, 65)
+      expect(team.average_completion_score).to be_between(46, 50)
+      expect(subteam.average_completion_score).to be_between(54, 58)
     end
   end
 end

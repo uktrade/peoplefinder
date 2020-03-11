@@ -6,7 +6,7 @@ describe 'Person maintenance' do
   include ActiveJobHelper
 
   let!(:department) { create(:department) }
-  let(:person) { create(:person, email: 'test.user@digital.justice.gov.uk') }
+  let(:person) { create(:person, :with_line_manager, email: 'test.user@digital.justice.gov.uk') }
   let(:super_admin) { create(:super_admin, email: 'super.admin@digital.justice.gov.uk') }
   let(:another_person) { create(:person, email: 'someone.else@digital.justice.gov.uk') }
 

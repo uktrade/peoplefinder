@@ -10,6 +10,7 @@ module Completion
     country
     city
     primary_phone_number
+    line_manager_id
   ].freeze
 
   COMPLETION_FIELDS = ADEQUATE_FIELDS + %i[

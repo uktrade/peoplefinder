@@ -84,7 +84,7 @@ class PeopleController < ApplicationController
       secondary_phone_country_code email language_intermediate language_fluent
       profile_photo_id crop_x crop_y crop_w crop_h previous_positions grade
       other_uk other_overseas pronouns other_key_skills other_learning_and_development
-      other_additional_responsibilities
+      other_additional_responsibilities line_manager_id
     ] + [
       *Person::DAYS_WORKED,
       building: [], key_skills: [], learning_and_development: [], networks: [],

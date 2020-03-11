@@ -7,6 +7,7 @@
 //= require_tree ./modules
 //= require_tree ./peoplefinder
 //= require Jcrop/js/jquery.Jcrop.min
+//= require select2/js/select2.min
 
 
 $(function() {
@@ -54,6 +55,56 @@ $(function() {
     e.preventDefault();
     $(this).prev("input[type=hidden]").val("1");
     $(this).parents('.membership').hide();
+  });
+
+  // TODO: This was implemented as an urgent requirement that had to be done
+  // in the old frontend code. It needs to be done properly once we transition
+  // people to the new frontend code.
+  $(document).ready(function() {
+    $('.js-line-manager-select').select2({
+      ajax: {
+        url: '/search/people.json',
+        data: function (params) {
+          return { query: params.term };
+        },
+        processResults: function (data) {
+          return {
+            results: data
+          };
+        },
+        dataType: 'json',
+      },
+      placeholder: 'Choose a new line manager',
+      minimumInputLength: 4,
+      templateResult: formatPerson,
+      templateSelection: formatPersonSelection,
+      selectOnClose: true
+    });
+
+    function formatPerson(person) {
+      if(person.loading || person.name == null) {
+        return person.text;
+      }
+
+      var $container = $(
+        '<div class="select2-result-person">' +
+        person.name +
+        '<span class="select2-result-person__role">' +
+        person.role_and_group +
+        '</span>' +
+        '</div>'
+      );
+
+      return $container;
+    }
+
+    function formatPersonSelection(person) {
+      if(person.loading || person.name == null) {
+        return person.text;
+      }
+
+      return person.name + ' (' + person.role_and_group + ')';
+    }
   });
 
 });

@@ -69,6 +69,19 @@ class Person < ApplicationRecord
 
   has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
   has_many :groups, through: :memberships
+
+  has_many :line_managed_people,
+           class_name: 'Person',
+           inverse_of: :line_manager,
+           dependent: :nullify,
+           foreign_key: :line_manager_id
+  belongs_to :line_manager,
+             class_name: 'Person',
+             inverse_of: :line_managed_people,
+             foreign_key: :line_manager_id,
+             optional: true
+  validate :line_manager_is_not_self
+
   attr_accessor :skip_must_have_team
   validate :must_have_team, unless: :skip_must_have_team
 
@@ -175,5 +188,9 @@ class Person < ApplicationRecord
 
   def must_have_team
     errors.add(:membership, 'of a team is required') if memberships.reject(&:marked_for_destruction?).empty?
+  end
+
+  def line_manager_is_not_self
+    errors.add(:line_manager, 'cannot be the person themselves') if line_manager == self
   end
 end
