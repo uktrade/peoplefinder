@@ -13,6 +13,13 @@ module Admin
 
     def show
       @sidekiq_stats = Sidekiq::Stats.new
+
+      @people_metrics = OpenStruct.new(
+        total_count: Person.count,
+        with_line_manager_count: Person.where.not(line_manager_id: nil).count,
+        with_photo_count: Person.where.not(profile_photo_id: nil).count,
+        with_primary_phone_count: Person.where.not(primary_phone_number: '').count
+      )
     end
 
     private
