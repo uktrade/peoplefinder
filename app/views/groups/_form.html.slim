@@ -7,7 +7,8 @@
       width: 'one-quarter'
   = f.govuk_text_area :description,
       class: 'govuk-!-width-two-thirds govuk-textarea govuk-js-character-count',
-      max_chars: 1500 do
+      max_chars: 1500,
+      rows: 15 do
     details.govuk-details data-module='govuk-details'
       summary.govuk-details__summary
         span.govuk-details__summary-text Markdown help
