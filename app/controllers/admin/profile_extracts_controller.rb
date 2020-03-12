@@ -30,7 +30,7 @@ module Admin
 
     def profile_headers
       %w[
-        SSOUserId
+        SSOUserId PeopleFinderId
         Firstname Surname Email
         AddressLondonOffice AddressOtherUKRegional AddressOtherOverseas
         LocationInBuilding
@@ -39,13 +39,14 @@ module Admin
         TeamId TeamName
         PrimaryPhoneNumber
         SecondaryPhoneNumber
+        LineManagerPeopleFinderId
       ]
     end
 
     def person_row(person) # rubocop:disable Metrics/MethodLength
       membership = person.memberships.first
       [
-        person.ditsso_user_id,
+        person.ditsso_user_id, person.id,
         person.given_name, person.surname, person.email,
         person.formatted_buildings, person.other_uk, person.other_overseas,
         person.location_in_building,
@@ -59,7 +60,8 @@ module Admin
         phone_number_with_country_code(
           person.secondary_phone_country,
           person.secondary_phone_number
-        )
+        ),
+        person.line_manager_id
       ]
     end
 
