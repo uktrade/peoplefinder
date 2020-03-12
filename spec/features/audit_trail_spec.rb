@@ -16,9 +16,9 @@ describe 'Audit trail' do
 
       visit '/audit_trail'
       expect(page).to have_text('Person Edited')
-      expect(page).to have_text('Surname changed from original surname to something else')
+      expect(page).to have_text('Surname set to something else (was original surname)')
 
-      click_button 'undo', match: :first
+      click_button 'Undo change', match: :first
 
       person.reload
       expect(person.surname).to eq('original surname')
@@ -36,7 +36,7 @@ describe 'Audit trail' do
       expect(page).to have_text('Name: Greg Dan')
 
       expect do
-        click_button 'undo', match: :first
+        click_button 'Undo change', match: :first
       end.to change(Person, :count).by(1)
     end
   end
@@ -50,7 +50,7 @@ describe 'Audit trail' do
 
       visit '/audit_trail'
       expect(page).to have_text('Group Edited')
-      expect(page).to have_text('Name changed from original name to something else')
+      expect(page).to have_text('Name set to something else (was original name)')
     end
   end
 
@@ -62,7 +62,7 @@ describe 'Audit trail' do
 
       visit '/audit_trail'
       expect(page).to have_text('New Group')
-      expect(page).to have_text('Name set to: Jon')
+      expect(page).to have_text('Name set to Jon')
     end
   end
 
@@ -79,7 +79,7 @@ describe 'Audit trail' do
   end
 
   it 'Auditing the creation of a membership', js: true do
-    create(:group, name: 'Digital Justice')
+    group = create(:group, name: 'Digital Justice')
     person = create(:person, given_name: 'Bob', surname: 'Smith')
     person.memberships.destroy_all
 
@@ -95,11 +95,10 @@ describe 'Audit trail' do
     visit '/audit_trail'
     within('tbody tr:first-child') do
       expect(page).to have_text('New Membership')
-      expect(page).to have_text('Person set to: Bob Smith')
-      expect(page).to have_text('Team set to: Digital Justice')
-      expect(page).to have_text('Job title set to: Jefe')
-      expect(page).to have_text('Leader set to: No')
-      expect(page).not_to have_button 'undo'
+      expect(page).to have_text("Person set to #{person.id}")
+      expect(page).to have_text("Group set to #{group.id}")
+      expect(page).to have_text('Role set to Jefe')
+      expect(page).not_to have_button 'Undo change'
     end
   end
 
@@ -125,8 +124,8 @@ describe 'Audit trail' do
     visit '/audit_trail'
 
     expect(page).to have_text('Deleted Membership')
-    expect(page).to have_text('Team was: Test Group')
-    expect(page).to have_text('Job title was: Jefe')
-    expect(page).to have_text('Leader was: Yes')
+    expect(page).to have_text('Group removed')
+    expect(page).to have_text('Role removed (was Jefe)')
+    expect(page).to have_text('Leader removed (was true)')
   end
 end

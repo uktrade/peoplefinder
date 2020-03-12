@@ -28,6 +28,7 @@ en:
   loaf:
     breadcrumbs:
       home: Home
+      audit_trail: Audit trail
       admin:
         management: Manage People Finder
       groups:
