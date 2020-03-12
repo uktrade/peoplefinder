@@ -1,0 +1,31 @@
+.govuk-grid-row
+  .govuk-grid-column-full
+    h1.govuk-heading-l Audit trail
+    hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+- if versions.total_pages > 1
+  .govuk-grid-row.ws-pagination
+    .govuk-grid-column-one-half.ws-pagination__pagelinks
+      = paginate(versions)
+    .govuk-grid-column-one-half.ws-pagination__info
+      = page_entries_info(versions)
+
+.govuk-grid-row
+  .govuk-grid-column-full
+    table.govuk-table
+      caption.govuk-table__caption Profile and team changes
+      thead.govuk-table__head
+        tr.govuk-table__row
+          th.govuk-table__header[scope="col"] Date
+          th.govuk-table__header[scope="col"] Change
+          th.govuk-table__header[scope="col"] Instigator
+          th.govuk-table__header[scope="col"] Actions
+      tbody.govuk-table__body
+        = render partial: 'version', collection: versions
+
+- if versions.total_pages > 1
+  .govuk-grid-row.ws-pagination
+    .govuk-grid-column-one-half.ws-pagination__pagelinks
+      = paginate(versions)
+    .govuk-grid-column-one-half.ws-pagination__info
+      = page_entries_info(versions)

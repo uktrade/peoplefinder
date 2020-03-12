@@ -1,0 +1,23 @@
+tr.govuk-table__row
+  td.govuk-table__cell = l(version.created_at)
+  td.govuk-table__cell
+    h4.govuk-heading-s = version.event_description
+    - if version.item && !version.membership?
+      p = link_to(version.item, version.item)
+    - if version.destruction? && !version.membership?
+      p Name: #{version.reify.name}
+    - else
+      ul.govuk-list
+      - version.changeset.each do |field, (from, to)|
+        - if to.present?
+          li
+            | #{field.humanize} set to <tt>#{to}</tt>
+            - if from.present?
+              | &nbsp;(was <tt>#{from}</tt>)
+        - elsif from.present?
+          li
+            | #{field.humanize} removed (was <tt>#{from}</tt>)
+  td.govuk-table__cell = version.whodunnit
+  td.govuk-table__cell
+    - unless version.membership?
+      = button_to 'Undo change', audit_trail_undo_path(version), data: { confirm: 'Are you sure you want to undo this change?' }, class: 'govuk-button govuk-button--warning'
