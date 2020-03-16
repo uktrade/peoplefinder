@@ -48,8 +48,8 @@
       class: 'form-control'
 
   .form-group.visually-connected-below
-    %label.form-label{for: :building} Building I work in
-    %span.form-hint Select options from the list
+    %label.form-label{for: :building} Place(s) I usually work
+    %span.form-hint Select all that apply
     %ul.inline-list
       = f.collection_check_boxes :building, building_names,:first, :last,  checked: @person.try(:building) do |b|
         %li

@@ -81,6 +81,7 @@ en:
       works_saturday: "S"
       works_sunday: "S"
     building_names:
+      home: Remote (home worker)
       whitehall_55: "55 Whitehall"
       whitehall_3: "3 Whitehall Place"
       victoria_50: "Windsor House"
@@ -379,7 +380,7 @@ en:
         primary_phone_number: "Enter your phone number then select your country code"
         secondary_phone_number: "Enter your phone number then select your country code"
         location_in_building: "Do not enter location if in KCS"
-        building: "Select options from the list"
+        building: Select all that apply
         city: "For example, London"
         working_days: Select all that apply
         language_fluent: Add languages at which you are fluent. Use a comma to separate languages.
