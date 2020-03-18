@@ -12,13 +12,11 @@ describe 'Management flow' do
   end
 
   it 'When an administrator logs in they have a manage link' do
-    expect(base_page).to have_manage_link
+    expect(page).to have_link('Manage', href: admin_home_path)
   end
 
   it 'Administrators can navigate to the management page' do
-    expect(base_page).to have_manage_link
     click_link 'Manage'
-    expect(management_page).to be_displayed
-    expect(management_page).to be_all_there
+    expect(page).to have_text('Manage People Finder')
   end
 end

@@ -26,13 +26,6 @@ RSpec.describe PeopleController, type: :controller do
     { surname: '' }
   end
 
-  describe 'GET index' do
-    it 'redirects to the root' do
-      get :index
-      expect(response).to redirect_to('/')
-    end
-  end
-
   describe 'GET show' do
     it 'assigns the requested person as @person' do
       person = create(:person, valid_attributes)

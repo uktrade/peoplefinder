@@ -1,21 +1,34 @@
 # frozen_string_literal: true
 
 module PeopleHelper
-  def days_worked(person)
-    days = []
-    Person::DAYS_WORKED.each do |day|
-      days.push day_name(day) if person.send(day)
+  def profile_field(record, field, &content_block)
+    return if record.public_send(field).blank?
+
+    content_block ||= -> { record.public_send(field).to_s }
+    title = t(field, scope: [:profile, record.model_name.singular])
+
+    render(layout: 'people/profile_field', locals: { title: title }, &content_block)
+  end
+
+  def working_days_to_sentence(person)
+    working_week = [
+      person.works_monday, person.works_tuesday, person.works_wednesday,
+      person.works_thursday, person.works_friday
+    ]
+    weekend = [person.works_saturday, person.works_sunday]
+
+    if working_week.all? && weekend.none?
+      t('works_weekdays', scope: :days)
+    elsif working_week.none? && weekend.none?
+      t('works_none', scope: :days)
+    else
+      Person::DAYS_WORKED.map { |day| t(day, scope: :days) }.to_sentence
     end
-    days.to_sentence
   end
 
-  def day_name(symbol)
-    I18n.t(symbol, scope: %i[people day_names])
-  end
-
-  def day_symbol(symbol)
-    I18n.t(symbol, scope: %i[people day_symbols])
-  end
+  # --------------------------------------------------------------------------
+  # TODO: Helpers below need to be rewritten once we transition from legacy UI
+  # --------------------------------------------------------------------------
 
   # e.g. profile_image_tag person, link: false
   def profile_image_tag(person, options = {})
@@ -30,13 +43,6 @@ module PeopleHelper
     options[:link_uri] = group_path(team) if add_image_link?(options)
     options[:alt_text] = "Team icon for #{team.name}"
     profile_or_team_image_div source, options
-  end
-
-  def edit_person_link(name, person, options = {})
-    link_to name,
-            edit_person_path(person, activity: options[:activity]),
-            options
-      .except(:activity)
   end
 
   # Why do we need to go to this trouble to repeat new_person/edit_person? you

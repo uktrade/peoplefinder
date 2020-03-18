@@ -1,0 +1,86 @@
+- @page_title = person
+
+.ws-profile
+  .govuk-grid-row
+    .govuk-grid-column-one-third
+      .ws-profile__image
+        = profile_image_tag(person, link: false)
+    .govuk-grid-column-two-thirds
+      h1.govuk-heading-l.ws-profile__name = person.name
+      - unless person.complete?
+        .govuk-warning-text
+          span.govuk-warning-text__icon[aria-hidden='true'] !
+          strong.govuk-warning-text__text
+            | #{person == current_user ? 'Your' : 'This'} profile is only #{person.completion_score}% complete.
+      dl.ws-profile__primary-contact-list
+        dt.govuk-visually-hidden Preferred contact email
+        dd.ws-profile__primary-contact-item = mail_to person.email, person.email, class: 'govuk-link'
+        dt.govuk-visually-hidden Preferred contact number
+        dd.ws-profile__primary-contact-item = call_to_with_country_code(person.primary_phone_country, person.primary_phone_number, class: 'govuk-link')
+      ul.ws-profile__roles
+        - person.memberships.each do |membership|
+          li.ws-profile__role
+            - if membership.role.present?
+              span.ws-profile__role-title> = membership.role
+              span.ws-profile__role-group
+                | in #{link_to(membership.group.name, membership.group, class: 'govuk-link')}
+            - else
+              span.ws-profile__role-group Member of #{link_to(membership.group.name, membership.group, class: 'govuk-link')}
+      = link_to 'Edit profile', edit_person_path(person), class: 'govuk-button govuk-button--menuitem'
+      - if policy(person).destroy?
+        = link_to 'Delete profile', person, method: :delete, class: 'govuk-button govuk-button--warning govuk-button--menuitem', data: {confirm: 'Are you sure? This cannot be undone.'}
+      - else
+        = link_to "Has #{person.given_name} left DIT?", new_person_deletion_request_path(person), class: 'govuk-button govuk-button--secondary govuk-button--menuitem'
+  hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+  .govuk-grid-row
+    .govuk-grid-column-full
+      dl.govuk-summary-list
+        = profile_field(person, :formatted_buildings)
+        = profile_field(person, :location_in_building)
+        = profile_field(person, :city)
+        = profile_field(person, :country_name)
+        = profile_field(person, :other_uk)
+        = profile_field(person, :other_overseas)
+        = profile_field(person, :email) do
+          = mail_to person.email
+        = profile_field(person, :primary_phone_number) do
+          = call_to_with_country_code(person.primary_phone_country, person.primary_phone_number)
+        = profile_field(person, :secondary_phone_number) do
+          = call_to_with_country_code(person.secondary_phone_country, person.secondary_phone_number)
+        = profile_field(person, :skype_name)
+          = link_to(person.skype_name, "skype:#{person.skype_name}?call")
+        = profile_field(person, :line_manager) do
+          = link_to person.line_manager.name, person.line_manager
+        = profile_field(person, :pronouns)
+        .govuk-summary-list__row
+          dt.govuk-summary-list__key = t('working_days', scope: 'profile.person')
+          dd.govuk-summary-list__value = working_days_to_sentence(person)
+        = profile_field(person, :formatted_key_skills)
+        = profile_field(person, :language_fluent)
+        = profile_field(person, :language_intermediate)
+        = profile_field(person, :grade) do
+          = t(person.grade, scope: 'people.grade_names')
+        = profile_field(person, :previous_positions) do
+          = simple_format(person.previous_positions)
+        = profile_field(person, :formatted_learning_and_development)
+        = profile_field(person, :formatted_networks)
+        = profile_field(person, :formatted_professions)
+        = profile_field(person, :formatted_additional_responsibilities)
+
+  - if policy(person).audit?
+    hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+    .govuk-grid-row
+      .govuk-grid-column-full
+        h3.govuk-heading-m Internal user details
+        dl.govuk-summary-list
+          = profile_field(person, :ditsso_user_id)
+          = profile_field(person, :id)
+          = profile_field(person, :role_administrator)
+          = profile_field(person, :role_groups_editor)
+          = profile_field(person, :role_people_editor)
+          = profile_field(person, :created_at)
+          = profile_field(person, :updated_at)
+    - if versions
+      .govuk-grid-row
+        = render 'shared/audit', versions: versions

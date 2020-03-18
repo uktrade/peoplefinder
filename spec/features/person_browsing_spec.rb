@@ -22,11 +22,13 @@ describe 'Person browsing' do
 
     visit person_path(person)
 
-    expect(page).to have_selector('.breadcrumbs ol li a', text: 'DIT')
-    expect(page).to have_selector('.breadcrumbs ol li a', text: 'Foo')
-    expect(page).to have_selector('.breadcrumbs ol li a', text: 'Bar')
-    expect(page).to have_selector('.breadcrumbs ol li a', text: 'Baz')
-    expect(page).to have_selector('.breadcrumbs ol li', text: person.name)
+    within('#breadcrumbs') do
+      expect(page).to have_link('DIT')
+      expect(page).to have_link('Foo')
+      expect(page).to have_link('Bar')
+      expect(page).to have_link('Baz')
+      expect(page).to have_text(person.name)
+    end
   end
 
   def create_group_hierarchy(*names)

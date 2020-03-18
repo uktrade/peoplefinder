@@ -107,7 +107,7 @@ RSpec.describe ApplicationHelper, type: :helper do
 
     it 'returns a phone number prepended with the country code with a tel href' do
       expect(self).to receive(:phone_number_with_country_code).with(country, phone_number).and_return('+44 12345')
-      expect(self).to receive(:call_to).with('+44 12345').and_return('tel:4412345')
+      expect(self).to receive(:call_to).with('+44 12345', {}).and_return('tel:4412345')
 
       expect(call_to_with_country_code(country, phone_number)).to eq('tel:4412345')
     end

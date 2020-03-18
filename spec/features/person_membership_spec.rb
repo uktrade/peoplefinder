@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Person maintenance' do
+describe 'Person membership' do
   before do
     omni_auth_log_in_as '007'
   end
@@ -22,7 +22,7 @@ describe 'Person maintenance' do
     fill_in 'Job title', match: :first, with: 'Head Honcho'
     click_button 'Save', match: :first
 
-    expect(page).to have_selector('.cb-job-title', text: 'Head Honcho in Digital Justice', normalize_ws: true)
+    expect(page).to have_selector('.ws-profile__role', text: 'Head Honcho in Digital Justice', normalize_ws: true)
   end
 
   it 'Leaving the job title blank', js: true do
@@ -35,7 +35,7 @@ describe 'Person maintenance' do
 
     click_button 'Save', match: :first
 
-    within('.profile') { expect(page).not_to have_selector('.cb-job-title') }
+    expect(page).to have_selector('.ws-profile__role', text: 'Member of Digital Justice', normalize_ws: true)
   end
 
   it 'Changing team membership via clicking "Back"', js: true do
@@ -126,7 +126,7 @@ describe 'Person maintenance' do
     end
 
     visit person_path(person)
-    expect(page).to have_selector('h3', text: 'Permanent Secretary')
+    expect(page).to have_selector('.ws-profile__role', text: 'Permanent Secretary', normalize_ws: true)
   end
 
   it 'Adding an additional leadership role in same team', js: true do
@@ -157,7 +157,8 @@ describe 'Person maintenance' do
     end
 
     visit person_path(person)
-    expect(page).to have_selector('h3', text: 'Head Honcho, Master of None')
+    expect(page).to have_selector('.ws-profile__role', text: 'Head Honcho in Digital Justice', normalize_ws: true)
+    expect(page).to have_selector('.ws-profile__role', text: 'Master of None in Digital Justice', normalize_ws: true)
   end
 
   it 'Leaving a team', js: true do

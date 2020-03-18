@@ -3,16 +3,6 @@
 require 'rails_helper'
 
 RSpec.describe PeopleHelper, type: :helper do
-  describe 'day_name' do
-    it 'returns a name for each day' do
-      expect(day_name(:works_wednesday)).to eql('Wednesday')
-    end
-
-    it 'returns a symbol for each day' do
-      expect(day_symbol(:works_wednesday)).to eql('W')
-    end
-  end
-
   describe 'person_form_class' do
     let(:person) { double(Person, new_record?: false) }
 
@@ -137,18 +127,6 @@ RSpec.describe PeopleHelper, type: :helper do
 
     it 'adds a link uri to options hash' do
       expect { team_image_tag(team, options) }.to change(options, :keys).from([:class]).to(%i[class link_uri alt_text])
-    end
-  end
-
-  describe 'edit_person_link' do
-    let(:person) { create :person, slug: 'fred-bloggs' }
-
-    it 'builds an anchor tag reference to edit page for the person' do
-      expect(edit_person_link('Edit profile', person)).to match(%r{href=\"/people/fred-bloggs/edit\"})
-    end
-
-    it 'inserts activity option as url param' do
-      expect(edit_person_link('Edit profile', person, activity: 'complete')).to include '?activity=complete'
     end
   end
 end

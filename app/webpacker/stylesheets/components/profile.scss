@@ -1,0 +1,33 @@
+.ws-profile__name {
+  margin-bottom: 0;
+}
+
+.ws-profile__image {
+  img {
+    width: 100%;
+  }
+}
+
+.ws-profile__primary-contact-list {
+  @include govuk-font(24);
+  margin: govuk-spacing(4) 0;
+}
+
+.ws-profile__primary-contact-item {
+  margin: govuk-spacing(1) 0 0 0;
+}
+
+.ws-profile__roles {
+  margin: govuk-spacing(4) 0;
+  padding: 0;
+
+  list-style-type: none;
+}
+
+.ws-profile__role {
+  @include govuk-font(19);
+}
+
+.ws-profile__role-title {
+  font-weight: bold;
+}

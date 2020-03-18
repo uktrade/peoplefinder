@@ -106,7 +106,7 @@ module SpecSupport
     end
 
     def click_delete_profile(matcher = :first)
-      click_link('Delete this profile', match: matcher)
+      click_link('Delete profile', match: matcher)
     end
 
     def fill_in_membership_details(team_name)
