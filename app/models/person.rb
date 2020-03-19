@@ -81,6 +81,7 @@ class Person < ApplicationRecord
              foreign_key: :line_manager_id,
              optional: true
   validate :line_manager_is_not_self
+  validate :line_manager_not_both_specified_and_not_required
 
   attr_accessor :skip_must_have_team
   validate :must_have_team, unless: :skip_must_have_team
@@ -192,5 +193,11 @@ class Person < ApplicationRecord
 
   def line_manager_is_not_self
     errors.add(:line_manager, 'cannot be the person themselves') if line_manager == self
+  end
+
+  def line_manager_not_both_specified_and_not_required
+    return unless line_manager.present? && line_manager_not_required?
+
+    errors.add(:line_manager, "cannot be selected because you've said you do not work at DIT")
   end
 end

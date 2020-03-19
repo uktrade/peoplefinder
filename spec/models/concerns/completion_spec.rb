@@ -43,6 +43,13 @@ RSpec.describe Completion do
       expect(person.completion_score).to be > initial
     end
 
+    it 'returns the same score if a line manager is completed as when the "not required" field is present' do
+      person_with_line_manager = create(:person, :with_line_manager)
+      person_with_line_manager_not_required = create(:person, line_manager_not_required: true)
+
+      expect(person_with_line_manager.completion_score).to eq(person_with_line_manager_not_required.completion_score)
+    end
+
     it 'returns an appropriate score if half the fields are completed' do
       person = create(:person, city: generate(:city), country: nil, primary_phone_number: generate(:phone_number))
       person.memberships.destroy_all

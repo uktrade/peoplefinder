@@ -89,6 +89,8 @@ module Completion
       COMPLETION_FIELDS.map do |field|
         if field == :groups
           groups_exist_sql
+        elsif field == :line_manager_id
+          "(CASE WHEN length(line_manager_id::varchar) > 0 OR line_manager_not_required = true THEN 1 ELSE 0 END) \n"
         else
           "(CASE WHEN length(#{field}::varchar) > 0 THEN 1 ELSE 0 END) \n"
         end

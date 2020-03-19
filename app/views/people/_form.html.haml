@@ -29,13 +29,24 @@
 
   = f.text_field :skype_name
 
-  .form-group
-    %label.form-label{for: :line_manager} My manager (recommended)
+  .form-group{class: "#{'error' if @person.errors.include?(:line_manager)}"}
+    #error_person_line_manager
+    %label.form-label{for: :line_manager}
+      My manager (recommended)
+      - if @person.errors.include?(:line_manager)
+        %span.error-message
+          = @person.errors[:line_manager].join(', ')
     - if @person.line_manager
-      - opts = raw("<option selected='selected' value='#{@person.line_manager.id}'>#{@person.line_manager.name} (#{@person.line_manager.role_and_group})</option>")
+      - opts = raw("<option value=" "></option><option selected='selected' value='#{@person.line_manager.id}'>#{@person.line_manager.name} (#{@person.line_manager.role_and_group})</option>")
     - else
-      - opts = raw('')
+      - opts = raw('<option value=" "></option>')
     = select_tag 'person[line_manager_id]', opts, class: 'js-line-manager-select form-control'
+
+  .form-group
+    = f.check_box :line_manager_not_required, 'aria-describedby': 'line_manager_not_required_hint'
+    %p
+      %span.form-hint#line_manager_not_required_hint
+        = t('helpers.hint.person.line_manager_not_required')
 
   %h3.heading-medium.with-border-lg Location
 

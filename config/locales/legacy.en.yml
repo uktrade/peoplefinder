@@ -357,6 +357,8 @@ en:
         other_additional_responsibilities: Other additional roles and responsibilities
         super_admin: Allow this person to administrate People Finder
         ditsso_user_id: Staff SSO user ID
+        line_manager: Manager
+        line_manager_not_required: My manager is not listed because I do not work for DIT
       membership:
         role: "Job title"
         group: Team
@@ -387,6 +389,8 @@ en:
         language_intermediate: Add languages at which you have intermediate fluency. Use a comma to separate languages.
         previous_positions: Please note your previous experience
         ditsso_user_id: The "Unique User ID" for this user in the Staff Single Sign On system
+        line_manager_not_required: |
+          If your manager is not listed and you work for DIT, please talk to your manager to ensure they have an up-to-date profile.
       membership:
         role: Role within this team
   will_paginate:
