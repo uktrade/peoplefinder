@@ -265,52 +265,6 @@ RSpec.describe Person, type: :model do
     end
   end
 
-  describe '#all_changes' do
-    subject { person.all_changes }
-
-    let(:ds) { create(:group, name: 'Digital Services') }
-    let(:csg) { create(:group, name: 'Corporate Services Group') }
-    let(:membership) { person.memberships.frst }
-
-    before do
-      person.assign_attributes(mass_assignment_params)
-      person.save!
-    end
-
-    context 'adding a membership' do
-      let(:mass_assignment_params) do
-        {
-          email: 'changed.user@digital.justice.gov.uk',
-          works_monday: false,
-          works_saturday: true,
-          profile_photo_id: 2,
-          memberships_attributes: {
-            '0' => {
-              role: 'Service Assessments Lead',
-              group_id: ds.id,
-              leader: true
-            }
-          }
-        }
-      end
-
-      let(:valid_membership_changes) do
-        {
-          "membership_#{ds.id}".to_sym =>
-            {
-              group_id: [nil, ds.id],
-              role: [nil, 'Service Assessments Lead'],
-              leader: [false, true]
-            }
-        }
-      end
-
-      it 'stores addition of a membership' do
-        expect(subject).to include valid_membership_changes
-      end
-    end
-  end
-
   describe '#path' do
     let(:person) { described_class.new }
 

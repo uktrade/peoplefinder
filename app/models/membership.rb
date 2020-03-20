@@ -16,8 +16,9 @@ class Membership < ApplicationRecord
   delegate :name, to: :group, prefix: true, allow_nil: true
   delegate :path, to: :group
 
-  include ConcatenatedFields
-  concatenated_field :to_s, :group_name, :role, join_with: ', '
+  def to_s
+    [group_name, role].map(&:presence).compact.join(', ')
+  end
 
   before_destroy { |m| UpdateGroupMembersCompletionScoreJob.perform_later(m.group) }
 end

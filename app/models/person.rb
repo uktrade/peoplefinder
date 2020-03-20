@@ -1,19 +1,74 @@
 # frozen_string_literal: true
 
 class Person < ApplicationRecord
-  attr_accessor :working_days
+  DAYS_WORKED = %i[
+    works_monday works_tuesday works_wednesday works_thursday works_friday works_saturday works_sunday
+  ].freeze
+  BUILDING_OPTS = %i[whitehall_55 whitehall_3 victoria_50 horse_guards king_charles].freeze
 
   include Completion
-  include FormFieldOptions
-  include PersonChangesTracker
-  include ProfileFields
   include Sanitizable
   include Searchable
 
+  extend FriendlyId
+
+  default_scope { order(surname: :asc, given_name: :asc) }
+
+  attr_accessor :working_days
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+  attr_accessor :skip_group_completion_score_updates, :skip_must_have_surname, :skip_must_have_team
+
+  has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
+  has_many :groups, through: :memberships
+  has_many :line_managed_people,
+           class_name: 'Person',
+           inverse_of: :line_manager,
+           dependent: :nullify,
+           foreign_key: :line_manager_id
+  belongs_to :line_manager,
+             class_name: 'Person',
+             inverse_of: :line_managed_people,
+             foreign_key: :line_manager_id,
+             optional: true
   belongs_to :profile_photo
 
-  extend FriendlyId
+  accepts_nested_attributes_for :memberships, allow_destroy: true
+
+  validates :ditsso_user_id, presence: true, uniqueness: true
+  validates :given_name, presence: true
+  validates :surname, presence: true, unless: :skip_must_have_surname
+  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validate :line_manager_is_not_self
+  validate :line_manager_not_both_specified_and_not_required
+  validate :must_have_team, unless: :skip_must_have_team
+
+  after_save :crop_profile_photo
+  after_save :enqueue_group_completion_score_updates
+  skip_callback :save, :after, :enqueue_group_completion_score_updates, if: :skip_group_completion_score_updates
+
   friendly_id :slug_source, use: :slugged
+
+  has_paper_trail versions: { class_name: 'Version' },
+                  on: %i[create destroy update],
+                  ignore: %i[updated_at created_at id slug login_count last_login_at]
+
+  sanitize_fields :given_name, :surname, strip: true, remove_digits: true
+  sanitize_fields :email, strip: true, downcase: true
+
+  scope :all_in_subtree, lambda { |group|
+    joins(:memberships)
+      .where(memberships: { group_id: group.subtree_ids })
+      .select("people.*, string_agg(CASE role WHEN '' THEN NULL ELSE role END, ', ' ORDER BY role) AS role_names")
+      .group(:id)
+  }
+
+  def name
+    [given_name, surname].map(&:presence).compact.join(' ')
+  end
+
+  def location
+    [location_in_building, building, city].map(&:presence).compact.join(', ')
+  end
 
   def slug_source
     email.present? ? Digest::SHA1.hexdigest(email.split(/@/).first) : name
@@ -28,20 +83,6 @@ class Person < ApplicationRecord
       ]
     )
   end
-
-  has_paper_trail versions: { class_name: 'Version' },
-                  on: %i[create destroy update],
-                  ignore: %i[updated_at created_at id slug login_count last_login_at]
-
-  sanitize_fields :given_name, :surname, strip: true, remove_digits: true
-  sanitize_fields :email, strip: true, downcase: true
-
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-  after_save :crop_profile_photo
-  after_save :enqueue_group_completion_score_updates
-
-  attr_accessor :skip_group_completion_score_updates
-  skip_callback :save, :after, :enqueue_group_completion_score_updates, if: :skip_group_completion_score_updates
 
   def enqueue_group_completion_score_updates
     groups_prior = groups
@@ -60,43 +101,6 @@ class Person < ApplicationRecord
   def profile_image
     profile_photo&.image
   end
-
-  validates :ditsso_user_id, presence: true, uniqueness: true
-  validates :given_name, presence: true
-  attr_accessor :skip_must_have_surname
-  validates :surname, presence: true, unless: :skip_must_have_surname
-  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-
-  has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
-  has_many :groups, through: :memberships
-
-  has_many :line_managed_people,
-           class_name: 'Person',
-           inverse_of: :line_manager,
-           dependent: :nullify,
-           foreign_key: :line_manager_id
-  belongs_to :line_manager,
-             class_name: 'Person',
-             inverse_of: :line_managed_people,
-             foreign_key: :line_manager_id,
-             optional: true
-  validate :line_manager_is_not_self
-  validate :line_manager_not_both_specified_and_not_required
-
-  attr_accessor :skip_must_have_team
-  validate :must_have_team, unless: :skip_must_have_team
-
-  accepts_nested_attributes_for :memberships, allow_destroy: true
-
-  default_scope { order(surname: :asc, given_name: :asc) }
-
-  scope :all_in_subtree, lambda { |group|
-    joins(:memberships)
-      .where(memberships: { group_id: group.subtree_ids })
-      .select("people.*,
-            string_agg(CASE role WHEN '' THEN NULL ELSE role END, ', ' ORDER BY role) AS role_names")
-      .group(:id)
-  }
 
   def self.outside_subteams(group)
     unscope(:order)
@@ -172,10 +176,6 @@ class Person < ApplicationRecord
     secondary_phone_country_code.present? ? ISO3166::Country.new(secondary_phone_country_code) : nil
   end
 
-  include ConcatenatedFields
-  concatenated_field :location, :location_in_building, :building, :city, join_with: ', '
-  concatenated_field :name, :given_name, :surname, join_with: ' '
-
   def notify_of_change?(person_responsible)
     person_responsible.try(:email) != email
   end
@@ -183,6 +183,45 @@ class Person < ApplicationRecord
   def country_name
     country_obj = ISO3166::Country[country]
     country_obj ? country_obj.translations[I18n.locale.to_s] : country
+  end
+
+  def formatted_buildings
+    building.reject(&:empty?).map do |x|
+      I18n.t(x, scope: 'people.building_names')
+    end.join(', ')
+  end
+
+  def formatted_key_skills
+    items = key_skills.reject(&:empty?).map do |x|
+      I18n.t(x, scope: 'people.key_skill_names')
+    end.join(', ')
+    [items, other_key_skills].compact.reject(&:empty?).join(', ')
+  end
+
+  def formatted_learning_and_development
+    items = learning_and_development.reject(&:empty?).map do |x|
+      I18n.t(x, scope: 'people.learning_and_development_names')
+    end.join(', ')
+    [items, other_learning_and_development].compact.reject(&:empty?).join(', ')
+  end
+
+  def formatted_networks
+    networks.reject(&:empty?).map do |x|
+      I18n.t(x, scope: 'people.network_names')
+    end.join(', ')
+  end
+
+  def formatted_professions
+    professions.reject(&:empty?).map do |x|
+      I18n.t(x, scope: 'people.profession_names')
+    end.join(', ')
+  end
+
+  def formatted_additional_responsibilities
+    items = additional_responsibilities.reject(&:empty?).map do |x|
+      I18n.t(x, scope: 'people.additional_responsibility_names')
+    end.join(', ')
+    [items, other_additional_responsibilities].compact.reject(&:empty?).join(', ')
   end
 
   private
