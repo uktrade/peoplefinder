@@ -3,7 +3,7 @@
     .media
       .media-left
         = profile_image_tag person
-        - if Rails.env.development? || current_user.super_admin?
+        - if Rails.env.development? || current_user.role_administrator?
           %div.core-16
             Score:
             = hit._score

@@ -2,9 +2,9 @@
 
 module SpecSupport
   module Login
-    def mock_logged_in_user(super_admin: false)
+    def mock_logged_in_user(administrator: false)
       controller.session[::Login::SESSION_KEY] =
-        create(:person, ditsso_user_id: '007', super_admin: super_admin).id
+        create(:person, ditsso_user_id: '007', role_administrator: administrator).id
     end
 
     def current_user
@@ -29,8 +29,16 @@ module SpecSupport
       visit '/auth/ditsso_internal'
     end
 
-    def omni_auth_log_in_as_super_admin
-      omni_auth_log_in_as create(:super_admin).ditsso_user_id
+    def omni_auth_log_in_as_administrator
+      omni_auth_log_in_as create(:administrator).ditsso_user_id
+    end
+
+    def omni_auth_log_in_as_people_editor
+      omni_auth_log_in_as create(:people_editor).ditsso_user_id
+    end
+
+    def omni_auth_log_in_as_groups_editor
+      omni_auth_log_in_as create(:groups_editor).ditsso_user_id
     end
   end
 end

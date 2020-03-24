@@ -4,11 +4,11 @@ require 'rails_helper'
 
 RSpec.describe PeopleController, type: :controller do
   before do |example|
-    mock_logged_in_user unless example.metadata[:user] == :super_admin
+    mock_logged_in_user unless example.metadata[:user] == :administrator
   end
 
-  before(:each, user: :super_admin) do
-    mock_logged_in_user super_admin: true
+  before(:each, user: :administrator) do
+    mock_logged_in_user administrator: true
   end
 
   # This should return the minimal set of attributes required to create a valid
@@ -92,14 +92,14 @@ RSpec.describe PeopleController, type: :controller do
       end
     end
 
-    describe 'when trying to grant super admin' do
+    describe 'when trying to grant administrator role' do
       let(:new_attributes) do
-        attributes_for(:person).merge(super_admin: true)
+        attributes_for(:person).merge(role_administrator: true)
       end
 
-      it 'does not grant super admin privileges' do
+      it 'does not grant the role' do
         person.reload
-        expect(person).not_to be_super_admin
+        expect(person).not_to be_role_administrator
       end
     end
   end
@@ -161,26 +161,26 @@ RSpec.describe PeopleController, type: :controller do
     end
 
     describe 'when trying to change super-admin only parameters' do
-      let(:attributes_with_super_admin) do
-        attributes_for(:super_admin).merge(ditsso_user_id: 'new_id')
+      let(:attributes_with_role_administrator) do
+        attributes_for(:administrator).merge(ditsso_user_id: 'new_id')
       end
 
       before do
-        put :update, params: { id: person.to_param, person: attributes_with_super_admin }
+        put :update, params: { id: person.to_param, person: attributes_with_role_administrator }
       end
 
-      context 'if the current user is not a super admin themselves' do
-        it 'does not grant super admin privileges' do
+      context 'if the current user is not an administrator themselves' do
+        it 'does not grant the role or update the SSO user id' do
           person.reload
-          expect(person).not_to be_super_admin
+          expect(person).not_to be_role_administrator
           expect(person.ditsso_user_id).not_to eq('new_id')
         end
       end
 
-      context 'if the current user IS a super user', user: :super_admin do
-        it 'grants super admin privileges' do
+      context 'if the current user IS a super user', user: :administrator do
+        it 'grants administrator role' do
           person.reload
-          expect(person).to be_super_admin
+          expect(person).to be_role_administrator
           expect(person.ditsso_user_id).to eq('new_id')
         end
       end
@@ -188,7 +188,7 @@ RSpec.describe PeopleController, type: :controller do
   end
 
   describe 'DELETE destroy' do
-    context 'as a super admin', user: :super_admin do
+    context 'as an administrator', user: :administrator do
       it 'destroys the requested person' do
         person = create(:person, valid_attributes)
         expect do

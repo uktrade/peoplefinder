@@ -6,7 +6,7 @@ describe 'Flash messages' do
   let(:department) { create(:department) }
 
   before do
-    omni_auth_log_in_as_super_admin
+    omni_auth_log_in_as_administrator
   end
 
   it 'displays flash messages below search box' do

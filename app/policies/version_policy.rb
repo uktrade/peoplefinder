@@ -2,10 +2,10 @@
 
 class VersionPolicy < ApplicationPolicy
   def index?
-    admin_user?
+    administrator?
   end
 
   def undo?
-    admin_user?
+    administrator?
   end
 end

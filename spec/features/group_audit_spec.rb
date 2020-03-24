@@ -15,9 +15,9 @@ describe 'Auditing changes to groups' do
     end
   end
 
-  context 'as an admin user' do
+  context 'as a groups editor' do
     before do
-      omni_auth_log_in_as_super_admin
+      omni_auth_log_in_as_groups_editor
     end
 
     it 'displays changes to the group' do

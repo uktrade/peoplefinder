@@ -2,10 +2,9 @@
 
 require 'rails_helper'
 
-describe 'Super admin views CSV extracts' do
+describe 'Administrator views CSV extracts' do
   before do
-    admin = create(:super_admin)
-    omni_auth_log_in_as(admin.ditsso_user_id)
+    omni_auth_log_in_as_administrator
     click_link 'Manage'
   end
 

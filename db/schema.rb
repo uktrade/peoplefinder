@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_19_135039) do
+ActiveRecord::Schema.define(version: 2020_03_24_114928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 2020_03_19_135039) do
     t.boolean "works_sunday", default: false
     t.integer "login_count", default: 0, null: false
     t.datetime "last_login_at"
-    t.boolean "super_admin", default: false
+    t.boolean "role_administrator", default: false
     t.text "city"
     t.integer "profile_photo_id"
     t.text "primary_phone_country_code"
@@ -86,6 +86,9 @@ ActiveRecord::Schema.define(version: 2020_03_19_135039) do
     t.string "pronouns"
     t.integer "line_manager_id"
     t.boolean "line_manager_not_required", default: false
+    t.string "user_role", default: "none"
+    t.boolean "role_people_editor", default: false
+    t.boolean "role_groups_editor", default: false
     t.index ["slug"], name: "index_people_on_slug", unique: true
   end
 

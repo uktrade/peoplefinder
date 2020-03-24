@@ -15,9 +15,9 @@ RSpec.describe VersionsController, type: :controller do
       end
     end
 
-    context 'for a super admin' do
+    context 'for an administrator' do
       before do
-        mock_logged_in_user super_admin: true
+        mock_logged_in_user administrator: true
         get :index
       end
 
@@ -29,7 +29,7 @@ RSpec.describe VersionsController, type: :controller do
 
   describe '.undo' do
     before do
-      mock_logged_in_user super_admin: true
+      mock_logged_in_user administrator: true
     end
 
     it 'undoes a new person - by deleting it' do

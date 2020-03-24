@@ -50,11 +50,6 @@ class ApplicationController < ActionController::Base
   end
   helper_method :logged_in?
 
-  def super_admin?
-    logged_in? && current_user.super_admin?
-  end
-  helper_method :super_admin?
-
   def ensure_user
     return true if logged_in?
 

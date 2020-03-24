@@ -90,14 +90,14 @@ class PeopleController < ApplicationController
       building: [], key_skills: [], learning_and_development: [], networks: [],
       key_responsibilities: [], additional_responsibilities: [], professions: [],
       memberships_attributes: %i[id role group_id leader _destroy]
-    ] + super_admin_person_params
+    ] + administrator_person_params
   end
 
-  def super_admin_person_params
-    # Parameters that can only be updated by super admins, not regular users
-    return [] unless super_admin?
+  def administrator_person_params
+    # Parameters that can only be updated by administrators, not regular users
+    return [] unless current_user.role_administrator?
 
-    %i[super_admin ditsso_user_id]
+    %i[role_administrator role_people_editor role_groups_editor ditsso_user_id]
   end
 
   def set_org_structure
@@ -121,6 +121,6 @@ class PeopleController < ApplicationController
   def load_versions
     versions = @person.versions
     @last_updated_at = versions.last ? versions.last.created_at : nil
-    @versions = AuditVersionPresenter.wrap(versions) if super_admin?
+    @versions = AuditVersionPresenter.wrap(versions) if policy(@person).audit?
   end
 end

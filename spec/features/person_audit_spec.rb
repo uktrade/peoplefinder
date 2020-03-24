@@ -3,11 +3,8 @@
 require 'rails_helper'
 
 describe 'View person audit' do
-  let(:super_admin_email) { 'test.user@digital.justice.gov.uk' }
-  let!(:super_admin) { create(:super_admin, email: super_admin_email) }
-
   let(:phone_number) { '55555555555' }
-  let!(:person)      { with_versioning { create(:person) } }
+  let!(:person) { with_versioning { create(:person) } }
   let(:profile_page) { Pages::Profile.new }
 
   let(:profile_photo) { create(:profile_photo) }
@@ -23,9 +20,9 @@ describe 'View person audit' do
       end
     end
 
-    context 'as an admin user' do
+    context 'as a people editor' do
       before do
-        omni_auth_log_in_as(super_admin.ditsso_user_id)
+        omni_auth_log_in_as_people_editor
       end
 
       it 'view audit' do

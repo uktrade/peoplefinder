@@ -9,11 +9,11 @@ module Admin
     end
 
     def show?
-      admin_user?
+      administrator?
     end
 
     def csv_extract_report?
-      admin_user?
+      administrator?
     end
   end
 end
