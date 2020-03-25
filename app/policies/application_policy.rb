@@ -10,11 +10,15 @@ class ApplicationPolicy
 
   private
 
-  def admin_user?
-    @user.is_a?(Person) && @user.super_admin?
+  def people_editor?
+    @user.is_a?(Person) && @user.role_people_editor?
   end
 
-  def regular_user?
-    @user.is_a?(Person)
+  def groups_editor?
+    @user.is_a?(Person) && @user.role_groups_editor?
+  end
+
+  def administrator?
+    @user.is_a?(Person) && @user.role_administrator?
   end
 end

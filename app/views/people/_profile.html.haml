@@ -187,7 +187,7 @@
             %dd
               = @person.formatted_additional_responsibilities
 
-        - if super_admin?
+        - if current_user.role_administrator?
           %hr
           %dl.inline-labels#sso_user_id
             %dt Staff SSO User ID
@@ -197,9 +197,9 @@
             %dt People Finder Database ID
             %dd= @person.id
 
-          %dl.inline-labels#is_super_admin
-            %dt User is super admin?
-            %dd= @person.super_admin? ? 'Yes' : 'No'
+          %dl.inline-labels#is_administrator
+            %dt User has administrator role?
+            %dd= @person.role_administrator? ? 'Yes' : 'No'
 
           %dl.inline-labels#last_login_at
             %dt Last signed in to People Finder

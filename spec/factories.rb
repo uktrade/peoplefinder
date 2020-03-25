@@ -112,8 +112,16 @@ FactoryBot.define do
       last_login_at { 1.day.ago }
     end
 
-    factory :super_admin do
-      super_admin { true }
+    factory :administrator do
+      role_administrator { true }
+    end
+
+    factory :groups_editor do
+      role_groups_editor { true }
+    end
+
+    factory :people_editor do
+      role_people_editor { true }
     end
   end
 

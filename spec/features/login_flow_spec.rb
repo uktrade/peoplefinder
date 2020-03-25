@@ -31,7 +31,7 @@ describe 'Login flow' do
     end
 
     it 'When super user logs in they see the manage link in the banner' do
-      omni_auth_log_in_as_super_admin
+      omni_auth_log_in_as_administrator
       expect(base_page).to have_manage_link
     end
 

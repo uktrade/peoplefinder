@@ -11,11 +11,11 @@ describe 'Group maintenance' do
     omni_auth_log_in_as '007'
   end
 
-  before(:each, user: :super_admin) do
-    omni_auth_log_in_as_super_admin
+  before(:each, user: :groups_editor) do
+    omni_auth_log_in_as_groups_editor
   end
 
-  context 'for a super admin', user: :super_admin, js: true do
+  context 'for an administrator', user: :groups_editor, js: true do
     let(:group_three_deep) { create(:group, name: 'Digital Services', parent: parent_group) }
     let(:sibling_group) { create(:group, name: 'Technology', parent: parent_group) }
     let(:parent_group) { create(:group, name: 'CSG', parent: dept) }

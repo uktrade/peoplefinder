@@ -22,7 +22,7 @@ header.govuk-header.govuk-header--ws[role="banner" data-module="govuk-header"]
             = link_to 'Tools', home_page_link_helper('/tools'), class: 'govuk-header__link govuk-header__link--ws'
           li.govuk-header__navigation-item
             = link_to 'Data Hub', home_page_link_helper('/working-at-dit/data-hub'), class: 'govuk-header__link govuk-header__link--ws'
-          - if super_admin?
+          - if current_user.role_administrator?
             li.govuk-header__navigation-item
               = link_to 'Manage', admin_home_path, class: 'govuk-header__link govuk-header__link--ws'
           li.govuk-header__navigation-item.govuk-header__navigation-item--mobile-only

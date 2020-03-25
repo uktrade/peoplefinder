@@ -7,15 +7,14 @@ describe 'Person maintenance' do
 
   let!(:department) { create(:department) }
   let(:person) { create(:person, :with_line_manager, email: 'test.user@digital.justice.gov.uk') }
-  let(:super_admin) { create(:super_admin, email: 'super.admin@digital.justice.gov.uk') }
   let(:another_person) { create(:person, email: 'someone.else@digital.justice.gov.uk') }
 
   before(:each, user: :regular) do
     omni_auth_log_in_as person.ditsso_user_id
   end
 
-  before(:each, user: :super_admin) do
-    omni_auth_log_in_as_super_admin
+  before(:each, user: :people_editor) do
+    omni_auth_log_in_as_people_editor
   end
 
   let(:edit_profile_page) { Pages::EditProfile.new }
@@ -156,7 +155,7 @@ describe 'Person maintenance' do
   end
 
   context 'Deleting a person' do
-    context 'for a super admin user', user: :super_admin do
+    context 'for a people editor', user: :people_editor do
       it 'Deleting a person' do
         person = create :person
 

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'Audit trail' do
   before do
-    omni_auth_log_in_as_super_admin
+    omni_auth_log_in_as_administrator
   end
 
   it 'Auditing an edit of a person' do

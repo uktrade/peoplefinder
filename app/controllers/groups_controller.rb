@@ -128,7 +128,7 @@ class GroupsController < ApplicationController
   end
 
   def versions
-    @versions ||= AuditVersionPresenter.wrap(group.versions) if super_admin?
+    @versions ||= AuditVersionPresenter.wrap(group.versions) if policy(group).edit?
   end
 
   def group_params

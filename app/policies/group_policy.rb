@@ -18,22 +18,22 @@ class GroupPolicy < ApplicationPolicy
   end
 
   def edit?
-    admin_user?
+    administrator? || groups_editor?
   end
 
   def update?
-    admin_user?
+    administrator? || groups_editor?
   end
 
   def new?
-    admin_user?
+    administrator? || groups_editor?
   end
 
   def create?
-    admin_user?
+    administrator? || groups_editor?
   end
 
   def destroy?
-    admin_user?
+    administrator? || groups_editor?
   end
 end

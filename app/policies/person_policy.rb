@@ -6,30 +6,30 @@ class PersonPolicy < ApplicationPolicy
   end
 
   def edit?
-    regular_user?
+    true
   end
 
   def update?
-    regular_user?
-  end
-
-  def update_email?
     true
   end
 
   def new?
-    regular_user?
+    true
   end
 
   def create?
-    regular_user?
+    true
   end
 
   def destroy?
-    admin_user?
+    administrator? || people_editor?
   end
 
   def add_membership?
-    regular_user?
+    true
+  end
+
+  def audit?
+    administrator? || people_editor?
   end
 end

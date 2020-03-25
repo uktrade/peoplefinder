@@ -5,10 +5,10 @@ require 'rails_helper'
 RSpec.describe Admin::ManagementPolicy, type: :policy do
   subject { described_class.new(user, nil) }
 
-  ACTIONS = %w[show csv_extract_report].map(&:to_sym)
+  ACTIONS = %i[show csv_extract_report].freeze
 
-  context 'for a super admin user' do
-    let(:user) { build_stubbed(:person, super_admin: true) }
+  context 'for an administrator' do
+    let(:user) { build_stubbed(:administrator) }
 
     ACTIONS.each do |action|
       it { is_expected.to permit_action(action) }
@@ -16,7 +16,7 @@ RSpec.describe Admin::ManagementPolicy, type: :policy do
   end
 
   context 'for a regular user' do
-    let(:user) { build_stubbed(:person, super_admin: false) }
+    let(:user) { build_stubbed(:person) }
 
     ACTIONS.each do |action|
       it { is_expected.not_to permit_action(action) }

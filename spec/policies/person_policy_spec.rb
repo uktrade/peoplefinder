@@ -15,13 +15,34 @@ RSpec.describe PersonPolicy, type: :policy do
     it { is_expected.to permit_action(:update) }
     it { is_expected.to permit_action(:new) }
     it { is_expected.to permit_action(:create) }
-    it { is_expected.not_to permit_action(:destroy) }
     it { is_expected.to permit_action(:add_membership) }
+    it { is_expected.not_to permit_action(:destroy) }
+    it { is_expected.not_to permit_action(:audit) }
   end
 
-  context 'for a super admin user' do
-    let(:user) { build_stubbed(:super_admin) }
+  context 'for a people editor' do
+    let(:user) { build_stubbed(:people_editor) }
 
+    it { is_expected.to permit_action(:show) }
+    it { is_expected.to permit_action(:edit) }
+    it { is_expected.to permit_action(:update) }
+    it { is_expected.to permit_action(:new) }
+    it { is_expected.to permit_action(:create) }
+    it { is_expected.to permit_action(:add_membership) }
     it { is_expected.to permit_action(:destroy) }
+    it { is_expected.to permit_action(:audit) }
+  end
+
+  context 'for an administrator' do
+    let(:user) { build_stubbed(:administrator) }
+
+    it { is_expected.to permit_action(:show) }
+    it { is_expected.to permit_action(:edit) }
+    it { is_expected.to permit_action(:update) }
+    it { is_expected.to permit_action(:new) }
+    it { is_expected.to permit_action(:create) }
+    it { is_expected.to permit_action(:add_membership) }
+    it { is_expected.to permit_action(:destroy) }
+    it { is_expected.to permit_action(:audit) }
   end
 end

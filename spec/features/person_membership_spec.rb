@@ -7,8 +7,8 @@ describe 'Person maintenance' do
     omni_auth_log_in_as '007'
   end
 
-  before(:each, user: :super_admin) do
-    omni_auth_log_in_as_super_admin
+  before(:each, user: :groups_editor) do
+    omni_auth_log_in_as_groups_editor
   end
 
   let(:edit_profile_page) { Pages::EditProfile.new }
@@ -62,7 +62,7 @@ describe 'Person maintenance' do
     expect(person.memberships.last.group).to eql(Group.find_by(name: 'CSG'))
   end
 
-  it 'Adding a new team', js: true, user: :super_admin do
+  it 'Adding a new team', js: true, user: :groups_editor do
     group = setup_three_level_team
     person = setup_team_member group
 

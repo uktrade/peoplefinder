@@ -8,14 +8,14 @@ describe 'Management flow' do
   let(:management_page) { Pages::Management.new }
 
   before do
-    omni_auth_log_in_as_super_admin
+    omni_auth_log_in_as_administrator
   end
 
-  it 'When a super admin logis in they have a manage link' do
+  it 'When an administrator logs in they have a manage link' do
     expect(base_page).to have_manage_link
   end
 
-  it 'Super admins can navigate to the management page' do
+  it 'Administrators can navigate to the management page' do
     expect(base_page).to have_manage_link
     click_link 'Manage'
     expect(management_page).to be_displayed
