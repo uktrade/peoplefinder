@@ -23,6 +23,10 @@ module Admin
         with_photo_count: Person.where.not(profile_photo_id: nil).count,
         with_primary_phone_count: Person.where.not(primary_phone_number: '').count
       )
+
+      @people_with_role_groups_editor = Person.where(role_groups_editor: true)
+      @people_with_role_people_editor = Person.where(role_people_editor: true)
+      @people_with_role_administrator = Person.where(role_administrator: true)
     end
 
     private

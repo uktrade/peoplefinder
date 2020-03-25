@@ -10,6 +10,8 @@ h1.govuk-heading-l Manage People Finder
       a.govuk-tabs__tab[href="#tools"] Tools
     li.govuk-tabs__list-item
       a.govuk-tabs__tab[href="#metrics"] Metrics
+    li.govuk-tabs__list-item
+      a.govuk-tabs__tab[href="#users"] Privileged Users
 
   section#reports.govuk-tabs__panel
     h2.govuk-heading-m Reports
@@ -86,3 +88,18 @@ h1.govuk-heading-l Manage People Finder
         tr.govuk-table__row
           th.govuk-table__header[scope="row"] Failed jobs
           td.govuk-table__cell = @sidekiq_stats.failed
+
+  section#users.govuk-tabs__panel.govuk-tabs__panel--hidden
+    h2.govuk-heading-m Privileged Users
+    h3.govuk-heading-s Users with "administrator" role
+    ul.govuk-list.govuk-list--bullet
+      - @people_with_role_administrator.each do |p|
+        li = link_to(p.name, p)
+    h3.govuk-heading-s Users with "people editor" role
+    ul.govuk-list.govuk-list--bullet
+      - @people_with_role_people_editor.each do |p|
+        li = link_to(p.name, p)
+    h3.govuk-heading-s Users with "groups editor" role
+    ul.govuk-list.govuk-list--bullet
+      - @people_with_role_groups_editor.each do |p|
+        li = link_to(p.name, p)
