@@ -1,4 +1,4 @@
 ---
 applications:
 - buildpacks:
-  - https://github.com/cloudfoundry/ruby-buildpack.git#v1.8.11
+  - https://github.com/cloudfoundry/ruby-buildpack.git#v1.8.14
