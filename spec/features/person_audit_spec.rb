@@ -11,8 +11,10 @@ describe 'View person audit' do
 
   let(:author) { create(:person) }
 
-  context 'modern versioning' do
+  context 'as a people editor' do
     before do
+      omni_auth_log_in_as_people_editor
+
       with_versioning do
         PaperTrail.request.whodunnit = author.id
         person.update primary_phone_number: phone_number
@@ -20,40 +22,38 @@ describe 'View person audit' do
       end
     end
 
-    context 'as a people editor' do
-      before do
-        omni_auth_log_in_as_people_editor
+    it 'shows audit' do
+      visit person_path(person)
+
+      expect(page).to have_text('Audit log')
+
+      within('table tr:nth-child(2)') do
+        expect(page).to have_link(author.to_s, href: "/people/#{author.slug}")
       end
 
-      it 'view audit' do
-        profile_page.load(slug: person.slug)
-
-        expect(profile_page).to have_audit
-        profile_page.audit.versions.tap do |v|
-          expect(v[0]).to have_text "profile_photo_id: #{profile_photo.id}"
-          expect(v[1]).to have_text "primary_phone_number: #{phone_number}"
-          expect(v[2]).to have_text "email: #{person.email}"
-        end
+      within('table tr:nth-child(2)') do
+        expect(page).to have_text("profile_photo_id: #{profile_photo.id}")
       end
 
-      it 'link to author of a change' do
-        profile_page.load(slug: person.slug)
+      within('table tr:nth-child(3)') do
+        expect(page).to have_text("primary_phone_number: #{phone_number}")
+      end
 
-        profile_page.audit.versions.tap do |v|
-          expect(v[0]).to have_link author.to_s, href: "/people/#{author.slug}"
-        end
+      within('table tr:nth-child(4)') do
+        expect(page).to have_text("email: #{person.email}")
       end
     end
+  end
 
-    context 'as a regular user' do
-      before do
-        omni_auth_log_in_as(person.ditsso_user_id)
-      end
+  context 'as a regular user' do
+    before do
+      omni_auth_log_in_as(person.ditsso_user_id)
+    end
 
-      it 'hide audit' do
-        profile_page.load(slug: person.slug)
-        expect(profile_page).not_to have_audit
-      end
+    it 'does not show audit' do
+      visit person_path(person)
+
+      expect(page).not_to have_text('Audit log')
     end
   end
 end

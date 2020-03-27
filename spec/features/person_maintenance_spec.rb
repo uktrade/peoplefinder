@@ -50,18 +50,6 @@ describe 'Person maintenance' do
         expect(page).not_to have_text(completion_prompt_text)
       end
 
-      it 'Editing my own profile from a "complete your profile" link' do
-        visit person_path(person)
-        click_link 'complete your profile', match: :first
-        expect(page).to have_text(completion_prompt_text)
-      end
-
-      it 'Editing another person\'s profile from a "complete this profile" link' do
-        visit person_path(another_person)
-        click_link 'complete this profile', match: :first
-        expect(page).to have_text(completion_prompt_text)
-      end
-
       it 'Validates required fields on person' do
         visit person_path(another_person)
         click_edit_profile
@@ -176,31 +164,17 @@ describe 'Person maintenance' do
   end
 
   context 'Viewing my own profile', user: :regular do
-    it 'when it is complete' do
-      complete_profile!(person)
-      visit person_path(person)
-      expect(page).to have_text('Profile completeness 100%', normalize_ws: true)
-      expect(page).to have_text('Thanks for improving People Finder for everyone!')
-    end
-
     it 'when it is incomplete' do
       visit person_path(person)
-      expect(page).to have_text('Profile completeness')
-      expect(page).to have_text('complete your profile')
+      expect(page).to have_text(/Your profile is only \d\d% complete/)
     end
   end
 
   context 'Viewing another person\'s profile' do
     context 'for a regular user', user: :regular do
-      it 'when it is complete' do
-        complete_profile!(another_person)
-        visit person_path(another_person)
-        expect(page).not_to have_text('Profile completeness')
-      end
-
       it 'when it is not complete' do
         visit person_path(another_person)
-        expect(page).to have_text('Profile completeness')
+        expect(page).to have_text(/This profile is only \d\d% complete/)
       end
     end
   end

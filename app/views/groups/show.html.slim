@@ -7,6 +7,7 @@
     h1.govuk-heading-l = group.name
     hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
 
+.govuk-grid-row
   - if group.leaderships.any?
     .govuk-grid-column-one-third
       h2.govuk-heading-s Team #{'leader'.pluralize(group.leaderships.count)}
@@ -21,6 +22,7 @@
     - if policy(Group).create?
       = link_to 'Add new sub-team', new_group_group_path(group), class: 'govuk-button govuk-button--secondary govuk-button--menuitem'
 
+.govuk-grid-row
   - if group.leaf_node?
     .govuk-grid-column-full
       hr.govuk-section-break.govuk-section-break--m.govuk-section-break--visible

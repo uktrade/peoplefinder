@@ -1,3 +1,8 @@
 .govuk-button--menuitem {
   margin-right: govuk-spacing(1);
 }
+
+.govuk-button--fullwidth {
+  width: 100%;
+  margin: govuk-spacing(1) 0;
+}

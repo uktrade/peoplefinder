@@ -3,74 +3,91 @@
 class PeopleController < ApplicationController
   include StateCookieHelper
 
-  before_action :set_person, only: %i[show edit update destroy]
-  before_action :set_org_structure, only: %i[edit update add_membership]
-  before_action :load_versions, only: [:show]
+  # TODO: This isn't great but does the trick for now. Refactor!
+  before_action do
+    next unless params[:id]
 
-  # GET /people
-  def index
-    redirect_to '/'
+    breadcrumbs_group = person.groups.first
+
+    if breadcrumbs_group
+      breadcrumbs_group.ancestors.each { |ancestor| breadcrumb ancestor.short_name, ancestor }
+      breadcrumb breadcrumbs_group.short_name, breadcrumbs_group
+    end
+
+    breadcrumb person.name, person, match: :exact
   end
 
-  # GET /people/1
+  # TODO: This calls these actions to memoize, move to use locals
+  before_action :person, only: %i[show edit update destroy]
+  before_action :org_structure, only: %i[edit update add_membership]
+  before_action :versions, only: [:show]
+
   def show
-    authorize @person
+    authorize person
     delete_state_cookie
+
+    render 'show', locals: {
+      person: person,
+      versions: versions
+    }, layout: 'application' # TODO: Remove when entire controller uses this layout
   end
 
-  # GET /people/1/edit
   def edit
-    authorize @person
+    authorize person
     @activity = params[:activity]
-    build_membership @person
+    person.memberships.build if person.memberships.blank?
   end
 
-  # PATCH/PUT /people/1
   def update
     set_state_cookie_action_update_if_not_create
     set_state_cookie_phase_from_button
-    @person.assign_attributes(person_params)
-    authorize @person
+    person.assign_attributes(person_params)
+    authorize person
 
-    if @person.valid?
+    if person.valid?
       smc = StateManagerCookie.new(cookies)
       PersonUpdater.new(
-        person: @person, instigator: current_user, state_cookie: smc,
-        profile_url: person_url(@person)
+        person: person, instigator: current_user, state_cookie: smc,
+        profile_url: person_url(person)
       ).update!
-      type = @person == current_user ? :mine : :other
-      notice(:profile_updated, type, person: @person) if state_cookie_saving_profile?
+      type = person == current_user ? :mine : :other
+      notice(:profile_updated, type, person: person) if state_cookie_saving_profile?
       redirect_to redirection_destination
     else
       render :edit
     end
   end
 
-  # DELETE /people/1
   def destroy
-    authorize @person
+    authorize person
 
-    destroyer = PersonDestroyer.new(@person)
+    destroyer = PersonDestroyer.new(person)
     destroyer.destroy!
-    notice :profile_deleted, person: @person
-    group = @person.groups.first
+    notice :profile_deleted, person: person
+    group = person.groups.first
 
     redirect_to group ? group_path(group) : home_path
   end
 
   def add_membership
-    set_person if params[:id].present?
-    @person ||= Person.new
-    authorize @person
+    person ||= Person.new
+    authorize person
 
     render 'add_membership', layout: false
   end
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_person
-    @person = Person.friendly.includes(:groups).find(params[:id])
+  def person
+    @person ||= Person.friendly.includes(:groups).find(params[:id])
+  end
+
+  def versions
+    @versions ||= AuditVersionPresenter.wrap(person.versions) if policy(@person).audit?
+  end
+
+  def org_structure
+    @org_structure ||= Group.hierarchy_hash
   end
 
   def person_params
@@ -100,27 +117,13 @@ class PeopleController < ApplicationController
     %i[role_administrator role_people_editor role_groups_editor ditsso_user_id]
   end
 
-  def set_org_structure
-    @org_structure = Group.hierarchy_hash
-  end
-
-  def build_membership(person)
-    person.memberships.build if person.memberships.blank?
-  end
-
   def redirection_destination
     if state_cookie_editing_picture?
-      edit_person_image_path(@person)
+      edit_person_image_path(person)
     elsif state_cookie_editing_picture_done?
-      edit_person_path(@person)
+      edit_person_path(person)
     else
-      @person
+      person
     end
-  end
-
-  def load_versions
-    versions = @person.versions
-    @last_updated_at = versions.last ? versions.last.created_at : nil
-    @versions = AuditVersionPresenter.wrap(versions) if policy(@person).audit?
   end
 end

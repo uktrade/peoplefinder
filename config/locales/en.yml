@@ -25,6 +25,49 @@ en:
         acronym: A shorter version of the team name (e.g. DDaT)
         description: What does this team do? You can use basic Markdown to add lists or links.
 
+  profile:
+    person:
+      formatted_buildings: Place(s) I usually work
+      location_in_building: Locations in building
+      city: Town, city or region
+      country_name: Country (Market)
+      other_uk: Other - UK regional
+      other_overseas: Other - Overseas
+      email: Preferred email
+      primary_phone_number: Preferred contact number
+      secondary_phone_number: Additional phone number
+      skype_name: Skype name
+      line_manager: My manager
+      pronouns: My pronouns
+      working_days: Days I work
+      formatted_key_skills: Key skills
+      language_fluent: Fluent languages
+      language_intermediate: Intermediate languages
+      grade: Grade
+      previous_positions: Previous positions held
+      formatted_learning_and_development: My learning and development interests
+      formatted_networks: Networks I belong to
+      formatted_professions: Professions I belong to
+      formatted_additional_responsibilities: My additional roles and responsibilities
+      ditsso_user_id: Staff SSO user ID
+      id: Internal user ID
+      role_administrator: User has "administrator" role
+      role_groups_editor: User has "groups editor" role
+      role_people_editor: User has "people editor" role
+      created_at: First created at
+      updated_at: Profile last updated at
+
+  days:
+    works_none: Not working
+    works_weekdays: Monday to Friday
+    works_monday: Monday
+    works_tuesday: Tuesday
+    works_wednesday: Wednesday
+    works_thursday: Thursday
+    works_friday: Friday
+    works_saturday: Saturday
+    works_sunday: Sunday
+
   loaf:
     breadcrumbs:
       home: Home

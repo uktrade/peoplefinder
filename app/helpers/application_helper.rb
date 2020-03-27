@@ -71,11 +71,11 @@ module ApplicationHelper
     ).compact.join(' - ')
   end
 
-  def call_to(telno)
-    return nil unless telno
+  def call_to(telno, options = {})
+    return nil if telno.blank?
 
     digits = telno.gsub(/[^0-9+#*,]+/, '')
-    content_tag(:a, href: "tel:#{digits}") { telno }
+    content_tag(:a, options.merge(href: "tel:#{digits}")) { telno }
   end
 
   def phone_number_with_country_code(country, phone_number)
@@ -86,8 +86,8 @@ module ApplicationHelper
     end
   end
 
-  def call_to_with_country_code(country, phone_number)
-    call_to(phone_number_with_country_code(country, phone_number))
+  def call_to_with_country_code(country, phone_number, options = {})
+    call_to(phone_number_with_country_code(country, phone_number), options)
   end
 
   def role_translate(subject, key, options = {})
