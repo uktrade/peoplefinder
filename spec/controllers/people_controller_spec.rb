@@ -180,32 +180,38 @@ RSpec.describe PeopleController, type: :controller do
     end
   end
 
-  describe 'DELETE destroy' do
-    context 'as an administrator', user: :administrator do
-      it 'destroys the requested person' do
-        person = create(:person, valid_attributes)
-        expect do
-          delete :destroy, params: { id: person.to_param }
-        end.to change(Person, :count).by(-1)
-      end
+  describe 'DELETE destroy', user: :administrator do
+    before do
+      allow(RemovePerson).to receive(:call).with(person: person).and_return(context)
+      delete :destroy, params: { id: person.to_param }
+    end
 
-      context 'when person member of teams' do
-        it 'redirects to first team page' do
-          person = create(:person, valid_attributes)
-          groups = create_list(:group, 2)
-          groups.each do |group|
-            create :membership, person: person, group: group
-          end
+    context 'when the interactor is successful' do
+      let(:context) { double(success?: true) }
 
-          delete :destroy, params: { id: person.to_param }
+      context 'when the person was a member of a group' do
+        let(:person) { create(:person) }
+
+        it 'redirects to the first group' do
           expect(response).to redirect_to(group_path(person.groups.first))
         end
       end
 
-      it 'sets a flash message' do
-        person = create(:person, valid_attributes)
-        delete :destroy, params: { id: person.to_param }
-        expect(flash[:notice]).to include("Deleted #{person}’s profile")
+      context 'when the person was not a member of any groups' do
+        let(:person) { create(:person) { |p| p.memberships.delete_all } }
+
+        it 'redirects to the homepage' do
+          expect(response).to redirect_to(home_path)
+        end
+      end
+    end
+
+    context 'when the interactor fails' do
+      let(:context) { double(success?: false) }
+      let(:person) { create(:person) }
+
+      it 'redirects to the homepage' do
+        expect(response).to redirect_to(home_path)
       end
     end
   end

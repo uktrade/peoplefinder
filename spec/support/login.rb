@@ -3,7 +3,7 @@
 module SpecSupport
   module Login
     def mock_logged_in_user(administrator: false)
-      controller.session[::Login::SESSION_KEY] =
+      controller.session[ApplicationController::SESSION_KEY] =
         create(:person, ditsso_user_id: '007', role_administrator: administrator).id
     end
 

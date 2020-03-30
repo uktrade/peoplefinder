@@ -39,17 +39,20 @@ class PeopleController < ApplicationController
   end
 
   def update
+    # TODO: Refactor state cookie logic
     set_state_cookie_action_update_if_not_create
     set_state_cookie_phase_from_button
-    person.assign_attributes(person_params)
+
     authorize person
 
-    if person.valid?
-      smc = StateManagerCookie.new(cookies)
-      PersonUpdater.new(
-        person: person, instigator: current_user, state_cookie: smc,
-        profile_url: person_url(person)
-      ).update!
+    result = UpdateProfile.call(
+      person: person,
+      person_attributes: person_params,
+      profile_url: person_url(person),
+      instigator: current_user
+    )
+
+    if result.success?
       type = person == current_user ? :mine : :other
       notice(:profile_updated, type, person: person) if state_cookie_saving_profile?
       redirect_to redirection_destination
@@ -61,12 +64,17 @@ class PeopleController < ApplicationController
   def destroy
     authorize person
 
-    destroyer = PersonDestroyer.new(person)
-    destroyer.destroy!
-    notice :profile_deleted, person: person
-    group = person.groups.first
+    result = RemovePerson.call(person: person)
 
-    redirect_to group ? group_path(group) : home_path
+    if result.success?
+      notice(:profile_deleted, person: person)
+
+      group = person.groups.first
+      redirect_to(group || home_path)
+    else
+      notice(:delete_error)
+      redirect_to(home_path)
+    end
   end
 
   def add_membership

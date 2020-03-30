@@ -26,9 +26,3 @@
         = membership_f.label 'addteam', 'Add new sub-team to the <span class="team-led"></span>'.html_safe, class: 'form-label-bold'
         %input.form-control.new-team-name#AddTeam
         = link_to 'Create', '#', class: 'button'
-
-  %noscript
-    .form-group
-      = membership_f.collection_select :group_id,
-        GroupLister.new.list.sort_by { |g| g.path.map(&:to_s) },
-        :id, :name_with_path, {}, class: 'form-control select-autocomplete team-select'

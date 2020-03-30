@@ -41,6 +41,7 @@ en:
           Thank you for helping to improve People Finder.
           We have let %{person} know that you’ve made changes
       profile_deleted: "Deleted %{person}’s profile"
+      delete_error: Could not delete the profile.
       create_error: "The profile was not created. Please check the errors below"
     person_deletion_request:
       request_sent: |
