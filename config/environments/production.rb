@@ -4,8 +4,8 @@ Rails.application.configure do
   # CloudFoundry Services
   vcap_services = VcapServices.new(ENV['VCAP_SERVICES'])
   config.elastic_search_url = vcap_services.service_url(:elasticsearch)
-  config.redis_cache_url = vcap_services.named_service_url(:redis, 'redis-peoplefinder-cache')
-  config.redis_sidekiq_url = vcap_services.named_service_url(:redis, 'redis-peoplefinder-sidekiq')
+  config.redis_cache_url = vcap_services.named_service_url(:redis, 'redis5-peoplefinder-cache')
+  config.redis_sidekiq_url = vcap_services.named_service_url(:redis, 'redis5-peoplefinder-sidekiq')
 
   # Production caching and sessions through Redis Cache
   config.cache_store = :redis_cache_store, { url: config.redis_cache_url }
