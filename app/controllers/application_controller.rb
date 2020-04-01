@@ -1,23 +1,16 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Pundit
-  include FeatureHelper
+  SESSION_KEY = 'current_user_id'
 
-  before_action :ensure_user
-  before_action :set_paper_trail_whodunnit
+  include Pundit
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
+  before_action :ensure_user, :set_paper_trail_whodunnit
 
   layout 'peoplefinder'
 
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
-
   breadcrumb 'home', :home
-
-  def login_person(person)
-    login_service = Login.new(session, person)
-    login_service.login
-    redirect_to desired_path(person)
-  end
 
   private
 
@@ -29,17 +22,10 @@ class ApplicationController < ActionController::Base
     { ip_address: request.remote_ip, user_agent: request.user_agent }
   end
 
-  def can_add_person_here?
-    false
-  end
-  helper_method :can_add_person_here?
-
-  def load_user
-    Login.current_user(session)
-  end
-
   def current_user
-    @current_user ||= load_user
+    return nil if session[SESSION_KEY].blank?
+
+    @current_user ||= Person.find(session[SESSION_KEY])
   rescue ActiveRecord::RecordNotFound
     session.destroy
   end
@@ -55,10 +41,6 @@ class ApplicationController < ActionController::Base
 
     session[:desired_path] = request.fullpath
     redirect_to '/auth/ditsso_internal'
-  end
-
-  def desired_path(person)
-    session.delete(:desired_path) || person_path(person, prompt: :profile)
   end
 
   def i18n_flash(type, *partial_key, **options)
@@ -87,8 +69,9 @@ class ApplicationController < ActionController::Base
 
   def append_info_to_payload(payload)
     super
+    return if current_user.blank?
 
-    payload[:sso_user_id] = current_user&.ditsso_user_id
-    payload[:local_user_id] = current_user&.id
+    payload[:sso_user_id] = current_user.ditsso_user_id
+    payload[:local_user_id] = current_user.id
   end
 end
