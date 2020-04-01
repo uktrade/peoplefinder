@@ -291,7 +291,7 @@ GEM
       nio4r (~> 2.0)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
-    rack (2.0.9)
+    rack (2.2.2)
     rack-protection (2.0.8.1)
       rack
     rack-proxy (0.6.5)
@@ -403,11 +403,11 @@ GEM
     sexp_processor (4.14.1)
     shoulda-matchers (4.3.0)
       activesupport (>= 4.2.0)
-    sidekiq (5.2.8)
-      connection_pool (~> 2.2, >= 2.2.2)
-      rack (< 2.1.0)
-      rack-protection (>= 1.5.0)
-      redis (>= 3.3.5, < 5)
+    sidekiq (6.0.6)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      rack-protection (>= 2.0.0)
+      redis (>= 4.1.0)
     simplecov (0.18.5)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -530,7 +530,7 @@ DEPENDENCIES
   selenium-webdriver
   sentry-raven
   shoulda-matchers
-  sidekiq (< 6)
+  sidekiq
   simplecov
   site_prism
   slim
