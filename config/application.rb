@@ -53,6 +53,9 @@ module Peoplefinder
     config.x.zendesk.service_id = ENV['ZD_SERVICE_ID']
     config.x.zendesk.service_name = ENV['ZD_SERVICE_NAME']
 
+    config.elastic_apm.service_name = 'peoplefinder'
+    config.elastic_apm.active = false # Overridden in production config
+
     config.elastic_search_url = ENV['ES_URL'] # Overridden in production config
     config.google_analytics_tracking_id = ENV['GA_TRACKING_ID']
     config.govuk_notify_api_key = ENV['GOVUK_NOTIFY_API_KEY']

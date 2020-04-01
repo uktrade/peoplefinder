@@ -25,6 +25,8 @@ Rails.application.configure do
   config.serve_static_assets = true
   config.public_file_server.enabled = true
 
+  config.elastic_apm.active = true
+
   config.force_ssl = true
   config.cache_classes = true
   config.eager_load = true
