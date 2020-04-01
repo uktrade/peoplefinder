@@ -58,6 +58,14 @@ Metrics/MethodLength:
   Exclude:
     - 'spec/**/*'
 
+# Cops that require explicit enabling as of Rubocop 0.80:
+Style/HashEachMethods:
+  Enabled: True
+Style/HashTransformKeys:
+  Enabled: True
+Style/HashTransformValues:
+  Enabled: True
+
 #########
 
 # TODO: These are the most common antipatterns scattered throughout the People Finder specs.

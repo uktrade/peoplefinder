@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Dir[File.expand_path('sections/search*.rb', __dir__)].each { |f| require f }
+Dir[File.expand_path('sections/search*.rb', __dir__)].sort.each { |f| require f }
 
 module Pages
   class Search < Base

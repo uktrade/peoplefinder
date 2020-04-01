@@ -5,7 +5,6 @@ class PersonSerializer
     @person = person
   end
 
-  # rubocop:disable Metrics/MethodLength
   def as_json(_options = {})
     {
       id: person.id,
@@ -31,7 +30,6 @@ class PersonSerializer
       end
     }
   end
-  # rubocop:enable Metrics/MethodLength
 
   private
 

@@ -8,7 +8,6 @@ class LegacyProfileSerializer
     @person = person
   end
 
-  # rubocop:disable Metrics/MethodLength
   def as_json(_options = {})
     {
       data: {
@@ -30,7 +29,6 @@ class LegacyProfileSerializer
       }
     }
   end
-  # rubocop:enable Metrics/MethodLength
 
   private
 

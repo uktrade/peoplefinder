@@ -43,7 +43,7 @@ module Admin
       ]
     end
 
-    def person_row(person) # rubocop:disable Metrics/MethodLength
+    def person_row(person)
       membership = person.memberships.first
       [
         person.ditsso_user_id, person.id,
