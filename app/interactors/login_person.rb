@@ -33,6 +33,10 @@ class LoginPerson
 
   def save_person
     person.save!
+  rescue ActiveRecord::ActiveRecordError => e
+    # We don't want an error in saving the record (e.g. due to inconsistent state in DB) to fail creating a session
+    # (but we do want to keep track of these to make sure we can discover root causes)
+    Raven.capture_exception(e)
   end
 
   def person
