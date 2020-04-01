@@ -285,7 +285,7 @@ RSpec.describe Person, type: :model do
     end
 
     context 'when there are multiple group memberships' do
-      let(:groups) { 4.times.map { build(:group) } }
+      let(:groups) { Array.new(4) { build(:group) } }
 
       before do
         allow(groups[1]).to receive(:path) { [groups[0], groups[1]] }

@@ -82,19 +82,21 @@ RSpec.describe Completion do
     end
 
     it 'returns average of two profiles completion scores' do
-      2.times do
-        create(:person, given_name: generate(:given_name),
-                        surname: generate(:surname),
-                        email: generate(:email),
-                        city: generate(:city),
-                        primary_phone_number: generate(:phone_number))
-      end
+      create_list(
+        :person,
+        2,
+        given_name: generate(:given_name),
+        surname: generate(:surname),
+        email: generate(:email),
+        city: generate(:city),
+        primary_phone_number: generate(:phone_number)
+      )
 
       expect(Person.overall_completion).to be_within(1).of(67)
     end
 
     it 'includes membership in calculation' do
-      people = 2.times.map do
+      people = Array.new(2) do
         person = create(
           :person,
           given_name: generate(:given_name),
