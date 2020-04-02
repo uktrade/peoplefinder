@@ -17,6 +17,12 @@
   margin: govuk-spacing(1) 0 0 0;
 }
 
+.ws-profile__detail-value {
+  p:first-child {
+    margin-top: 0;
+  }
+}
+
 .ws-profile__roles {
   margin: govuk-spacing(4) 0;
   padding: 0;

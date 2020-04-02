@@ -30,7 +30,10 @@
       - if policy(person).destroy?
         = link_to 'Delete profile', person, method: :delete, class: 'govuk-button govuk-button--warning govuk-button--menuitem', data: {confirm: 'Are you sure? This cannot be undone.'}
       - else
-        = link_to "Has #{person.given_name} left DIT?", new_person_deletion_request_path(person), class: 'govuk-button govuk-button--secondary govuk-button--menuitem'
+        - if person == current_user
+          = link_to "Are you leaving DIT?", new_person_deletion_request_path(person), class: 'govuk-button govuk-button--secondary govuk-button--menuitem'
+        - else
+          = link_to "Has #{person.given_name} left DIT?", new_person_deletion_request_path(person), class: 'govuk-button govuk-button--secondary govuk-button--menuitem'
   hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
 
   .govuk-grid-row
