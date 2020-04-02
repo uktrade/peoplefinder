@@ -45,7 +45,7 @@ class PersonSearch
 
   def do_searches
     execute_search
-    @results.set = matches.records
+    @results.set = matches.records(includes: [:memberships])
     @results.contains_exact_match = exact_match_exists?
   end
 
