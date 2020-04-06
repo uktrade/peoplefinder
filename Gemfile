@@ -6,7 +6,6 @@ ruby '2.6.5'
 RAILS_VERSION = '~> 6.0.2'
 gem 'actionpack', RAILS_VERSION
 gem 'activemodel', RAILS_VERSION
-gem 'activejob', RAILS_VERSION
 gem 'activerecord', RAILS_VERSION
 gem 'activesupport', RAILS_VERSION
 gem 'railties', RAILS_VERSION

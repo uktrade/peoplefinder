@@ -20,5 +20,5 @@ class Membership < ApplicationRecord
     [group_name, role].map(&:presence).compact.join(', ')
   end
 
-  before_destroy { |m| UpdateGroupMembersCompletionScoreJob.perform_later(m.group) }
+  before_destroy { |m| UpdateGroupMembersCompletionScoreWorker.perform_async(m.group_id) }
 end

@@ -63,7 +63,7 @@ class Group < ApplicationRecord
 
   scope :without_description, -> { unscoped.where(description: ['', nil]) }
 
-  after_save { |group| UpdateGroupMembersCompletionScoreJob.perform_later(group) }
+  after_save { |group| UpdateGroupMembersCompletionScoreWorker.perform_async(group.id) }
 
   def self.department
     roots.first

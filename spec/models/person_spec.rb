@@ -12,8 +12,6 @@ RSpec.describe Person, type: :model do
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to have_many(:groups) }
 
-  it { is_expected.to respond_to(:skip_group_completion_score_updates) }
-
   context 'test factory' do
     describe '#create(:person)' do
       let(:person) { create(:person) }
@@ -216,21 +214,15 @@ RSpec.describe Person, type: :model do
   end
 
   context 'group member completion score update' do
-    include ActiveJob::TestHelper
+    let!(:person) { create(:person, :member_of, team: digital_services) }
+    let(:digital_services) { create(:group, name: 'Digital Services') }
 
-    let(:person) { build(:person) }
-    let!(:digital_services) { create(:group, name: 'Digital Services') }
+    it 'enqueues the UpdateGroupMembersCompletionScoreWorker' do
+      expect(UpdateGroupMembersCompletionScoreWorker).to receive(:perform_async).with(digital_services.id)
+      expect(UpdateGroupMembersCompletionScoreWorker).to receive(:perform_async).with(digital_services.parent.id)
 
-    before do
-      person.save!
-      person.memberships.create(group: digital_services, role: 'Service Assessments Lead')
-      person.save!
       person.primary_phone_number = '00222'
-      clear_enqueued_jobs
-    end
-
-    it 'enqueues the UpdateGroupMembersCompletionScoreJob' do
-      expect { person.save! }.to have_enqueued_job(UpdateGroupMembersCompletionScoreJob).with(digital_services)
+      person.save!
     end
   end
 
@@ -259,8 +251,8 @@ RSpec.describe Person, type: :model do
       expect(updated_membership.leader).to be true
     end
 
-    it 'fires UpdateGroupMembersCompletionScoreJob for group on save' do
-      expect(UpdateGroupMembersCompletionScoreJob).to receive(:perform_later).with(person.groups.first)
+    it 'performs UpdateGroupMembersCompletionScoreWorker for group on save' do
+      expect(UpdateGroupMembersCompletionScoreWorker).to receive(:perform_async).with(person.groups.first.id)
       person.save
     end
   end
@@ -372,19 +364,6 @@ RSpec.describe Person, type: :model do
       it 'returns nil' do
         expect(person.profile_image).to be_nil
       end
-    end
-  end
-
-  describe '#skip_group_completion_score_updates' do
-    before do
-      digital_services = create(:group, name: 'Digital Services')
-      person.memberships.build(group: digital_services)
-      person.skip_group_completion_score_updates = true
-    end
-
-    it 'prevents enqueuing of group completion score update job for bulk upload purposes' do
-      expect(UpdateGroupMembersCompletionScoreJob).not_to receive(:perform_later)
-      person.save
     end
   end
 

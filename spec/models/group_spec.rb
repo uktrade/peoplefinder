@@ -21,15 +21,12 @@ RSpec.describe Group, type: :model do
   end
 
   describe '#after_save' do
-    let!(:group) { build(:group, parent: nil) }
+    let!(:group) { create(:group, parent: nil) }
 
     it 'calls method to enqueue job for completion score update' do
-      expect(UpdateGroupMembersCompletionScoreJob).to receive(:perform_later).with(group)
-      group.save!
-    end
+      expect(UpdateGroupMembersCompletionScoreWorker).to receive(:perform_async).with(group.id)
 
-    it 'enqueues job to update completion scores for self and all ancestors/parents' do
-      expect { group.save! }.to have_enqueued_job
+      group.save!
     end
   end
 
@@ -119,10 +116,6 @@ RSpec.describe Group, type: :model do
       allow(group).to receive(:deletable?).once.and_return(true)
       group.destroy
       expect { described_class.find(group.id) }.to raise_error(ActiveRecord::RecordNotFound)
-    end
-
-    it 'does not enqueue completion score update job' do
-      expect { group.destroy! }.not_to have_enqueued_job.on_queue('low_priority')
     end
   end
 
