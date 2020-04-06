@@ -4,7 +4,6 @@ require_relative 'boot'
 
 require 'rails'
 require 'active_model/railtie'
-require 'active_job/railtie'
 require 'active_record/railtie'
 require 'action_controller/railtie'
 require 'action_view/railtie'
@@ -27,7 +26,6 @@ module Peoplefinder
 
     ActionView::Base.default_form_builder = GovukElementsFormBuilder::FormBuilder
 
-    config.active_job.queue_adapter = :sidekiq
     config.active_record.schema_format = :ruby
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
     config.autoload_paths << Rails.root.join('lib')

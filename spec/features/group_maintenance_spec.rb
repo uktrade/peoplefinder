@@ -3,8 +3,6 @@
 require 'rails_helper'
 
 describe 'Group maintenance' do
-  include ActiveJobHelper
-
   let!(:dept) { create(:department) }
 
   before(:each, user: :regular) do

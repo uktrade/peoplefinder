@@ -10,5 +10,4 @@ Rails.application.configure do
   config.action_dispatch.show_exceptions = false
   config.action_controller.allow_forgery_protection = false
   config.active_support.deprecation = :stderr
-  config.active_job.queue_adapter = :test
 end

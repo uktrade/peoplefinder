@@ -108,7 +108,7 @@ RSpec.describe Completion do
         person.memberships.destroy_all
         person
       end
-      expect(UpdateGroupMembersCompletionScoreJob).to receive(:perform_later).at_least(:once)
+      expect(UpdateGroupMembersCompletionScoreWorker).to receive(:perform_async).at_least(:once)
       create_list(:membership, 2, person: people[0])
       people.each(&:reload)
       expect(people[0].completion_score).to be_within(1).of(67)

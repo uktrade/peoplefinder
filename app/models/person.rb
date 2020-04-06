@@ -16,7 +16,7 @@ class Person < ApplicationRecord
 
   attr_accessor :working_days
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-  attr_accessor :skip_group_completion_score_updates, :skip_must_have_surname, :skip_must_have_team
+  attr_accessor :skip_must_have_surname, :skip_must_have_team
 
   has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
   has_many :groups, through: :memberships
@@ -44,7 +44,6 @@ class Person < ApplicationRecord
 
   after_save :crop_profile_photo
   after_save :enqueue_group_completion_score_updates
-  skip_callback :save, :after, :enqueue_group_completion_score_updates, if: :skip_group_completion_score_updates
 
   friendly_id :slug_source, use: :slugged
 
@@ -92,7 +91,7 @@ class Person < ApplicationRecord
     groups_current = groups
 
     (groups_prior + groups_current).uniq.each do |group|
-      UpdateGroupMembersCompletionScoreJob.perform_later(group)
+      UpdateGroupMembersCompletionScoreWorker.perform_async(group.id)
     end
   end
 
