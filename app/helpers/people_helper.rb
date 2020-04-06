@@ -22,7 +22,10 @@ module PeopleHelper
     elsif working_week.none? && weekend.none?
       t('works_none', scope: :days)
     else
-      Person::DAYS_WORKED.map { |day| t(day, scope: :days) }.to_sentence
+      Person::DAYS_WORKED
+        .select { |day| person[day] }
+        .map { |day| t(day, scope: :days) }
+        .to_sentence
     end
   end
 
