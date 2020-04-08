@@ -69,15 +69,12 @@ end
 
 group :development, :test do
   gem 'brakeman', require: false
-  gem 'byebug'
   gem 'factory_bot_rails'
-  gem 'pry-byebug'
   gem 'pry-rails'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'simplecov'
   gem 'timecop'
 end
 
