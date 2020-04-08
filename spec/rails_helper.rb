@@ -4,21 +4,11 @@ ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
-require 'pry-byebug'
 require 'timecop'
 require 'paper_trail/frameworks/rspec'
 require 'shoulda-matchers'
 require 'capybara/rspec'
 require 'site_prism'
-
-unless ENV['SKIP_SIMPLECOV']
-  require 'simplecov'
-  SimpleCov.start 'rails' do
-    add_filter '/gem/'
-    add_filter '.bundle'
-  end
-  SimpleCov.minimum_coverage 50
-end
 
 Capybara.register_driver :poltergeist_silent do |app|
   # Redirect phantomjs log output to a dummy StringIO to ignore it
