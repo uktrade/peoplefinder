@@ -8,6 +8,7 @@ class UpdateProfile
     check_person_is_valid
     save_person
     notify_updated_person_if_appropriate
+    touch_person_last_edited_or_confirmed_at
   end
 
   private
@@ -33,6 +34,11 @@ class UpdateProfile
       instigator_name: instigator.name,
       profile_url: context.profile_url
     )
+  end
+
+  def touch_person_last_edited_or_confirmed_at
+    # We don't mind not running validations on touching this attribute - this call should not fail
+    person.touch(:last_edited_or_confirmed_at) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def person

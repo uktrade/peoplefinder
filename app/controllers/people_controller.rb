@@ -61,6 +61,14 @@ class PeopleController < ApplicationController
     end
   end
 
+  def confirm
+    authorize person
+    person.touch(:last_edited_or_confirmed_at) # rubocop:disable Rails/SkipsModelValidations
+
+    notice(:profile_confirmed)
+    redirect_to person
+  end
+
   def destroy
     authorize person
 

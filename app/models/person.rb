@@ -49,7 +49,7 @@ class Person < ApplicationRecord
 
   has_paper_trail versions: { class_name: 'Version' },
                   on: %i[create destroy update],
-                  ignore: %i[updated_at created_at id slug login_count last_login_at]
+                  ignore: %i[updated_at created_at id slug login_count last_login_at last_edited_or_confirmed_at]
 
   paginates_per 40
 
@@ -184,6 +184,12 @@ class Person < ApplicationRecord
   def country_name
     country_obj = ISO3166::Country[country]
     country_obj ? country_obj.translations[I18n.locale.to_s] : country
+  end
+
+  def stale?
+    return unless last_edited_or_confirmed_at
+
+    last_edited_or_confirmed_at < Rails.configuration.profile_stale_after_days.days.ago
   end
 
   def formatted_buildings

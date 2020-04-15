@@ -28,6 +28,10 @@ Rails.application.routes.draw do
   # TODO: index action can also be removed, but this causes issues with the legacy
   #   people form so needs to wait for people to be on new frontend
   resources :people, except: %i[new create] do
+    member do
+      put :confirm
+    end
+
     collection do
       get :add_membership
     end

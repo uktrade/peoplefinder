@@ -380,4 +380,28 @@ RSpec.describe Person, type: :model do
       expect(person.primary_phone_country).to be_nil
     end
   end
+
+  describe '#stale?' do
+    subject { build_stubbed(:person, last_edited_or_confirmed_at: last_updated) }
+
+    before do
+      allow(Rails.configuration).to receive(:profile_stale_after_days).and_return(42)
+    end
+
+    context 'when the user has last been updated more than the specified number of days ago' do
+      let(:last_updated) { 45.days.ago }
+
+      it 'is stale' do
+        expect(subject).to be_stale
+      end
+    end
+
+    context 'when the user has last been updated less than the specified number of days ago' do
+      let(:last_updated) { 40.days.ago }
+
+      it 'is not stale' do
+        expect(subject).not_to be_stale
+      end
+    end
+  end
 end

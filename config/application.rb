@@ -59,6 +59,7 @@ module Peoplefinder
     config.govuk_notify_api_key = ENV['GOVUK_NOTIFY_API_KEY']
     config.home_page_url = ENV['HOME_PAGE_URL']
     config.profile_api_token = ENV['PROFILE_API_TOKEN']
+    config.profile_stale_after_days = ENV.fetch('PROFILE_STALE_AFTER_DAYS', 30).to_i
     config.redis_cache_url = ENV['REDIS_CACHE_URL'] # Overridden in production config
     config.redis_sidekiq_url = ENV['REDIS_SIDEKIQ_URL'] # Overridden in production config
   end

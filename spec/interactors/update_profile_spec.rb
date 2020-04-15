@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe UpdateProfile do
-  let(:person) { instance_double(Person, email: 'person@example.com', name: 'Per Son', assign_attributes: true, save!: true, valid?: valid) }
+  let(:person) { instance_double(Person, email: 'person@example.com', name: 'Per Son', assign_attributes: true, save!: true, valid?: valid, touch: true) }
   let(:instigator) { instance_double(Person, name: 'Insti Gator') }
   let(:person_attributes) { double('Attributes') }
   let(:notifier) { instance_double(GovukNotify, updated_profile: true) }
@@ -35,6 +35,10 @@ describe UpdateProfile do
         expect(person).not_to have_received(:save!)
       end
 
+      it 'does not touch the last_edited_or_confirmed_at timestamp' do
+        expect(person).not_to have_received(:touch)
+      end
+
       it 'does not send an email to the updated user' do
         expect(notifier).not_to have_received(:updated_profile)
       end
@@ -54,6 +58,10 @@ describe UpdateProfile do
 
       it 'does not send an email to the updated user by default' do
         expect(notifier).not_to have_received(:updated_profile)
+      end
+
+      it 'touches the last_edited_or_confirmed_at timestamp' do
+        expect(person).to have_received(:touch).with(:last_edited_or_confirmed_at)
       end
 
       context 'when the updated person should be notified of changes' do
