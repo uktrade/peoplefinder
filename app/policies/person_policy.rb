@@ -13,6 +13,10 @@ class PersonPolicy < ApplicationPolicy
     true
   end
 
+  def confirm?
+    true
+  end
+
   def new?
     true
   end

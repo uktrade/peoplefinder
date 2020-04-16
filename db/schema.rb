@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_24_114928) do
+ActiveRecord::Schema.define(version: 2020_04_15_100004) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,9 +86,9 @@ ActiveRecord::Schema.define(version: 2020_03_24_114928) do
     t.string "pronouns"
     t.integer "line_manager_id"
     t.boolean "line_manager_not_required", default: false
-    t.string "user_role", default: "none"
     t.boolean "role_people_editor", default: false
     t.boolean "role_groups_editor", default: false
+    t.datetime "last_edited_or_confirmed_at"
     t.index ["slug"], name: "index_people_on_slug", unique: true
   end
 

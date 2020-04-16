@@ -54,8 +54,9 @@ en:
       role_administrator: User has "administrator" role
       role_groups_editor: User has "groups editor" role
       role_people_editor: User has "people editor" role
-      created_at: First created at
-      updated_at: Profile last updated at
+      created_at: First created
+      updated_at: Last updated (may be by automatic processes)
+      last_edited_or_confirmed_at: Last edited/confirmed by user action
 
   days:
     works_none: Not working
