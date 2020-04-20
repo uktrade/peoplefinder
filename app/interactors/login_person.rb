@@ -5,7 +5,7 @@ class LoginPerson
 
   def call
     set_initial_person_attributes_from_sso if person.new_record?
-    update_login_count_and_timestamp
+    update_login_count_and_timestamp if person.persisted?
     set_redirect_to_edit
     save_person
   end
@@ -20,23 +20,25 @@ class LoginPerson
     person.email = sso_user_info['email']
     person.given_name = sso_user_info['first_name']&.titleize
     person.surname = sso_user_info['last_name']&.titleize
+    person.login_count = 1
+    person.last_login_at = DateTime.current
   end
 
   def update_login_count_and_timestamp
-    person.login_count += 1
-    person.last_login_at = Time.zone.now
+    # Some user accounts fail validation because e.g. they backed out of the first login flow and never set a team
+    # We don't want this to stop us setting login count and last login date
+    # rubocop:disable Rails/SkipsModelValidations
+    person.touch(:last_login_at)
+    person.increment!(:login_count)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def set_redirect_to_edit
-    context.redirect_to_edit = person.new_record?
+    context.redirect_to_edit = person.new_record? || person.invalid?
   end
 
   def save_person
-    person.save!
-  rescue ActiveRecord::ActiveRecordError => e
-    # We don't want an error in saving the record (e.g. due to inconsistent state in DB) to fail creating a session
-    # (but we do want to keep track of these to make sure we can discover root causes)
-    Raven.capture_exception(e)
+    person.save
   end
 
   def person

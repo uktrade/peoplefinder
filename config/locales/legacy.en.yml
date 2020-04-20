@@ -4,7 +4,7 @@ en:
       placeholder: Discover what this team is responsible for, who is in it and how you can get in touch with them.
       team_selector_hint: Select the teams parent
   shared:
-    finish_profile_request: &finish_profile_request "You need to create or update a People Finder account to finish signing in"
+    finish_profile_request: &finish_profile_request "Welcome! Please complete the required fields in your profile to start using People Finder."
     unauthorised: &unauthorised Unauthorised, insufficient privileges
     about_usage: &about_usage People Finder relies on contributions from everyone to help keep it up-to-date.
   time:
