@@ -85,7 +85,7 @@ describe 'Group browsing' do
       expect(page).to have_text("Teams within #{team.name}")
       expect(page).to have_link('View all people')
       expect(page).to have_link('View 3 people not assigned to a team')
-      expect(page).to have_text("#{subteam.members_completion_score}% of profiles complete")
+      expect(page).to have_text("#{subteam.reload.members_completion_score}% of profiles complete")
     end
 
     it 'following the view all people link' do

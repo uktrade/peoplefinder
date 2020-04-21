@@ -9,6 +9,7 @@ require 'paper_trail/frameworks/rspec'
 require 'shoulda-matchers'
 require 'capybara/rspec'
 require 'site_prism'
+require 'sidekiq/testing'
 
 Capybara.register_driver :poltergeist_silent do |app|
   # Redirect phantomjs log output to a dummy StringIO to ignore it
@@ -34,6 +35,8 @@ Dir[File.expand_path('support/**/*.rb', __dir__)].sort.each { |f| require f }
 Dir[File.expand_path('controllers/concerns/shared_examples*.rb', __dir__)].sort.each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
+
+Sidekiq::Testing.inline!
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
