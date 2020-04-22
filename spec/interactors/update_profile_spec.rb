@@ -9,6 +9,7 @@ describe UpdateProfile do
       name: 'Per Son',
       given_name: 'Per',
       surname: 'Son',
+      building: ['', 'skyscraper', 'airport'],
       assign_attributes: true,
       save!: true,
       valid?: valid,
@@ -80,7 +81,8 @@ describe UpdateProfile do
           'person@example.com',
           'person@gov.uk',
           'Per',
-          'Son'
+          'Son',
+          %w[pf_imported pf_building_skyscraper pf_building_airport]
         )
       end
 
