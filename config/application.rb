@@ -58,6 +58,8 @@ module Peoplefinder
     config.google_analytics_tracking_id = ENV['GA_TRACKING_ID']
     config.govuk_notify_api_key = ENV['GOVUK_NOTIFY_API_KEY']
     config.home_page_url = ENV['HOME_PAGE_URL']
+    config.mailing_list_integration_enabled = ENV['MAILCHIMP_API_KEY'].present?
+    config.mailchimp_list_id = ENV['MAILCHIMP_LIST_ID']
     config.profile_api_token = ENV['PROFILE_API_TOKEN']
     config.profile_stale_after_days = ENV.fetch('PROFILE_STALE_AFTER_DAYS', 30).to_i
     config.redis_cache_url = ENV['REDIS_CACHE_URL'] # Overridden in production config

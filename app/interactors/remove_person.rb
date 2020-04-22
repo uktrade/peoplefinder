@@ -5,6 +5,7 @@ class RemovePerson
 
   def call
     delete_person
+    remove_person_from_mailing_list
     send_notification_to_deleted_person
   end
 
@@ -12,6 +13,12 @@ class RemovePerson
 
   def delete_person
     person.destroy!
+  end
+
+  def remove_person_from_mailing_list
+    return unless Rails.configuration.mailing_list_integration_enabled
+
+    RemovePersonFromMailingListWorker.perform_async(person.email)
   end
 
   def send_notification_to_deleted_person

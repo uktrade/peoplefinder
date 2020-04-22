@@ -4,14 +4,22 @@ class UpdateProfile
   include Interactor
 
   def call
+    cache_email_before_update
     update_person
     check_person_is_valid
     save_person
     notify_updated_person_if_appropriate
+    update_person_on_mailing_list
     touch_person_last_edited_or_confirmed_at
   end
 
   private
+
+  def cache_email_before_update
+    # Keep track of the user's email before any changes are saved for #update_person_on_mailing_list
+    # (person.email_before_last_save is unreliable)
+    @email_before_update = person.email
+  end
 
   def update_person
     person.assign_attributes(context.person_attributes)
@@ -33,6 +41,17 @@ class UpdateProfile
       recipient_name: person.name,
       instigator_name: instigator.name,
       profile_url: context.profile_url
+    )
+  end
+
+  def update_person_on_mailing_list
+    return unless Rails.configuration.mailing_list_integration_enabled
+
+    UpdatePersonOnMailingListWorker.perform_async(
+      person.email,
+      @email_before_update,
+      person.given_name,
+      person.surname
     )
   end
 
