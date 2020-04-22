@@ -6,7 +6,7 @@ describe RemovePersonFromMailingListWorker do
   let(:mailchimp_service) { instance_double(Mailchimp, deactivate_subscriber: true) }
 
   describe '#perform' do
-    subject! { described_class.new.perform('bye.bye@trade.gov.uk', mailchimp_service) }
+    subject! { described_class.new(mailchimp_service: mailchimp_service).perform('bye.bye@trade.gov.uk') }
 
     context 'when a previous email is given' do
       it 'deactivates the subscribed' do

@@ -3,7 +3,11 @@
 class RemovePersonFromMailingListWorker
   include Sidekiq::Worker
 
-  def perform(email, mailchimp_service = Mailchimp.new)
-    mailchimp_service.deactivate_subscriber(email)
+  def initialize(mailchimp_service: Mailchimp.new)
+    @mailchimp_service = mailchimp_service
+  end
+
+  def perform(email)
+    @mailchimp_service.deactivate_subscriber(email)
   end
 end

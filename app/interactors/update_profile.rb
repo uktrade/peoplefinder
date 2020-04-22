@@ -51,13 +51,19 @@ class UpdateProfile
       person.email,
       @email_before_update,
       person.given_name,
-      person.surname
+      person.surname,
+      mailchimp_tags
     )
   end
 
   def touch_person_last_edited_or_confirmed_at
     # We don't mind not running validations on touching this attribute - this call should not fail
     person.touch(:last_edited_or_confirmed_at) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def mailchimp_tags
+    # TODO: This is an MVP and needs to move into a more appropriate place
+    ['pf_imported'] + person.building.select(&:present?).map { |building| "pf_building_#{building}" }
   end
 
   def person

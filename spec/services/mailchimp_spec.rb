@@ -6,8 +6,11 @@ describe Mailchimp do
   subject { described_class.new(mailchimp_client: mailchimp_client) }
 
   let(:mailchimp_client) { instance_double('Mailchimp client') }
-  let(:mailchimp_list) { double('MailChimp list') }
-  let(:member) { double('MailChimp list members', upsert: true) }
+  let(:mailchimp_list) { double('Mailchimp list') }
+  let(:member) { double('Mailchimp list members', upsert: true, delete: true, tags: tags, retrieve: member_response) }
+  let(:member_response) { double('Mailchimp member response', body: body) }
+  let(:tags) { double('Mailchimp tags', create: true) }
+  let(:body) { { 'tags' => [{ 'name' => 'tag1' }, { 'name' => 'tag2' }] } }
 
   before do
     allow(mailchimp_client).to receive(:lists).with('f00').and_return(mailchimp_list)
@@ -35,13 +38,25 @@ describe Mailchimp do
     end
   end
 
-  describe '#deactivate_subscriber' do
-    it 'calls upsert on the client' do
-      expect(member).to receive(:upsert).with(
+  describe '#set_subscriber_tags' do
+    it 'sets the appropriate tags on the subscriber' do
+      expect(tags).to receive(:create).with(
         body: {
-          status: 'cleaned'
+          tags: [
+            { name: 'tag2', status: 'inactive' },
+            { name: 'tag1', status: 'active' },
+            { name: 'tag3', status: 'active' }
+          ]
         }
       )
+
+      subject.set_subscriber_tags('Per.SON@gov.UK', tags: %w[tag1 tag3])
+    end
+  end
+
+  describe '#deactivate_subscriber' do
+    it 'calls upsert on the client' do
+      expect(member).to receive(:delete)
 
       subject.deactivate_subscriber('PER.SON@GoV.uk')
     end
