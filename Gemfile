@@ -61,7 +61,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'rspec-json_expectations'
   gem 'rspec-rails'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '~> 4.0.0alpha'
   gem 'shoulda-matchers'
   gem 'site_prism'
   gem 'webmock'
