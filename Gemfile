@@ -71,11 +71,14 @@ end
 group :development, :test do
   gem 'brakeman', require: false
   gem 'factory_bot_rails'
+  gem 'parallel_tests'
   gem 'pry-rails'
   gem 'rubocop'
   gem 'rubocop-performance'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'spring'
+  gem 'spring-commands-rspec'
   gem 'timecop'
 end
 

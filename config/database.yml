@@ -16,7 +16,7 @@ development:
 test:
   <<: *default
 <% if ENV.key?('TEST_DATABASE_URL') %>
-  url: <%= ENV.fetch('TEST_DATABASE_URL') %>
+  url: <%= ENV.fetch('TEST_DATABASE_URL') %><%= ENV['TEST_ENV_NUMBER'] %>
 <% else %>
   database: peoplefinder_test
 <% end %>

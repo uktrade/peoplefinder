@@ -12,7 +12,7 @@ module Searchable
     # Don't know if we still need this, as we have removed community feature.
     after_commit -> { __elasticsearch__.index_document }, on: :update
 
-    index_name [Rails.env, model_name.collection.tr('/', '-')].join('_')
+    index_name [Rails.env, ENV['TEST_ENV_NUMBER'], model_name.collection.tr('/', '-')].compact.join('_')
 
     def self.delete_indexes
       __elasticsearch__.delete_index! index: index_name
