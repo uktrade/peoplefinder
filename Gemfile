@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.6.5'
+ruby '2.6.6'
 
 RAILS_VERSION = '~> 6.0.2'
 gem 'actionpack', RAILS_VERSION
