@@ -25,5 +25,10 @@ RSpec.configure do |config|
   config.before do
     WebMock.stub_request(:post, 'https://api.notifications.service.gov.uk/v2/notifications/email')
            .to_return(status: 200, body: '{}')
+
+    WebMock.stub_request(:get, /api.mailchimp.com/).to_return(status: 200, body: '{"tags": []}')
+    WebMock.stub_request(:put, /api.mailchimp.com/).to_return(status: 200, body: '{}')
+    WebMock.stub_request(:post, /api.mailchimp.com/).to_return(status: 200, body: '{}')
+    WebMock.stub_request(:delete, /api.mailchimp.com/).to_return(status: 200, body: '{}')
   end
 end

@@ -2,18 +2,27 @@
 
 require 'rails_helper'
 
-describe Mailchimp do
-  subject { described_class.new(mailchimp_client: mailchimp_client) }
+describe MailingList do
+  subject { described_class.new(client: client, export_client: export_client) }
 
-  let(:mailchimp_client) { instance_double('Mailchimp client') }
+  let(:client) { instance_double('Mailchimp client') }
+  let(:export_client) { instance_double('Mailchimp export client', list: list) }
   let(:mailchimp_list) { double('Mailchimp list') }
   let(:member) { double('Mailchimp list members', upsert: true, delete: true, tags: tags, retrieve: member_response) }
   let(:member_response) { double('Mailchimp member response', body: body) }
   let(:tags) { double('Mailchimp tags', create: true) }
   let(:body) { { 'tags' => [{ 'name' => 'tag1' }, { 'name' => 'tag2' }] } }
+  let(:list) do
+    [
+      %w[HEADER1 HEADER2 HEADER3],
+      %w[email1@gov.uk Blah Blah],
+      %w[email2@gov.uk Blah Blah],
+      %w[email3@gov.uk Blah Blah]
+    ]
+  end
 
   before do
-    allow(mailchimp_client).to receive(:lists).with('f00').and_return(mailchimp_list)
+    allow(client).to receive(:lists).with('f00').and_return(mailchimp_list)
 
     # MD5 of person@gov.uk (NB: lowercase!)
     allow(mailchimp_list).to receive(:members).with('c5b7d9bbe1941dbeb2e43df9b4ec6f79').and_return(member)
@@ -59,6 +68,45 @@ describe Mailchimp do
       expect(member).to receive(:delete)
 
       subject.deactivate_subscriber('PER.SON@GoV.uk')
+    end
+
+    context 'when the API returns an error' do
+      before do
+        allow(member).to receive(:delete).and_raise(error)
+      end
+
+      context '404' do
+        # The user does not exist, retrying won't help
+        let(:error) { Gibbon::MailChimpError.new('Not found', status_code: 404) }
+
+        it 'returns false' do
+          expect(subject.deactivate_subscriber('PER.SON@GoV.uk')).to eq(false)
+        end
+      end
+
+      context '405' do
+        # The user is already deactivated, retrying won't help
+        let(:error) { Gibbon::MailChimpError.new('Cannot be removed', status_code: 405) }
+
+        it 'returns false' do
+          expect(subject.deactivate_subscriber('PER.SON@GoV.uk')).to eq(false)
+        end
+      end
+
+      context 'any other error' do
+        # The user is already deactivated, retrying won't help
+        let(:error) { Gibbon::MailChimpError.new('Monkey see monkey do', status_code: 500) }
+
+        it 're-raises the error' do
+          expect { subject.deactivate_subscriber('PER.SON@GoV.uk') }.to raise_error(error)
+        end
+      end
+    end
+  end
+
+  describe '#all_subscribers' do
+    it 'returns an array of email addresses' do
+      expect(subject.all_subscribers).to eq(%w[email1@gov.uk email2@gov.uk email3@gov.uk])
     end
   end
 end

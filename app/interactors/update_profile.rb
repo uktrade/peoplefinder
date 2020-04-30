@@ -45,7 +45,9 @@ class UpdateProfile
   end
 
   def update_person_on_mailing_list
-    UpdatePersonOnMailingList.call(person: person, previous_email: @email_before_update)
+    MailingLists::DeactivateSubscriberWorker.perform_async(@email_before_update) if person.email != @email_before_update
+
+    MailingLists::CreateOrUpdateSubscriberForPersonWorker.perform_async(person.id)
   end
 
   def touch_person_last_edited_or_confirmed_at
