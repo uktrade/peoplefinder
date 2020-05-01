@@ -6,6 +6,7 @@ describe UpdateProfile do
   let(:person) do
     instance_double(
       Person,
+      id: 42,
       name: 'Per Son',
       given_name: 'Per',
       surname: 'Son',
@@ -23,7 +24,8 @@ describe UpdateProfile do
   before do
     allow(person).to receive(:notify_of_change?).with(instigator).and_return(notify_of_change)
     allow(person).to receive(:email).and_return('person@gov.uk', 'person@example.com')
-    allow(UpdatePersonOnMailingList).to receive(:call)
+    allow(MailingLists::CreateOrUpdateSubscriberForPersonWorker).to receive(:perform_async)
+    allow(MailingLists::DeactivateSubscriberWorker).to receive(:perform_async)
   end
 
   describe '.call' do
@@ -56,8 +58,9 @@ describe UpdateProfile do
         expect(notifier).not_to have_received(:updated_profile)
       end
 
-      it 'does not update the user on the mailing list' do
-        expect(UpdatePersonOnMailingList).not_to have_received(:call)
+      it 'does not queue any mailing list workers' do
+        expect(MailingLists::DeactivateSubscriberWorker).not_to have_received(:perform_async)
+        expect(MailingLists::CreateOrUpdateSubscriberForPersonWorker).not_to have_received(:perform_async)
       end
     end
 
@@ -81,8 +84,12 @@ describe UpdateProfile do
         expect(person).to have_received(:touch).with(:last_edited_or_confirmed_at)
       end
 
-      it 'updates the person on the mailing list' do
-        expect(UpdatePersonOnMailingList).to have_received(:call).with(person: person, previous_email: 'person@gov.uk')
+      it 'queues a worker to remove the previous email address from the mailing list' do
+        expect(MailingLists::DeactivateSubscriberWorker).to have_received(:perform_async).with('person@gov.uk')
+      end
+
+      it 'queues a mailing list update workers for the person' do
+        expect(MailingLists::CreateOrUpdateSubscriberForPersonWorker).to have_received(:perform_async).with(42)
       end
 
       context 'when the updated person should be notified of changes' do

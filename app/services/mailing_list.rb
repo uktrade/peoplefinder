@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-class Mailchimp
-  def initialize(mailchimp_client: Gibbon::Request.new)
-    @mailchimp_client = mailchimp_client
+class MailingList
+  def initialize(client: Gibbon::Request.new, export_client: Gibbon::Export.new)
+    @client = client
+    @export_client = export_client
   end
 
   def create_or_update_subscriber(email, merge_fields: {})
@@ -35,16 +36,27 @@ class Mailchimp
     # subscriber, but moves them to the "archived" section of the audience. Subscribers that have
     # been archived in this way can be recreated in the future.
     member_for(email).delete
+  rescue Gibbon::MailChimpError => e
+    # Suppress error if the user doesn't exist (404) or is already deactivated (405)
+    return false if [404, 405].include?(e.status_code)
+
+    raise e
+  end
+
+  def all_subscribers
+    # Export API returns rows of data in which the first column contains email address
+    # The first row is a header row which can be ignored
+    export_client.list(id: list_id).map(&:first)[1..-1]
   end
 
   private
 
-  attr_reader :mailchimp_client
+  attr_reader :client, :export_client
 
   def member_for(email)
     md5_of_lowercase_email = Digest::MD5.hexdigest(email.downcase)
 
-    mailchimp_client
+    client
       .lists(list_id)
       .members(md5_of_lowercase_email)
   end

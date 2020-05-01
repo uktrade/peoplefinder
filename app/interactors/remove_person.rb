@@ -16,9 +16,7 @@ class RemovePerson
   end
 
   def remove_person_from_mailing_list
-    return unless Rails.configuration.mailing_list_integration_enabled
-
-    RemovePersonFromMailingListWorker.perform_async(person.email)
+    MailingLists::DeactivateSubscriberWorker.perform_async(person.email)
   end
 
   def send_notification_to_deleted_person
