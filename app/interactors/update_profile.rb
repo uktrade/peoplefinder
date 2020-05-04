@@ -34,6 +34,7 @@ class UpdateProfile
   end
 
   def notify_updated_person_if_appropriate
+    return unless Rails.configuration.enable_external_integrations
     return unless person.notify_of_change?(instigator)
 
     notifier.updated_profile(
@@ -45,8 +46,9 @@ class UpdateProfile
   end
 
   def update_person_on_mailing_list
-    MailingLists::DeactivateSubscriberWorker.perform_async(@email_before_update) if person.email != @email_before_update
+    return unless Rails.configuration.enable_external_integrations
 
+    MailingLists::DeactivateSubscriberWorker.perform_async(@email_before_update) if person.email != @email_before_update
     MailingLists::CreateOrUpdateSubscriberForPersonWorker.perform_async(person.id)
   end
 

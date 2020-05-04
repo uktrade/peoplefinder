@@ -20,12 +20,14 @@ describe UpdateProfile do
   let(:person_attributes) { double('Attributes') }
   let(:notifier) { instance_double(GovukNotify, updated_profile: true) }
   let(:notify_of_change) { false }
+  let(:enable_external_integrations) { true }
 
   before do
     allow(person).to receive(:notify_of_change?).with(instigator).and_return(notify_of_change)
     allow(person).to receive(:email).and_return('person@gov.uk', 'person@example.com')
     allow(MailingLists::CreateOrUpdateSubscriberForPersonWorker).to receive(:perform_async)
     allow(MailingLists::DeactivateSubscriberWorker).to receive(:perform_async)
+    allow(Rails.configuration).to receive(:enable_external_integrations).and_return(enable_external_integrations)
   end
 
   describe '.call' do
@@ -102,6 +104,23 @@ describe UpdateProfile do
             instigator_name: 'Insti Gator',
             profile_url: 'http://example.com/profile'
           )
+        end
+      end
+
+      context 'when external integrations are disabled' do
+        let(:enable_external_integrations) { false }
+
+        it 'does not queue any mailing list workers' do
+          expect(MailingLists::DeactivateSubscriberWorker).not_to have_received(:perform_async)
+          expect(MailingLists::CreateOrUpdateSubscriberForPersonWorker).not_to have_received(:perform_async)
+        end
+
+        context 'when the updated person should be notified of changes' do
+          let(:notify_of_change) { true }
+
+          it 'does not send any emails' do
+            expect(notifier).not_to have_received(:updated_profile)
+          end
         end
       end
     end

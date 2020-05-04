@@ -55,6 +55,8 @@ module Peoplefinder
     config.elastic_apm.active = false # Overridden in production config
 
     config.elastic_search_url = ENV['ES_URL'] # Overridden in production config
+    # Overridden in test config
+    config.enable_external_integrations = ActiveModel::Type::Boolean.new.cast(ENV['ENABLE_EXTERNAL_INTEGRATIONS'])
     config.google_analytics_tracking_id = ENV['GA_TRACKING_ID']
     config.govuk_notify_api_key = ENV['GOVUK_NOTIFY_API_KEY']
     config.home_page_url = ENV['HOME_PAGE_URL']
