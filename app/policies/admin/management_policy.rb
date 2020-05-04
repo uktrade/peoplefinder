@@ -15,5 +15,9 @@ module Admin
     def csv_extract_report?
       administrator?
     end
+
+    def sidekiq?
+      administrator?
+    end
   end
 end

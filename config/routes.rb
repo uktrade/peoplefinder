@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
   root 'home#show', as: :home
 
@@ -56,6 +58,10 @@ Rails.application.routes.draw do
 
     resource :profile_extract, only: [:show]
     resource :team_extract, only: [:show]
+
+    constraints AdminRouteConstraint.new do
+      mount Sidekiq::Web => '/sidekiq'
+    end
   end
 
   get '/my/profile', to: 'home#my_profile'
