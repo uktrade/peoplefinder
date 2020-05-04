@@ -193,7 +193,7 @@ RSpec.describe Person, type: :model do
   context 'search' do
     it 'deletes indexes' do
       expect(described_class.__elasticsearch__).to receive(:delete_index!)
-        .with(index: /test(_\d)?_people/)
+        .with(index: /test_?\d?_people/)
       described_class.delete_indexes
     end
   end
