@@ -5,7 +5,7 @@ module MailingLists
     include Sidekiq::Worker
 
     def perform(email)
-      ::MailingLists::DeactivateSubscriber.call(email: email)
+      DeactivateSubscriber.call(email: email)
     end
   end
 end

@@ -8,7 +8,7 @@ module MailingLists
       person = Person.find_by(id: person_id)
       return unless person
 
-      ::MailingLists::CreateOrUpdateSubscriberForPerson.call(person: person)
+      CreateOrUpdateSubscriberForPerson.call(person: person)
     end
   end
 end
