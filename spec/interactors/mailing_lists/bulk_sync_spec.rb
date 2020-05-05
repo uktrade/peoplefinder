@@ -11,12 +11,15 @@ describe MailingLists::BulkSync do
   let(:person1) { double('Person') }
   let(:person2) { double('Person') }
 
+  let(:enable_external_integrations) { true }
+
   before do
     allow(MailingLists::DeactivateSubscriber).to receive(:call).and_return(true)
     allow(MailingLists::CreateOrUpdateSubscriberForPerson).to receive(:call).and_return(true)
     allow(Raven).to receive(:capture_exception)
     allow(Person).to receive(:pluck).with(:email).and_return(local_emails)
     allow(Person).to receive(:find_each).and_yield(person1).and_yield(person2)
+    allow(Rails.configuration).to receive(:enable_external_integrations).and_return(enable_external_integrations)
   end
 
   describe '#call' do
@@ -36,6 +39,15 @@ describe MailingLists::BulkSync do
     it 'creates/updates subscribers for all local people' do
       expect(MailingLists::CreateOrUpdateSubscriberForPerson).to have_received(:call).with(person: person1)
       expect(MailingLists::CreateOrUpdateSubscriberForPerson).to have_received(:call).with(person: person2)
+    end
+
+    context 'when external integrations are disabled' do
+      let(:enable_external_integrations) { false }
+
+      it 'does nothing' do
+        expect(MailingLists::DeactivateSubscriber).not_to have_received(:call)
+        expect(MailingLists::CreateOrUpdateSubscriberForPerson).not_to have_received(:call)
+      end
     end
   end
 end
