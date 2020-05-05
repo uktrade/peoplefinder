@@ -8,6 +8,8 @@ module MailingLists
     include Interactor
 
     def call
+      return unless Rails.configuration.enable_external_integrations
+
       load_existing_subscribers
       delete_subscribers_missing_locally
       create_or_update_subscriber_for_all_people
