@@ -1,0 +1,4 @@
+schedule:
+  mailing_lists_bulk_sync:
+    cron: '0 2 * * 0' # Every Sunday at 2am
+    class: 'MailingLists::BulkSyncWorker'
