@@ -1,4 +1,4 @@
-FROM ruby:2.6.6
+FROM ruby:2.7.1
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV CHROME_VERSION stable_78.0.3904.87-1

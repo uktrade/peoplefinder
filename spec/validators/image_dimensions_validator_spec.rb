@@ -7,6 +7,7 @@ RSpec.describe ImageDimensionsValidator, type: :validator do
     include ActiveModel::Model
 
     attr_accessor :image, :upload_dimensions
+
     validates :image, image_dimensions: { min_width: 648, min_height: 648, max_width: 8192, max_height: 8192 }
   end
 

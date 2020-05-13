@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.6.6'
+ruby '2.7.1'
 
-RAILS_VERSION = '~> 6.0.2'
+RAILS_VERSION = '~> 6.0.3'
 gem 'actionpack', RAILS_VERSION
 gem 'activemodel', RAILS_VERSION
 gem 'activerecord', RAILS_VERSION
@@ -59,7 +59,8 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'rails-controller-testing'
+  # TODO: Pinned because of Ruby 2.7 deprecations, unpin when > 1.0.4 released or legacy controller tests removed
+  gem 'rails-controller-testing', github: 'rails/rails-controller-testing', ref: 'a60b3da1c1c77959b28606dd087c058c64b5a08f'
   gem 'rspec-json_expectations'
   gem 'rspec-rails'
   gem 'selenium-webdriver', '~> 4.0.0alpha'

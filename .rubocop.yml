@@ -73,6 +73,10 @@ Layout/SpaceAroundMethodCallOperator:
   Enabled: True
 Style/ExponentialNotation:
   Enabled: True
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: True
+Style/SlicingWithRange:
+  Enabled: True
 
 
 #########

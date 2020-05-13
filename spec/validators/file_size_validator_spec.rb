@@ -5,7 +5,9 @@ require 'rails_helper'
 RSpec.describe FileSizeValidator, type: :validator do
   class FileSizeTestModel
     include ActiveModel::Model
+
     attr_accessor :image
+
     validates :image, file_size: { maximum: 6.megabytes }
   end
 
