@@ -46,7 +46,7 @@ class MailingList
   def all_subscribers
     # Export API returns rows of data in which the first column contains email address
     # The first row is a header row which can be ignored
-    export_client.list(id: list_id).map(&:first)[1..-1]
+    export_client.list(id: list_id).map(&:first)[1..]
   end
 
   private
