@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
     namespace :v2 do
       resources :people, only: [:show]
+      resource :data_workspace_export, only: [:show]
     end
   end
 
