@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-class DataWorkspacePersonSerializer
+# Serializes a Person record for Data Workspace exports
+class PersonDataWorkspaceSerializer
   PERSON_KEYS = %w[
     email skype_name
     works_monday works_tuesday works_wednesday works_thursday works_friday works_saturday works_sunday

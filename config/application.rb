@@ -65,5 +65,20 @@ module Peoplefinder
     config.profile_stale_after_days = ENV.fetch('PROFILE_STALE_AFTER_DAYS', 30).to_i
     config.redis_cache_url = ENV['REDIS_CACHE_URL'] # Overridden in production config
     config.redis_sidekiq_url = ENV['REDIS_SIDEKIQ_URL'] # Overridden in production config
+
+    def self.rsa_key_from_base64_encoded_pem(value)
+      return nil if value.blank?
+
+      pem = Base64.decode64(value)
+      OpenSSL::PKey::RSA.new(pem)
+    end
+
+    config.api_data_workspace_exports_public_key = rsa_key_from_base64_encoded_pem(
+      ENV['API_DATA_WORKSPACE_EXPORTS_PUBLIC_KEY']
+    )
+
+    config.api_people_profiles_public_key = rsa_key_from_base64_encoded_pem(
+      ENV['API_PEOPLE_PROFILES_PUBLIC_KEY']
+    )
   end
 end

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe DataWorkspacePersonSerializer do
+describe PersonDataWorkspaceSerializer do
   subject { described_class.new(person) }
 
   let(:person) { build_stubbed(:person) }

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resource :people, only: [:show]
 
     namespace :v2 do
-      resources :people, only: [:show]
+      resources :people_profiles, only: [:show], param: :ditsso_user_id
       resource :data_workspace_export, only: [:show]
     end
   end
