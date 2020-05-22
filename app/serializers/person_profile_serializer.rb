@@ -8,7 +8,9 @@ class PersonProfileSerializer
 
   def as_json(_options = {})
     {
+      name: person.name,
       first_name: person.given_name,
+      email: person.email,
       completion_score: person.completion_score,
       profile_url: profile_url,
       profile_image_url: profile_image_small_url
