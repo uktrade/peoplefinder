@@ -163,7 +163,7 @@ class Person < ApplicationRecord
     return nil unless phone
 
     base_phone = phone.gsub(/[^\d]/, '')
-    phone_with_prefix = "#{primary_phone_country.country_code}#{base_phone.gsub(/^0/, '')}" if primary_phone_country
+    phone_with_prefix = "#{primary_phone_country.country_code}#{base_phone.delete_prefix('0')}" if primary_phone_country
     phone_starting_with_zero = "0#{base_phone}" unless /^[0\+]/.match?(base_phone)
 
     [base_phone, phone_with_prefix, phone_starting_with_zero].compact

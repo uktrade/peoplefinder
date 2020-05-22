@@ -126,12 +126,12 @@ module SpecSupport
 
       expect(page).to have_text(
         person_attributes[:primary_phone_country_code] +
-        ' ' + person_attributes[:primary_phone_number].gsub(/^0/, '')
+        ' ' + person_attributes[:primary_phone_number].delete_prefix('0')
       )
 
       expect(page).to have_text(
         person_attributes[:secondary_phone_country_code] +
-        ' ' + person_attributes[:secondary_phone_number].gsub(/^0/, '')
+        ' ' + person_attributes[:secondary_phone_number].delete_prefix('0')
       )
 
       expect(page).to have_text(person_attributes[:location_in_building])
