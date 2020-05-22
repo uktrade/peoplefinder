@@ -526,6 +526,7 @@ DEPENDENCIES
   health_check
   interactor
   jquery-rails
+  jwt
   kaminari
   kramdown
   loaf
