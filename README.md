@@ -15,7 +15,6 @@ steps are enough to get People Finder running locally:
 #### Set up a minimal `.env` file in the application root folder
 ```dosini
 DEVELOPER_AUTH_STRATEGY=true
-PROFILE_API_TOKEN=t0ken
 ```
 
 #### Build and run the containers
