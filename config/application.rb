@@ -52,7 +52,7 @@ module Peoplefinder
     config.x.zendesk.service_name = ENV['ZD_SERVICE_NAME']
 
     config.elastic_apm.service_name = 'peoplefinder'
-    config.elastic_apm.active = false # Overridden in production config
+    config.elastic_apm.enabled = false # Overridden in production config
 
     config.elastic_search_url = ENV['ES_URL'] # Overridden in production config
     # Overridden in test config

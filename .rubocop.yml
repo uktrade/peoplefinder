@@ -18,6 +18,7 @@ AllCops:
     - '**/Vagrantfile'
     - 'app/controllers/api/search_controller.rb' # experimental PoC
   TargetRubyVersion: 2.7
+  NewCops: enable
 
 Rails:
   Enabled: true
@@ -57,26 +58,6 @@ Metrics/MethodLength:
   Max: 20
   Exclude:
     - 'spec/**/*'
-
-# Cops that require explicit enabling as of Rubocop 0.80:
-Style/HashEachMethods:
-  Enabled: True
-Style/HashTransformKeys:
-  Enabled: True
-Style/HashTransformValues:
-  Enabled: True
-Lint/RaiseException:
-  Enabled: True
-Lint/StructNewOverride:
-  Enabled: True
-Layout/SpaceAroundMethodCallOperator:
-  Enabled: True
-Style/ExponentialNotation:
-  Enabled: True
-Layout/EmptyLinesAroundAttributeAccessor:
-  Enabled: True
-Style/SlicingWithRange:
-  Enabled: True
 
 
 #########
