@@ -70,9 +70,9 @@ module PeopleHelper
   end
 
   def profile_or_team_image_div(source, options)
-    content_tag(:div, class: 'maginot') do
+    tag.div(class: 'maginot') do
       if options.key?(:link_uri)
-        content_tag(:a, href: options[:link_uri]) do
+        tag.a(href: options[:link_uri]) do
           image_tag_wrapper(source, options)
         end
       else
