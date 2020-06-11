@@ -119,7 +119,7 @@ RSpec.describe Completion do
 
   describe '.completion_score_calculation' do
     it 'constructs sql to calculate score based on existence of values for important fields' do
-      sql_regex = /COALESCE.*CASE WHEN length\(.*\,0\)\)::float.*/mi
+      sql_regex = /COALESCE.*CASE WHEN length\(.*,0\)\)::float.*/mi
       expect(Person.completion_score_calculation).to match(sql_regex)
     end
 

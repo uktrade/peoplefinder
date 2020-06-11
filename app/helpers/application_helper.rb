@@ -33,8 +33,8 @@ module ApplicationHelper
     messages = flash.keys.map(&:to_s) & FLASH_NOTICE_KEYS
     return if messages.empty?
 
-    content_tag(:div, class: 'inner-block') do
-      content_tag(:div, id: 'flash-messages') do
+    tag.div(class: 'inner-block') do
+      tag.div(id: 'flash-messages') do
         messages.inject(ActiveSupport::SafeBuffer.new) do |html, type|
           html << flash_message(type)
         end
@@ -46,7 +46,7 @@ module ApplicationHelper
     messages = flash.keys.map(&:to_s) & FLASH_NOTICE_KEYS
     return if messages.empty?
 
-    content_tag(:div, id: 'flash-messages') do
+    tag.div(id: 'flash-messages') do
       messages.inject(ActiveSupport::SafeBuffer.new) do |html, type|
         html << flash_message_new(type)
       end
@@ -75,7 +75,7 @@ module ApplicationHelper
     return nil if telno.blank?
 
     digits = telno.gsub(/[^0-9+#*,]+/, '')
-    content_tag(:a, options.merge(href: "tel:#{digits}")) { telno }
+    tag.a(options.merge(href: "tel:#{digits}")) { telno }
   end
 
   def phone_number_with_country_code(country, phone_number)
@@ -104,7 +104,7 @@ module ApplicationHelper
   def bold_tag(term, options = {})
     classes = options[:class] || ''
     options[:class] = classes.split.push('bold-term')
-    content_tag(:span, options) { |_tag| term }
+    tag.span(options) { |_tag| term }
   end
 
   private
@@ -118,14 +118,14 @@ module ApplicationHelper
   end
 
   def flash_message(type)
-    content_tag(:div, class: "flash-message #{type}", role: 'alert') do
+    tag.div(class: "flash-message #{type}", role: 'alert') do
       flash[type]
     end
   end
 
   def flash_message_new(type)
-    content_tag(:div, class: "ws-flash ws-flash--#{type}", role: 'alert') do
-      content_tag(:span, class: 'ws-flash__message') do
+    tag.div(class: "ws-flash ws-flash--#{type}", role: 'alert') do
+      tag.span(class: 'ws-flash__message') do
         flash[type]
       end
     end

@@ -34,11 +34,11 @@ RSpec.describe PeopleHelper, type: :helper do
     end
 
     it 'adds a link to the person profile by default' do
-      expect(profile_image_tag(person, options)).to match(%r{.*href=\"/people/.*\".*})
+      expect(profile_image_tag(person, options)).to match(%r{.*href="/people/.*".*})
     end
 
     it 'adds alternative text to the person profile by default' do
-      expect(profile_image_tag(person, options)).to match(/.*alt=\"Current photo of.*\".*/)
+      expect(profile_image_tag(person, options)).to match(/.*alt="Current photo of.*".*/)
     end
 
     it 'does not add a link to when option set' do
@@ -79,7 +79,7 @@ RSpec.describe PeopleHelper, type: :helper do
       end
 
       it 'uses local file as image src' do
-        expect(subject).to match(%r{.*src=\".*/uploads/peoplefinder/profile_photo/image/[\d]+/medium_.*\.png\".*})
+        expect(subject).to match(%r{.*src=".*/uploads/peoplefinder/profile_photo/image/\d+/medium_.*\.png".*})
       end
     end
 
@@ -114,7 +114,7 @@ RSpec.describe PeopleHelper, type: :helper do
     let(:options) { { class: 'my-class' } }
 
     it 'adds a link to the team profile by default' do
-      expect(team_image_tag(team, options)).to match(%r{.*href=\"/teams/.*\".*})
+      expect(team_image_tag(team, options)).to match(%r{.*href="/teams/.*".*})
     end
 
     it 'does not add a link to when option set' do

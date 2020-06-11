@@ -54,7 +54,7 @@ module GovukElementsErrorsHelperExtensions
         attribute
       )
       message.sub! default_label(attribute), localized_label([association_name], attribute)
-      content_tag(:li, content_tag(:a, message, href: "##{dom_id}"))
+      tag.li(tag.a(message, href: "##{dom_id}"))
     end
   end
 

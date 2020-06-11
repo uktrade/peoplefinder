@@ -28,7 +28,6 @@ class Person < ApplicationRecord
   belongs_to :line_manager,
              class_name: 'Person',
              inverse_of: :line_managed_people,
-             foreign_key: :line_manager_id,
              optional: true
   belongs_to :profile_photo
 
@@ -164,7 +163,7 @@ class Person < ApplicationRecord
 
     base_phone = phone.gsub(/[^\d]/, '')
     phone_with_prefix = "#{primary_phone_country.country_code}#{base_phone.delete_prefix('0')}" if primary_phone_country
-    phone_starting_with_zero = "0#{base_phone}" unless /^[0\+]/.match?(base_phone)
+    phone_starting_with_zero = "0#{base_phone}" unless /^[0+]/.match?(base_phone)
 
     [base_phone, phone_with_prefix, phone_starting_with_zero].compact
   end

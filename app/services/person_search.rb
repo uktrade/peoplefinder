@@ -98,12 +98,12 @@ class PersonSearch
   end
 
   def clean_query(query)
-    if query.match?(/^\s*\+?[\d\s\-\(\)]+$/)
+    if query.match?(/^\s*\+?[\d\s\-()]+$/)
       # If the query looks like a phone number, normalise it to the format in which we index phone numbers
-      query.gsub(/[\+\s\-\(\)]/, '')
+      query.gsub(/[+\s\-()]/, '')
     else
       query
-        .gsub(/[^[[:alnum:]]’\']/, ' ')
+        .gsub(/[^[[:alnum:]]’']/, ' ')
         .tr(',', ' ')
         .squeeze(' ')
         .strip
