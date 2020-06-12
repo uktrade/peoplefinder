@@ -12,26 +12,15 @@ module MailingLists
     private
 
     def create_or_update_subscriber
-      mailing_list_service.create_or_update_subscriber(person.email, merge_fields: merge_fields)
+      mailing_list_service.create_or_update_subscriber(person.email, merge_fields: person.merge_fields)
     end
 
     def set_subscriber_tags
-      mailing_list_service.set_subscriber_tags(person.email, tags: tags)
+      mailing_list_service.set_subscriber_tags(person.email, tags: person.tags)
     end
 
     def person
-      context.person
-    end
-
-    def merge_fields
-      {
-        FNAME: person.given_name,
-        LNAME: person.surname
-      }
-    end
-
-    def tags
-      ['pf_imported'] + person.building.select(&:present?).map { |building| "pf_building_#{building}" }
+      @person ||= MailingListPersonDecorator.new(context.person)
     end
 
     def mailing_list_service
