@@ -2,14 +2,15 @@
 
 class MailingListPersonDecorator < SimpleDelegator
   GROUP_ONE_DIT_DOMAINS = %w[
-    @trade.gov
+    @trade.gov.uk
     @mobile.trade.gov.uk
     @digital.trade.gov.uk
-    @fco.gov.uk
-    @ukexportfinance.gov.uk
-    @traderemedies.gov.uk
+
     @dfid.gov.uk
     @entrepreneurs.gov.uk
+    @fco.gov.uk
+    @traderemedies.gov.uk
+    @ukexportfinance.gov.uk
   ].freeze
 
   def merge_fields
