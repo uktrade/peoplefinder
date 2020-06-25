@@ -17,7 +17,10 @@ module Api::V2
         decoded_token = JWT.decode(token, client_public_key, true, algorithm: 'RS512')
         payload = decoded_token.first
 
-        payload['fullpath'] == request.original_fullpath
+        # TODO: This eases the requirement for the query parameters to be included in signing to enable easier
+        #       transition to new API for clients. If we keep using this authentication scheme in the future,
+        #       we may want to limit this to `original_fullpath` and ensure the clients can cope with it.
+        [request.path, request.original_fullpath].include?(payload['fullpath'])
       rescue StandardError => e
         logger.warn("Failed to authenticate API request: #{e.inspect}")
 
