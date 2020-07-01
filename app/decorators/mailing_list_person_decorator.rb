@@ -6,8 +6,6 @@ class MailingListPersonDecorator < SimpleDelegator
     @mobile.trade.gov.uk
     @digital.trade.gov.uk
 
-    @dfid.gov.uk
-    @entrepreneurs.gov.uk
     @fco.gov.uk
     @traderemedies.gov.uk
     @ukexportfinance.gov.uk
