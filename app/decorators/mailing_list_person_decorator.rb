@@ -14,7 +14,8 @@ class MailingListPersonDecorator < SimpleDelegator
   def merge_fields
     {
       FNAME: given_name,
-      LNAME: surname
+      LNAME: surname,
+      PF_COUNTRY: country
     }
   end
 
