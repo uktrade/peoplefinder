@@ -15,6 +15,7 @@ class LoginPerson
   def set_initial_person_attributes_from_sso
     person.skip_must_have_surname = true
     person.skip_must_have_team = true
+    person.skip_must_not_have_disallowed_email_domain = true
 
     person.ditsso_user_id = sso_user_id
     person.email = sso_user_info['email']

@@ -6,6 +6,11 @@ class Person < ApplicationRecord
   ].freeze
   BUILDING_OPTS = %i[whitehall_55 whitehall_3 victoria_50 horse_guards king_charles].freeze
 
+  # Nowhere near exhaustive list of "insecure" providers, but covers our particular problem cases
+  DISALLOWED_EMAIL_DOMAINS = %w[
+    aol.com btinternet.com fcowebmail.gov.uk gmail.com hotmail.com hotmail.co.uk outlook.com yahoo.com ymail.com
+  ].freeze
+
   include Completion
   include Sanitizable
   include Searchable
@@ -16,7 +21,7 @@ class Person < ApplicationRecord
 
   attr_accessor :working_days
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-  attr_accessor :skip_must_have_surname, :skip_must_have_team
+  attr_accessor :skip_must_have_surname, :skip_must_have_team, :skip_must_not_have_disallowed_email_domain
 
   has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
   has_many :groups, through: :memberships
@@ -37,6 +42,7 @@ class Person < ApplicationRecord
   validates :given_name, presence: true
   validates :surname, presence: true, unless: :skip_must_have_surname
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validate :email_is_not_disallowed_domain, unless: :skip_must_not_have_disallowed_email_domain
   validate :line_manager_is_not_self
   validate :line_manager_not_both_specified_and_not_required
   validate :must_have_team, unless: :skip_must_have_team
@@ -231,6 +237,15 @@ class Person < ApplicationRecord
   end
 
   private
+
+  def email_is_not_disallowed_domain
+    return if email.blank?
+
+    domain = email.split('@').last&.downcase
+    return unless DISALLOWED_EMAIL_DOMAINS.include?(domain)
+
+    errors.add(:email, "is not acceptable (#{domain} addresses are not allowed)")
+  end
 
   def must_have_team
     errors.add(:membership, 'of a team is required') if memberships.reject(&:marked_for_destruction?).empty?

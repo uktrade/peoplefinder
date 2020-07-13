@@ -89,6 +89,12 @@ RSpec.describe Person, type: :model do
       expect(person.errors[:email]).to eq(['is invalid'])
     end
 
+    it 'has an error if the domain is disallowed' do
+      person = build(:person, email: 'jim@Gmail.com')
+      expect(person.save).to be false
+      expect(person.errors[:email]).to eq(['is not acceptable (gmail.com addresses are not allowed)'])
+    end
+
     it 'is converted to lower case' do
       person = create(:person, email: 'User.Example@digital.justice.gov.uk')
       expect(person.email).to eq 'user.example@digital.justice.gov.uk'
