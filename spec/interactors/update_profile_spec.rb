@@ -16,7 +16,7 @@ describe UpdateProfile do
       touch: true
     )
   end
-  let(:instigator) { instance_double(Person, name: 'Insti Gator') }
+  let(:instigator) { instance_double(Person, name: 'Insti Gator', role_administrator?: false) }
   let(:person_attributes) { double('Attributes') }
   let(:notifier) { instance_double(GovukNotify, updated_profile: true) }
   let(:notify_of_change) { false }

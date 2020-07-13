@@ -273,7 +273,7 @@ en:
     attributes:
       person:
         given_name: "First name"
-        email: Primary email
+        email: Main work email address
       memberships:
         leader: "Are you the Permanent Secretary of the Department?"
         group: Team
@@ -335,7 +335,7 @@ en:
         given_name: First name (required)
         surname: Last name (required)
         pronouns: My pronouns
-        email: Primary email (required)
+        email: Main work email address (required)
         primary_phone_number: Preferred contact number (recommended)
         secondary_phone_number: Additional phone number
         location_in_building: Location in building
@@ -383,6 +383,12 @@ en:
       file: Upload CSV file
     hint:
       person:
+        email_html: |
+          Do not use:
+          <ul class="list list-bullet">
+            <li>an alternative work email address that is not safe for official information, for example, FCOWebmail.gov.uk</li>
+            <li>a personal email address, for example, Gmail</li>
+          </ul>
         primary_phone_number: "Enter your phone number then select your country code"
         secondary_phone_number: "Enter your phone number then select your country code"
         location_in_building: "Do not enter location if in KCS"

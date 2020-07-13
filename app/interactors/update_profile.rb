@@ -22,6 +22,8 @@ class UpdateProfile
   end
 
   def update_person
+    person.skip_must_not_have_disallowed_email_domain = true if instigator.role_administrator?
+
     person.assign_attributes(context.person_attributes)
   end
 
