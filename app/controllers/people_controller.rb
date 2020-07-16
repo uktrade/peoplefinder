@@ -17,10 +17,8 @@ class PeopleController < ApplicationController
     breadcrumb person.name, person, match: :exact
   end
 
-  # TODO: This calls these actions to memoize, move to use locals
-  before_action :person, only: %i[show edit update destroy]
-  before_action :org_structure, only: %i[edit update add_membership]
-  before_action :versions, only: [:show]
+  # TODO: Remove when all of app uses new layout
+  layout 'application'
 
   def show
     authorize person
@@ -29,13 +27,18 @@ class PeopleController < ApplicationController
     render 'show', locals: {
       person: person,
       versions: versions
-    }, layout: 'application' # TODO: Remove when entire controller uses this layout
+    }
   end
 
   def edit
     authorize person
     @activity = params[:activity]
-    person.memberships.build if person.memberships.blank?
+    person.memberships.build(group: Group.department) if person.memberships.blank?
+
+    render 'edit', locals: {
+      person: person,
+      org_structure: org_structure
+    }
   end
 
   def update
@@ -57,7 +60,10 @@ class PeopleController < ApplicationController
       notice(:profile_updated, type, person: person) if state_cookie_saving_profile?
       redirect_to redirection_destination
     else
-      render :edit
+      render 'edit', locals: {
+        person: person,
+        org_structure: org_structure
+      }
     end
   end
 
@@ -83,13 +89,6 @@ class PeopleController < ApplicationController
       notice(:delete_error)
       redirect_to(home_path)
     end
-  end
-
-  def add_membership
-    person ||= Person.new
-    authorize person
-
-    render 'add_membership', layout: false
   end
 
   private

@@ -12,25 +12,132 @@ en:
               too_long: Team acronym must be %{count} characters or fewer
             description:
               too_long: Team description must be %{count} characters or fewer
-
+        person:
+          attributes:
+            given_name:
+              blank: Enter a first name
+            surname:
+              blank: Enter a last name
+            email:
+              blank: Enter a main work email address
+            line_manager:
+              cannot_be_self: You cannot select someone as their own manager
+              cannot_be_selected_if_not_required: A line manager cannot be selected if you have stated they are not listed
+            memberships:
+              at_least_one_required: You must add at least one team and role
+  errors:
+    validators:
+      permanent_secretary_unique_validator:
+        leader:
+          unique: "%{name} can only have one leader, and there already is one (%{person_name}, %{role}). If you want to change the department's leader, you must change %{person_name}'s profile first"
   helpers:
     label:
+      required: Required
       group:
         name: Team name (required)
         acronym: Team acronym/initials
         description: Team description
+      membership:
+        role: "Job title"
+        group: Team
+      person:
+        given_name: First name
+        surname: Last name
+        email: Main work email address
+        primary_phone_number: Preferred contact number
+        secondary_phone_number: Alternative phone number
+        city: Town, City or Region
+        country: Country
+        other_uk: UK regional building or location
+        other_overseas: International building or location
+        role_administrator: Allow this person to administrate People Finder
+        role_groups_editor: Allow this person to manage teams
+        role_people_editor: Allow this person to manage people
+        ditsso_user_id: Staff SSO user ID
+        self:
+          pronouns: My pronouns
+          building: Where do you usually work?
+          location_in_building: Where in the building do you work?
+          working_days: Which days do you usually work?
+          line_manager: My manager
+          language_fluent: Which languages do you speak fluently?
+          language_intermediate: Which other languages do you speak?
+          key_skills: What are your key skills?
+          learning_and_development: What are your learning and development interests?
+          other_key_skills: What other key skills do you have?
+          other_learning_and_development: What other learning and development interests do you have?
+          networks: What networks do you belong to?
+          professions: What professions do you belong to?
+          additional_responsibilities: Do you have any additional roles or responsibilities?
+          other_additional_responsibilities: What other additional roles or responsibilities do you have?
+          previous_positions: Previous positions I have held
+          line_manager_not_required: My manager is not listed because I do not work for DIT
+          membership_leader: I am the head of this team
+          networks_details: Add networks I belong to
+          professions_details: Add professions I belong to
+        other:
+          pronouns: "%{name}'s pronouns"
+          building: Where does %{name} usually work?
+          location_in_building: Where in the building does %{name} work?
+          working_days: Which days does %{name} usually work?
+          line_manager: "%{name}'s manager"
+          language_fluent: Which languages does %{name} speak fluently?
+          language_intermediate: Which other languages does %{name} speak?
+          key_skills: What are %{name}'s key skills?
+          learning_and_development: What are %{name}'s learning and development interests?
+          other_key_skills: What other key skills does %{name} have?
+          other_learning_and_development: What other learning and development interests does %{name} have?
+          networks: What networks does %{name} belong to?
+          professions: What professions does %{name} belong to?
+          additional_responsibilities: Does %{name} have any additional roles or responsibilities?
+          other_additional_responsibilities: What other additional roles or responsibilities does %{name} have?
+          previous_positions: Previous positions %{name} has held
+          line_manager_not_required: "%{name}'s manager is not listed because they do not work for DIT"
+          membership_leader: "%{name} is the head of this team"
+          networks_details: Add networks %{name} belongs to
+          professions_details: Add professions %{name} belongs to
     hint:
       group:
         name: The full name of this team (e.g. Digital, Data and Technology)
         acronym: A shorter version of the team name (e.g. DDaT)
         description: What does this team do? You can use basic Markdown to add lists or links.
-
+      person:
+        email_html: |
+          Do not use:
+          <ul class="list list-bullet">
+            <li>an alternative work email address that is not safe for official information, for example, FCOWebmail.gov.uk</li>
+            <li>a personal email address, for example, Gmail</li>
+          </ul>
+        primary_phone_number: Enter your preferred contact telephone number. Include your country dialling code if you are outside the UK.
+        secondary_phone_number: Enter an alternative telephone number. Include your country dialling code if you are outside the UK.
+        building: Select all that apply
+        city: For example, London
+        permissions: Administrators on People Finder can view global audit trails, reports, and debugging information as well as perform all groups and people management functions.
+        key_skills: Select all that apply
+        learning_and_development: Select all that apply
+        networks: Select all that apply
+        professions: Select all that apply
+        additional_responsibilities: Select all that apply
+        self:
+          location_in_building: Skip this question if you work in a Foreign and Commonwealth Office (FCO) building
+          line_manager: Search for the name of your manager, then select their name from the suggestions shown
+          language_fluent: Add languages that you are fluent in. Use a comma to separate languages.
+          language_intermediate: Add languages that you speak but aren't fluent in. Use a comma to separate languages.
+          previous_positions: List where you have worked before your current role.
+          membership_role: Enter your role in this team
+        other:
+          location_in_building: Skip this question if %{name} works in a Foreign and Commonwealth Office (FCO) building
+          line_manager: Search for the name of %{name}'s manager, then select their name from the suggestions shown
+          language_fluent: Add languages that %{name} is fluent in. Use a comma to separate languages.
+          language_intermediate: Add languages that %{name} speaks but isn't fluent in. Use a comma to separate languages.
+          previous_positions: List where %{name} has worked before their current role.
+          membership_role: Enter %{name}'s role in this team
   profile:
     person:
       formatted_buildings: Place(s) I usually work
-      location_in_building: Locations in building
+      location_in_building: Location in building
       city: Town, city or region
-      country_name: Country (Market)
+      country_name: Country
       other_uk: Other - UK regional
       other_overseas: Other - Overseas
       email: Preferred email
@@ -81,8 +188,12 @@ en:
         all_people: All people
         people_outside_subteams: People not in a sub-team
         tree: All sub-teams
+      people:
+        edit: Edit profile
 
   views:
+    info:
+      profile_privacy_notice: All the information on your profile will be visible to DIT staff and contractors on Digital Workspace and other internal DIT tools. Occasionally, we may use this data in aggregate for departmental insights.
     pagination:
       first: First page
       last: Last page

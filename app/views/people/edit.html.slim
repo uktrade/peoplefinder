@@ -1,0 +1,165 @@
+- @page_title = 'Edit profile'
+- breadcrumb 'people.edit', edit_person_path(person)
+- content_for :end_of_body do
+  = javascript_pack_tag 'person_line_manager_autocomplete'
+
+.ws-profile-edit
+  = form_for(person, builder: PeopleFinderFormBuilder) do |f|
+    .govuk-grid-row
+      .govuk-grid-column-full
+        h1.govuk-heading-l Edit profile
+
+        = f.govuk_error_summary
+
+    .govuk-grid-row
+      .govuk-grid-column-full
+        h2.govuk-heading-m Personal details
+
+        = f.govuk_text_field :given_name, width: 'one-half'
+        = f.govuk_text_field :surname, width: 'one-half'
+
+        = f.additional_fields_details 'Add pronouns (optional)' do
+          = f.govuk_text_field :pronouns, width: 'one-half', label: { text: self_or_other_label(person, :pronouns) }
+
+        hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+    .govuk-grid-row
+      .govuk-grid-column-full
+        h2.govuk-heading-m Contact details
+
+        = f.govuk_email_field :email, width: 'one-half'
+        = f.govuk_phone_field :primary_phone_number, width: 'one-half'
+
+        = f.additional_fields_details 'Add alternative phone number (optional)' do
+          = f.govuk_phone_field :secondary_phone_number, width: 'one-half'
+
+        hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+    .govuk-grid-row
+      .govuk-grid-column-full
+        h2.govuk-heading-m Location and working patterns
+
+        .govuk-form-group
+          label.govuk-label[for='person_country']
+            = t('helpers.label.person.country')
+          = f.country_select :country, { priority_countries: ["GB"] }, class: 'govuk-select one-half'
+        = f.govuk_text_field :city, width: 'one-half'
+
+        = f.array_govuk_collection_select(:building, building_names, legend: self_or_other_label(person, :building))
+
+        = f.additional_fields_details 'Add UK regional or international location (if applicable)' do
+          = f.govuk_text_field :other_uk, width: 'one-half'
+          = f.govuk_text_field :other_overseas, width: 'one-half'
+
+        = f.additional_fields_details 'Add location in building or change working days (optional)' do
+          = f.govuk_text_field :location_in_building, width: 'one-half', label: { text: self_or_other_label(person, :location_in_building) }, hint_text: self_or_other_hint(person, :location_in_building)
+          = f.govuk_check_boxes_fieldset :working_days, small: true, legend: -> { tag.legend(class: 'govuk-fieldset__legend govuk-fieldset__legend--xs') { self_or_other_label(person, :working_days) } }
+            - Person::DAYS_WORKED.each do |day|
+              = f.model_govuk_check_box day
+
+        hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+    .govuk-grid-row
+      .govuk-grid-column-full
+        h2.govuk-heading-m Grade and manager
+
+        = f.govuk_collection_select :grade, grade_names, :first, :last, options: {include_blank: true, prompt: false}
+
+        .govuk-form-group[class=('govuk-form-group--error' if @person.errors.include?(:line_manager))]
+          label.govuk-label[for='person_line_manager']= self_or_other_label(person, :line_manager)
+          - if person.errors.include?(:line_manager)
+            span.govuk-error-message#person-line-manager-field-error
+              span.govuk-visually-hidden Error:
+              = person.errors[:line_manager].join(', ')
+          span.govuk-hint= self_or_other_hint(person, :line_manager)
+          - if person.line_manager
+            - opts = raw("<option value=" "></option><option selected='selected' value='#{@person.line_manager.id}'>#{@person.line_manager.name} (#{@person.line_manager.role_and_group})</option>")
+          - else
+            - opts = raw('<option value=" "></option>')
+          .ws-profile-edit__manager
+            = select_tag 'person[line_manager_id]', opts, class: 'js-line-manager-select govuk-!-width-one-half'
+        = f.model_govuk_check_box :line_manager_not_required, label_text: self_or_other_label(person, :line_manager_not_required)
+
+        hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+    .govuk-grid-row
+      .govuk-grid-column-full
+        h2.govuk-heading-m Teams and roles
+
+        - if person.errors.include?(:memberships)
+          span.govuk-error-message#person-memberships-field-error
+            span.govuk-visually-hidden Error:
+            = person.errors[:memberships].join(', ')
+
+        .ws-profile-edit__memberships data-controller='person-memberships'
+          .ws-profile-edit__teamlist  data-target='person-memberships.teamlist' data-template=team_edit_field_template(f, person: person, org_structure: org_structure)
+            = f.fields_for :memberships do |membership_fields|
+              = render 'edit_membership_fields', membership_fields: membership_fields, org_structure: org_structure
+
+          button.govuk-button.govuk-button--menuitem.govuk-button--secondary type='button' data-action='person-memberships#add'
+            | Join another team
+
+        hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+    .govuk-grid-row
+      .govuk-grid-column-full
+        h2.govuk-heading-m Skills, interests and networks
+
+        = f.additional_fields_details 'Add key skills' do
+          = f.array_govuk_collection_select(:key_skills, key_skill_names, legend: self_or_other_label(person, :key_skills))
+          = f.govuk_text_field :other_key_skills, width: 'one-half', label: { text: self_or_other_label(person, :other_key_skills) }
+
+        = f.additional_fields_details 'Add languages' do
+          = f.govuk_text_field :language_fluent, width: 'one-half', label: { text: self_or_other_label(person, :language_fluent) }, hint_text: self_or_other_hint(person, :language_fluent)
+          = f.govuk_text_field :language_intermediate, width: 'one-half', label: { text: self_or_other_label(person, :language_intermediate) }, hint_text: self_or_other_hint(person, :language_intermediate)
+
+        = f.additional_fields_details 'Add learning and development interests' do
+          = f.array_govuk_collection_select(:learning_and_development, learning_and_development_names, legend: self_or_other_label(person, :learning_and_development))
+          = f.govuk_text_field :other_learning_and_development, width: 'one-half', label: { text: self_or_other_label(person, :other_learning_and_development) }
+
+        = f.additional_fields_details self_or_other_label(person, :networks_details) do
+          = f.array_govuk_collection_select(:networks, network_names, legend: self_or_other_label(person, :networks))
+
+        = f.additional_fields_details self_or_other_label(person, :professions_details) do
+          = f.array_govuk_collection_select(:professions, profession_names, legend: self_or_other_label(person, :professions))
+
+        = f.additional_fields_details 'Add additional roles and responsibilities' do
+          = f.array_govuk_collection_select(:additional_responsibilities, additional_responsibility_names, legend: self_or_other_label(person, :additional_responsibilities))
+          = f.govuk_text_field :other_additional_responsibilities, width: 'one-half', label: { text: self_or_other_label(person, :other_additional_responsibilities) }
+
+        = f.additional_fields_details 'Add previous experience' do
+          = f.govuk_text_area :previous_positions, width: 'one-half', rows: 5, label: { text: self_or_other_label(person, :previous_positions) }, hint_text: self_or_other_hint(person, :previous_positions)
+
+        hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+    .govuk-grid-row
+      .govuk-grid-column-full.ws-profile-edit__photo
+        h2.govuk-heading-m Profile photo
+        = profile_image_tag @person, link: false, class: 'ws-profile-edit__photo'
+        - button_text = f.object.profile_image.present? ? 'Change this photo' : 'Add a photo'
+        = f.submit button_text, name: 'edit-picture-button', class: 'govuk-button govuk-button--secondary'
+
+        hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+    - if current_user.role_administrator?
+      .govuk-grid-row
+        .govuk-grid-column-full
+          h2.govuk-heading-m Administrative options
+
+          = f.additional_fields_details 'Staff SSO options' do
+            = f.govuk_text_field :ditsso_user_id, width: 'one-half'
+
+          = f.additional_fields_details 'Permissions' do
+            = f.govuk_check_boxes_fieldset :permissions, small: true, hint_text: t('helpers.hint.person.permissions')
+              = f.model_govuk_check_box :role_administrator
+              = f.model_govuk_check_box :role_groups_editor
+              = f.model_govuk_check_box :role_people_editor
+
+          hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+    .govuk-grid-row
+      .govuk-grid-column-full
+        p.govuk-body-s = t('views.info.profile_privacy_notice')
+
+        = f.govuk_submit 'Save profile' do
+          = link_to 'Cancel and go back', person, class: 'govuk-button govuk-button--secondary'

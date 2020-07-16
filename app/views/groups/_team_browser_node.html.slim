@@ -16,4 +16,4 @@
           = form.team_browser_radio_button(field, subgroup.id, subgroup.name)
 
 - subgroups.each do |subgroup, subsubgroups|
-  = render partial: 'team_browser_node', locals: { form: form, field: field, object: object, parent: group, group: subgroup, subgroups: subsubgroups, current_group: current_group }
+  = render partial: 'groups/team_browser_node', locals: { form: form, field: field, object: object, parent: group, group: subgroup, subgroups: subsubgroups, current_group: current_group }

@@ -248,16 +248,16 @@ class Person < ApplicationRecord
   end
 
   def must_have_team
-    errors.add(:membership, 'of a team is required') if memberships.reject(&:marked_for_destruction?).empty?
+    errors.add(:memberships, :at_least_one_required) if memberships.reject(&:marked_for_destruction?).empty?
   end
 
   def line_manager_is_not_self
-    errors.add(:line_manager, 'cannot be the person themselves') if line_manager == self
+    errors.add(:line_manager, :cannot_be_self) if line_manager == self
   end
 
   def line_manager_not_both_specified_and_not_required
     return unless line_manager.present? && line_manager_not_required?
 
-    errors.add(:line_manager, "cannot be selected because you've said you do not work at DIT")
+    errors.add(:line_manager, :cannot_be_selected_if_not_required)
   end
 end

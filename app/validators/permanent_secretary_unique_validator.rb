@@ -17,7 +17,8 @@ class PermanentSecretaryUniqueValidator < ActiveModel::Validator
       :unique,
       scope: scope_t,
       name: Group.department.name,
-      role: current_perm_sec.role || 'Permanent Secretary'
+      role: current_perm_sec.role || 'Permanent Secretary',
+      person_name: current_perm_sec.person.name
     )
   end
 

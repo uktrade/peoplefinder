@@ -79,14 +79,15 @@ describe 'Audit trail' do
   end
 
   it 'Auditing the creation of a membership', js: true do
-    group = create(:group, name: 'Digital Justice')
+    group = create(:group, name: 'Digital')
     person = create(:person, given_name: 'Bob', surname: 'Smith')
     person.memberships.destroy_all
 
     with_versioning do
       visit edit_person_path(person)
-      select_in_team_select 'Digital Justice'
-      within last_membership do
+
+      within '.ws-profile-edit__team:last-of-type' do
+        choose 'Digital'
         fill_in 'Job title', with: 'Jefe'
       end
       click_button 'Save'
@@ -115,8 +116,8 @@ describe 'Audit trail' do
 
     with_versioning do
       visit edit_person_path(person)
-      within last_membership do
-        click_link 'Leave team'
+      within '.ws-profile-edit__team:last-of-type' do
+        click_button 'Leave this team'
       end
       click_button 'Save'
     end

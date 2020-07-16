@@ -4,8 +4,8 @@ require 'rails_helper'
 
 describe 'Person maintenance' do
   let!(:department) { create(:department) }
-  let(:person) { create(:person, :with_line_manager, email: 'test.user@digital.justice.gov.uk') }
-  let(:another_person) { create(:person, email: 'someone.else@digital.justice.gov.uk') }
+  let(:person) { create(:person, :with_line_manager, email: 'test.user@digital.trade.gov.uk') }
+  let(:another_person) { create(:person, email: 'someone.else@digital.trade.gov.uk') }
 
   before(:each, user: :regular) do
     omni_auth_log_in_as person.ditsso_user_id
@@ -15,13 +15,6 @@ describe 'Person maintenance' do
     omni_auth_log_in_as_people_editor
   end
 
-  let(:edit_profile_page) { Pages::EditProfile.new }
-  let(:profile_page) { Pages::Profile.new }
-
-  let(:completion_prompt_text) do
-    'Fill in the highlighted fields to achieve 100% profile completion'
-  end
-
   context 'Editing a person' do
     context 'for a regular user', user: :regular do
       it 'Editing a person', js: true do
@@ -29,23 +22,18 @@ describe 'Person maintenance' do
         click_edit_profile
 
         expect(page).to have_title("Edit profile - #{app_title}")
-        expect(page).not_to have_text(completion_prompt_text)
         fill_in 'First name', with: 'Jane'
         fill_in 'Last name', with: 'Doe'
-        click_link 'Change team'
-        select_in_team_select 'Department for International Trade'
-        click_button 'Save', match: :first
+        click_button 'Change team'
+        within('.ws-team-browser') do
+          choose department.name
+        end
+        click_button 'Save profile', match: :first
 
         expect(page).to have_content('We have let Jane Doe know that you’ve made changes')
         within('h1') do
           expect(page).to have_text('Jane Doe')
         end
-      end
-
-      it 'Editing my own profile from a normal edit link' do
-        visit person_path(person)
-        click_edit_profile
-        expect(page).not_to have_text(completion_prompt_text)
       end
 
       it 'Validates required fields on person' do
@@ -56,32 +44,27 @@ describe 'Person maintenance' do
         fill_in 'Main work email address', with: ''
         click_button 'Save', match: :first
 
-        expect(edit_profile_page).to have_error_summary
-        expect(edit_profile_page.error_summary).to have_given_name_error
-        expect(edit_profile_page.error_summary).to have_surname_error
-        expect(edit_profile_page.error_summary).to have_email_error
-      end
-
-      it 'Validates required fields on team memberships', js: true do
-        visit person_path(another_person)
-        click_edit_profile
-        click_link 'Join another team'
-        expect(edit_profile_page).to have_selector('.membership.panel', count: 2)
-        click_button 'Save', match: :first
-        expect(edit_profile_page.error_summary).to have_team_required_error text: 'Team is required', count: 1
-        expect(edit_profile_page.form).to have_team_required_field_errors text: 'Team is required', count: 1
+        within('.govuk-error-summary') do
+          expect(page).to have_text('Enter a first name')
+          expect(page).to have_text('Enter a last name')
+          expect(page).to have_text('Enter a main work email address')
+        end
       end
 
       it 'Validates existence of at least one team membership', js: true do
         visit person_path(another_person)
         expect(another_person.memberships.count).to be 1
         click_edit_profile
-        expect(edit_profile_page).to have_selector('.membership.panel', visible: :visible, count: 1)
-        click_link 'Leave team'
-        expect(edit_profile_page).to have_selector('.membership.panel', visible: :visible, count: 0)
+
+        expect(page).to have_selector('.ws-profile-edit__team', count: 1)
+        click_button 'Leave this team'
+        expect(page).to have_selector('.ws-profile-edit__team', count: 0)
+
         click_button 'Save', match: :first
-        expect(edit_profile_page.error_summary).to have_team_membership_required_error text: 'Membership of a team is required'
-        expect(edit_profile_page.form).to have_team_membership_error_destination_anchor
+
+        within('.govuk-error-summary') do
+          expect(page).to have_text('You must add at least one team and role')
+        end
         expect(another_person.reload.memberships.count).to be 1
       end
 
@@ -91,13 +74,16 @@ describe 'Person maintenance' do
 
         visit person_path(person)
         click_edit_profile
-        expect(edit_profile_page).to have_selector('.membership.panel', count: 1)
-        within '.team-leader' do
-          govuk_label_click 'Yes'
-        end
+
+        expect(page).to have_selector('.ws-profile-edit__team', count: 1)
+
+        check 'I am the head of this team', allow_label_click: true
+
         click_button 'Save', match: :first
-        expect(edit_profile_page.error_summary).to have_leader_unique_error
-        expect(edit_profile_page.error_summary.leader_unique_error).to have_text "#{role} (leader of #{department}) already exists. Select \"No\" or change the current #{role}'s profile first", count: 1
+
+        within('.govuk-error-summary') do
+          expect(page).to have_text("#{department} can only have one leader, and there already is one")
+        end
       end
 
       it 'Recording audit details' do
@@ -118,18 +104,6 @@ describe 'Person maintenance' do
         expect(version.ip_address).to eq('1.2.3.4')
         expect(version.user_agent).to eq('NCSA Mosaic/3.0 (Windows 95)')
         expect(version.whodunnit).to eq(person)
-      end
-
-      it 'Editing an invalid person' do
-        person = create(:person, person_attributes)
-
-        edit_profile_page.load(slug: person.slug)
-
-        edit_profile_page.form.surname.set ''
-        edit_profile_page.form.save.click
-
-        expect(edit_profile_page).to have_error_summary
-        expect(edit_profile_page.error_summary).to have_surname_error
       end
 
       it 'Cancelling an edit' do

@@ -215,22 +215,4 @@ RSpec.describe PeopleController, type: :controller do
       end
     end
   end
-
-  describe 'GET add_membership' do
-    context 'with a new person' do
-      it 'renders add_membership template' do
-        get :add_membership
-        expect(response).to render_template('add_membership')
-      end
-    end
-
-    context 'with an existing person' do
-      let(:person) { create(:person) }
-
-      it 'renders add_membership template' do
-        get :add_membership, params: { id: person }
-        expect(response).to render_template('add_membership')
-      end
-    end
-  end
 end
