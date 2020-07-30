@@ -24,7 +24,7 @@
         dt.govuk-visually-hidden Preferred contact email
         dd.ws-profile__primary-contact-item = mail_to person.email, person.email, class: 'govuk-link'
         dt.govuk-visually-hidden Preferred contact number
-        dd.ws-profile__primary-contact-item = call_to_with_country_code(person.primary_phone_country, person.primary_phone_number, class: 'govuk-link')
+        dd.ws-profile__primary-contact-item = call_to(person.primary_phone_number, class: 'govuk-link')
       ul.ws-profile__roles
         - person.memberships.each do |membership|
           li.ws-profile__role
@@ -59,9 +59,9 @@
         = profile_field(person, :email) do
           = mail_to person.email
         = profile_field(person, :primary_phone_number) do
-          = call_to_with_country_code(person.primary_phone_country, person.primary_phone_number)
+          = call_to(person.primary_phone_number)
         = profile_field(person, :secondary_phone_number) do
-          = call_to_with_country_code(person.secondary_phone_country, person.secondary_phone_number)
+          = call_to(person.secondary_phone_number)
         = profile_field(person, :skype_name)
           = link_to(person.skype_name, "skype:#{person.skype_name}?call")
         = profile_field(person, :line_manager) do

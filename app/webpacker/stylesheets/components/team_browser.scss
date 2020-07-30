@@ -13,10 +13,6 @@
 
   resize: vertical;
   @include govuk-responsive-margin(6, "bottom");
-
-  .govuk-form-group {
-    margin: 0;
-  }
 }
 
 .ws-team-browser--activated {

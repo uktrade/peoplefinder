@@ -59,7 +59,7 @@ describe 'Person membership' do
 
     visit edit_person_path(person)
 
-    click_button('Join another team')
+    click_button('Add another team')
 
     within('.ws-profile-edit__team:last-of-type') do
       choose 'Communications'
@@ -102,7 +102,7 @@ describe 'Person membership' do
     fill_in 'Job title', with: 'Head Honcho'
     check "#{person.given_name} is the head of this team", allow_label_click: true
 
-    click_button('Join another team')
+    click_button('Add another team')
 
     within('.ws-profile-edit__team:last-of-type') do
       choose 'Digital Justice'
@@ -143,6 +143,6 @@ end
 def create_person_in_digital_justice
   department = create(:department, name: 'Ministry of Justice')
   group = create(:group, name: 'Digital Justice', parent: department)
-  person = create(:person, :member_of, team: group, sole_membership: true)
-  person
+
+  create(:person, :member_of, team: group, sole_membership: true)
 end

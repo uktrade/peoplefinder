@@ -76,7 +76,7 @@ RSpec.describe PersonSearch, elastic: true do
     end
 
     it 'searches by phone number' do
-      results = search_for('+44 118 999-881 (999) 119 725 3')
+      results = search_for('0118 999-881 (999) 119 725 3')
       expect(results.set.first.name).to eq @maurice.name
       expect(results.contains_exact_match).to eq(true)
     end

@@ -45,8 +45,8 @@ en:
         surname: Last name
         email: Main work email address
         primary_phone_number: Preferred contact number
-        secondary_phone_number: Alternative phone number
-        city: Town, City or Region
+        secondary_phone_number: Alternative contact number
+        city: Town, city or region
         country: Country
         other_uk: UK regional building or location
         other_overseas: International building or location
@@ -109,7 +109,7 @@ en:
             <li>a personal email address, for example, Gmail</li>
           </ul>
         primary_phone_number: Enter your preferred contact telephone number. Include your country dialling code if you are outside the UK.
-        secondary_phone_number: Enter an alternative telephone number. Include your country dialling code if you are outside the UK.
+        secondary_phone_number: Enter an alternative contact telephone number. Include your country dialling code if you are outside the UK.
         building: Select all that apply
         city: For example, London
         permissions: Administrators on People Finder can view global audit trails, reports, and debugging information as well as perform all groups and people management functions.

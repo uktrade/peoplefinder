@@ -30,7 +30,7 @@
         Click the Save button
 
   .column-one-half
-    = form_for @person, builder: PersonFormBuilder, html: { multipart: true } do |f|
+    = form_for @person, html: { multipart: true } do |f|
       .form-group.person-photo.initial
         = f.hidden_field :profile_photo_id
         = f.hidden_field :crop_x

@@ -4,8 +4,7 @@ class PeopleFinderFormBuilder < GOVUKDesignSystemFormBuilder::FormBuilder
   delegate :concat, :tag, to: :@template
 
   def team_browser_radio_button(method, tag_value, label_text, options = {})
-    # radio_button(method, tag_value, options.merge('aria-role': 'option')) + label(method, label_text, value: tag_value)
-    govuk_radio_button(method, tag_value, label: { text: label_text })
+    radio_button(method, tag_value, options.merge('aria-role': 'option')) + label(method, label_text, value: tag_value)
   end
 
   def additional_fields_details(summary, &block)

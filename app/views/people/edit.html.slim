@@ -30,7 +30,7 @@
         = f.govuk_email_field :email, width: 'one-half'
         = f.govuk_phone_field :primary_phone_number, width: 'one-half'
 
-        = f.additional_fields_details 'Add alternative phone number (optional)' do
+        = f.additional_fields_details 'Add alternative contact number (optional)' do
           = f.govuk_phone_field :secondary_phone_number, width: 'one-half'
 
         hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
@@ -97,7 +97,7 @@
               = render 'edit_membership_fields', membership_fields: membership_fields, org_structure: org_structure
 
           button.govuk-button.govuk-button--menuitem.govuk-button--secondary type='button' data-action='person-memberships#add'
-            | Join another team
+            | Add another team
 
         hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
 
