@@ -83,6 +83,6 @@ class PersonDataWorkspaceSerializer
   def formatted_grade
     return nil if person.grade.blank?
 
-    I18n.translate(person.grade, scope: 'people.grade_names', default: '')
+    I18n.t(person.grade, scope: 'people.grade_names', default: '')
   end
 end

@@ -60,8 +60,7 @@ end
 
 group :test do
   gem 'capybara'
-  # TODO: Pinned because of Ruby 2.7 deprecations, unpin when > 1.0.4 released or legacy controller tests removed
-  gem 'rails-controller-testing', github: 'rails/rails-controller-testing', ref: 'a60b3da1c1c77959b28606dd087c058c64b5a08f'
+  gem 'rails-controller-testing', '~> 1.0.5'
   gem 'rspec-json_expectations'
   gem 'rspec-rails'
   gem 'selenium-webdriver', '~> 4.0.0alpha'

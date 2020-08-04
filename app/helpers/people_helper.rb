@@ -39,9 +39,9 @@ module PeopleHelper
 
   def self_or_other_translate(person, field, scope)
     if current_user == person
-      I18n.translate(field, scope: [scope, :self])
+      I18n.t(field, scope: [scope, :self])
     else
-      I18n.translate(field, scope: [scope, :other], name: person.given_name)
+      I18n.t(field, scope: [scope, :other], name: person.given_name)
     end
   end
 

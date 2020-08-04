@@ -19,9 +19,9 @@ class Person < ApplicationRecord
 
   default_scope { order(surname: :asc, given_name: :asc) }
 
-  attr_accessor :working_days
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-  attr_accessor :skip_must_have_surname, :skip_must_have_team, :skip_must_not_have_disallowed_email_domain
+  attr_accessor :working_days,
+                :crop_x, :crop_y, :crop_w, :crop_h,
+                :skip_must_have_surname, :skip_must_have_team, :skip_must_not_have_disallowed_email_domain
 
   has_many :memberships, -> { includes(:group).order('groups.name') }, dependent: :destroy
   has_many :groups, through: :memberships

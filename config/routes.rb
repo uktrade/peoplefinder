@@ -50,10 +50,10 @@ Rails.application.routes.draw do
   resource :sessions, only: %i[new create destroy]
 
   match '/auth/:provider/callback', to: 'sessions#create', via: %i[get post]
-  match '/audit_trail', to: 'versions#index', via: [:get]
-  match '/audit_trail/undo/:id', to: 'versions#undo', via: [:post], as: :audit_trail_undo
-  match '/search', to: 'search#index', via: [:get]
-  match '/search/people.json', to: 'search#people', via: [:get]
+  get '/audit_trail', to: 'versions#index'
+  post '/audit_trail/undo/:id', to: 'versions#undo', as: :audit_trail_undo
+  get '/search', to: 'search#index'
+  get '/search/people.json', to: 'search#people'
 
   namespace :admin do
     root to: 'management#show', as: :home

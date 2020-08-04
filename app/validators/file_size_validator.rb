@@ -16,7 +16,7 @@ class FileSizeValidator < ActiveModel::EachValidator
     @size = value.size
 
     add_error(record, attribute, max_message) if options[:maximum].present? && size > options[:maximum]
-    add_error(record, attribute, range_message) if options[:range].present? && !options[:range].include?(size)
+    add_error(record, attribute, range_message) if options[:range].present? && options[:range].exclude?(size)
   end
 
   private
