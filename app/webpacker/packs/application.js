@@ -3,6 +3,7 @@ require.context('../images', true);
 
 import Rails from '@rails/ujs';
 import { initAll } from 'govuk-frontend';
+
 import { Application } from "stimulus"
 import { definitionsFromContext } from "stimulus/webpack-helpers"
 

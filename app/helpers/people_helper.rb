@@ -29,6 +29,37 @@ module PeopleHelper
     end
   end
 
+  def self_or_other_label(person, field)
+    self_or_other_translate(person, field, 'helpers.label.person')
+  end
+
+  def self_or_other_hint(person, field)
+    self_or_other_translate(person, field, 'helpers.hint.person')
+  end
+
+  def self_or_other_translate(person, field, scope)
+    if current_user == person
+      I18n.translate(field, scope: [scope, :self])
+    else
+      I18n.translate(field, scope: [scope, :other], name: person.given_name)
+    end
+  end
+
+  def team_edit_field_template(form, person:, org_structure:)
+    skeleton_membership = Membership.new(group: Group.department, person: person)
+
+    html = form.fields_for(
+      :memberships,
+      skeleton_membership,
+      child_index: 'TEMPLATE_REPLACE'
+    ) do |add_membership_fields|
+      render 'edit_membership_fields',
+             membership_fields: add_membership_fields, org_structure: org_structure, activated: true
+    end
+
+    CGI.escapeHTML(html).html_safe # rubocop:disable Rails/OutputSafety
+  end
+
   # --------------------------------------------------------------------------
   # TODO: Helpers below need to be rewritten once we transition from legacy UI
   # --------------------------------------------------------------------------
@@ -47,18 +78,6 @@ module PeopleHelper
     options[:alt_text] = "Team icon for #{team.name}"
     profile_or_team_image_div source, options
   end
-
-  # Why do we need to go to this trouble to repeat new_person/edit_person? you
-  # might wonder. Well, form_for only allows us to replace the form class, not
-  # augment it, and we rely on the default classes elsewhere.
-  #
-  def person_form_class(person, activity)
-    [person.new_record? ? 'new_person' : 'edit_person'].tap do |classes|
-      classes << 'completing' if activity == 'complete'
-    end.join(' ')
-  end
-
-  private
 
   def image_tag_wrapper(source, options)
     image_tag(
@@ -100,50 +119,38 @@ module PeopleHelper
   end
 
   def building_names
-    I18n.t('people.building_names').each_pair do |k, v|
-      [k, v]
-    end.sort
+    translated_field_pairs('people.building_names')
   end
 
   def key_skill_names
-    I18n.t('people.key_skill_names').each_pair do |k, v|
-      [k, v]
-    end.sort
+    translated_field_pairs('people.key_skill_names')
   end
 
   def grade_names
-    I18n.t('people.grade_names').each_pair do |k, v|
-      [v, k]
-    end.sort
+    translated_field_pairs('people.grade_names')
   end
 
   def learning_and_development_names
-    I18n.t('people.learning_and_development_names').each_pair do |k, v|
-      [k, v]
-    end.sort
+    translated_field_pairs('people.learning_and_development_names')
   end
 
   def network_names
-    I18n.t('people.network_names').each_pair do |k, v|
-      [k, v]
-    end.sort
+    translated_field_pairs('people.network_names')
   end
 
   def profession_names
-    I18n.t('people.profession_names').each_pair do |k, v|
-      [k, v]
-    end.sort
+    translated_field_pairs('people.profession_names')
   end
 
   def key_responsibility_names
-    I18n.t('people.key_responsibility_names').each_pair do |k, v|
-      [k, v]
-    end.sort
+    translated_field_pairs('people.key_responsibility_names')
   end
 
   def additional_responsibility_names
-    I18n.t('people.additional_responsibility_names').each_pair do |k, v|
-      [k, v]
-    end.sort
+    translated_field_pairs('people.additional_responsibility_names')
+  end
+
+  def translated_field_pairs(scope)
+    I18n.t(scope).to_a.sort_by(&:last)
   end
 end

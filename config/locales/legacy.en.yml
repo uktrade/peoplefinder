@@ -2,7 +2,6 @@ en:
   groups:
     form:
       placeholder: Discover what this team is responsible for, who is in it and how you can get in touch with them.
-      team_selector_hint: Select the teams parent
   shared:
     finish_profile_request: &finish_profile_request "Welcome! Please complete the required fields in your profile to start using People Finder."
     unauthorised: &unauthorised Unauthorised, insufficient privileges
@@ -54,17 +53,6 @@ en:
       update_error: "There was an error updating the image"
     problem_reports:
       report_sent: Your report has been sent. Thank you for reporting a problem.
-  memberships:
-    team_selector_label:
-      group: Team
-    team_selector_hint:
-      mine: Select your new team
-      other: Select the person's new team
-    leader:
-      mine: |
-        Are you the head of the <span class="team-led">team above</span>?
-      other: |
-        Is this person the leader of the <span class="team-led">team above</span>?
   people:
     day_names:
       works_monday: "Monday"
@@ -249,8 +237,8 @@ en:
     messages:
       blank: "is required"
       invalid_format: "isn’t valid"
-      invalid_domain: "you have entered can’t be used to access People Finder"
       extension_whitelist_error: "You are not allowed to upload %{extension} files, allowed types: %{allowed_types}"
+#    format: "%{attribute} %{message}"
     models:
       group:
         attributes:
@@ -264,9 +252,6 @@ en:
       file_size_validator:
         too_big: "file size, %{size}, is too large"
         not_in_range: "file size, %{size}, is not in expected range"
-      permanent_secretary_unique_validator:
-        leader:
-          unique: "%{role} (leader of %{name}) already exists. Select \"No\" or change the current %{role}'s profile first"
   activerecord:
     errors:
       <<: *errors
@@ -311,9 +296,6 @@ en:
       city_hint: "For example, London"
       photo_upload_hint: "Add or replace an image (no files over 6MB.)"
       photo_crop_hint: "Move and resize the box to crop your profile image."
-      privacy_notice: |
-        <p>All the information on your profile will be visible to DIT staff and contractors on the People Finder and other internal DIT tools.</p>
-        <p>Occasionally, we may use data from the People Finder in aggregate for departmental insights.</p>
       profile_deletable: "Note that deleting a profile cannot be undone."
       reported_profile_additional_details_label: Additional details
       request_information: "Incorrect or missing information? Has this person left the department or is this a duplicate?"
@@ -325,24 +307,10 @@ en:
       description: |
         Discover what this team is responsible for, who is in it and how you can get in touch with them.
 
-  # the following translations are used by the govuk_elements_form_builder gem
   helpers:
-    fieldset:
-      person:
-        working_days: Which days of the week do you work?
     label:
       person:
-        given_name: First name (required)
-        surname: Last name (required)
-        pronouns: My pronouns
-        email: Main work email address (required)
-        primary_phone_number: Preferred contact number (recommended)
-        secondary_phone_number: Additional phone number
-        location_in_building: Location in building
-        building: Building I work in
-        city: Town, City or Region (recommended)
         country: Country
-        skype_name: Skype name
         works_monday: Monday
         works_tuesday: Tuesday
         works_wednesday: Wednesday
@@ -351,21 +319,6 @@ en:
         works_saturday: Saturday
         works_sunday: Sunday
         description: Extra information
-        language_intermediate: Intermediate languages
-        language_fluent: Fluent languages
-        previous_positions: Previous positions held
-        other_uk: Other - UK regional
-        other_overseas: Other - Overseas
-        other_additional_responsibilities: Other additional roles and responsibilities
-        role_administrator: Allow this person to administrate People Finder
-        role_groups_editor: Allow this person to manage teams
-        role_people_editor: Allow this person to manage people
-        ditsso_user_id: Staff SSO user ID
-        line_manager: Manager
-        line_manager_not_required: My manager is not listed because I do not work for DIT
-      membership:
-        role: "Job title"
-        group: Team
       problem_report:
         goal: "What were you trying to do?"
         problem: "What went wrong?"
@@ -378,47 +331,6 @@ en:
         create: "Upload"
       problem_report:
         create: "Report"
-    person_uploads:
-      group_id: Choose your team
-      file: Upload CSV file
     hint:
-      person:
-        email_html: |
-          Do not use:
-          <ul class="list list-bullet">
-            <li>an alternative work email address that is not safe for official information, for example, FCOWebmail.gov.uk</li>
-            <li>a personal email address, for example, Gmail</li>
-          </ul>
-        primary_phone_number: "Enter your phone number then select your country code"
-        secondary_phone_number: "Enter your phone number then select your country code"
-        location_in_building: "Do not enter location if in KCS"
-        building: Select all that apply
-        city: "For example, London"
-        working_days: Select all that apply
-        language_fluent: Add languages at which you are fluent. Use a comma to separate languages.
-        language_intermediate: Add languages at which you have intermediate fluency. Use a comma to separate languages.
-        previous_positions: Please note your previous experience
-        ditsso_user_id: The "Unique User ID" for this user in the Staff Single Sign On system
-        line_manager_not_required: |
-          If your manager is not listed and you work for DIT, please talk to your manager to ensure they have an up-to-date profile.
       membership:
         role: Role within this team
-  will_paginate:
-    models:
-      person:
-        zero:  people
-        one:   person
-        few:   people
-        other: people
-    page_entries_info:
-      single_page:
-        zero:  "No %{model} found"
-        one:   "Displaying 1 %{model}"
-        other: "Displaying all %{count} %{model}"
-      single_page_html:
-        zero:  "No %{model} found"
-        one:   "Displaying <b>1</b> %{model}"
-        other: "Displaying <b>all&nbsp;%{count}</b> %{model}"
-
-      multi_page: "Displaying %{model} %{from} - %{to} of %{count}"
-      multi_page_html: "Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of <b>%{count}</b>"

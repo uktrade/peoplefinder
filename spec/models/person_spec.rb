@@ -42,7 +42,6 @@ RSpec.describe Person, type: :model do
       expect(subject.phone_number_variations).to eq(
         %w[
           01189998819991197253
-          441189998819991197253
         ]
       )
     end
@@ -66,8 +65,6 @@ RSpec.describe Person, type: :model do
         expect(subject.phone_number_variations).to eq(
           %w[
             123456
-            44123456
-            0123456
           ]
         )
       end

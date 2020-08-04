@@ -25,7 +25,7 @@
 
   - unless group.root?
     h3.govuk-heading-s Parent team
-    = render partial: 'team_browser', locals: { form: f, field: :parent_id, object: group, groups: org_structure, current_group: parent_group }
+    = render partial: 'team_browser', locals: { form: f, field: :parent_id, object: group, groups: org_structure, current_group: parent_group, activated: true }
 
   = f.govuk_submit 'Save team' do
     - if group.new_record?

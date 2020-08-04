@@ -14,9 +14,6 @@ RSpec.describe PersonPolicy, type: :policy do
     it { is_expected.to permit_action(:edit) }
     it { is_expected.to permit_action(:update) }
     it { is_expected.to permit_action(:confirm) }
-    it { is_expected.to permit_action(:new) }
-    it { is_expected.to permit_action(:create) }
-    it { is_expected.to permit_action(:add_membership) }
     it { is_expected.not_to permit_action(:destroy) }
     it { is_expected.not_to permit_action(:audit) }
   end
@@ -28,9 +25,6 @@ RSpec.describe PersonPolicy, type: :policy do
     it { is_expected.to permit_action(:edit) }
     it { is_expected.to permit_action(:update) }
     it { is_expected.to permit_action(:confirm) }
-    it { is_expected.to permit_action(:new) }
-    it { is_expected.to permit_action(:create) }
-    it { is_expected.to permit_action(:add_membership) }
     it { is_expected.to permit_action(:destroy) }
     it { is_expected.to permit_action(:audit) }
   end
@@ -42,9 +36,6 @@ RSpec.describe PersonPolicy, type: :policy do
     it { is_expected.to permit_action(:edit) }
     it { is_expected.to permit_action(:update) }
     it { is_expected.to permit_action(:confirm) }
-    it { is_expected.to permit_action(:new) }
-    it { is_expected.to permit_action(:create) }
-    it { is_expected.to permit_action(:add_membership) }
     it { is_expected.to permit_action(:destroy) }
     it { is_expected.to permit_action(:audit) }
   end

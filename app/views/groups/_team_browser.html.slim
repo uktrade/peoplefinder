@@ -1,3 +1,8 @@
-.ws-team-browser data-controller='team-browser' class='govuk-!-width-two-thirds'
-  - groups.each do |group, subgroups|
-    = render partial: 'team_browser_node', locals: { form: form, field: field, object: object, parent: nil, group: group, subgroups: subgroups, current_group: current_group }
+.ws-team-browser data-target='team-browser.parent' data-controller='team-browser' class=('ws-team-browser--activated' if local_assigns[:activated])
+  .ws-team-browser__activate
+    .govuk-body #{current_group&.name}
+    button.govuk-button.govuk-button--secondary data-action='team-browser#activate' type='button'
+      | Change team
+  .ws-team-browser__browser aria-role='listbox' aria-roledescription='Team selector' class='govuk-!-width-two-thirds'
+    - groups.each do |group, subgroups|
+      = render partial: 'groups/team_browser_node', locals: { form: form, field: field, object: object, parent: nil, group: group, subgroups: subgroups, current_group: current_group }

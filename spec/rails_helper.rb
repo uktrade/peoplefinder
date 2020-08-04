@@ -43,7 +43,6 @@ RSpec.configure do |config|
   config.include SpecSupport::Login
   config.include SpecSupport::Search
   config.include SpecSupport::Carrierwave
-  config.include SpecSupport::OrgBrowser
   config.include SpecSupport::Profile
   config.include SpecSupport::AppConfig
 

@@ -33,14 +33,14 @@ describe 'OmniAuth Authentication' do
   it 'Non existent users are redirected to their new profiles edit page after logging in' do
     OmniAuth.config.mock_auth[:ditsso_internal] = valid_user
     visit group_path(group)
-    expect(edit_profile_page).to be_displayed
+    expect(page).to have_text('Edit profile')
   end
 
   it 'Existing users are redirected to their desired path after logging in' do
     create(:person, ditsso_user_id: 'beef')
     OmniAuth.config.mock_auth[:ditsso_internal] = valid_user
     visit group_path(group)
-    expect(group_page).to be_displayed
+    expect(page).to have_current_path(group_path(group))
   end
 end
 

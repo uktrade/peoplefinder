@@ -17,20 +17,8 @@ class PersonPolicy < ApplicationPolicy
     true
   end
 
-  def new?
-    true
-  end
-
-  def create?
-    true
-  end
-
   def destroy?
     administrator? || people_editor?
-  end
-
-  def add_membership?
-    true
   end
 
   def audit?

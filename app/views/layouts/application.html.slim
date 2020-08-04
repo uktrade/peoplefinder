@@ -44,3 +44,5 @@ html.govuk-template[lang="en"]
     = render 'layouts/footer'
 
     script[async src="https://www.googletagmanager.com/gtag/js?id=#{Rails.configuration.google_analytics_tracking_id}"]
+
+    = yield :end_of_body
