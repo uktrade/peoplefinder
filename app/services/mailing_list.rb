@@ -14,7 +14,7 @@ class MailingList
       status: 'subscribed',
       merge_fields: merge_fields
     }
-    member_for(email).upsert(body: body)
+    member_for(email).upsert(body: body) # rubocop:disable Rails/SkipsModelValidations (not actually Rails)
   end
 
   def set_subscriber_tags(email, tags: [])

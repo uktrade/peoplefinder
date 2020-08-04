@@ -98,7 +98,7 @@ module ApplicationHelper
       subkey = 'other'
       user = current_user
     end
-    I18n.translate([key, subkey].join('.'), **options.merge(name: user))
+    I18n.t([key, subkey].join('.'), **options.merge(name: user))
   end
 
   def bold_tag(term, options = {})

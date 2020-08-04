@@ -19,7 +19,7 @@ class PeopleFinderFormBuilder < GOVUKDesignSystemFormBuilder::FormBuilder
   # does not match the behaviour of Rails's check_box form helper (does not provide
   # a default false hidden field, can't be set to be checked, doesn't do I18n),
   # so we use this alternative implementation instead for boolean model fields.
-  def model_govuk_check_box(method, label_text: I18n.translate("helpers.label.person.#{method}"))
+  def model_govuk_check_box(method, label_text: I18n.t("helpers.label.person.#{method}"))
     tag.div(class: 'govuk-checkboxes__item') do
       check_box(method, class: 'govuk-checkboxes__input') +
         label(method, label_text, class: 'govuk-label govuk-checkboxes__label')

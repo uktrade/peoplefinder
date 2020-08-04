@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
     full_key = [
       :controllers, controller_path.tr('/', '.'), *partial_key
     ].join('.')
-    flash[type] = I18n.translate(full_key, **options)
+    flash[type] = I18n.t(full_key, **options)
   end
 
   def warning(*partial_key, **options)
