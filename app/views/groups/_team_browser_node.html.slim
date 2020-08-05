@@ -1,18 +1,18 @@
 .ws-team-browser__node data-target='team-browser.node' data-group=group.id class=(group == current_group ? 'ws-team-browser__node--visible' : '')
   - if parent
-    .ws-team-browser__row.ws-team-browser__parent
-      button.ws-team-browser__switch data-group=parent.id data-action='team-browser#switchTo' type='button'
+    .ws-team-browser__row.ws-team-browser__parent data-action='keydown->team-browser#keyPressed click->team-browser#clickRow'
+      button.ws-team-browser__switch data-group=parent.id data-action='team-browser#switchTo' type='button' tabindex='-1'
         | Back to #{parent.name}
-  .ws-team-browser__row.ws-team-browser__row--current
+  .ws-team-browser__row.ws-team-browser__row--current data-action='keydown->team-browser#keyPressed click->team-browser#clickRow'
     = form.team_browser_radio_button(field, group.id, group.name)
   ol.ws-team-browser__children
     - subgroups.each do |subgroup, subsubgroups|
       - if subsubgroups.any?
-        li.ws-team-browser__row.ws-team-browser__child--with-children
-          button.ws-team-browser__switch data-group=subgroup.id data-action='team-browser#switchTo' type='button'
+        li.ws-team-browser__row.ws-team-browser__child--with-children data-action='keydown->team-browser#keyPressed click->team-browser#clickRow'
+          button.ws-team-browser__switch data-group=subgroup.id data-action='team-browser#switchTo' type='button' tabindex='-1'
             = subgroup.name
       - else
-        li.ws-team-browser__row.ws-team-browser__child--without-children
+        li.ws-team-browser__row.ws-team-browser__child--without-children data-action='keydown->team-browser#keyPressed click->team-browser#clickRow'
           = form.team_browser_radio_button(field, subgroup.id, subgroup.name)
 
 - subgroups.each do |subgroup, subsubgroups|

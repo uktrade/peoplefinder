@@ -3,6 +3,6 @@
     .govuk-body #{current_group&.name}
     button.govuk-button.govuk-button--secondary data-action='team-browser#activate' type='button'
       | Change team
-  .ws-team-browser__browser aria-role='listbox' aria-roledescription='Team selector' class='govuk-!-width-two-thirds'
+  .ws-team-browser__browser aria-role='listbox' aria-roledescription='Team selector' tabindex='0' data-action='focus->team-browser#focus'
     - groups.each do |group, subgroups|
       = render partial: 'groups/team_browser_node', locals: { form: form, field: field, object: object, parent: nil, group: group, subgroups: subgroups, current_group: current_group }

@@ -108,8 +108,8 @@ en:
             <li>an alternative work email address that is not safe for official information, for example, FCOWebmail.gov.uk</li>
             <li>a personal email address, for example, Gmail</li>
           </ul>
-        primary_phone_number: Enter your preferred contact telephone number. Include your country dialling code if you are outside the UK.
-        secondary_phone_number: Enter an alternative contact telephone number. Include your country dialling code if you are outside the UK.
+        primary_phone_number: Enter your preferred contact telephone number. Include your country dialling code.
+        secondary_phone_number: Enter an alternative contact telephone number. Include your country dialling code.
         building: Select all that apply
         city: For example, London
         permissions: Administrators on People Finder can view global audit trails, reports, and debugging information as well as perform all groups and people management functions.

@@ -1,3 +1,7 @@
+.ws-team-browser {
+  width: 66.66%;
+}
+
 .ws-team-browser__browser {
   @include govuk-font($size: 19, $line-height: 1.25);
 
@@ -13,6 +17,12 @@
 
   resize: vertical;
   @include govuk-responsive-margin(6, "bottom");
+
+  &:focus {
+    outline: $govuk-focus-width solid $govuk-focus-colour;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 $govuk-border-width-form-element;
+  }
 }
 
 .ws-team-browser--activated {
@@ -44,11 +54,17 @@
   outline: inherit;
   cursor: pointer;
 
-	&:hover {
+	&:focus {
 		color: $govuk-link-colour;
 
-		background: govuk-colour("light-grey", $legacy: "grey-3");
+		background: none;
 	}
+
+    &:hover {
+      color: $govuk-link-colour;
+
+      background: govuk-colour("light-grey", $legacy: "grey-3");
+    }
 }
 
 .ws-team-browser__parent {
@@ -71,6 +87,10 @@
   input {
     margin-right: govuk-spacing(2);
   }
+}
+
+.ws-team-browser__row:focus-within {
+  background-color: $govuk-focus-colour;
 }
 
 .ws-team-browser__children {
