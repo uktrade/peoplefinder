@@ -21,7 +21,7 @@ module StateCookieHelper
     smc = StateManagerCookie.new(cookies)
     if params['edit-picture-button'].present?
       smc.phase_edit_picture!
-    elsif params['commit'].present?
+    elsif params['commit'].present? || params['hidden-commit'].present?
       smc.phase_save_profile!
     end
     cookies[smc.cookie_key] = smc.to_cookie
