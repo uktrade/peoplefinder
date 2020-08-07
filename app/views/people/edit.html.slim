@@ -5,6 +5,7 @@
 
 .ws-profile-edit
   = form_for(person, builder: PeopleFinderFormBuilder) do |f|
+    = f.submit 'Save', name: 'hidden-commit', class: 'ws-profile-edit__hidden-submit'
     .govuk-grid-row
       .govuk-grid-column-full
         h1.govuk-heading-l Edit profile
