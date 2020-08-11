@@ -134,13 +134,27 @@
         hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
 
     .govuk-grid-row
-      .govuk-grid-column-full.ws-profile-edit__photo
+      .govuk-grid-column-full
         h2.govuk-heading-m Profile photo
-        = profile_image_tag @person, link: false, class: 'ws-profile-edit__photo'
-        - button_text = f.object.profile_image.present? ? 'Change this photo' : 'Add a photo'
-        = f.submit button_text, name: 'edit-picture-button', class: 'govuk-button govuk-button--secondary'
+    .govuk-grid-row.ws-profile-edit__photo data-controller='person-profile-photo'
+      .govuk-grid-column-one-third
+        h4.govuk-heading-s data-target='person-profile-photo.pictureHeader' Current profile photo
+        div data-target='person-profile-photo.previewContainer'
+          - if person.errors.include?(:'profile_photo.image')
+            div.ws-profile-edit__photo-preview--error#person-profile-photo-image-field-error
+              span.govuk-visually-hidden Cannot preview file
+          - else
+            = profile_picture_image_tag person, id: 'profile-photo-preview', class: 'ws-profile-edit__photo-preview', data: { target: 'person-profile-photo.preview' }
+      .govuk-grid-column-two-thirds
+        = f.fields_for :profile_photo do |profile_photo_fields|
+          = profile_photo_fields.govuk_file_field :image, data: { target: 'person-profile-photo.fileField', action: 'person-profile-photo#changeFile' }
+          = profile_photo_fields.hidden_field :image_cache
+          = profile_photo_fields.hidden_field :crop_x, data: { target: 'person-profile-photo.cropX' }
+          = profile_photo_fields.hidden_field :crop_y, data: { target: 'person-profile-photo.cropY' }
+          = profile_photo_fields.hidden_field :crop_w, data: { target: 'person-profile-photo.cropW' }
+          = profile_photo_fields.hidden_field :crop_h, data: { target: 'person-profile-photo.cropH' }
 
-        hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+    hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
 
     - if current_user.role_administrator?
       .govuk-grid-row

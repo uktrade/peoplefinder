@@ -60,6 +60,20 @@ module PeopleHelper
     CGI.escapeHTML(html).html_safe # rubocop:disable Rails/OutputSafety
   end
 
+  def profile_picture_image_tag(person, options = {})
+    image = person.profile_image.try(:medium)
+    source = if image.try(:file).respond_to?(:authenticated_url)
+               image.file.authenticated_url
+             else
+               image || 'medium_no_photo.png'
+             end
+    source_url = source.respond_to?(:url) ? source.url : source
+
+    options_with_alt = options.reverse_merge(alt: "Profile picture of #{person.name}")
+
+    image_tag(source_url, options_with_alt)
+  end
+
   # --------------------------------------------------------------------------
   # TODO: Helpers below need to be rewritten once we transition from legacy UI
   # --------------------------------------------------------------------------
@@ -105,7 +119,7 @@ module PeopleHelper
     !options.key?(:link) || options[:link]
   end
 
-  def profile_image_source(person, options)
+  def profile_image_source(person, options = {})
     version = options.fetch(:version, :medium)
     url_for_image person.profile_image.try(version)
   end

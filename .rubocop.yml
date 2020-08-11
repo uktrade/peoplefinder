@@ -51,7 +51,7 @@ Layout/LineLength:
 
 # Slightly more lenient module length
 Metrics/ModuleLength:
-  Max: 120
+  Max: 140
 
 # Slightly more lenient method length (and ignore in specs - long setup methods)
 Metrics/MethodLength:

@@ -26,10 +26,17 @@ en:
             memberships:
               at_least_one_required: You must add at least one team and role
   errors:
+    messages:
+      min_size_error: This photo file is too small. It needs to be more than %{min_size}.
+      max_size_error: This photo file is too big. It needs to be less than %{max_size}.
+      content_type_whitelist_error: This file is not an accepted image format. Please choose a JPG or PNG file.
     validators:
       permanent_secretary_unique_validator:
         leader:
           unique: "%{name} can only have one leader, and there already is one (%{person_name}, %{role}). If you want to change the department's leader, you must change %{person_name}'s profile first"
+      image_dimensions_validator:
+        too_small: Profile photo is not big enough. Your image was %{actual_dimensions} pixels, but it needs to be at least %{expected_dimensions} pixels.
+        too_big: Profile photo is too big. Your image was %{actual_dimensions} pixels, but it needs to be no more than %{expected_dimensions} pixels.
   helpers:
     label:
       required: Required
@@ -96,6 +103,8 @@ en:
           membership_leader: "%{name} is the head of this team"
           networks_details: Add networks %{name} belongs to
           professions_details: Add professions %{name} belongs to
+      person[profile_photo_attributes]:
+        image: Choose a new profile photo
     hint:
       group:
         name: The full name of this team (e.g. Digital, Data and Technology)
@@ -132,6 +141,9 @@ en:
           language_intermediate: Add languages that %{name} speaks but isn't fluent in. Use a comma to separate languages.
           previous_positions: List where %{name} has worked before their current role.
           membership_role: Enter %{name}'s role in this team
+      person[profile_photo_attributes]:
+        image_html: |
+          Choose a picture that helps others recognise you. Your picture must be at least 500 by 500 pixels and no more than 8MB. Once you have chosen a picture, you will be able to crop it.
   profile:
     person:
       formatted_buildings: Place(s) I usually work

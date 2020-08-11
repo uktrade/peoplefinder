@@ -20,27 +20,6 @@ RSpec.describe ProfilePhoto, type: :model do
     expect(subject.upload_dimensions).to eq width: 648, height: 648
   end
 
-  describe '#crop' do
-    it 'crops the image' do
-      expect(subject.image).to receive(:recreate_versions!)
-      subject.crop(1, 2, 3, 4)
-      expect(subject.crop_x).to eq(1)
-      expect(subject.crop_y).to eq(2)
-      expect(subject.crop_w).to eq(3)
-      expect(subject.crop_h).to eq(4)
-    end
-
-    it 'accepts a specific version to crop' do
-      expect(subject.image).to receive(:recreate_versions!).with(:medium)
-      subject.crop(1, 2, 3, 4, :medium)
-    end
-
-    it 'defaults to cropping all versions' do
-      expect(subject.image).to receive(:recreate_versions!).with(no_args)
-      subject.crop(1, 2, 3, 4)
-    end
-  end
-
   describe 'validations' do
     subject { build(:profile_photo) }
 
@@ -56,29 +35,17 @@ RSpec.describe ProfilePhoto, type: :model do
           expect(subject).to be_valid
         end
       end
-
-      context 'size must be less than or equal to 6M' do
-        it do
-          allow(subject.image).to receive(:size).and_return 6.001.megabytes
-          expect(subject).to be_invalid
-        end
-
-        it do
-          allow(subject.image).to receive(:size).and_return 6.megabytes
-          expect(subject).to be_valid
-        end
-      end
     end
 
     context 'image dimensions' do
-      context 'must be greater than 648x648 pixels' do
+      context 'must be greater than 500x500 pixels' do
         it do
-          allow(subject).to receive(:upload_dimensions).and_return(width: 649, height: 647)
+          allow(subject).to receive(:upload_dimensions).and_return(width: 501, height: 499)
           expect(subject).to be_invalid
         end
 
         it do
-          allow(subject).to receive(:upload_dimensions).and_return(width: 648, height: 648)
+          allow(subject).to receive(:upload_dimensions).and_return(width: 500, height: 500)
           expect(subject).to be_valid
         end
       end
@@ -97,23 +64,11 @@ RSpec.describe ProfilePhoto, type: :model do
     end
 
     context 'saving file' do
-      context 'with very large file' do
-        subject { build :profile_photo }
-
-        before do
-          allow(subject.image).to receive(:size).and_return 6.001.megabytes
-        end
-
-        it 'raises expected error' do
-          expect { subject.save! }.to raise_error ActiveRecord::RecordInvalid, /file size, 6 MB, is too large/
-        end
-      end
-
       context 'with unwhitelisted extension' do
         subject { build :profile_photo, :invalid_extension }
 
         it 'raises expected error' do
-          expect { subject.save! }.to raise_error ActiveRecord::RecordInvalid, /not allowed to upload "bmp" files, allowed types: jpg, jpeg, gif, png/
+          expect { subject.save! }.to raise_error ActiveRecord::RecordInvalid, /This file is not an accepted image format. Please choose a JPG or PNG file./
         end
       end
 
@@ -121,7 +76,7 @@ RSpec.describe ProfilePhoto, type: :model do
         subject { build :profile_photo, :too_small_dimensions }
 
         it 'raises expected error' do
-          expect { subject.save! }.to raise_error ActiveRecord::RecordInvalid, /is 510x512 pixels. The minimum requirement is 648x648 pixels/
+          expect { subject.save! }.to raise_error ActiveRecord::RecordInvalid, /is not big enough. Your image was 499 by 500 pixels, but it needs to be at least 500 by 500 pixels/
         end
       end
 
@@ -133,7 +88,7 @@ RSpec.describe ProfilePhoto, type: :model do
         end
 
         it 'raises expected error' do
-          expect { subject.save! }.to raise_error ActiveRecord::RecordInvalid, /is 8192x8193 pixels. The maximum permitted is 8192x8192 pixels/
+          expect { subject.save! }.to raise_error ActiveRecord::RecordInvalid, /is too big. Your image was 8192 by 8193 pixels, but it needs to be no more than 8192 by 8192 pixels/
         end
       end
     end

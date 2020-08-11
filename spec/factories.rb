@@ -128,14 +128,16 @@ FactoryBot.define do
   factory :profile_photo do
     image do
       Rack::Test::UploadedFile.new(
-        File.join(Rails.root, 'spec', 'fixtures', 'profile_photo_valid.png')
+        File.join(Rails.root, 'spec', 'fixtures', 'profile_photo_valid.png'),
+        'image/png'
       )
     end
 
     trait :invalid_extension do
       image do
         Rack::Test::UploadedFile.new(
-          File.join(Rails.root, 'spec', 'fixtures', 'placeholder.bmp')
+          File.join(Rails.root, 'spec', 'fixtures', 'placeholder.bmp'),
+          'image/bmp'
         )
       end
     end
@@ -143,15 +145,8 @@ FactoryBot.define do
     trait :too_small_dimensions do
       image do
         Rack::Test::UploadedFile.new(
-          File.join(Rails.root, 'spec', 'fixtures', 'profile_photo_too_small_dimensions.png')
-        )
-      end
-    end
-
-    trait :large_dimensions do
-      image do
-        Rack::Test::UploadedFile.new(
-          File.join(Rails.root, 'spec', 'fixtures', 'profile_photo_large.png')
+          File.join(Rails.root, 'spec', 'fixtures', 'profile_photo_too_small_dimensions.png'),
+          'image/png'
         )
       end
     end

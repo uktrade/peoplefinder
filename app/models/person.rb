@@ -37,6 +37,7 @@ class Person < ApplicationRecord
   belongs_to :profile_photo
 
   accepts_nested_attributes_for :memberships, allow_destroy: true
+  accepts_nested_attributes_for :profile_photo, update_only: true
 
   validates :ditsso_user_id, presence: true, uniqueness: true
   validates :given_name, presence: true
@@ -47,7 +48,6 @@ class Person < ApplicationRecord
   validate :line_manager_not_both_specified_and_not_required
   validate :must_have_team, unless: :skip_must_have_team
 
-  after_save :crop_profile_photo
   after_save :enqueue_group_completion_score_updates
 
   friendly_id :slug_source, use: :slugged
@@ -98,10 +98,6 @@ class Person < ApplicationRecord
     (groups_prior + groups_current).uniq.each do |group|
       UpdateGroupMembersCompletionScoreWorker.perform_async(group.id)
     end
-  end
-
-  def crop_profile_photo(versions = [])
-    profile_photo.crop crop_x, crop_y, crop_w, crop_h, versions if crop_x.present?
   end
 
   def profile_image
