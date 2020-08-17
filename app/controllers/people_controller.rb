@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class PeopleController < ApplicationController
-  include StateCookieHelper
-
   # TODO: This isn't great but does the trick for now. Refactor!
   before_action do
     next unless params[:id]
@@ -22,7 +20,6 @@ class PeopleController < ApplicationController
 
   def show
     authorize person
-    delete_state_cookie
 
     render 'show', locals: {
       person: person,
@@ -34,6 +31,7 @@ class PeopleController < ApplicationController
     authorize person
     @activity = params[:activity]
     person.memberships.build(group: Group.department) if person.memberships.blank?
+    person.profile_photo = ProfilePhoto.new if person.profile_photo.blank?
 
     render 'edit', locals: {
       person: person,
@@ -42,10 +40,6 @@ class PeopleController < ApplicationController
   end
 
   def update
-    # TODO: Refactor state cookie logic
-    set_state_cookie_action_update_if_not_create
-    set_state_cookie_phase_from_button
-
     authorize person
 
     result = UpdateProfile.call(
@@ -57,9 +51,12 @@ class PeopleController < ApplicationController
 
     if result.success?
       type = person == current_user ? :mine : :other
-      notice(:profile_updated, type, person: person) if state_cookie_saving_profile?
-      redirect_to redirection_destination
+      notice(:profile_updated, type, person: person)
+      redirect_to person
     else
+      # Work around CarrierWave keeping cached image despite failed validation
+      person.profile_photo.image = nil if person.errors.include?(:'profile_photo.image')
+
       render 'edit', locals: {
         person: person,
         org_structure: org_structure
@@ -112,16 +109,16 @@ class PeopleController < ApplicationController
   def person_params_list
     %i[
       given_name surname location_in_building city country primary_phone_number
-      skype_name secondary_phone_number
-      email language_intermediate language_fluent
-      profile_photo_id crop_x crop_y crop_w crop_h previous_positions grade
+      skype_name secondary_phone_number email
+      language_intermediate language_fluent previous_positions grade
       other_uk other_overseas pronouns other_key_skills other_learning_and_development
       other_additional_responsibilities line_manager_id line_manager_not_required
     ] + [
       *Person::DAYS_WORKED,
       building: [], key_skills: [], learning_and_development: [], networks: [],
       key_responsibilities: [], additional_responsibilities: [], professions: [],
-      memberships_attributes: %i[id role group_id leader _destroy]
+      memberships_attributes: %i[id role group_id leader _destroy],
+      profile_photo_attributes: %i[crop_x crop_y crop_w crop_h image_cache image]
     ] + administrator_person_params
   end
 
@@ -130,15 +127,5 @@ class PeopleController < ApplicationController
     return [] unless current_user.role_administrator?
 
     %i[role_administrator role_people_editor role_groups_editor ditsso_user_id]
-  end
-
-  def redirection_destination
-    if state_cookie_editing_picture?
-      edit_person_image_path(person)
-    elsif state_cookie_editing_picture_done?
-      edit_person_path(person)
-    else
-      person
-    end
   end
 end

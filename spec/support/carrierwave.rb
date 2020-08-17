@@ -11,7 +11,8 @@ module SpecSupport
 
     def test_image(file_name, extension = 'png')
       Rack::Test::UploadedFile.new(
-        File.join(Rails.root, 'spec', 'fixtures', "#{file_name}.#{extension}")
+        File.join(Rails.root, 'spec', 'fixtures', "#{file_name}.#{extension}"),
+        "image/#{extension}"
       )
     end
 

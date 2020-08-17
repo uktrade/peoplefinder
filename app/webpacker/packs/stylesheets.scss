@@ -9,6 +9,7 @@
 $govuk-font-url-function: frontend-font-url;
 $govuk-image-url-function: frontend-image-url;
 
+@import "~croppr/src/css/croppr";
 @import "~govuk-frontend/govuk/all";
 @import "~select2/dist/css/select2";
 

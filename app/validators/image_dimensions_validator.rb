@@ -63,15 +63,15 @@ class ImageDimensionsValidator < ActiveModel::EachValidator
   end
 
   def humanize_dimensions
-    "#{record.upload_dimensions[:width]}x#{record.upload_dimensions[:height]}"
+    "#{record.upload_dimensions[:width]} by #{record.upload_dimensions[:height]}"
   end
 
   def humanize_minimum_dimensions
-    "#{options[:min_width]}x#{options[:min_height]}"
+    "#{options[:min_width]} by #{options[:min_height]}"
   end
 
   def humanize_maximum_dimensions
-    "#{options[:max_width]}x#{options[:max_height]}"
+    "#{options[:max_width]} by #{options[:max_height]}"
   end
 
   def minimum_dimensions_message

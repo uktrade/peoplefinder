@@ -50,41 +50,22 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   def crop
-    if model.crop_x.present?
-      manipulate! do |img|
-        x, y, w, h = origin_and_dimensions model
-        img.crop "#{w}x#{h}+#{x}+#{y}"
-        img
-      end
+    return if model.crop_x.blank?
+
+    manipulate! do |img|
+      img.crop "#{model.crop_w}x#{model.crop_h}+#{model.crop_x}+#{model.crop_y}"
+      img
     end
-  end
-
-  def origin_and_dimensions(model)
-    x = model.crop_x.to_i
-    y = model.crop_y.to_i
-    w = model.crop_w.to_i
-    h = model.crop_h.to_i
-    [x, y, w, h]
-  end
-
-  # white list of permissable file extensions for upload
-  def extension_whitelist
-    %w[jpg jpeg gif png]
-  end
-
-  def dimensions
-    w, h = ::MiniMagick::Image.open(url_or_file)[:dimensions]
-    { width: w, height: h }
   end
 
   private
 
-  def url_or_file
-    if file.respond_to? :file
-      file.file
-    else
-      file.url
-    end
+  def content_type_whitelist
+    %w[image/jpg image/jpeg image/png]
+  end
+
+  def size_range
+    1..8.megabytes
   end
 
   def uploaded_file_dimensions

@@ -18,15 +18,6 @@ RSpec.describe ImageUploader, type: :uploader do
 
     let(:profile_photo) { create(:profile_photo) }
 
-    describe '#dimensions' do
-      it { is_expected.to respond_to :dimensions }
-
-      it 'retrieves dimensions of stored object' do
-        expect(subject.dimensions).to eq width: 648, height: 648
-        expect(subject.medium.dimensions).to eq width: 512, height: 512
-      end
-    end
-
     context 'stores uploaded file dimensions' do
       it 'in before cache callback' do
         expect_any_instance_of(described_class).to receive :store_upload_dimensions
