@@ -24,8 +24,6 @@ module Peoplefinder
     # Require `belongs_to` associations by default. Previous versions had false.
     Rails.application.config.active_record.belongs_to_required_by_default = false
 
-    ActionView::Base.default_form_builder = GovukElementsFormBuilder::FormBuilder
-
     config.active_record.schema_format = :ruby
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
     config.autoload_paths << Rails.root.join('lib')

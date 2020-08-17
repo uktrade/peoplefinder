@@ -56,7 +56,7 @@ class Zendesk
       config.username = zendesk_config.user
       config.password = zendesk_config.password
       config.retry = true
-      config.logger = Logger.new(STDOUT)
+      config.logger = Logger.new($stdout)
     end
   end
 

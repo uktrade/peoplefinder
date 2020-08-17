@@ -14,7 +14,7 @@ class PersonDataWorkspaceSerializer
     @person = person
   end
 
-  def as_json(_options = {}) # rubocop:disable Metrics/MethodLength,Metrics/CyclomaticComplexity
+  def as_json(_options = {}) # rubocop:disable Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     person
       .as_json
       .slice(*PERSON_KEYS)

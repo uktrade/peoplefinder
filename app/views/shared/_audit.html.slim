@@ -13,7 +13,7 @@
           td.govuk-table__cell = v.created_at.strftime('%F')
           td.govuk-table__cell
             - if v.whodunnit.is_a?(Person)
-              = link_to v.whodunnit.to_s, v.whodunnit
+              = link_to v.whodunnit.to_s, v.whodunnit, class: 'govuk-link'
             - else
               = v.whodunnit || 'Not available'
           td.govuk-table__cell

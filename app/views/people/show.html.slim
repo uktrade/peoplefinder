@@ -57,15 +57,15 @@
         = profile_field(person, :other_uk)
         = profile_field(person, :other_overseas)
         = profile_field(person, :email) do
-          = mail_to person.email
+          = mail_to person.email, person.email, class: 'govuk-link'
         = profile_field(person, :primary_phone_number) do
-          = call_to(person.primary_phone_number)
+          = call_to person.primary_phone_number, class: 'govuk-link'
         = profile_field(person, :secondary_phone_number) do
-          = call_to(person.secondary_phone_number)
+          = call_to person.secondary_phone_number, class: 'govuk-link'
         = profile_field(person, :skype_name)
-          = link_to(person.skype_name, "skype:#{person.skype_name}?call")
+          = link_to person.skype_name, "skype:#{person.skype_name}?call", class: 'govuk-link'
         = profile_field(person, :line_manager) do
-          = link_to person.line_manager.name, person.line_manager
+          = link_to person.line_manager.name, person.line_manager, class: 'govuk-link'
         = profile_field(person, :pronouns)
         .govuk-summary-list__row
           dt.govuk-summary-list__key = t('working_days', scope: 'profile.person')
