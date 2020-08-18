@@ -24,8 +24,8 @@ class PersonDataWorkspaceSerializer
         full_name: person.name,
         first_name: person.given_name,
         last_name: person.surname,
-        primary_phone_number: primary_phone_number,
-        secondary_phone_number: secondary_phone_number,
+        primary_phone_number: person.primary_phone_number,
+        secondary_phone_number: person.secondary_phone_number,
         formatted_location: person.location,
         location_other_uk: person.other_uk,
         location_other_overseas: person.other_overseas,
@@ -61,20 +61,6 @@ class PersonDataWorkspaceSerializer
   private
 
   attr_reader :person
-
-  def primary_phone_number
-    ApplicationController.helpers.phone_number_with_country_code(
-      person.primary_phone_country,
-      person.primary_phone_number
-    )
-  end
-
-  def secondary_phone_number
-    ApplicationController.helpers.phone_number_with_country_code(
-      person.secondary_phone_country,
-      person.secondary_phone_number
-    )
-  end
 
   def profile_url
     Rails.application.routes.url_helpers.person_url(person)

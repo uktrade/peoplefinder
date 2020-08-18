@@ -78,18 +78,6 @@ module ApplicationHelper
     tag.a(**options.merge(href: "tel:#{digits}")) { telno }
   end
 
-  def phone_number_with_country_code(country, phone_number)
-    if country.present? && phone_number.present?
-      "+#{country.country_code} #{phone_number.delete_prefix('0')}"
-    else
-      phone_number
-    end
-  end
-
-  def call_to_with_country_code(country, phone_number, options = {})
-    call_to(phone_number_with_country_code(country, phone_number), options)
-  end
-
   def role_translate(subject, key, options = {})
     if subject == current_user
       subkey = 'mine'
