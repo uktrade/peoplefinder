@@ -30,13 +30,11 @@ RSpec.describe Person, type: :model do
     subject do
       build(
         :person,
-        primary_phone_number: phone_number,
-        primary_phone_country_code: country_code
+        primary_phone_number: phone_number
       )
     end
 
     let(:phone_number) { '0118 999-881 999 119 (725) ext. 3' }
-    let(:country_code) { 'GB' }
 
     it 'returns the expected variatons' do
       expect(subject.phone_number_variations).to eq(
@@ -44,18 +42,6 @@ RSpec.describe Person, type: :model do
           01189998819991197253
         ]
       )
-    end
-
-    context 'when no country is provided' do
-      let(:country_code) { nil }
-
-      it 'returns only the country code-less variation' do
-        expect(subject.phone_number_variations).to eq(
-          %w[
-            01189998819991197253
-          ]
-        )
-      end
     end
 
     context 'when the phone number does not start with "0"' do
@@ -367,20 +353,6 @@ RSpec.describe Person, type: :model do
       it 'returns nil' do
         expect(person.profile_image).to be_nil
       end
-    end
-  end
-
-  describe '#primary_phone_country' do
-    it 'returns an instance of ISO3166::Country when a value is present' do
-      person.primary_phone_country_code = 'GB'
-
-      expect(person.primary_phone_country).to eq(ISO3166::Country.new('GB'))
-    end
-
-    it 'returns nil when a value is not present' do
-      person.primary_phone_country_code = nil
-
-      expect(person.primary_phone_country).to be_nil
     end
   end
 

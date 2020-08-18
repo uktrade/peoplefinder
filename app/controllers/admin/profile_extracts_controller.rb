@@ -37,8 +37,7 @@ module Admin
         City Country JobTitle
         LastLogin ProfileCompletionScore
         TeamId TeamName
-        PrimaryPhoneNumber
-        SecondaryPhoneNumber
+        PrimaryPhoneNumber SecondaryPhoneNumber
         LineManagerPeopleFinderId
       ]
     end
@@ -53,14 +52,7 @@ module Admin
         person.city, person.country_name, membership.try(:role),
         person.last_login_at, person.completion_score,
         membership.try(:group).try(:id), membership.try(:group).try(:name),
-        phone_number_with_country_code(
-          person.primary_phone_country,
-          person.primary_phone_number
-        ),
-        phone_number_with_country_code(
-          person.secondary_phone_country,
-          person.secondary_phone_number
-        ),
+        person.primary_phone_number, person.secondary_phone_number,
         person.line_manager_id
       ]
     end

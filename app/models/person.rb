@@ -167,14 +167,6 @@ class Person < ApplicationRecord
     [base_phone].compact
   end
 
-  def primary_phone_country
-    primary_phone_country_code.present? ? ISO3166::Country.new(primary_phone_country_code) : nil
-  end
-
-  def secondary_phone_country
-    secondary_phone_country_code.present? ? ISO3166::Country.new(secondary_phone_country_code) : nil
-  end
-
   def notify_of_change?(person_responsible)
     person_responsible.try(:email) != email
   end
