@@ -86,6 +86,9 @@ RSpec/MessageSpies:
 RSpec/MultipleExpectations:
   Enabled: False
 
+RSpec/MultipleMemoizedHelpers:
+  Enabled: False
+
 RSpec/NamedSubject:
   Enabled: False
 

@@ -47,7 +47,6 @@ gem 'zendesk_api'
 
 group :legacy_frontend, :default do
   # TODO: Once the entire app is moved to GOV.UK Frontend, we can remove all of these dependencies.
-  gem 'govuk_elements_form_builder', '~> 0.0'
   gem 'govuk_elements_rails', '~> 2.2'
   gem 'govuk_frontend_toolkit'
   gem 'govuk_template'

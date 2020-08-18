@@ -17,11 +17,11 @@ module BreadcrumbHelper
     options = crumb_options(options)
 
     if crumb.is_a?(String) || !(options[:show_links])
-      tag.li(options) do
+      tag.li(**options) do
         crumb.to_s
       end
     else
-      tag.li(options) do
+      tag.li(**options) do
         link_to_breadcrumb_name_unless_current(
           crumb,
           options[:index],

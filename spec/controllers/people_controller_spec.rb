@@ -81,7 +81,7 @@ RSpec.describe PeopleController, type: :controller do
 
       it 'shows no notice about informing the person' do
         expect(flash[:notice]).not_to match(/We have let/)
-        expect(flash[:notice]).to match(/Updated your profile/)
+        expect(flash[:notice]).to match(/Your profile has been updated/)
       end
     end
 

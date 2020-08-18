@@ -5,7 +5,6 @@ en:
   shared:
     finish_profile_request: &finish_profile_request "Welcome! Please complete the required fields in your profile to start using People Finder."
     unauthorised: &unauthorised Unauthorised, insufficient privileges
-    about_usage: &about_usage People Finder relies on contributions from everyone to help keep it up-to-date.
   time:
     formats:
       default: "%d %b %Y %H:%M"
@@ -35,7 +34,7 @@ en:
     people:
       profile_created: "Created %{person}’s profile"
       profile_updated:
-        mine: "Updated your profile"
+        mine: Your profile has been updated
         other: |
           Thank you for helping to improve People Finder.
           We have let %{person} know that you’ve made changes
@@ -47,10 +46,6 @@ en:
       request_sent: |
         Thank you for helping to improve People Finder.
         We'll review this profile.
-    person_image:
-      no_image_uploaded: "No image has been uploaded for %{person}"
-      image_cropped: "Cropped %{person}’s image"
-      update_error: "There was an error updating the image"
     problem_reports:
       report_sent: Your report has been sent. Thank you for reporting a problem.
   people:
@@ -266,7 +261,6 @@ en:
     show:
       heading: People Finder
       explanation: Search for a person or team in the Department for International Trade
-      about_usage: *about_usage
     org_heading: Browse the organisation
     org_sub_heading: Browse by team
     org_hint_html: |

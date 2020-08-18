@@ -15,7 +15,7 @@ Rails.application.configure do
                        httponly: true
 
   # Logging
-  config.logger = ActiveSupport::Logger.new(STDOUT)
+  config.logger = ActiveSupport::Logger.new($stdout)
   config.log_level = :info
   config.lograge.enabled = true
   config.lograge.formatter = Lograge::Formatters::Json.new

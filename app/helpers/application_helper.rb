@@ -75,7 +75,7 @@ module ApplicationHelper
     return nil if telno.blank?
 
     digits = telno.gsub(/[^0-9+#*,]+/, '')
-    tag.a(options.merge(href: "tel:#{digits}")) { telno }
+    tag.a(**options.merge(href: "tel:#{digits}")) { telno }
   end
 
   def phone_number_with_country_code(country, phone_number)
@@ -104,18 +104,10 @@ module ApplicationHelper
   def bold_tag(term, options = {})
     classes = options[:class] || ''
     options[:class] = classes.split.push('bold-term')
-    tag.span(options) { |_tag| term }
+    tag.span(**options) { |_tag| term }
   end
 
   private
-
-  def updated_at(datetime)
-    "Last updated: #{l(datetime)}"
-  end
-
-  def updated_by(obj)
-    " by #{obj.paper_trail_originator}" unless obj.paper_trail_originator == Version.public_user
-  end
 
   def flash_message(type)
     tag.div(class: "flash-message #{type}", role: 'alert') do

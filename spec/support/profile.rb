@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module SpecSupport
-  module Profile # rubocop:disable Metrics/ModuleLength
+  module Profile
     def person_attributes
       {
         given_name: 'Marco',
@@ -17,14 +17,6 @@ module SpecSupport
       }
     end
 
-    def membership_attributes
-      {
-        role: 'The boss',
-        group_id: Group.first.id || create(:group).id,
-        leader: true
-      }
-    end
-
     def complete_profile!(person)
       profile_photo = create(:profile_photo)
       line_manager = create(:person)
@@ -36,153 +28,12 @@ module SpecSupport
       person.groups << create(:group)
     end
 
-    def govuk_label_click(locator)
-      el = page.find("label[for='#{locator}']")
-    rescue StandardError
-      nil
-    ensure
-      el ||= page.find('label', text: locator)
-      el.click
-    end
-
-    def fill_in_complete_profile_details
-      fill_in 'First name', with: person_attributes[:given_name]
-      fill_in 'Last name', with: person_attributes[:surname]
-      select_in_team_select 'Digital'
-
-      within('#mobile-number-fields') do
-        fill_in 'Preferred contact number', with: person_attributes[:primary_phone_number]
-        select(person_attributes[:primary_phone_country_code],
-               from: 'Country code', match: :first)
-      end
-
-      within('#landline-number-fields') do
-        fill_in 'Additional phone number', with: person_attributes[:secondary_phone_number]
-        select(person_attributes[:secondary_phone_country_code],
-               from: 'Country code', match: :first)
-      end
-
-      fill_in 'Primary work email', with: person_attributes[:email]
-      fill_in 'Location in building', with: person_attributes[:location_in_building]
-      fill_in 'City', with: person_attributes[:city]
-      select person_attributes[:country], from: 'Country (Market)', match: :first
-
-      within_fieldset('working-days') do
-        govuk_label_click 'Monday'
-        govuk_label_click 'Friday'
-      end
-
-      within '#key_skills' do
-        govuk_label_click 'Assurance'
-      end
-      fill_in 'Other key skills', with: 'Laughing'
-
-      fill_in 'Fluent languages', with: 'English'
-      fill_in 'Intermediate languages', with: 'Dutch'
-      select 'Apprentice', from: 'Grade'
-      fill_in 'Previous positions held', with: 'Task rabbit'
-
-      within '#learning_and_development' do
-        govuk_label_click 'Coding'
-      end
-      fill_in 'Other learning and development', with: 'Walking, Talking'
-
-      within '#networks' do
-        govuk_label_click 'Age network'
-      end
-
-      within '#professions' do
-        govuk_label_click 'Government communication service'
-      end
-
-      within '#additional_responsibilities' do
-        govuk_label_click 'First aider'
-      end
-      fill_in 'Other additional roles', with: 'lifeguard, beekeper'
-    end
-
     def click_edit_profile(matcher = :first)
       click_link('Edit profile', match: matcher)
     end
 
     def click_delete_profile(matcher = :first)
       click_link('Delete profile', match: matcher)
-    end
-
-    def fill_in_membership_details(team_name)
-      fill_in 'Job title', with: membership_attributes[:role]
-      select_in_team_select(team_name)
-      within '.team-leader' do
-        govuk_label_click(membership_attributes[:leader] ? 'Yes' : 'No')
-      end
-    end
-
-    def check_creation_of_profile_details
-      name = "#{person_attributes[:given_name]} #{person_attributes[:surname]}"
-
-      expect(page).to have_title("#{name} - #{app_title}")
-      within('h1') { expect(page).to have_text(name) }
-      expect(page).to have_text(person_attributes[:email])
-
-      expect(page).to have_text(
-        person_attributes[:primary_phone_country_code] +
-        ' ' + person_attributes[:primary_phone_number].delete_prefix('0')
-      )
-
-      expect(page).to have_text(
-        person_attributes[:secondary_phone_country_code] +
-        ' ' + person_attributes[:secondary_phone_number].delete_prefix('0')
-      )
-
-      expect(page).to have_text(person_attributes[:location_in_building])
-      expect(page).to have_text(person_attributes[:city])
-      expect(page).to have_text(person_attributes[:country])
-
-      within('ul.working_days') do
-        expect(page).not_to have_selector("li.active[alt='Monday']")
-        expect(page).to have_selector("li.active[alt='Tuesday']")
-        expect(page).to have_selector("li.active[alt='Wednesday']")
-        expect(page).to have_selector("li.active[alt='Thursday']")
-        expect(page).not_to have_selector("li.active[alt='Friday']")
-        expect(page).not_to have_selector("li.active[alt='Saturday']")
-        expect(page).not_to have_selector("li.active[alt='Sunday']")
-      end
-
-      within '#key_skills' do
-        expect(page).to have_text('Assurance, Laughing')
-      end
-
-      within '#language_fluent' do
-        expect(page).to have_text('English')
-      end
-
-      within '#language_intermediate' do
-        expect(page).to have_text('Dutch')
-      end
-
-      within('#grade') do
-        expect(page).to have_text('Apprentice')
-      end
-
-      within('#previous_positions') do
-        expect(page).to have_text('Task rabbit')
-      end
-
-      within '#learning_and_development' do
-        expect(page).to have_text('Coding, Walking, Talking')
-      end
-
-      within '#networks' do
-        expect(page).to have_text('Age network')
-      end
-
-      within '#professions' do
-        expect(page).to have_text('Government communication service')
-      end
-
-      within '#additional_responsibilities' do
-        expect(page).to have_text('First aider, lifeguard, beekeper')
-      end
     end
   end
 end

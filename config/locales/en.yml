@@ -127,6 +127,7 @@ en:
         networks: Select all that apply
         professions: Select all that apply
         additional_responsibilities: Select all that apply
+        ditsso_user_id: This user's "unique ID" in Staff SSO. Only change this if merging multiple users on Staff SSO.
         self:
           location_in_building: Skip this question if you work in a Foreign and Commonwealth Office (FCO) building
           line_manager: Search for the name of your manager, then select their name from the suggestions shown
