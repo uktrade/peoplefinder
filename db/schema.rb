@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_15_100004) do
+ActiveRecord::Schema.define(version: 2020_08_19_090127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,7 +62,6 @@ ActiveRecord::Schema.define(version: 2020_04_15_100004) do
     t.boolean "role_administrator", default: false
     t.text "city"
     t.integer "profile_photo_id"
-    t.text "primary_phone_country_code"
     t.string "building", default: [], array: true
     t.string "country"
     t.string "skype_name"
@@ -81,7 +80,6 @@ ActiveRecord::Schema.define(version: 2020_04_15_100004) do
     t.string "other_additional_responsibilities"
     t.string "professions", default: [], array: true
     t.string "other_professions"
-    t.text "secondary_phone_country_code"
     t.string "ditsso_user_id"
     t.string "pronouns"
     t.integer "line_manager_id"

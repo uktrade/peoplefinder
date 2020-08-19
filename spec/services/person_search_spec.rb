@@ -54,7 +54,6 @@ RSpec.describe PersonSearch, elastic: true do
       :person,
       given_name: 'Maurice',
       surname: 'Moss',
-      primary_phone_country_code: 'GB',
       primary_phone_number: '0118(999)881-999 119 725 ext. 3'
     )
 
