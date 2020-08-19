@@ -26,6 +26,11 @@ class PersonProfileSerializer
   end
 
   def profile_image_small_url
-    person.profile_image.try(:small).try(:url)
+    url_or_path = person.profile_image.try(:small).try(:url)
+
+    # FIXME: Hotfix for Carrierwave default image suddenly behaving differently and not returning a URL
+    return nil unless url_or_path&.start_with?('http')
+
+    url_or_path
   end
 end
