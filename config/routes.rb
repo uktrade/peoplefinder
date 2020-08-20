@@ -40,14 +40,12 @@ Rails.application.routes.draw do
       get :add_membership
     end
 
-    resource :image, controller: 'person_image', only: %i[edit update]
-    resource :email, controller: 'person_email', only: %i[edit update]
     resource :deletion_request, controller: 'person_deletion_request',
                                 path: 'deletion-request',
                                 only: %i[new create]
   end
 
-  resource :sessions, only: %i[new create destroy]
+  resource :sessions, only: %i[create destroy]
 
   match '/auth/:provider/callback', to: 'sessions#create', via: %i[get post]
   get '/audit_trail', to: 'versions#index'
@@ -58,6 +56,10 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: 'management#show', as: :home
+
+    resource :data_upload, only: %i[new create] do
+      post 'preview', on: :member
+    end
 
     resource :profile_extract, only: [:show]
     resource :team_extract, only: [:show]

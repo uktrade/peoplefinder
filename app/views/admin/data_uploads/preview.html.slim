@@ -1,0 +1,58 @@
+h1.govuk-heading-l Verify import
+
+.govuk-inset-text
+  | #{pluralize(records.count, 'record')} in #{filename}
+
+#data-upload-accordion.govuk-accordion data-module='govuk-accordion'
+  .govuk-accordion__section
+    .govuk-accordion__section-header
+      h2.govuk-accordion__section-heading
+        span#data-upload-accordion-heading-1.govuk-accordion__section-button
+          | Updateable records
+          strong.govuk-tag.govuk-tag--padded.govuk-tag--green 18 records
+    #data-upload-accordion-content-1.govuk-accordion__section-content aria-labelledby='data-upload-accordion-heading-1'
+      p.govuk-body
+        table.govuk-table
+          caption.govuk-table__caption People Metrics
+          thead.govuk-table__head
+            tr.govuk-table__row
+              th.govuk-table__header[scope="col"] Email address
+              th.govuk-table__header[scope="col"] Previous grade
+              th.govuk-table__header[scope="col"] New grade
+          tbody.govuk-table__body
+            - records.each do |r|
+              tr.govuk-table__row
+                th.govuk-table__header[scope="row"] = r['email']
+                td.govuk-table__cell = r['grade']
+                td.govuk-table__cell = r['grade']
+
+  .govuk-accordion__section
+    .govuk-accordion__section-header
+      h2.govuk-accordion__section-heading
+        span#data-upload-accordion-heading-2.govuk-accordion__section-button
+          | Invalid records
+          strong.govuk-tag.govuk-tag--padded.govuk-tag--red 25 records
+    #data-upload-accordion-content-2.govuk-accordion__section-content aria-labelledby='data-upload-accordion-heading-2'
+      p.govuk-body Hello
+
+  .govuk-accordion__section
+    .govuk-accordion__section-header
+      h2.govuk-accordion__section-heading
+        span#data-upload-accordion-heading-3.govuk-accordion__section-button
+          | Missing records
+          strong.govuk-tag.govuk-tag--padded.govuk-tag--yellow 63 records
+    #data-upload-accordion-content-3.govuk-accordion__section-content aria-labelledby='data-upload-accordion-heading-3'
+      p.govuk-body Hello
+
+  .govuk-accordion__section
+    .govuk-accordion__section-header
+      h2.govuk-accordion__section-heading
+        span#data-upload-accordion-heading-4.govuk-accordion__section-button
+          | Unchanged records
+          strong.govuk-tag.govuk-tag--padded.govuk-tag--grey 25 records
+    #data-upload-accordion-content-4.govuk-accordion__section-content aria-labelledby='data-upload-accordion-heading-4'
+      p.govuk-body Hello
+
+= form_with(model: nil, url: preview_admin_data_upload_path, local: true, builder: PeopleFinderFormBuilder) do |f|
+  = f.govuk_submit 'Import' do
+    = link_to 'Cancel and go back', new_admin_data_upload_path, class: 'govuk-button govuk-button--secondary'

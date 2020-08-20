@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Admin::ManagementPolicy, type: :policy do
   subject { described_class.new(user, nil) }
 
-  ACTIONS = %i[show csv_extract_report sidekiq].freeze
+  ACTIONS = %i[show csv_extract_report data_uploads sidekiq].freeze
 
   context 'for an administrator' do
     let(:user) { build_stubbed(:administrator) }

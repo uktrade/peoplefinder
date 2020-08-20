@@ -35,10 +35,14 @@ h1.govuk-heading-l Manage People Finder
 
   section#tools.govuk-tabs__panel.govuk-tabs__panel--hidden
     h2.govuk-heading-m Tools
-    h3.govuk-heading-s Audit Trail
+    h3.govuk-heading-s Audit trail
     p.govuk-body
       | A stream of all changes on People Finder, along with the option to undo individual changes. You can also find a list of changes to a specific profile on the profile itself.
     = link_to 'Audit trail', audit_trail_path, class: 'govuk-button govuk-button--secondary'
+    h3.govuk-heading-s Data upload
+    p.govuk-body
+      | Allows you to upload datasets which bulk update People Finder profiles (such as HR data).
+    = link_to 'Data upload', new_admin_data_upload_path, class: 'govuk-button govuk-button--secondary'
 
   section#metrics.govuk-tabs__panel.govuk-tabs__panel--hidden
     h2.govuk-heading-m Metrics

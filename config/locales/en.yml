@@ -196,6 +196,7 @@ en:
       audit_trail: Audit trail
       admin:
         management: Manage People Finder
+        data_upload: Data upload
       groups:
         new: Add new sub-team
         edit: Edit team

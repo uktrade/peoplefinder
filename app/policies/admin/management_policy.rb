@@ -16,6 +16,10 @@ module Admin
       administrator?
     end
 
+    def data_uploads?
+      administrator?
+    end
+
     def sidekiq?
       administrator?
     end

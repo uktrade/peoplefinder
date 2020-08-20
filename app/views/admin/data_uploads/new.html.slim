@@ -1,0 +1,7 @@
+h1.govuk-heading-l Data upload
+
+p.govuk-body-lead This does things 🤷🏼‍♀️
+
+= form_with(model: data_upload, url: preview_admin_data_upload_path, local: true, builder: PeopleFinderFormBuilder) do |f|
+  = f.govuk_file_field :csv_file
+  = f.govuk_submit 'Import'
