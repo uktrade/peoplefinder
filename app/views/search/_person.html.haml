@@ -23,7 +23,7 @@
           %li.cb-person-phone
             = call_to(person.phone)
           %li.cb-person-email
-            = mail_to(person.email, es_highlighter(hit, person, :email))
+            = mail_to(person.contact_email_or_email, es_highlighter(hit, person, :contact_email_or_email))
 
           - if person.languages.present?
             %li.cb-person-languages.core-16

@@ -22,7 +22,7 @@
               | This profile was last edited #{time_ago_in_words(person.last_edited_or_confirmed_at)} ago.
       dl.ws-profile__primary-contact-list
         dt.govuk-visually-hidden Preferred contact email
-        dd.ws-profile__primary-contact-item = mail_to person.email, person.email, class: 'govuk-link'
+        dd.ws-profile__primary-contact-item = mail_to person.contact_email_or_email, person.contact_email_or_email, class: 'govuk-link'
         dt.govuk-visually-hidden Preferred contact number
         dd.ws-profile__primary-contact-item = call_to(person.primary_phone_number, class: 'govuk-link')
       ul.ws-profile__roles
@@ -57,7 +57,7 @@
         = profile_field(person, :other_uk)
         = profile_field(person, :other_overseas)
         = profile_field(person, :email) do
-          = mail_to person.email, person.email, class: 'govuk-link'
+          = mail_to person.contact_email_or_email, person.contact_email_or_email, class: 'govuk-link'
         = profile_field(person, :primary_phone_number) do
           = call_to person.primary_phone_number, class: 'govuk-link'
         = profile_field(person, :secondary_phone_number) do

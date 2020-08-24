@@ -41,7 +41,7 @@ module Searchable
     } do
       mapping do
         indexes :name, fielddata: true, type: 'text'
-        indexes :email, type: 'keyword'
+        indexes :contact_email_or_email, type: 'keyword'
       end
     end
   end

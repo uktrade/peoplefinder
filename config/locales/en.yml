@@ -51,6 +51,7 @@ en:
         given_name: First name
         surname: Last name
         email: Main work email address
+        contact_email: Contact email address
         primary_phone_number: Preferred contact number
         secondary_phone_number: Alternative contact number
         city: Town, city or region
@@ -111,12 +112,8 @@ en:
         acronym: A shorter version of the team name (e.g. DDaT)
         description: What does this team do? You can use basic Markdown to add lists or links.
       person:
-        email_html: |
-          Do not use:
-          <ul class="list list-bullet">
-            <li>an alternative work email address that is not safe for official information, for example, FCOWebmail.gov.uk</li>
-            <li>a personal email address, for example, Gmail</li>
-          </ul>
+        email: Enter your own official work email address provided by the organisation you are directly employed by or contracted to
+        contact_email: Enter the email address your colleagues should contact you on, for example, a jobshare or Private Office mailbox. This will be shown on your profile instead of your main work email address. Do not enter a personal email address, or a work email address that is not safe for official information.
         primary_phone_number: Enter your preferred contact telephone number. Include your country dialling code.
         secondary_phone_number: Enter an alternative contact telephone number. Include your country dialling code.
         building: Select all that apply

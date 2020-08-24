@@ -129,7 +129,7 @@ class PersonSearch
       bool: {
         must: {
           match: {
-            email: @email_query
+            contact_email_or_email: @email_query
           }
         }
       }
@@ -224,7 +224,7 @@ class PersonSearch
     {
       name: {},
       role_and_group: {},
-      email: {},
+      contact_email_or_email: {},
       languages: {},
       formatted_key_skills: {},
       formatted_learning_and_development: {}

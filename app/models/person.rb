@@ -6,11 +6,6 @@ class Person < ApplicationRecord
   ].freeze
   BUILDING_OPTS = %i[whitehall_55 whitehall_3 victoria_50 horse_guards king_charles].freeze
 
-  # Nowhere near exhaustive list of "insecure" providers, but covers our particular problem cases
-  DISALLOWED_EMAIL_DOMAINS = %w[
-    aol.com btinternet.com fcowebmail.gov.uk gmail.com hotmail.com hotmail.co.uk outlook.com yahoo.com ymail.com
-  ].freeze
-
   include Completion
   include Sanitizable
   include Searchable
@@ -42,8 +37,8 @@ class Person < ApplicationRecord
   validates :ditsso_user_id, presence: true, uniqueness: true
   validates :given_name, presence: true
   validates :surname, presence: true, unless: :skip_must_have_surname
-  validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validate :email_is_not_disallowed_domain, unless: :skip_must_not_have_disallowed_email_domain
+  validates :email, presence: true, email_address: true
+  validates :contact_email, email_address: true, unless: :skip_must_not_have_disallowed_email_domain
   validate :line_manager_is_not_self
   validate :line_manager_not_both_specified_and_not_required
   validate :must_have_team, unless: :skip_must_have_team
@@ -59,7 +54,7 @@ class Person < ApplicationRecord
   paginates_per 40
 
   sanitize_fields :given_name, :surname, strip: true, remove_digits: true
-  sanitize_fields :email, strip: true, downcase: true
+  sanitize_fields :email, :contact_email, strip: true, downcase: true
 
   scope :all_in_subtree, lambda { |group|
     joins(:memberships)
@@ -72,6 +67,10 @@ class Person < ApplicationRecord
     [given_name, surname].map(&:presence).compact.join(' ')
   end
 
+  def contact_email_or_email
+    contact_email.presence || email
+  end
+
   def location
     [location_in_building, building, city].map(&:presence).compact.join(', ')
   end
@@ -82,10 +81,11 @@ class Person < ApplicationRecord
 
   def as_indexed_json(_options = {})
     as_json(
-      only: %i[surname email],
+      only: %i[surname],
       methods: %i[
         name role_and_group location languages phone_number_variations
         formatted_key_skills formatted_learning_and_development
+        contact_email_or_email
       ]
     )
   end
@@ -222,15 +222,6 @@ class Person < ApplicationRecord
   end
 
   private
-
-  def email_is_not_disallowed_domain
-    return if email.blank?
-
-    domain = email.split('@').last&.downcase
-    return unless DISALLOWED_EMAIL_DOMAINS.include?(domain)
-
-    errors.add(:email, "is not acceptable (#{domain} addresses are not allowed)")
-  end
 
   def must_have_team
     errors.add(:memberships, :at_least_one_required) if memberships.reject(&:marked_for_destruction?).empty?
