@@ -59,20 +59,18 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'rails-controller-testing', '~> 1.0.5'
+  gem 'rails-controller-testing'
   gem 'rspec-json_expectations'
   gem 'rspec-rails'
   gem 'selenium-webdriver', '~> 4.0.0alpha'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', '~> 4.3.0' # TODO: Pinned due to https://github.com/thoughtbot/shoulda-matchers/issues/1333
   gem 'site_prism'
   gem 'webmock'
-  gem 'whenever-test'
 end
 
 group :development, :test do
   gem 'brakeman', require: false
   gem 'factory_bot_rails'
-  gem 'parallel_tests'
   gem 'pry-rails'
   gem 'rubocop'
   gem 'rubocop-performance'
