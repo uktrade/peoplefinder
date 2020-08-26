@@ -7,7 +7,6 @@ require 'active_model/railtie'
 require 'active_record/railtie'
 require 'action_controller/railtie'
 require 'action_view/railtie'
-require 'sprockets/railtie'
 require 'rails/test_unit/railtie'
 
 Bundler.require(*Rails.groups)
@@ -25,7 +24,6 @@ module Peoplefinder
     Rails.application.config.active_record.belongs_to_required_by_default = false
 
     config.active_record.schema_format = :ruby
-    config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
     config.autoload_paths << Rails.root.join('lib')
 
     # Custom application configuration (hardcoded)

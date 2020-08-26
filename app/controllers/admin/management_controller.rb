@@ -6,9 +6,6 @@ module Admin
   class ManagementController < ApplicationController
     before_action :authorize_user
 
-    # TODO: Remove once all controllers use new layout
-    layout 'application'
-
     breadcrumb 'admin.management', :admin_home
 
     def show

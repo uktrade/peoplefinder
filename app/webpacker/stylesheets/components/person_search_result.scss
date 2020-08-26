@@ -1,0 +1,48 @@
+.ws-person-search-result {
+  display: flex;
+  margin-bottom: govuk-spacing(5);
+}
+
+.ws-person-search-result__picture {
+  margin-right: govuk-spacing(3);
+
+  img {
+    width: 50px;
+
+    @include govuk-media-query($from: desktop) {
+      width: 200px;
+    }
+  }
+}
+
+.ws-person-search-result__item {
+  margin-bottom: govuk-spacing(1);
+}
+
+.ws-person-search-result__item--spaced {
+  margin-top: govuk-spacing(2);
+}
+
+.ws-person-search-result__highlight {
+  margin-right: 1px;
+  padding: 2px 0px 0px;
+
+  font-weight: inherit;
+
+  background-color: rgba(govuk-colour("yellow"), .2);
+  border-bottom: 3px solid govuk-colour("yellow");
+}
+
+.ws-person-search-result__title {
+  @extend %govuk-link;
+  @include govuk-font(19, $weight: bold);
+  display: block;
+
+  text-decoration: underline;
+}
+
+.ws-person-search-result__score {
+  @include govuk-font(14);
+
+  color: $govuk-secondary-text-colour;
+}

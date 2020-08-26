@@ -45,18 +45,6 @@ gem 'slim'
 gem 'webpacker'
 gem 'zendesk_api'
 
-group :legacy_frontend, :default do
-  # TODO: Once the entire app is moved to GOV.UK Frontend, we can remove all of these dependencies.
-  gem 'govuk_elements_rails', '~> 2.2'
-  gem 'govuk_frontend_toolkit'
-  gem 'govuk_template'
-  gem 'haml-rails'
-  gem 'jquery-rails'
-  gem 'sass-rails'
-  gem 'sprockets', '~> 3' # TODO: Pinned due to asset issues with >= 4.0
-  gem 'uglifier'
-end
-
 group :test do
   gem 'capybara'
   gem 'rails-controller-testing'
@@ -64,12 +52,12 @@ group :test do
   gem 'rspec-rails'
   gem 'selenium-webdriver', '~> 4.0.0alpha'
   gem 'shoulda-matchers', '~> 4.3.0' # TODO: Pinned due to https://github.com/thoughtbot/shoulda-matchers/issues/1333
-  gem 'site_prism'
   gem 'webmock'
 end
 
 group :development, :test do
   gem 'brakeman', require: false
+  gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'pry-rails'
   gem 'rubocop'
@@ -79,8 +67,4 @@ group :development, :test do
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'timecop'
-end
-
-group :development, :test, :assets do
-  gem 'dotenv-rails'
 end

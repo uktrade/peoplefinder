@@ -6,9 +6,6 @@ class GroupsController < ApplicationController
     breadcrumb breadcrumbs_group.short_name, breadcrumbs_group, match: :exact
   end
 
-  # TODO: Remove when all of app uses new layout
-  layout 'application'
-
   def show
     authorize group
 

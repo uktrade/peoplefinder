@@ -3,9 +3,6 @@ default: &default
   encoding: unicode
   pool: 5
 
-assets:
-  <<: *default
-
 development:
   <<: *default
   database: peoplefinder_development

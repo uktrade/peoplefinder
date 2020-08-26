@@ -4,7 +4,7 @@
   .govuk-grid-row
     .govuk-grid-column-one-third
       .ws-profile__image
-        = profile_image_tag(person, link: false)
+        = profile_picture_image_tag(person, link: false)
     .govuk-grid-column-two-thirds
       h1.govuk-heading-l.ws-profile__name = person.name
       - unless person.complete?

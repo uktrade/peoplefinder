@@ -52,7 +52,8 @@ Rails.application.routes.draw do
   match '/auth/:provider/callback', to: 'sessions#create', via: %i[get post]
   get '/audit_trail', to: 'versions#index'
   post '/audit_trail/undo/:id', to: 'versions#undo', as: :audit_trail_undo
-  get '/search', to: 'search#index'
+  get '/search_old', to: 'search#index'
+  get '/search', to: 'search#show'
   get '/search/people.json', to: 'search#people'
 
   namespace :admin do

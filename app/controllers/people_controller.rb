@@ -15,9 +15,6 @@ class PeopleController < ApplicationController
     breadcrumb person.name, person, match: :exact
   end
 
-  # TODO: Remove when all of app uses new layout
-  layout 'application'
-
   def show
     authorize person
 
