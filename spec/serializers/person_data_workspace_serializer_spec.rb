@@ -11,7 +11,7 @@ describe PersonDataWorkspaceSerializer do
     let(:json_hash) { subject.as_json }
     let(:expected_keys) do
       %w[
-        email skype_name works_monday works_tuesday works_wednesday works_thursday works_friday works_saturday
+        email contact_email works_monday works_tuesday works_wednesday works_thursday works_friday works_saturday
         works_sunday location_in_building city country language_fluent language_intermediate grade created_at
         last_edited_or_confirmed_at login_count last_login_at people_finder_id staff_sso_id full_name first_name
         last_name primary_phone_number secondary_phone_number formatted_location location_other_uk
