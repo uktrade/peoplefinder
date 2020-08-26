@@ -1,3 +1,0 @@
---format progress
---format ParallelTests::RSpec::FailuresLogger --out tmp/spec_summary.log
---no-profile
