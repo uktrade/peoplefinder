@@ -109,7 +109,7 @@ class PeopleController < ApplicationController
   def person_params_list
     %i[
       given_name surname location_in_building city country primary_phone_number
-      skype_name secondary_phone_number email
+      skype_name secondary_phone_number email contact_email
       language_intermediate language_fluent previous_positions grade
       other_uk other_overseas pronouns other_key_skills other_learning_and_development
       other_additional_responsibilities line_manager_id line_manager_not_required

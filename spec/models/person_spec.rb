@@ -26,6 +26,28 @@ RSpec.describe Person, type: :model do
     end
   end
 
+  describe '#contact_email_or_email' do
+    subject { create(:person, email: email, contact_email: contact_email) }
+
+    context 'when contact_email is given' do
+      let(:email) { 'private@example.com' }
+      let(:contact_email) { 'public@example.com' }
+
+      it 'returns the contact_email' do
+        expect(subject.contact_email_or_email).to eq('public@example.com')
+      end
+    end
+
+    context 'when contact_email is not given' do
+      let(:email) { 'email@example.com' }
+      let(:contact_email) { '' }
+
+      it 'returns the email' do
+        expect(subject.contact_email_or_email).to eq('email@example.com')
+      end
+    end
+  end
+
   describe '#phone_number_variations' do
     subject do
       build(
@@ -69,13 +91,13 @@ RSpec.describe Person, type: :model do
     it 'raises an invalid format error if present but invalid' do
       person = build :person, email: 'sdsdsdsds'
       expect(person.save).to be false
-      expect(person.errors[:email]).to eq(['is invalid'])
+      expect(person.errors[:email]).to eq(['Main work email address is not a valid email address'])
     end
 
     it 'has an error if the domain is disallowed' do
       person = build(:person, email: 'jim@Gmail.com')
       expect(person.save).to be false
-      expect(person.errors[:email]).to eq(['is not acceptable (gmail.com addresses are not allowed)'])
+      expect(person.errors[:email]).to eq(['Main work email address is not acceptable (gmail.com addresses are not allowed)'])
     end
 
     it 'is converted to lower case' do

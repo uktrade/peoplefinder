@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_19_090127) do
+ActiveRecord::Schema.define(version: 2020_08_21_103046) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,8 @@ ActiveRecord::Schema.define(version: 2020_08_19_090127) do
     t.boolean "role_people_editor", default: false
     t.boolean "role_groups_editor", default: false
     t.datetime "last_edited_or_confirmed_at"
+    t.string "mailing_lists_email"
+    t.string "contact_email"
     t.index ["slug"], name: "index_people_on_slug", unique: true
   end
 
