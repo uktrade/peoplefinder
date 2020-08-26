@@ -3,7 +3,7 @@
 # Serializes a Person record for Data Workspace exports
 class PersonDataWorkspaceSerializer
   PERSON_KEYS = %w[
-    email skype_name
+    email contact_email
     works_monday works_tuesday works_wednesday works_thursday works_friday works_saturday works_sunday
     location_in_building city country
     language_fluent language_intermediate grade
