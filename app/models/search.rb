@@ -30,7 +30,7 @@ class Search
   end
 
   def groups_results
-    return [] unless include_groups?
+    return [] unless include_groups? && query.present?
 
     # TODO: This code replicates the behaviour of the previous search code, but searching groups should be moved to
     #       Elasticsearch one day
@@ -46,7 +46,7 @@ class Search
   end
 
   def people_results
-    return [] unless include_people?
+    return [] unless include_people? && query.present?
 
     @people_results ||= Person.search(people_elasticsearch_query).records(includes: %i[memberships profile_photo])
   end
