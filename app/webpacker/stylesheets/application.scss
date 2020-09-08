@@ -4,7 +4,6 @@
 // GOV.UK Design System Overrides
 @import "govuk-overrides/button";
 @import "govuk-overrides/header";
-@import "govuk-overrides/warning-text";
 
 // Components
 @import "components/flash";
@@ -14,6 +13,7 @@
 @import "components/legacy_workspace_search";
 @import "components/pagination";
 @import "components/person_cards";
+@import "components/person_search_result";
 @import "components/profile";
 @import "components/profile_edit";
 @import "components/search_and_profile_bar";

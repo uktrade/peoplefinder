@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class VersionsController < ApplicationController
-  # TODO: Remove when all of app uses new layout
-  layout 'application'
-
   def index
     authorize :version, :index?
     breadcrumb :audit_trail, audit_trail_path

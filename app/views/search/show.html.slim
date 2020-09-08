@@ -1,0 +1,27 @@
+- @page_title = "Search results for '#{search.query}'"
+
+
+- if search.result_count.zero?
+  h2.govuk-heading-l No search results for '#{search.query}'
+  p.govuk-body-l Check your spelling or try another search.
+- else
+  .govuk-grid-row
+    .govuk-grid-column-full
+      h2.govuk-heading-l #{pluralize(search.result_count, 'search result')} for '#{search.query}'
+  .govuk-grid-row
+    .govuk-grid-column-one-quarter
+      = form_with(model: search, url: search_path, method: :get, local: true, builder: PeopleFinderFormBuilder) do |f|
+        = f.array_govuk_collection_select(:filters, [[:groups, 'Teams'], [:people, 'People']], legend: 'Filter by:')
+        = f.hidden_field :query
+        = f.govuk_submit 'Filter'
+
+    .govuk-grid-column-three-quarters
+      - if search.include_groups? && search.groups_results.any?
+        h3.govuk-heading-s #{pluralize(search.groups_results.count, 'team')} found
+        .ws-group-cards.ws-group-cards--wide
+          = render partial: 'groups/group', collection: search.groups_results, locals: { show_breadcrumbs: true }
+        hr.govuk-section-break.govuk-section-break--m.govuk-section-break--visible
+      - if search.include_people? && search.people_results.any?
+        h3.govuk-heading-s #{pluralize(search.people_results.count, 'person')} found
+        - search.people_results.each_with_hit do |person, hit|
+          = render partial: 'person', locals: { person: person, hit: hit }

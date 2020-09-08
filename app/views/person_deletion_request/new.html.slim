@@ -1,0 +1,21 @@
+- @page_title = person
+
+- if person == current_user
+  h2.govuk-heading-l Let us know you are leaving DIT
+  p.govuk-body
+    ' If you are leaving DIT, please provide details in the form below.
+    ' Our support team will confirm the details and remove your profile.
+- else
+  h2.govuk-heading-l Let us know #{person} is leaving DIT
+  p.govuk-body
+    ' If #{person} has left DIT, please provide details in the form below.
+    ' Our support team will confirm the details and remove their profile.
+    ' Your profile details will be included with the request.
+
+= form_with(url: person_deletion_request_path(person), builder: PeopleFinderFormBuilder) do |f|
+  = f.govuk_text_area :note,
+          label: { text: 'My comments' },
+          hint_text: 'for example, leaving date',
+          rows: 9
+  = f.govuk_submit 'Submit' do
+    = link_to 'Cancel and go back', person, class: 'govuk-button govuk-button--secondary'

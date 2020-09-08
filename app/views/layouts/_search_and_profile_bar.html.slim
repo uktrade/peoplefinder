@@ -5,9 +5,9 @@
         label.govuk-visually-hidden[for="search-main"]
           = t('shared.search.hint')
         .ws-search-field__item-wrapper
-          = search_field_tag :query, @query, class: 'ws-search-field__item ws-search-field__input', id: 'search-main', placeholder: t('shared.search.hint')
-          - SearchHelper::FILTERS.each_value do |value|
-            = hidden_field_tag 'search_filters[]', value
+          = search_field_tag 'search[query]', @query, class: 'ws-search-field__item ws-search-field__input', id: 'search-main', placeholder: t('shared.search.hint')
+          = hidden_field_tag 'search[filters][]', 'groups'
+          = hidden_field_tag 'search[filters][]', 'people'
           .ws-search-field__item.ws-search-field__submit-wrapper
             = submit_tag 'Search', class: 'ws-search-field__submit'
 

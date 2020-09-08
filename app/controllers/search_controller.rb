@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
 class SearchController < ApplicationController
-  include SearchHelper
+  def show
+    breadcrumb :search_results, :search
 
-  before_action :set_search_args
+    @query = search_params[:query]
 
-  def index
-    @team_results = search(GroupSearch) if teams_filter?
-    @people_results = search(PersonSearch) if people_filter?
+    render(
+      'show',
+      locals: { search: search }
+    )
   end
 
   def people
-    # TODO: This was implemented for an urgent requirement and needs to be cleaned up
-    people = search(PersonSearch).set.records
-
-    people_data = people.map do |p|
+    # TODO: This was originally implemented for an urgent requirement and needs to be cleaned up
+    people_data = search.people_results.map do |p|
       {
         id: p.id,
         name: p.name,
@@ -27,17 +27,15 @@ class SearchController < ApplicationController
 
   private
 
-  def search(klass)
-    search = klass.new(@query, SearchResults.new)
-    search.perform_search
+  def search
+    @search ||= Search.new(search_params)
   end
 
-  def query
-    params[:query]
-  end
+  def search_params
+    # Allows us to remain backwards-compatible with previous parameters for search so other applications and
+    # bookmarked URLs don't break (also allows us to `require` search below because it will always be set).
+    legacy_params = { search: { query: params[:query], filters: params[:search_filters] } }
 
-  def set_search_args
-    @query = query
-    @search_filters = (params[:search_filters] || [])
+    params.reverse_merge(legacy_params).require(:search).permit(:query, { filters: [] })
   end
 end

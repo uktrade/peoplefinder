@@ -8,19 +8,16 @@ require 'timecop'
 require 'paper_trail/frameworks/rspec'
 require 'shoulda-matchers'
 require 'capybara/rspec'
-require 'site_prism'
 require 'sidekiq/testing'
 
-Capybara.register_driver :poltergeist_silent do |app|
-  # Redirect phantomjs log output to a dummy StringIO to ignore it
-  Capybara::Poltergeist::Driver.new(app, phantomjs_logger: StringIO.new)
-end
-
 Capybara.register_driver :chrome do |app|
-  options = Selenium::WebDriver::Chrome::Options.new(
-    args: %w[headless disable-gpu no-sandbox]
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    'goog:chromeOptions': {
+      args: %w[headless disable-gpu no-sandbox enable-features=NetworkService,NetworkServiceInProcess]
+    }
   )
-  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
+
+  Capybara::Selenium::Driver.new app, browser: :chrome, capabilities: capabilities
 end
 
 Capybara.server = :webrick
@@ -41,7 +38,6 @@ Sidekiq::Testing.inline!
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include SpecSupport::Login
-  config.include SpecSupport::Search
   config.include SpecSupport::Carrierwave
   config.include SpecSupport::Profile
   config.include SpecSupport::AppConfig
@@ -51,4 +47,13 @@ RSpec.configure do |config|
   # This enable Rails's `use_transactional_tests` (for legacy reasons, it hasn't been renamed
   # in RSpec config)
   config.use_transactional_fixtures = true
+
+  config.before :each, elasticsearch: true do
+    Person.__elasticsearch__.create_index!(force: true)
+    Person.__elasticsearch__.refresh_index!
+  end
+
+  config.after :each, elasticsearch: true do
+    Person.__elasticsearch__.delete_index!
+  end
 end

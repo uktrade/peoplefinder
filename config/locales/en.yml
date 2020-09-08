@@ -186,6 +186,10 @@ en:
     works_saturday: Saturday
     works_sunday: Sunday
 
+  placeholders:
+    group:
+      description: Discover what this team is responsible for, who is in it and how you can get in touch with them.
+
   loaf:
     breadcrumbs:
       home: Home
@@ -200,6 +204,8 @@ en:
         tree: All sub-teams
       people:
         edit: Edit profile
+      search_results: Search results
+      person_deletion_request: Let us know someone is leaving
 
   views:
     info:

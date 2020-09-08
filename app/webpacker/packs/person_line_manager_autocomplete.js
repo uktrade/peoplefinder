@@ -28,7 +28,7 @@ window.addEventListener('DOMContentLoaded', () => {
   $('.js-line-manager-select').select2({
     ajax: {
       url: '/search/people.json',
-      data: (params) => ({ query: params.term }),
+      data: (params) => ({ search: { query: params.term, filters: ['people'] } }),
       processResults: (data) => ({ results: data }),
       dataType: 'json',
     },

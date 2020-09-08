@@ -1,0 +1,28 @@
+.ws-person-search-result
+  .ws-person-search-result__picture
+    = link_to profile_picture_image_tag(person), person
+  .ws-person-search-result__details
+    .ws-person-search-result__item
+      = link_to highlighted(person, hit, :name), person, class: 'ws-person-search-result__title'
+    .ws-person-search-result__item
+      = link_to highlighted(person, hit, :role_and_group), person, class: 'govuk-link'
+    .ws-person-search-result__item.ws-person-search-result__item--spaced
+      = mail_to highlighted(person, hit, :contact_email_or_email), person.contact_email_or_email, class: 'govuk-link'
+    - if person.primary_phone_number?
+      .ws-person-search-result__item
+        = call_to person.primary_phone_number, class: 'govuk-link'
+    - if person.languages.present?
+      .ws-person-search-result__item.ws-person-search-result__item--spaced.govuk-body-s
+        strong> Languages:
+        = highlighted(person, hit, :languages)
+    - if person.formatted_key_skills.present?
+      .ws-person-search-result__item.ws-person-search-result__item--spaced.govuk-body-s
+        strong> Key skills:
+        = highlighted(person, hit, :formatted_key_skills)
+    - if person.formatted_learning_and_development.present?
+      .ws-person-search-result__item.ws-person-search-result__item--spaced.govuk-body-s
+        strong> Learning and development interests:
+        = highlighted(person, hit, :formatted_learning_and_development)
+    - if current_user.role_administrator?
+      .ws-person-search-result__item.ws-person-search-result__item--spaced
+        .ws-person-search-result__score Search score: #{hit._score}

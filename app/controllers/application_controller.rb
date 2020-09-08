@@ -8,8 +8,6 @@ class ApplicationController < ActionController::Base
 
   before_action :ensure_user, :set_paper_trail_whodunnit
 
-  layout 'peoplefinder'
-
   breadcrumb 'home', :home
 
   private

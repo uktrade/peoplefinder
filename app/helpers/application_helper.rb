@@ -9,10 +9,6 @@ module ApplicationHelper
     end
   end
 
-  def pluralize_with_delimiter(number, text)
-    "#{number_with_delimiter(number)} #{text.pluralize(number)}"
-  end
-
   def markdown(source)
     options = { header_offset: 2 }
     doc = Kramdown::Document.new(source, options)
@@ -33,42 +29,15 @@ module ApplicationHelper
     messages = flash.keys.map(&:to_s) & FLASH_NOTICE_KEYS
     return if messages.empty?
 
-    tag.div(class: 'inner-block') do
-      tag.div(id: 'flash-messages') do
-        messages.inject(ActiveSupport::SafeBuffer.new) do |html, type|
-          html << flash_message(type)
-        end
-      end
-    end
-  end
-
-  def flash_messages_new
-    messages = flash.keys.map(&:to_s) & FLASH_NOTICE_KEYS
-    return if messages.empty?
-
     tag.div(id: 'flash-messages') do
       messages.inject(ActiveSupport::SafeBuffer.new) do |html, type|
-        html << flash_message_new(type)
+        html << flash_message(type)
       end
     end
-  end
-
-  def error_text(key)
-    t(key, scope: 'errors')
-  end
-
-  def info_text(key)
-    t(key, scope: 'views.info_text')
-  end
-
-  def app_title
-    Rails.configuration.app_title
   end
 
   def page_title
-    (
-      [@page_title] << Rails.configuration.app_title
-    ).compact.join(' - ')
+    [@page_title, Rails.configuration.app_title].compact.join(' - ')
   end
 
   def call_to(telno, options = {})
@@ -78,32 +47,9 @@ module ApplicationHelper
     tag.a(**options.merge(href: "tel:#{digits}")) { telno }
   end
 
-  def role_translate(subject, key, options = {})
-    if subject == current_user
-      subkey = 'mine'
-      user = subject
-    else
-      subkey = 'other'
-      user = current_user
-    end
-    I18n.t([key, subkey].join('.'), **options.merge(name: user))
-  end
-
-  def bold_tag(term, options = {})
-    classes = options[:class] || ''
-    options[:class] = classes.split.push('bold-term')
-    tag.span(**options) { |_tag| term }
-  end
-
   private
 
   def flash_message(type)
-    tag.div(class: "flash-message #{type}", role: 'alert') do
-      flash[type]
-    end
-  end
-
-  def flash_message_new(type)
     tag.div(class: "ws-flash ws-flash--#{type}", role: 'alert') do
       tag.span(class: 'ws-flash__message') do
         flash[type]

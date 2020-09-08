@@ -221,9 +221,6 @@ en:
     header: Management
     report_header: Reports
     tools_header: Tools
-  person_deletion_request:
-    instruction: If %{name} has left the department, please provide details in the form below. Our support team will confirm the details and remove the profile.
-    your_details_hint: Your profile details will be included with the request.
   errors: &errors
     person:
       general_message: "You need to add more information to complete your profile - see below."
@@ -233,7 +230,6 @@ en:
       blank: "is required"
       invalid_format: "isn’t valid"
       extension_whitelist_error: "You are not allowed to upload %{extension} files, allowed types: %{allowed_types}"
-#    format: "%{attribute} %{message}"
     models:
       group:
         attributes:
@@ -257,42 +253,6 @@ en:
   shared:
     search:
       hint: 'Search people, teams and skills'
-  home:
-    show:
-      heading: People Finder
-      explanation: Search for a person or team in the Department for International Trade
-    org_heading: Browse the organisation
-    org_sub_heading: Browse by team
-    org_hint_html: |
-      Click on departments and teams, or see the whole of the %{link}.
-  views:
-    info_text:
-      delete_this_profile: "Delete this profile"
-      delete_this_team: "Delete this team"
-      duplicate_names_hint: "There are existing profiles that look similar to the details you entered. Check you don’t already have a profile or continue to create a new one."
-      duplicate_names_warning: "If you select an existing profile we will update your email address to the one you logged in with."
-      hint_add_person_team_not_found: "If you can’t find your team, you’ll need to add it."
-      hint_add_person_to_team: "Find the team from this organisation browser."
-      hint_team_name: "Write out the name of your team in full. Do not use initials."
-      hint_team_acronym: "If your team is also known by its initials (eg HMCTS) add them below."
-      hint_team_description: "What is the role and purpose of the team?"
-      hint_team_email_address: "Enter an email for people to get in touch with the team"
-      hint_person_upload_group: |
-        You can only upload people’s details to an existing team.
-      location_in_building_hint: "For example, 10.30"
-      city_hint: "For example, London"
-      photo_upload_hint: "Add or replace an image (no files over 6MB.)"
-      photo_crop_hint: "Move and resize the box to crop your profile image."
-      profile_deletable: "Note that deleting a profile cannot be undone."
-      reported_profile_additional_details_label: Additional details
-      request_information: "Incorrect or missing information? Has this person left the department or is this a duplicate?"
-      request_information_link: "Help improve this profile"
-      team_deletable: "Note that team deletion cannot be undone."
-      team_not_deletable: "Team deletion is only possible if there are no people or subteams associated with it."
-  placeholders:
-    group:
-      description: |
-        Discover what this team is responsible for, who is in it and how you can get in touch with them.
 
   helpers:
     label:

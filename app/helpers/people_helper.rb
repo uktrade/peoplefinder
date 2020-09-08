@@ -61,75 +61,18 @@ module PeopleHelper
   end
 
   def profile_picture_image_tag(person, options = {})
-    image = person.profile_image.try(:medium)
-    source = if image.try(:file).respond_to?(:authenticated_url)
-               image.file.authenticated_url
-             else
-               image || 'medium_no_photo.png'
-             end
-    source_url = source.respond_to?(:url) ? source.url : source
-
     options_with_alt = options.reverse_merge(alt: "Profile picture of #{person.name}")
 
-    image_tag(source_url, options_with_alt)
-  end
+    return image_pack_tag('medium_no_photo.png', **options_with_alt) if person.profile_image.blank?
 
-  # --------------------------------------------------------------------------
-  # TODO: Helpers below need to be rewritten once we transition from legacy UI
-  # --------------------------------------------------------------------------
+    image = person.profile_image.medium
+    source = if image.file.respond_to?(:authenticated_url)
+               image.file.authenticated_url
+             else
+               image.url
+             end
 
-  # e.g. profile_image_tag person, link: false
-  def profile_image_tag(person, options = {})
-    source = profile_image_source(person, options)
-    options[:link_uri] = person_path(person) if add_image_link?(options)
-    options[:alt_text] = "Current photo of #{person}"
-    profile_or_team_image_div source, options
-  end
-
-  def team_image_tag(team, options = {})
-    source = 'medium_team.png'
-    options[:link_uri] = group_path(team) if add_image_link?(options)
-    options[:alt_text] = "Team icon for #{team.name}"
-    profile_or_team_image_div source, options
-  end
-
-  def image_tag_wrapper(source, options)
-    image_tag(
-      source.respond_to?(:url) ? source.url : source,
-      options
-        .except(:version, :link, :link_uri, :alt_text)
-        .merge(alt: options[:alt_text], class: 'media-object')
-    )
-  end
-
-  def profile_or_team_image_div(source, options)
-    tag.div(class: 'maginot') do
-      if options.key?(:link_uri)
-        tag.a(href: options[:link_uri]) do
-          image_tag_wrapper(source, options)
-        end
-      else
-        image_tag_wrapper(source, options)
-      end
-    end
-  end
-
-  # default to having an image link unless 'link: false' passed explicitly
-  def add_image_link?(options)
-    !options.key?(:link) || options[:link]
-  end
-
-  def profile_image_source(person, options = {})
-    version = options.fetch(:version, :medium)
-    url_for_image person.profile_image.try(version)
-  end
-
-  def url_for_image(image)
-    if image.try(:file).respond_to? :authenticated_url
-      image.file.authenticated_url
-    else
-      image || 'medium_no_photo.png'
-    end
+    image_tag(source, options_with_alt)
   end
 
   def building_names

@@ -42,7 +42,7 @@
             - if group.children?
               = link_to 'View all sub-teams', tree_group_path(group), class: 'ws-header-link-list__link'
             - if people_outside_subteams_count.positive?
-              = link_to "View #{ pluralize_with_delimiter people_outside_subteams_count, 'person' } not assigned to a team", people_outside_subteams_group_path(group), class: 'ws-header-link-list__link'
+              = link_to "View #{ pluralize(people_outside_subteams_count, 'person') } not assigned to a team", people_outside_subteams_group_path(group), class: 'ws-header-link-list__link'
       ol.ws-group-cards
         = render partial: 'group', collection: group.children
 
