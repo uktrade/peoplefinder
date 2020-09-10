@@ -11,7 +11,7 @@ class Search
   attr_accessor :query, :filters
 
   def initialize(attributes = nil)
-    attributes[:query] = attributes[:query].gsub(/[^\w\-_@]/, ' ')
+    attributes[:query] = attributes[:query].gsub(/[^\w\-_@']/, ' ')
     attributes[:filters] ||= []
 
     super
@@ -109,6 +109,7 @@ class Search
       highlight: {
         pre_tags: ES_PRE_TAGS,
         post_tags: ES_POST_TAGS,
+        number_of_fragments: 0, # always return entire field in highlight
         fields: {
           name: {},
           role_and_group: {},
