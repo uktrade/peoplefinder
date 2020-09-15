@@ -39,6 +39,10 @@ h1.govuk-heading-l Manage People Finder
     p.govuk-body
       | A stream of all changes on People Finder, along with the option to undo individual changes. You can also find a list of changes to a specific profile on the profile itself.
     = link_to 'Audit trail', audit_trail_path, class: 'govuk-button govuk-button--secondary'
+    h3.govuk-heading-s Import HR data
+    p.govuk-body
+      | Allows uploading of Oracle HR data fields into People Finder
+    = link_to 'Import HR data', new_admin_hr_data_import_path, class: 'govuk-button govuk-button--secondary'
 
   section#metrics.govuk-tabs__panel.govuk-tabs__panel--hidden
     h2.govuk-heading-m Metrics

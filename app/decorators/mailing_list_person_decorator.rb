@@ -16,7 +16,8 @@ class MailingListPersonDecorator < SimpleDelegator
     {
       FNAME: given_name,
       LNAME: surname,
-      PF_COUNTRY: country
+      PF_COUNTRY: country,
+      GRADE: grade.to_s
     }
   end
 

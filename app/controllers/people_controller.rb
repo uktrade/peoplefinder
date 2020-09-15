@@ -107,7 +107,7 @@ class PeopleController < ApplicationController
     %i[
       given_name surname location_in_building city country primary_phone_number
       skype_name secondary_phone_number email contact_email
-      language_intermediate language_fluent previous_positions grade
+      language_intermediate language_fluent previous_positions
       other_uk other_overseas pronouns other_key_skills other_learning_and_development
       other_additional_responsibilities line_manager_id line_manager_not_required
     ] + [
@@ -130,6 +130,6 @@ class PeopleController < ApplicationController
     # Parameters that can only be updated by administrators, not regular users
     return [] unless current_user.role_administrator?
 
-    %i[role_administrator role_people_editor role_groups_editor ditsso_user_id]
+    %i[role_administrator role_people_editor role_groups_editor ditsso_user_id grade]
   end
 end

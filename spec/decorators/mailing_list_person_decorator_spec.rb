@@ -5,12 +5,12 @@ require 'rails_helper'
 describe MailingListPersonDecorator do
   subject { described_class.new(person) }
 
-  let(:person) { build_stubbed(:person, email: email, country: 'AT', given_name: 'Mail', surname: 'Chimp', building: ['', 'skyscraper', 'airport']) }
+  let(:person) { build_stubbed(:person, email: email, country: 'AT', given_name: 'Mail', surname: 'Chimp', grade: 'intern', building: ['', 'skyscraper', 'airport']) }
   let(:email) { 'mail@chimp.com' }
 
   describe '#merge_fields' do
     it 'returns the expected Mailchimp merge fields' do
-      expect(subject.merge_fields).to eq({ FNAME: 'Mail', LNAME: 'Chimp', PF_COUNTRY: 'AT' })
+      expect(subject.merge_fields).to eq({ FNAME: 'Mail', LNAME: 'Chimp', PF_COUNTRY: 'AT', GRADE: 'intern' })
     end
   end
 

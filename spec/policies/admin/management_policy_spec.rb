@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-MANAGEMENT_ACTIONS = %i[show csv_extract_report sidekiq].freeze
+MANAGEMENT_ACTIONS = %i[show csv_extract_report sidekiq hr_data_imports].freeze
 
 RSpec.describe Admin::ManagementPolicy, type: :policy do
   subject { described_class.new(user, nil) }
