@@ -94,9 +94,26 @@
 
     .govuk-grid-row
       .govuk-grid-column-full
-        h2.govuk-heading-m Grade and manager
+        h2.govuk-heading-m My grade
 
-        = f.govuk_collection_select :grade, grade_names, :first, :last, options: {include_blank: true, prompt: false}
+        - if current_user.role_administrator?
+          = f.govuk_collection_select :grade, grade_names, :first, :last, options: {include_blank: true, prompt: false}
+        - else
+          p.govuk-body
+            - if person.grade.present?
+              = t(person.grade, scope: 'people.grade_names')
+            - else
+              | Grade not available
+          p.govuk-body-s
+            ' This information is updated from Oracle every month. If you are a civil servant and have recently joined
+            ' or changed grade, make sure this information is correct in Oracle and it will show on People Finder after
+            ' the next update. Contractors and staff from other departments will not have a grade shown here.
+
+        hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+    .govuk-grid-row
+      .govuk-grid-column-full
+        h2.govuk-heading-m My manager
 
         .govuk-form-group[class=('govuk-form-group--error' if @person.errors.include?(:line_manager))]
           label.govuk-label[for='person_line_manager']= self_or_other_label(person, :line_manager)

@@ -61,6 +61,7 @@ Rails.application.routes.draw do
 
     resource :profile_extract, only: [:show]
     resource :team_extract, only: [:show]
+    resource :hr_data_import, only: %i[new create show destroy]
 
     constraints AdminRouteConstraint.new do
       mount Sidekiq::Web => '/sidekiq'

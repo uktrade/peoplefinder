@@ -19,5 +19,9 @@ module Admin
     def sidekiq?
       administrator?
     end
+
+    def hr_data_imports?
+      administrator?
+    end
   end
 end

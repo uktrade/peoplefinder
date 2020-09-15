@@ -351,6 +351,7 @@ en:
       non_graded_contractor: Non graded - contractor
       non_graded_secondee: Non graded - secondee
       non_graded_post: Non graded - post
+      intern: intern
     learning_and_development_names:
       shadowing: Work shadowing
       mentoring: Mentoring
@@ -447,6 +448,7 @@ en:
       audit_trail: Audit trail
       admin:
         management: Manage People Finder
+        hr_data_import: Import HR data
       groups:
         new: Add new sub-team
         edit: Edit team

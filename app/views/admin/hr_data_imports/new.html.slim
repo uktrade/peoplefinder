@@ -1,0 +1,33 @@
+h1.govuk-heading-l Import HR data
+
+p.govuk-body
+  ' You can import a CSV file of HR data into People Finder. This will be matched to existing users based on their
+  ' (lower-cased) email address.
+
+.govuk-inset-text
+  p.govuk-body Currently only the following fields will be updated in case of a match:
+  ul.govuk-list.govuk-list--bullet
+    li Grade
+  p.govuk-body All other data in the CSV will be ignored.
+
+h3.govuk-heading-s The file must:
+ul.govuk-list.govuk-list--bullet
+  li Be a CSV file (not Excel or any other file type)
+  li Have a header row (the first row will be ignored during import)
+  li Contain exactly six columns in this order:
+  ul.govuk-list.govuk-list--number
+    li Staff number (SE-No)
+    li First name
+    li Last name
+    li Grade
+    li Email
+    li Region
+
+hr.govuk-section-break.govuk-section-break--m.govuk-section-break--visible
+
+= form_with(url: admin_hr_data_import_path, local: true, multipart: true) do
+  .govuk-form-group
+    label.govuk-label for='csv_file' Upload CSV file
+    input.govuk-file-upload id='csv_file' name='csv_file' type='file'
+
+  input.govuk-button type='submit' value='Upload'
