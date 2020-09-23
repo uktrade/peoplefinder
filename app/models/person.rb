@@ -117,7 +117,7 @@ class Person < ApplicationRecord
   # - see all_in_groups_scope alternative
   # TODO: remove when not needed
   def self.all_in_groups(group_ids)
-    query = <<-SQL
+    query = <<-SQL.squish
     SELECT DISTINCT p.*,
         string_agg(CASE role WHEN '' THEN NULL ELSE role END, ', ' ORDER BY role) AS role_names
       FROM memberships m, people p

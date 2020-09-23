@@ -116,7 +116,14 @@ class PeopleController < ApplicationController
       key_responsibilities: [], additional_responsibilities: [], professions: [],
       memberships_attributes: %i[id role group_id leader _destroy],
       profile_photo_attributes: %i[crop_x crop_y crop_w crop_h image_cache image]
-    ] + administrator_person_params
+    ] + people_editor_person_params + administrator_person_params
+  end
+
+  def people_editor_person_params
+    # Parameters that can only be updated by people editors, not regular users
+    return [] unless current_user.role_people_editor?
+
+    %i[ditsso_user_id]
   end
 
   def administrator_person_params

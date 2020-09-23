@@ -71,7 +71,7 @@ module Completion
     end
 
     def average_completion_sql(id = nil)
-      <<-SQL
+      <<-SQL.squish
         SELECT AVG(
         (
           #{completion_score_calculation}
@@ -99,7 +99,7 @@ module Completion
 
     # requires a join and therefore needs separate handling for scalability
     def groups_exist_sql
-      <<-SQL
+      <<-SQL.squish
       CASE WHEN (SELECT 1
                   WHERE EXISTS (SELECT 1
                                 FROM memberships m

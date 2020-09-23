@@ -15,6 +15,11 @@ class MailingList
       merge_fields: merge_fields
     }
     member_for(email).upsert(body: body) # rubocop:disable Rails/SkipsModelValidations (not actually Rails)
+  rescue Gibbon::MailChimpError => e
+    # Re-raise if we actually care about the error
+    raise e unless e.title == 'Member In Compliance State'
+
+    Rails.logger.warn("Could not update Mailchimp subscriber: #{e.detail}")
   end
 
   def set_subscriber_tags(email, tags: [])
