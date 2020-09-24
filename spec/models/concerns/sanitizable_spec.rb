@@ -2,23 +2,23 @@
 
 require 'rails_helper'
 
-RSpec.describe Sanitizable do
-  class SanitizableTestModel
-    include ActiveModel::Model
-    include ActiveModel::Validations::Callbacks
+class SanitizableTestModel
+  include ActiveModel::Model
+  include ActiveModel::Validations::Callbacks
 
-    def persisted?
-      false
-    end
-
-    attr_accessor :color, :shape, :flavor, :smell
-
-    include Sanitizable
-    sanitize_fields :color, strip: true
-    sanitize_fields :shape, downcase: true
-    sanitize_fields :flavor, downcase: true, strip: true, remove_digits: true
+  def persisted?
+    false
   end
 
+  attr_accessor :color, :shape, :flavor, :smell
+
+  include Sanitizable
+  sanitize_fields :color, strip: true
+  sanitize_fields :shape, downcase: true
+  sanitize_fields :flavor, downcase: true, strip: true, remove_digits: true
+end
+
+RSpec.describe Sanitizable do
   subject do
     SanitizableTestModel.new(
       color: ' Orange3 ',

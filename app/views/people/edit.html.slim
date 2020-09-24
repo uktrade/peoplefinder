@@ -188,7 +188,7 @@
 
     hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
 
-    - if current_user.role_administrator?
+    - if current_user.role_administrator? || current_user.role_people_editor?
       .govuk-grid-row
         .govuk-grid-column-full
           h2.govuk-heading-m Administrative options
@@ -196,11 +196,12 @@
           = f.additional_fields_details 'Staff SSO options' do
             = f.govuk_text_field :ditsso_user_id, width: 'one-half'
 
-          = f.additional_fields_details 'Permissions' do
-            = f.govuk_check_boxes_fieldset :permissions, small: true, hint_text: t('helpers.hint.person.permissions')
-              = f.model_govuk_check_box :role_administrator
-              = f.model_govuk_check_box :role_groups_editor
-              = f.model_govuk_check_box :role_people_editor
+          - if current_user.role_administrator?
+            = f.additional_fields_details 'Permissions' do
+              = f.govuk_check_boxes_fieldset :permissions, small: true, hint_text: t('helpers.hint.person.permissions')
+                = f.model_govuk_check_box :role_administrator
+                = f.model_govuk_check_box :role_groups_editor
+                = f.model_govuk_check_box :role_people_editor
 
           hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
 

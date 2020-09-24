@@ -2,15 +2,15 @@
 
 require 'rails_helper'
 
+MANAGEMENT_ACTIONS = %i[show csv_extract_report sidekiq].freeze
+
 RSpec.describe Admin::ManagementPolicy, type: :policy do
   subject { described_class.new(user, nil) }
-
-  ACTIONS = %i[show csv_extract_report sidekiq].freeze
 
   context 'for an administrator' do
     let(:user) { build_stubbed(:administrator) }
 
-    ACTIONS.each do |action|
+    MANAGEMENT_ACTIONS.each do |action|
       it { is_expected.to permit_action(action) }
     end
   end
@@ -18,7 +18,7 @@ RSpec.describe Admin::ManagementPolicy, type: :policy do
   context 'for a regular user' do
     let(:user) { build_stubbed(:person) }
 
-    ACTIONS.each do |action|
+    MANAGEMENT_ACTIONS.each do |action|
       it { is_expected.not_to permit_action(action) }
     end
   end
