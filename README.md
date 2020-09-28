@@ -131,6 +131,9 @@ When a profile is updated, a background worker is triggered that will update (or
 appropriate) the relevant record on Mailchimp. Once a week, a scheduled job is triggered to
 perform a wholesale synchronisation to make sure nothing has fallen through the cracks.
 
+Tags currently include a list of domains considered "One DIT" (in the relevant `Person`
+decorator) which may need to be updated when new domains "join" DIT.
+
 ### GOV.UK Notify
 
 People Finder sends emails to users through GOV.UK Notify (using their official gem) whenever
