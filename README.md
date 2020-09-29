@@ -148,6 +148,24 @@ mounted at `/admin/sidekiq/` behind a route constraint to ensure only administra
 It also uses [sidekiq-scheduler](https://github.com/moove-it/sidekiq-scheduler) to enqueue
 scheduled jobs (as GOV.UK PaaS deployments are ephemeral and don't provide Cron or similar).
 
+## Use of i18n to define data
+
+This app uses i18n translations to drive some enum-style data in profiles, e.g. the skills and
+networks that users can pick from a list of checkboxes on their profile, which are then stored in
+a Postgres array against the `Person` record. Adding a new one of those is as simple as adding an
+appropriate key and translation to `config/locales/en.yml`. However, this means that removing an
+existing key is not trivial: after removing the key from the translation file to stop it showing
+up in the list of checkboxes, you then need to run a query against the DB to remove it from all
+people that have it assigned already, e.g.:
+
+```sql
+UPDATE people SET networks = ARRAY_REMOVE(networks, 'some_network');
+```
+
+Otherwise the network will still show up against those people who previously had it ticked, except
+it will do so with a translation error. Ideally, this should move to some sort of tagging model in
+the future that allows admins to define these values in the UI instead of having it hardcoded.
+
 ## Code standards
 
 People Finder is a large application with some degree of legacy code remaining, contributed to by

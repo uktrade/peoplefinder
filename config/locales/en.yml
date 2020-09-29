@@ -1,11 +1,41 @@
 en:
+  shared:
+    finish_profile_request: &finish_profile_request "Welcome! Please complete the required fields in your profile to start using People Finder."
+    unauthorised: &unauthorised Unauthorised, insufficient privileges
+    search:
+      hint: 'Search people, teams and skills'
+
+  errors: &errors
+    messages:
+      blank: "is required"
+      invalid_format: "isn’t valid"
+      extension_whitelist_error: "You are not allowed to upload %{extension} files, allowed types: %{allowed_types}"
+      min_size_error: This photo file is too small. It needs to be more than %{min_size}.
+      max_size_error: This photo file is too big. It needs to be less than %{max_size}.
+      content_type_whitelist_error: This file is not an accepted image format. Please choose a JPG or PNG file.
+    models:
+      group:
+        attributes:
+          base:
+            memberships_exist: "cannot be deleted until all the memberships have been removed"
+    validators:
+      permanent_secretary_unique_validator:
+        leader:
+          unique: "%{name} can only have one leader, and there already is one (%{person_name}, %{role}). If you want to change the department's leader, you must change %{person_name}'s profile first"
+      image_dimensions_validator:
+        too_small: Profile photo is not big enough. Your image was %{actual_dimensions} pixels, but it needs to be at least %{expected_dimensions} pixels.
+        too_big: Profile photo is too big. Your image was %{actual_dimensions} pixels, but it needs to be no more than %{expected_dimensions} pixels.
+
   activerecord:
     models:
       group: Team
     errors:
+      <<: *errors
       models:
         group:
           attributes:
+            base:
+              memberships_exist: cannot be deleted until all members have been removed
             name:
               blank: Enter the team name
             acronym:
@@ -25,18 +55,7 @@ en:
               cannot_be_selected_if_not_required: A line manager cannot be selected if you have stated they are not listed
             memberships:
               at_least_one_required: You must add at least one team and role
-  errors:
-    messages:
-      min_size_error: This photo file is too small. It needs to be more than %{min_size}.
-      max_size_error: This photo file is too big. It needs to be less than %{max_size}.
-      content_type_whitelist_error: This file is not an accepted image format. Please choose a JPG or PNG file.
-    validators:
-      permanent_secretary_unique_validator:
-        leader:
-          unique: "%{name} can only have one leader, and there already is one (%{person_name}, %{role}). If you want to change the department's leader, you must change %{person_name}'s profile first"
-      image_dimensions_validator:
-        too_small: Profile photo is not big enough. Your image was %{actual_dimensions} pixels, but it needs to be at least %{expected_dimensions} pixels.
-        too_big: Profile photo is too big. Your image was %{actual_dimensions} pixels, but it needs to be no more than %{expected_dimensions} pixels.
+
   helpers:
     label:
       required: Required
@@ -56,6 +75,13 @@ en:
         secondary_phone_number: Alternative contact number
         city: Town, city or region
         country: Country
+        works_monday: Monday
+        works_tuesday: Tuesday
+        works_wednesday: Wednesday
+        works_thursday: Thursday
+        works_friday: Friday
+        works_saturday: Saturday
+        works_sunday: Sunday
         other_uk: UK regional building or location
         other_overseas: International building or location
         role_administrator: Allow this person to administrate People Finder
@@ -106,6 +132,10 @@ en:
           professions_details: Add professions %{name} belongs to
       person[profile_photo_attributes]:
         image: Choose a new profile photo
+      problem_report:
+        goal: "What were you trying to do?"
+        problem: "What went wrong?"
+        person_email: "Your email"
     hint:
       group:
         name: The full name of this team (e.g. Digital, Data and Technology)
@@ -142,6 +172,16 @@ en:
       person[profile_photo_attributes]:
         image_html: |
           Choose a picture that helps others recognise you. Your picture must be at least 500 by 500 pixels and no more than 8MB. Once you have chosen a picture, you will be able to crop it.
+
+    submit:
+      person:
+        create: "Save"
+        update: "Save"
+      person_upload:
+        create: "Upload"
+      problem_report:
+        create: "Report"
+
   profile:
     person:
       formatted_buildings: Place(s) I usually work
@@ -174,6 +214,217 @@ en:
       created_at: First created
       updated_at: Last updated (may be by automatic processes)
       last_edited_or_confirmed_at: Last edited/confirmed by user action
+
+  controllers:
+    admin:
+      management:
+        unauthorised: *unauthorised
+    versions:
+      unauthorised: *unauthorised
+
+    groups:
+      group_created: "Created %{group}"
+      group_updated: "Updated %{group}"
+      group_deleted: "Deleted %{group}"
+      create_error: "The record was not created. Please check the errors below"
+      update_error: "The details were not updated. Please check the errors below"
+      unauthorised: *unauthorised
+    home:
+      top_level_group_needed: "To use the People Finder, first create a top-level group (without a parent)"
+    sessions:
+      complete_profile: *finish_profile_request
+    people:
+      profile_created: "Created %{person}’s profile"
+      profile_updated:
+        mine: Your profile has been updated
+        other: |
+          Thank you for helping to improve People Finder.
+          We have let %{person} know that you’ve made changes
+      profile_deleted: "Deleted %{person}’s profile"
+      profile_confirmed: Thank you for confirming your details are still correct.
+      delete_error: Could not delete the profile.
+      create_error: "The profile was not created. Please check the errors below"
+    person_deletion_request:
+      request_sent: |
+        Thank you for helping to improve People Finder.
+        We'll review this profile.
+    problem_reports:
+      report_sent: Your report has been sent. Thank you for reporting a problem.
+
+  people:
+    day_names:
+      works_monday: "Monday"
+      works_tuesday: "Tuesday"
+      works_wednesday: "Wednesday"
+      works_thursday: "Thursday"
+      works_friday: "Friday"
+      works_saturday: "Saturday"
+      works_sunday: "Sunday"
+    day_symbols:
+      works_monday: "M"
+      works_tuesday: "T"
+      works_wednesday: "W"
+      works_thursday: "T"
+      works_friday: "F"
+      works_saturday: "S"
+      works_sunday: "S"
+    building_names:
+      home: Remote (home worker)
+      whitehall_55: "55 Whitehall"
+      whitehall_3: "3 Whitehall Place"
+      victoria_50: "Windsor House"
+      horse_guards: "1 Horse Guards Rd"
+      king_charles: "King Charles Street"
+    key_skill_names:
+      asset_management: Asset management
+      assurance: Assurance
+      benefits_realisation: Benefits realisation
+      change_management: Change management
+      coaching: Coaching
+      commercial_specialist: Commercial specialist
+      commissioning: Commissioning
+      contract_management: Contract management
+      credit_risk_analysis: Credit risk analysis
+      customer_service: Customer service
+      digital:  Digital
+      digital_workspace_publisher: Digital Workspace publisher
+      economist: Economist
+      financial_reporting:  Financial reporting
+      graphic_design: Graphic Design
+      hr: HR
+      income_generation: Income generation
+      information_management: Information management
+      interviewing: Interviewing
+      it: IT
+      law: Law
+      lean: Lean/ Six sigma
+      line_management: Line management
+      media_trained: Media trained
+      mentoring: Mentoring
+      policy_design: Policy design
+      policy_implementation: Policy implementation
+      presenting: Presenting
+      project_delivery: Project delivery
+      project_management: Project management
+      property_estates: Property / Estates
+      research_operational: Research - operational
+      research_economic: Research - economic
+      research_statistical: Research - statistical
+      research_social: Research - social
+      risk_management: Risk management
+      security: Security
+      service_design: Service and process design
+      skills_and_capability: Skills and capability management
+      sponsorship: Sponsorship and partnerships
+      stakeholder_management: Stakeholder management
+      statistics: Statistics
+      strategy: Strategy
+      submission_writing: Submission writing
+      talent_management: Talent Management
+      tax: Tax
+      training: Training
+      underwriting: Underwriting
+      user_research: User research
+      valution: Valuation
+      working_with_devolved_admin: Working with Devolved Administrations
+      working_with_ministers: Working with Ministers
+      working_with_govt_depts: Working with other government departments
+    grade_names:
+      fco_s1: FCO S1
+      fco_s2: FCO S2
+      fco_s3: FCO S3
+      admin_assistant: Administrative assistant (AA)
+      admin_officer: Administrative officer (AO/A2)
+      executive_officer: Executive officer (EO/B3)
+      higher_executive_officer: Higher executive officer (HEO/C4)
+      senior_executive_officer: Senior executive officer (SEO/C5)
+      grade_7: Grade 7 (G7/D6)
+      grade_6: Grade 6 (G6/D7)
+      scs_1: Senior civil service 1 (SCS1/SMS1)
+      scs_2: Senior civil service 2 (SCS2/SMS2)
+      scs_3: Senior civil service 3 (SCS3/SMS3)
+      scs_4: Senior civil service 4 (SCS4/SMS4)
+      fast_stream: Fast Stream
+      fast_track: Fast Track
+      apprentice: Apprentice
+      non_graded_special_advisor: Non graded - special advisor (SPAD)
+      non_graded_contractor: Non graded - contractor
+      non_graded_secondee: Non graded - secondee
+      non_graded_post: Non graded - post
+    learning_and_development_names:
+      shadowing: Work shadowing
+      mentoring: Mentoring
+      research: Research
+      overseas_posts: Overseas posts
+      secondment: Secondment
+      parliamentary_work: Parliamentary work
+      ministerial_submissions: Ministerial submissions
+      coding: Coding
+    network_names:
+      age: Age network
+      bame: Black, Asian and Minority Ethnic (BAME) network
+      celtic: Celtic network
+      coffee: Trade coffee network
+      disability: Disability network
+      eu_nationals: EU nationals group
+      lgbti_plus: LGBTI+ network
+      parents: Parents group
+      faith_group: Faith group
+      women: "Women's network"
+      muslim_women: "Muslim women's network"
+      mentoring: Mentoring network
+      social_mobility: Social mobility network
+      neurodiversity: Neurodiversity network
+    additional_responsibility_names:
+      fire_warden: Fire warden
+      first_aider: First aider
+      mental_health_first_aider: Mental health first aider
+      mentor: Mentor
+      network_lead: Network lead
+      network_deputy_lead: Network deputy lead
+      cirrus_champion: Cirrus champion
+      health_wellbeing_champion: Health & wellbeing champion
+      fast_stream_rep: Fast stream rep
+      overseas_staff_rep: Overseas staff rep
+      digital_champion: Digital champion
+      information_manager: Information manager
+      independent_panel_member: Independent panel member
+      divisional_security_coordinator: Divisional security coordinator
+    profession_names:
+      commercial: Government commercial and contract management
+      corp_finance: Corporate finance profession
+      counter_fraud: Counter-fraud standards and profession
+      digital_data_tech: Digital, data and technology profession
+      gov_comms: Government communication service
+      gov_economics: Government economic service
+      gov_finance: Government finance profession
+      gov_it: Government IT profession
+      gov_knowledge: Government knowledge and information management profession
+      gov_legal: Government legal service
+      gov_occupational: Government occupational psychology profession
+      gov_operational: Government operational research service
+      gov_planning_inspectors: Government planning inspectors
+      gov_planning_profession: Government planning profession
+      gov_property: Government property profession
+      gov_security: Government security profession
+      gov_science: Government science and engineering profession
+      gov_social: Government social research profession
+      gov_statistical: Government statistical service profession
+      gov_tax: Government tax profession
+      gov_vet: Government veterinary profession
+      human_resources: Human resources profession
+      intelligence_analysis: Intelligence analysis
+      internal_audit: Internal audit profession
+      medical_profession: Medical profession
+      operation_delivery: Operational delivery profession
+      policy_profiession: Policy profession
+      procurement_profession: Procurement profession
+      project_delivery: Project delivery profession
+      international_trade: International trade profession
+
+  groups:
+    form:
+      placeholder: Discover what this team is responsible for, who is in it and how you can get in touch with them.
 
   days:
     works_none: Not working
@@ -215,3 +466,7 @@ en:
       last: Last page
       previous: Previous page
       next: Next page
+
+  time:
+    formats:
+      default: "%d %b %Y %H:%M"
