@@ -12,7 +12,7 @@
     ' Our support team will confirm the details and remove their profile.
     ' Your profile details will be included with the request.
 
-= form_with(url: person_deletion_request_path(person), builder: PeopleFinderFormBuilder) do |f|
+= form_with(url: person_deletion_request_path(person), builder: PeopleFinderFormBuilder, local: true) do |f|
   = f.govuk_text_area :note,
           label: { text: 'My comments' },
           hint_text: 'for example, leaving date',
