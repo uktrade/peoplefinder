@@ -6,7 +6,7 @@
     "@rails/ujs": "^6.0.3",
     "@rails/webpacker": "^5.2.1",
     "croppr": "^2.3.1",
-    "govuk-frontend": "^3.8.0",
+    "govuk-frontend": "^3.9.1",
     "jquery": "^3.5.1",
     "select2": "^4.0.13",
     "stimulus": "^1.1.1"
@@ -28,9 +28,9 @@
   },
   "browserslist": [
     "last 3 chrome versions",
-    "last 1 firefox version",
-    "last 1 safari version",
-    "IE 11"
+    "last 2 edge versions",
+    "last 2 firefox versions",
+    "last 2 safari versions"
   ],
   "stylelint": {
     "extends": [

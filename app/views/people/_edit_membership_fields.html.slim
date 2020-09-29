@@ -4,7 +4,7 @@
   h3.govuk-heading-s Team
   = render partial: 'groups/team_browser', locals: { form: membership_fields, field: :group_id, object: membership.group, groups: org_structure, current_group: membership.group, activated: local_assigns[:activated] || membership.new_record? }
 
-  = membership_fields.govuk_text_field :role, width: 'one-half', label: { text: t('helpers.label.membership.role') }, hint_text: self_or_other_hint(membership.person, :membership_role)
+  = membership_fields.govuk_text_field :role, width: 'one-half', label: { text: t('helpers.label.membership.role') }, hint: { text: self_or_other_hint(membership.person, :membership_role) }
 
   .govuk-form-group.govuk-checkboxes class=('govuk-form-group--error' if membership.errors.include?(:leader))
     - membership.errors.full_messages_for(:leader).each do |message|

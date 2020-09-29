@@ -6,17 +6,12 @@ require:
   - rubocop-rails
 
 AllCops:
-  # Exclude anything that isn't really part of our code.
+  # Exclude anything that is generated or isn't really part of our code.
   Exclude:
     - 'Gemfile'
-    - 'vendor/**/*'
     - 'db/**/*'
     - 'bin/**/*'
     - 'node_modules/**/*'
-    - '**/*.gemspec'
-    - '**/Rakefile'
-    - '**/Vagrantfile'
-    - 'app/controllers/api/search_controller.rb' # experimental PoC
   TargetRubyVersion: 2.7
   NewCops: enable
 

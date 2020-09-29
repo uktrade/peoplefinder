@@ -15,7 +15,7 @@
 = form_with(url: person_deletion_request_path(person), builder: PeopleFinderFormBuilder, local: true) do |f|
   = f.govuk_text_area :note,
           label: { text: 'My comments' },
-          hint_text: 'for example, leaving date',
+          hint: { text: 'for example, leaving date' },
           rows: 9
   = f.govuk_submit 'Submit' do
     = link_to 'Cancel and go back', person, class: 'govuk-button govuk-button--secondary'
