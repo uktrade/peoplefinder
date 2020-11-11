@@ -12,7 +12,7 @@ class Person < ApplicationRecord
 
   extend FriendlyId
 
-  default_scope { order(surname: :asc, given_name: :asc) }
+  default_scope { order(surname: :asc, given_name: :asc, id: :asc) }
 
   attr_accessor :working_days,
                 :crop_x, :crop_y, :crop_w, :crop_h,
@@ -117,7 +117,7 @@ class Person < ApplicationRecord
   # - see all_in_groups_scope alternative
   # TODO: remove when not needed
   def self.all_in_groups(group_ids)
-    query = <<-SQL
+    query = <<-SQL.squish
     SELECT DISTINCT p.*,
         string_agg(CASE role WHEN '' THEN NULL ELSE role END, ', ' ORDER BY role) AS role_names
       FROM memberships m, people p

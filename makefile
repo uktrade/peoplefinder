@@ -5,7 +5,7 @@ build:
 	docker-compose build
 
 down:
-	docker-compose build
+	docker-compose down
 
 set-up:
 	docker-compose run web yarn install
@@ -16,3 +16,6 @@ test:
 
 index:
 	docker-compose run web bundle exec rake peoplefinder:reindex --trace
+
+gemfilelock:
+	docker-compose run web bundle install

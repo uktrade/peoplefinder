@@ -85,7 +85,7 @@
           = f.govuk_text_field :other_overseas, width: 'one-half'
 
         = f.additional_fields_details 'Add location in building or change working days (optional)' do
-          = f.govuk_text_field :location_in_building, width: 'one-half', label: { text: self_or_other_label(person, :location_in_building) }, hint_text: self_or_other_hint(person, :location_in_building)
+          = f.govuk_text_field :location_in_building, width: 'one-half', label: { text: self_or_other_label(person, :location_in_building) }, hint: { text: self_or_other_hint(person, :location_in_building) }
           = f.govuk_check_boxes_fieldset :working_days, small: true, legend: -> { tag.legend(class: 'govuk-fieldset__legend govuk-fieldset__legend--xs') { self_or_other_label(person, :working_days) } }
             - Person::DAYS_WORKED.each do |day|
               = f.model_govuk_check_box day
@@ -143,8 +143,8 @@
           = f.govuk_text_field :other_key_skills, width: 'one-half', label: { text: self_or_other_label(person, :other_key_skills) }
 
         = f.additional_fields_details 'Add languages' do
-          = f.govuk_text_field :language_fluent, width: 'one-half', label: { text: self_or_other_label(person, :language_fluent) }, hint_text: self_or_other_hint(person, :language_fluent)
-          = f.govuk_text_field :language_intermediate, width: 'one-half', label: { text: self_or_other_label(person, :language_intermediate) }, hint_text: self_or_other_hint(person, :language_intermediate)
+          = f.govuk_text_field :language_fluent, width: 'one-half', label: { text: self_or_other_label(person, :language_fluent) }, hint: { text: self_or_other_hint(person, :language_fluent) }
+          = f.govuk_text_field :language_intermediate, width: 'one-half', label: { text: self_or_other_label(person, :language_intermediate) }, hint: { text: self_or_other_hint(person, :language_intermediate) }
 
         = f.additional_fields_details 'Add learning and development interests' do
           = f.array_govuk_collection_select(:learning_and_development, learning_and_development_names, legend: self_or_other_label(person, :learning_and_development))
@@ -161,7 +161,7 @@
           = f.govuk_text_field :other_additional_responsibilities, width: 'one-half', label: { text: self_or_other_label(person, :other_additional_responsibilities) }
 
         = f.additional_fields_details 'Add previous experience' do
-          = f.govuk_text_area :previous_positions, width: 'one-half', rows: 5, label: { text: self_or_other_label(person, :previous_positions) }, hint_text: self_or_other_hint(person, :previous_positions)
+          = f.govuk_text_area :previous_positions, width: 'one-half', rows: 5, label: { text: self_or_other_label(person, :previous_positions) }, hint: { text: self_or_other_hint(person, :previous_positions) }
 
         hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
 
@@ -188,7 +188,7 @@
 
     hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
 
-    - if current_user.role_administrator?
+    - if current_user.role_administrator? || current_user.role_people_editor?
       .govuk-grid-row
         .govuk-grid-column-full
           h2.govuk-heading-m Administrative options
@@ -196,11 +196,12 @@
           = f.additional_fields_details 'Staff SSO options' do
             = f.govuk_text_field :ditsso_user_id, width: 'one-half'
 
-          = f.additional_fields_details 'Permissions' do
-            = f.govuk_check_boxes_fieldset :permissions, small: true, hint_text: t('helpers.hint.person.permissions')
-              = f.model_govuk_check_box :role_administrator
-              = f.model_govuk_check_box :role_groups_editor
-              = f.model_govuk_check_box :role_people_editor
+          - if current_user.role_administrator?
+            = f.additional_fields_details 'Permissions' do
+              = f.govuk_check_boxes_fieldset :permissions, small: true, hint: { text: t('helpers.hint.person.permissions') }
+                = f.model_govuk_check_box :role_administrator
+                = f.model_govuk_check_box :role_groups_editor
+                = f.model_govuk_check_box :role_people_editor
 
           hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
 

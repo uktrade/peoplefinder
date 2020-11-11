@@ -45,6 +45,13 @@ describe MailingList do
 
       subject.create_or_update_subscriber('Per.Son@GOV.uk', merge_fields: { foo: 'bar', test: 'tset' })
     end
+
+    it 'does not fail on compliance errors' do
+      err = Gibbon::MailChimpError.new('Nope', title: 'Member In Compliance State')
+      expect(member).to receive(:upsert).and_raise(err)
+
+      subject.create_or_update_subscriber('Per.Son@GOV.uk', merge_fields: { foo: 'bar', test: 'tset' })
+    end
   end
 
   describe '#set_subscriber_tags' do

@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-RSpec.describe Placeholder do
-  class TestModel
-    extend ActiveModel::Naming
-    include Placeholder
-    attr_accessor :field
-  end
+class TestModel
+  extend ActiveModel::Naming
+  include Placeholder
+  attr_accessor :field
+end
 
+RSpec.describe Placeholder do
   subject { TestModel.new }
 
   describe '#placeholder' do
