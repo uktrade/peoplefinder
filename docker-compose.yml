@@ -1,12 +1,13 @@
 version: '3'
 services:
   db:
-    image: postgres
+    image: postgres:11
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: "postgres"
     volumes:
-      # Volume set to `delegated` to improve performance (container FS authoritative)
-      - ./tmp/db:/var/lib/postgresql/data:delegated
+      - ./setup/init.sql:/docker-entrypoint-initdb.d/init.sql
   redis_cache_sidekiq:
     image: redis
   web:
@@ -49,17 +50,8 @@ services:
       - elasticsearch
       - redis_cache_sidekiq
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
     environment:
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - xpack.security.enabled=false
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      # Volume set to `delegated` to improve performance (container FS authoritative)
-      - ./tmp/elasticsearch:/usr/share/elasticsearch/data:delegated
+      - "discovery.type=single-node"
     ports:
       - "9200:9200"
