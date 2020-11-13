@@ -58,27 +58,6 @@ describe 'Searching feature', elasticsearch: true do
   end
 
   describe 'higlighting of search terms' do
-    it 'highlights individual role and group terms' do
-      fill_in 'Search people, teams and skills', with: 'My Fancy Group'
-      click_button 'Search'
-
-      within '.ws-person-search-result' do
-        expect(page).to have_selector('.ws-person-search-result__highlight', text: 'My')
-        expect(page).to have_selector('.ws-person-search-result__highlight', text: 'Fancy')
-        expect(page).to have_selector('.ws-person-search-result__highlight', text: 'Group')
-      end
-    end
-
-    it 'highlights individual name terms' do
-      fill_in 'Search people, teams and skills', with: 'Jon Browne'
-      click_button 'Search'
-
-      within '.ws-person-search-result' do
-        expect(page).to have_selector('.ws-person-search-result__highlight', text: 'Jon')
-        expect(page).to have_selector('.ws-person-search-result__highlight', text: 'Browne')
-      end
-    end
-
     it 'highlights language terms' do
       fill_in 'Search people, teams and skills', with: 'Spanish'
       click_button 'Search'
