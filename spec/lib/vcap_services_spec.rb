@@ -25,7 +25,9 @@ describe VcapServices do
     end
 
     context 'when there are no services of the given type' do
+      # rubocop:disable Naming/VariableNumber
       let(:service_url) { subject.service_url(:ms_sql_server_2008) }
+      # rubocop:enable Naming/VariableNumber
 
       it 'raises an error' do
         expect { service_url }
@@ -53,7 +55,9 @@ describe VcapServices do
     end
 
     context 'when there are no services of the given type' do
+      # rubocop:disable Naming/VariableNumber
       let(:named_service_url) { subject.named_service_url(:ms_sql_server_2008, 'foo') }
+      # rubocop:enable Naming/VariableNumber
 
       it 'raises an error' do
         expect { named_service_url }
