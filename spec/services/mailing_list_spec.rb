@@ -46,12 +46,14 @@ describe MailingList do
       subject.create_or_update_subscriber('Per.Son@GOV.uk', merge_fields: { foo: 'bar', test: 'tset' })
     end
 
+    # rubocop:disable RSpec/StubbedMock
     it 'does not fail on compliance errors' do
       err = Gibbon::MailChimpError.new('Nope', title: 'Member In Compliance State')
       expect(member).to receive(:upsert).and_raise(err)
 
       subject.create_or_update_subscriber('Per.Son@GOV.uk', merge_fields: { foo: 'bar', test: 'tset' })
     end
+    # rubocop:enable RSpec/StubbedMock
   end
 
   describe '#set_subscriber_tags' do

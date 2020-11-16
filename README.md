@@ -19,24 +19,28 @@ cp .env.example .env
 
 #### Build and run the containers
 ```bash
-docker-compose build
-docker-compose up
+make build
+make up
 ```
 
-#### Get asset prerequisites set up
+#### Set up assets, create database and seed test database
 ```bash
-docker-compose run web yarn install
-```
-
-#### Create database and seed test data
-```bash
-docker-compose run web bundle exec rake db:create db:schema:load peoplefinder:demo
+make set-up
 ```
 
 #### Run the tests (optional)
 ```bash
-docker-compose run web bundle exec rake
+make test
 ```
+
+#### Re/index search
+```bash
+make index
+```
+
+### Get a list of Rake tasks
+
+docker-compose run web bundle exec rake --tasks
 
 People Finder will now be accessible on http://localhost:3000.
 

@@ -23,10 +23,10 @@ end
 Capybara.server = :webrick
 Capybara.javascript_driver = :chrome
 Capybara.default_max_wait_time = 3
-
+# rubocop:disable Lint/EmptyBlock
 Dir[File.expand_path('../{lib,app/*}', __dir__)].sort.each do |path|
 end
-
+# rubocop:enable Lint/EmptyBlock
 Dir[File.expand_path('support/**/*.rb', __dir__)].sort.each { |f| require f }
 
 Dir[File.expand_path('controllers/concerns/shared_examples*.rb', __dir__)].sort.each { |f| require f }
