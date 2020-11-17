@@ -2,13 +2,8 @@
   .ws-person-search-result__picture
     = link_to profile_picture_image_tag(person), person
   .ws-person-search-result__details
-
     .ws-person-search-result__item
-      .ws-person-search-result__title
-        = link_to highlighted(person, hit, :given_name), person
-        | &nbsp;
-        = link_to highlighted(person, hit, :surname), person
-
+      = link_to highlighted(person, hit, :name), person, class: 'ws-person-search-result__title'
     .ws-person-search-result__item
       = link_to highlighted(person, hit, :role_and_group), person, class: 'govuk-link'
     .ws-person-search-result__item.ws-person-search-result__item--spaced
