@@ -265,10 +265,6 @@ RSpec.describe Group, type: :model do
             expect(team.people_outside_subteams_count).to eq(0)
           end
 
-          it 'returns alice and bob in alphabetical order' do
-            expect(team.all_people.map(&:name)).to eql(['alice smith', 'bob smith'])
-          end
-
           context 'after update_members_completion_score! called' do
             it 'has members_completion_score equal to average of bob and alice\'s completion_score' do
               team.update_members_completion_score!
