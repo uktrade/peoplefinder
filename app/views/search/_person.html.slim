@@ -23,6 +23,3 @@
       .ws-person-search-result__item.ws-person-search-result__item--spaced.govuk-body-s
         strong> Learning and development interests:
         = highlighted(person, hit, :formatted_learning_and_development)
-    - if current_user.role_administrator?
-      .ws-person-search-result__item.ws-person-search-result__item--spaced
-        .ws-person-search-result__score Search score: #{hit._score}
