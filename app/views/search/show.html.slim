@@ -23,5 +23,5 @@
         hr.govuk-section-break.govuk-section-break--m.govuk-section-break--visible
       - if search.include_people? && search.people_results.any?
         h3.govuk-heading-s #{pluralize(search.people_results.count, 'person')} found
-        - search.people_results.each_with_hit do |person, hit|
+        - search.people_results.each_with_object(Array.new) do |person, hit|
           = render partial: 'person', locals: { person: person, hit: hit }

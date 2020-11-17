@@ -56,24 +56,4 @@ describe 'Searching feature', elasticsearch: true do
       expect(page).to have_selector('.ws-person-search-result', count: 1, text: /Jon Browne/)
     end
   end
-
-  describe 'higlighting of search terms' do
-    it 'highlights language terms' do
-      fill_in 'Search people, teams and skills', with: 'Spanish'
-      click_button 'Search'
-
-      within '.ws-person-search-result' do
-        expect(page).to have_selector('.ws-person-search-result__highlight', text: 'Spanish')
-      end
-    end
-
-    it 'highlights key skills terms' do
-      fill_in 'Search people, teams and skills', with: 'interviewing'
-      click_button 'Search'
-
-      within '.ws-person-search-result' do
-        expect(page).to have_selector('.ws-person-search-result__highlight', text: 'Interviewing')
-      end
-    end
-  end
 end

@@ -92,7 +92,6 @@ class Search
                   formatted_key_skills^4
                   formatted_learning_and_development^4
                 ],
-                fuzziness: 'AUTO',
                 query: query,
                 analyzer: 'standard'
               }
