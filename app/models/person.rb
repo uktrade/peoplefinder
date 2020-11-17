@@ -14,8 +14,6 @@ class Person < ApplicationRecord
 
   extend FriendlyId
 
-  default_scope { order(surname: :asc, given_name: :asc, id: :asc) }
-
   attr_accessor :working_days,
                 :crop_x, :crop_y, :crop_w, :crop_h,
                 :skip_must_have_surname, :skip_must_have_team, :skip_must_not_have_disallowed_email_domain

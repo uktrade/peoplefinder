@@ -5,7 +5,7 @@ module Api::V2
     PER_PAGE = 100
 
     def show
-      people = Person.includes(:groups).page(page).per(PER_PAGE)
+      people = Person.includes(:groups).order(surname: :asc, given_name: :asc, id: :asc).page(page).per(PER_PAGE)
       results = people.map { |person| PersonDataWorkspaceSerializer.new(person) }
       next_page = api_v2_data_workspace_export_url(page: people.next_page) unless people.last_page?
 
