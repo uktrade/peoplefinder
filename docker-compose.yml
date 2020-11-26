@@ -10,6 +10,8 @@ services:
       - ./setup/init.sql:/docker-entrypoint-initdb.d/init.sql
   redis_cache_sidekiq:
     image: redis
+    ports:
+      - "6379:6379"
   web:
     build: .
     # The pidfile often ends up not being deleted on shutdown, there's no reason to
