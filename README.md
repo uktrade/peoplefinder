@@ -105,6 +105,12 @@ URL: `/api/v2/people_profiles/<SSO_USER_ID>`
 Allows clients to retrieve profile details. This is used by Digital Workspace to retrieve the
 currently logged in user's name and picture for the page header. 
 
+Authentication is managed by public/private key pair with a JWT token being used to access the protected endpoint.
+
+The public key is set in the env var `API_PEOPLE_PROFILES_PUBLIC_KEY`
+
+See below for generating new public/private keys.
+
 ### Data Workspace API
 URL: `/api/v2/data_workspace_export`
 
@@ -112,6 +118,47 @@ A paginated API providing comprehensive profile data for all people. This is ing
 [data-flow](https://github.com/uktrade/data-flow) on a daily basis and needs to be kept up to
 date when available profile fields change (as well as requiring a corresponding change in the
 downstream app).
+
+Authentication is managed by public/private key pair with a JWT token being used to access the protected endpoint.
+
+The public key is set in the env var `API_DATA_WORKSPACE_EXPORTS_PUBLIC_KEY`
+
+You can generate a new public and private key and JWT token using the following code:
+
+```ruby
+require 'openssl'
+require 'base64'
+require 'date'
+require 'jwt'
+
+key = OpenSSL::PKey::RSA.generate(2048)
+
+# Key for supply to integrator
+puts key.export
+
+# Base 64 encoded keys
+encoded_private_key = Base64.encode64(key.export)
+encoded_public_key = Base64.encode64(key.public_key.export)
+
+puts encoded_public_key # This is the value you add to API_DATA_WORKSPACE_EXPORTS_PUBLIC_KEY
+
+now = DateTime.now
+expiry = now + 1 # Add one day
+
+# When creating a token, a payload in the following format is required
+payload = { fullpath: '/api/v2/data_workspace_export', exp: expiry.to_time.to_i }
+
+jwt_token = JWT.encode payload, key, 'RS512'
+
+puts jwt_token
+
+# You can decode a token in the following manner
+decoded_token = JWT.decode(jwt_token, key.public_key, true, { algorithm: 'RS512' })
+
+puts decoded_token
+```
+
+The private key should be supplied to the integrator along with instructions for generating the payload.
 
 ## External integrations
 
@@ -169,6 +216,8 @@ UPDATE people SET networks = ARRAY_REMOVE(networks, 'some_network');
 Otherwise the network will still show up against those people who previously had it ticked, except
 it will do so with a translation error. Ideally, this should move to some sort of tagging model in
 the future that allows admins to define these values in the UI instead of having it hardcoded.
+
+
 
 ## Code standards
 
