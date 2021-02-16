@@ -360,16 +360,16 @@ en:
       ministerial_submissions: Ministerial submissions
       coding: Coding
     network_names:
-      age: Age network
+      generation: Generation network
       bame: Black, Asian and Minority Ethnic (BAME) network
       celtic: Celtic network
       coffee: Trade coffee network
       disability: Disability network
       eu_nationals: EU nationals group
-      lgbti_plus: LGBTI+ network
+      lgbt_plus: LGBT+ network
       parents: Parents group
       faith_group: Faith group
-      women: "Women's network"
+      gender: Gender network
       muslim_women: "Muslim women's network"
       mentoring: Mentoring network
       social_mobility: Social mobility network
