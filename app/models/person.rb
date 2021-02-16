@@ -5,7 +5,7 @@ class Person < ApplicationRecord
     works_monday works_tuesday works_wednesday works_thursday works_friday works_saturday works_sunday
   ].freeze
   # rubocop:disable Naming/VariableNumber
-  BUILDING_OPTS = %i[whitehall_55 whitehall_3 victoria_50 horse_guards king_charles].freeze
+  BUILDING_OPTS = %i[whitehall_55 whitehall_3 horse_guards king_charles].freeze
   # rubocop:enable Naming/VariableNumber
 
   include Completion
