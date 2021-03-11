@@ -366,7 +366,7 @@ en:
       coffee: Trade coffee network
       disability: Disability network
       eu_nationals: EU nationals group
-      lgbt_plus: LGBT+ network
+      lgbt_plus: LGBTQ+ network
       parents: Parents group
       faith_group: Faith group
       gender: Gender network
@@ -374,6 +374,7 @@ en:
       mentoring: Mentoring network
       social_mobility: Social mobility network
       neurodiversity: Neurodiversity network
+      overseas: Overseas Network
     additional_responsibility_names:
       fire_warden: Fire warden
       first_aider: First aider
