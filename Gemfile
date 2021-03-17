@@ -12,7 +12,7 @@ gem 'railties', RAILS_VERSION
 
 gem 'ancestry'
 gem 'carrierwave'
-gem 'country_select'
+gem 'country_select', '~> 5.0.1'
 gem 'elasticsearch', '~> 7.9.0'
 gem 'elasticsearch-model', '~> 7.1.1'
 gem 'elasticsearch-rails'
