@@ -8,6 +8,7 @@ require 'active_record/railtie'
 require 'action_controller/railtie'
 require 'action_view/railtie'
 require 'rails/test_unit/railtie'
+require 'countries'
 
 Bundler.require(*Rails.groups)
 
@@ -74,6 +75,71 @@ module Peoplefinder
 
     config.api_people_profiles_public_key = rsa_key_from_base64_encoded_pem(
       ENV['API_PEOPLE_PROFILES_PUBLIC_KEY']
+    )
+
+    # Override North Macedonia
+    # https://github.com/hexorx/countries#loading-custom-data
+    # Due to the way overriding works, we have to copy all the information
+    # we want. This information was copied from the `countries` gem itself
+    # and the translations have been changed.
+    ISO3166::Data.register(
+      continent: 'Europe',
+      address_format: '{{recipient}}\n{{street}}\n{{city}} {{postalcode}}\n{{country}}',
+      alpha2: 'MK',
+      alpha3: 'MKD',
+      country_code: '389',
+      international_prefix: '00',
+      ioc: 'MKD',
+      gec: 'MK',
+      name: 'North Macedonia',
+      national_destination_code_lengths: [2],
+      national_number_lengths: [7, 8],
+      national_prefix: '0',
+      number: '807',
+      region: 'Europe',
+      subregion: 'Southern Europe',
+      world_region: 'EMEA',
+      un_locode: 'MK',
+      nationality: 'Macedonian',
+      postal_code: true,
+      unofficial_names: [
+        'Macedonia',
+        'Mazedonien',
+        'Macédoine',
+        'F.Y.R.O.M (Macedonia)',
+        'マケドニア旧ユーゴスラビア共和国',
+        'Macedonië [FYROM]',
+        'Macedonia (The Former Yugoslav Republic of)',
+        'North Macedonia'
+      ],
+      languages_official: ['mk'],
+      languages_spoken: ['mk'],
+      geo: {
+        'latitude' => 41.608635,
+        'latitude_dec' => '41.60045623779297',
+        'longitude' => 21.745275,
+        'longitude_dec' => '21.700895309448242',
+        'max_latitude' => 42.373646,
+        'max_longitude' => 23.034093,
+        'min_latitude' => 40.8537826,
+        'min_longitude' => 20.452423,
+        'bounds' => {
+          'northeast' => {
+            'lat' => 42.373646,
+            'lng' => 23.034093
+          },
+          'southwest' => {
+            'lat' => 40.8537826,
+            'lng' => 20.452423
+          }
+        }
+      },
+      currency_code: 'MKD',
+      start_of_week: 'monday',
+      translations: {
+        'en' => 'North Macedonia'
+      },
+      translated_names: ['North Macedonia']
     )
   end
 end
