@@ -91,6 +91,7 @@ class Search
                   location^4
                   formatted_key_skills^4
                   formatted_learning_and_development^4
+                  formatted_additional_responsibilities^4
                 ],
                 query: query,
                 analyzer: 'standard'
@@ -115,7 +116,8 @@ class Search
           contact_email_or_email: {},
           languages: {},
           formatted_key_skills: {},
-          formatted_learning_and_development: {}
+          formatted_learning_and_development: {},
+          formatted_additional_responsibilities: {}
         }
       },
       size: ES_MAX_RESULTS,

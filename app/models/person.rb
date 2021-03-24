@@ -85,7 +85,7 @@ class Person < ApplicationRecord
       methods: %i[
         name role_and_group location languages phone_number_variations
         formatted_key_skills formatted_learning_and_development
-        contact_email_or_email
+        contact_email_or_email formatted_additional_responsibilities
       ]
     )
   end
