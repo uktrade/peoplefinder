@@ -1,7 +1,9 @@
-# frozen_string_literal: true
-
 source 'https://rubygems.org'
+<<<<<<< HEAD
 ruby '2.7.3'
+=======
+ruby '3.0.1'
+>>>>>>> db8ef798... Use POST request to get to /auth/:provider
 
 RAILS_VERSION = '~> 6.0.3.5'
 gem 'actionpack', RAILS_VERSION
