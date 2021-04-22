@@ -14,6 +14,9 @@ set-up:
 test:
 	docker-compose run web bundle exec rake
 
+migrate:
+	docker-compose run web bin/rails db:migrate RAILS_ENV=development
+
 irb:
 	docker-compose run web bundle exec irb
 

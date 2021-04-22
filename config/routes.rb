@@ -49,7 +49,7 @@ Rails.application.routes.draw do
 
   resource :sessions, only: %i[new create destroy]
 
-  match '/auth/:provider/callback', to: 'sessions#create', via: %i[get post]
+  match '/auth/:provider/callback', to: 'sessions#create', via: %i[post]
   get '/audit_trail', to: 'versions#index'
   post '/audit_trail/undo/:id', to: 'versions#undo', as: :audit_trail_undo
   get '/search_old', to: 'search#index'
