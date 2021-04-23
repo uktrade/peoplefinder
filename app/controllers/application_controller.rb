@@ -38,10 +38,7 @@ class ApplicationController < ActionController::Base
     session[:desired_path] = request.fullpath
     redirect_to '/auth/ditsso_internal'
 
-    # logger.warn("POST...")
-    # logger.warn(request.base_url + '/auth/ditsso_internal')
-    # logger.warn(session)
-
+    # We tried to fix the no POST issue below:
     # HTTParty.post(request.base_url + '/auth/ditsso_internal', {:body=>params})
   end
 
