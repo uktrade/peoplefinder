@@ -38,6 +38,9 @@ class ApplicationController < ActionController::Base
     session[:desired_path] = request.fullpath
     #redirect_to '/auth/ditsso_internal'
 
+    logger.warn("POST...")
+    logger.warn(request.base_url + '/auth/ditsso_internal')
+
     HTTParty.post(request.base_url + '/auth/ditsso_internal')
   end
 
