@@ -2,7 +2,7 @@
 
 require 'ditsso_internal'
 
-OmniAuth.config.allowed_request_methods = [:post, :get]
+OmniAuth.config.allowed_request_methods = [:post]
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   if Rails.configuration.x.sso.use_developer_strategy

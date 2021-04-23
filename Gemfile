@@ -78,3 +78,6 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'timecop'
 end
+
+gem "httparty", "~> 0.18.1"
+

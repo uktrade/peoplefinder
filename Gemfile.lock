@@ -156,6 +156,9 @@ GEM
     http-form_data (2.3.0)
     http-parser (1.2.3)
       ffi-compiler (>= 1.0, < 2.0)
+    httparty (0.18.1)
+      mime-types (~> 3.0)
+      multi_xml (>= 0.5.2)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     i18n_data (0.11.0)
@@ -431,6 +434,7 @@ DEPENDENCIES
   gibbon
   govuk_design_system_formbuilder
   health_check
+  httparty (~> 0.18.1)
   interactor
   jwt
   kaminari
