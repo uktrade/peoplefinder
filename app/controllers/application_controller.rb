@@ -40,8 +40,9 @@ class ApplicationController < ActionController::Base
 
     logger.warn("POST...")
     logger.warn(request.base_url + '/auth/ditsso_internal')
+    logger.warn(params)
 
-    HTTParty.post(request.base_url + '/auth/ditsso_internal')
+    HTTParty.post(request.base_url + '/auth/ditsso_internal', {:body=>params})
   end
 
   def i18n_flash(type, *partial_key, **options)
