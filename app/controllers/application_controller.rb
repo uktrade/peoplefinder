@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
     return true if logged_in?
 
     session[:desired_path] = request.fullpath
-    HTTParty.post(request.url + 'auth/ditsso_internal')
+    redirect_to '/auth/ditsso_internal'
   end
 
   def i18n_flash(type, *partial_key, **options)
