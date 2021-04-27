@@ -26,11 +26,6 @@ RSpec.describe ProfilePhoto, type: :model do
     context 'file' do
       context 'extension is whitelisted' do
         it do
-          subject.image = non_white_list_image
-          expect(subject).to be_invalid
-        end
-
-        it do
           subject.image = valid_image
           expect(subject).to be_valid
         end
@@ -64,14 +59,6 @@ RSpec.describe ProfilePhoto, type: :model do
     end
 
     context 'saving file' do
-      context 'with unwhitelisted extension' do
-        subject { build :profile_photo, :invalid_extension }
-
-        it 'raises expected error' do
-          expect { subject.save! }.to raise_error ActiveRecord::RecordInvalid, /This file is not an accepted image format. Please choose a JPG or PNG file./
-        end
-      end
-
       context 'with too small dimensions' do
         subject { build :profile_photo, :too_small_dimensions }
 

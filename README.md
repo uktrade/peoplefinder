@@ -239,7 +239,7 @@ Production releases should be tagged using Github's _Releases_ feature, as `vYYY
 is the current year and `XX` is an incremental version number) with a small changelog.
 
 ## Known issues/technical debt
-
+* Need a fix for CRSF token issue
 * The test suite is reasonably exhaustive but quite brittle, and not quite as in step with the
   rewritten front-end code as it could be
 * The search feature spec is known to be flaky due to the way the tests run in Elasticsearch

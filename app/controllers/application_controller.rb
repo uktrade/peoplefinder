@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
-class ApplicationController < ActionController::Base
-  SESSION_KEY = 'current_user_id'
+class ApplicationController < ActionController::Base # rubocop:disable Style/FrozenStringLiteralComment
+  SESSION_KEY = 'current_user_id' # rubocop:disable Style/MutableConstant
 
   include Pundit
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -39,6 +37,9 @@ class ApplicationController < ActionController::Base
 
     session[:desired_path] = request.fullpath
     redirect_to '/auth/ditsso_internal'
+
+    #  We tried to fix the no POST issue below -
+    #  HTTParty.post(request.base_url + '/auth/ditsso_internal', {:body=>params})
   end
 
   def i18n_flash(type, *partial_key, **options)

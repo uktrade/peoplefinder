@@ -29,7 +29,7 @@ module Admin
     private
 
     def authorize_user
-      authorize 'Admin::Management'.to_sym, "#{action_name}?".to_sym
+      authorize 'Admin::Management'.to_sym, "#{action_name}?".to_sym # rubocop:disable Lint/SymbolConversion
     end
   end
 end

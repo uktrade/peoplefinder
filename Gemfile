@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '2.7.1'
+ruby '2.7.3'
 
-RAILS_VERSION = '~> 6.0.3'
+RAILS_VERSION = '~> 6.0.3.5'
 gem 'actionpack', RAILS_VERSION
 gem 'activemodel', RAILS_VERSION
 gem 'activerecord', RAILS_VERSION
@@ -11,9 +11,8 @@ gem 'activesupport', RAILS_VERSION
 gem 'railties', RAILS_VERSION
 
 gem 'ancestry'
-gem 'carrierwave'
-gem 'mimemagic', '>= 0.3.6'
-gem 'country_select', '~> 5.0.1'
+gem 'carrierwave', '>= 2.1.1'
+gem 'country_select'
 gem 'elasticsearch', '~> 7.9.0'
 gem 'elasticsearch-model', '~> 7.1.1'
 gem 'elasticsearch-rails'
@@ -28,23 +27,26 @@ gem 'health_check'
 gem 'interactor'
 gem 'jwt'
 gem 'kaminari'
-gem 'kramdown'
+gem 'kramdown', '>= 2.3.1'
 gem 'loaf'
 gem 'lograge'
 gem 'mini_magick'
 gem 'notifications-ruby-client'
 gem 'omniauth-oauth2'
+gem 'omniauth-rails_csrf_protection'
 gem 'paper_trail'
 gem 'pg'
 gem 'puma'
 gem 'pundit'
 gem 'redis'
 gem 'sentry-raven'
+gem 'sentry-ruby'
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
 gem 'slim'
 gem 'webpacker'
 gem 'zendesk_api'
+gem 'nokogiri', '>= 1.11.0'
 
 group :test do
   gem 'capybara'
@@ -69,3 +71,5 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'timecop'
 end
+
+gem "httparty", "~> 0.18.1"
