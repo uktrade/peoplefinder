@@ -17,7 +17,7 @@ class Membership < ApplicationRecord
   delegate :path, to: :group
 
   def to_s
-    [group_name, role].map(&:presence).compact.join(', ')
+    [group_name, role].map(&:presence).compact.join(', ') # rubocop:disable Performance/MapCompact
   end
 
   before_destroy { |m| UpdateGroupMembersCompletionScoreWorker.perform_async(m.group_id) }

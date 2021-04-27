@@ -2,7 +2,7 @@
 
 require 'ditsso_internal'
 
-OmniAuth.config.allowed_request_methods = [:post, :get]
+OmniAuth.config.allowed_request_methods = [:post, :get] # rubocop:disable Style/SymbolArray
 OmniAuth.config.silence_get_warning = true
 
 Rails.application.config.middleware.use OmniAuth::Builder do

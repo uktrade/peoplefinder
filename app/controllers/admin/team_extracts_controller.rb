@@ -44,7 +44,7 @@ module Admin
     end
 
     def authorize_user
-      authorize 'Admin::Management'.to_sym, :csv_extract_report?
+      authorize 'Admin::Management'.to_sym, :csv_extract_report? # rubocop:disable Lint/SymbolConversion
     end
   end
 end

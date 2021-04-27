@@ -64,7 +64,7 @@ class Person < ApplicationRecord
   }
 
   def name
-    [given_name, surname].map(&:presence).compact.join(' ')
+    [given_name, surname].map(&:presence).compact.join(' ') # rubocop:disable Performance/MapCompact
   end
 
   def contact_email_or_email
@@ -72,7 +72,7 @@ class Person < ApplicationRecord
   end
 
   def location
-    [location_in_building, building, city].map(&:presence).compact.join(', ')
+    [location_in_building, building, city].map(&:presence).compact.join(', ') # rubocop:disable Performance/MapCompact
   end
 
   def slug_source
