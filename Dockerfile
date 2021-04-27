@@ -1,8 +1,10 @@
 FROM ruby:2.7.3
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV CHROME_VERSION stable_78.0.3904.87-1
-ENV CHROMIUM_DRIVER_VERSION 78.0.3904.70
+ENV CHROME_VERSION stable_90.0.4430.93-1
+ENV CHROMIUM_DRIVER_VERSION 90.0.4430.24
+
+
 
 # Install dependencies & Chrome
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
