@@ -3,7 +3,8 @@
 source 'https://rubygems.org'
 ruby '2.7.3'
 
-RAILS_VERSION = '~> 6.0.3.5'
+RAILS_VERSION = '~> 6.0.3.7'
+
 gem 'actionpack', RAILS_VERSION
 gem 'activemodel', RAILS_VERSION
 gem 'activerecord', RAILS_VERSION

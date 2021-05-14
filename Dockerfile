@@ -7,10 +7,13 @@ ENV CHROMIUM_DRIVER_VERSION 90.0.4430.24
 
 
 # Install dependencies & Chrome
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+RUN apt-get install -y nodejs
+
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 RUN apt-get update \
-    && apt-get -y --no-install-recommends install zlib1g-dev liblzma-dev wget xvfb unzip libgconf-2-4 libnss3 nodejs yarn
+    && apt-get -y --no-install-recommends install zlib1g-dev liblzma-dev wget xvfb unzip libgconf-2-4 libnss3 yarn
 RUN wget -q https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-${CHROME_VERSION}_amd64.deb
 RUN dpkg -i google-chrome-${CHROME_VERSION}_amd64.deb \
     ; apt-get -fy install
