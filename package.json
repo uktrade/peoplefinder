@@ -20,7 +20,8 @@
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-recommended-scss": "^4.2.0",
     "stylelint-scss": "^3.18.0",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "yarn-audit-fix": "^4.3.4"
   },
   "scripts": {
     "eslint": "eslint app/webpacker/**/*.js",
