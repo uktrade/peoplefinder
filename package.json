@@ -9,7 +9,9 @@
     "govuk-frontend": "^3.9.1",
     "jquery": "^3.5.1",
     "select2": "^4.0.13",
-    "stimulus": "^1.1.1"
+    "stimulus": "^1.1.1",
+    "trim": "0.0.3",
+    "postcss": "8.2.10"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
