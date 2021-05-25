@@ -37,7 +37,7 @@ gem 'omniauth-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'paper_trail'
 gem 'pg'
-gem 'puma'
+gem "puma", ">= 5.3.1"
 gem 'pundit'
 gem 'redis'
 gem 'sentry-raven'
@@ -47,7 +47,7 @@ gem 'sidekiq-scheduler'
 gem 'slim'
 gem 'webpacker'
 gem 'zendesk_api'
-gem 'nokogiri', '>= 1.11.0'
+gem 'nokogiri', '>= 1.11.4'
 
 group :test do
   gem 'capybara'
