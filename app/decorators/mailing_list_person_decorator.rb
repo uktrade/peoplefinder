@@ -8,7 +8,6 @@ class MailingListPersonDecorator < SimpleDelegator
 
     @fco.gov.uk
     @fcdo.gov.uk
-    @traderemedies.gov.uk
     @ukexportfinance.gov.uk
   ].freeze
 
